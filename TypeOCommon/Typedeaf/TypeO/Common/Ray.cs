@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TypeO.Common
+namespace Typedeaf.TypeO.Common
 {
     public class Ray
     {

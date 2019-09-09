@@ -1,4 +1,4 @@
-﻿namespace TypeO.Common
+﻿namespace Typedeaf.TypeO.Common
 {
     public class Color
     {
