@@ -8,7 +8,12 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Main.cs"
+	"Common/Color.cs"
+	"Common/Plane.cs"
+	"Common/Ray.cs"
+	"Common/Rectangle.cs"
+	"Common/Vec2.cs"
+	"Common/Vec3.cs"
 )
 
 
