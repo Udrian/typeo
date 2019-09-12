@@ -7,7 +7,12 @@ namespace Typedeaf.TypeO.Engine.Core
 {
     public abstract partial class Game
     {
-        protected Game() {}
+        private TypeO TypeO { get; set; }
+        public Game(TypeO typeO)
+        {
+            TypeO = typeO;
+        }
+        protected Game() { }
         public abstract void Init();
         public abstract Task Update(float dt);
         public abstract Task Draw();
@@ -16,24 +21,6 @@ namespace Typedeaf.TypeO.Engine.Core
 
     public partial class TypeO
     {
-        protected class InternalGame
-        {
-            public Game Game { get; set; }
-
-            public InternalGame(Game game)
-            {
-                Game = game;
-                Game.Init();
-            }
-            public async Task Update(float dt)
-            {
-                await Game.Update(dt);
-            }
-
-            public async Task Draw()
-            {
-                await Game.Draw();
-            }
-        }
+        public Game Game { get; set; }
     }
 }

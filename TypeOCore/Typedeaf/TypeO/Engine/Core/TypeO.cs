@@ -1,34 +1,42 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Typedeaf.TypeO.Engine.Core
 {
     public partial class TypeO
     {
-        protected InternalGame Context { get; set; }
+        public partial class Runner<T> where T : Game
+        {
+            protected TypeO TypeO { get; private set; }
+
+            public Runner()
+            {
+                TypeO = new TypeO();
+            }
+
+            public async Task Start()
+            {
+                //Initialize the game
+                var game = (T)Activator.CreateInstance(typeof(T), TypeO);
+                TypeO.Game = game;
+                game.Init();
+
+                float dt = 0;
+                while (!TypeO.Game.Exit)
+                {
+                    dt++;
+                    await TypeO.Game.Update(dt);
+                    await TypeO.Game.Draw();
+                }
+            }
+        }
 
         private TypeO() { }
-        public static TypeO Create(Game game)
-        {
-            var typeO = new TypeO();
-            typeO.Context = new InternalGame(game);
-            return typeO;
-        }
 
-        public TypeO LoadModule(TypeO.Module module)
+        public static TypeO.Runner<T> Create<T>() where T : Game
         {
-            module.Init(this);
-            return this;
-        }
-
-        public async Task Start()
-        {
-            float dt = 0;
-            while (!Context.Game.Exit)
-            {
-                dt++;
-                await Context.Update(dt);
-                await Context.Draw();
-            }
+            var factory = new TypeO.Runner<T>();
+            return factory;
         }
     }
 }

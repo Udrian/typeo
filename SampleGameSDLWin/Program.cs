@@ -10,7 +10,7 @@ namespace SampleGameSDLWin
         [STAThread]
         public static void Main()
         {
-            TypeO.Create(new SampleGame())
+            TypeO.Create<SampleGame>()
                 .LoadModule(new TypeOSDL())
                 .Start()
             .Wait();

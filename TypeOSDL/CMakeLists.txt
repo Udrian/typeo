@@ -9,6 +9,7 @@ set(PROJECT_REFERENCES
 )
 file(GLOB PROJECT_SRC
 	"Typedeaf/TypeO/Engine/Modules/TypeOSDL.cs"
+	"Typedeaf/TypeO/Engine/Graphics/TypeOSDLWindow.cs"
 )
 
 
