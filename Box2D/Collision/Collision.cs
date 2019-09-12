@@ -23,7 +23,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using TypeO.Common;
+using Typedeaf.TypeO.Common;
 
 namespace Box2D
 {

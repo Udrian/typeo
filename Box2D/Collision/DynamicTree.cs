@@ -25,7 +25,7 @@ using System.Diagnostics;
 
 using System.Collections;
 using System.Collections.Generic;
-using TypeO.Common;
+using Typedeaf.TypeO.Common;
 
 namespace Box2D
 {
