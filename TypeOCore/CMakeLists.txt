@@ -8,7 +8,9 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Main.cs"
+	"Typedeaf/TypeO/Engine/Core/Game.cs"
+	"Typedeaf/TypeO/Engine/Core/TypeO.cs"
+	"Typedeaf/TypeO/Engine/Core/Module.cs"
 )
 
 

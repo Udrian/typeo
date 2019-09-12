@@ -1,4 +1,7 @@
+using SampleGameCore;
 using System;
+using Typedeaf.TypeO.Engine.Core;
+using Typedeaf.TypeO.Engine.Modules;
 
 namespace SampleGameSDLWin
 {
@@ -7,6 +10,10 @@ namespace SampleGameSDLWin
         [STAThread]
         public static void Main()
         {
+            TypeO.Create(new SampleGame())
+                .LoadModule(new TypeOSDL())
+                .Start()
+            .Wait();
         }
     }
 }

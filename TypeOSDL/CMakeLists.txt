@@ -8,7 +8,7 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Main.cs"
+	"Typedeaf/TypeO/Engine/Modules/TypeOSDL.cs"
 )
 
 
