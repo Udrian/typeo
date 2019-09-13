@@ -18,8 +18,11 @@ namespace SampleGameCore
 
         public override void Draw(Canvas canvas)
         {
-            canvas.Clear();
-            canvas.DrawLine();
+            canvas.Clear(Color.Red);
+            canvas.DrawLine(new Vec2(10, 10), new Vec2(150, 150), Color.Blue);
+
+            canvas.DrawRectangle(new Vec2(25, 25), new Vec2(100, 100), true, Color.Brown);
+            canvas.DrawRectangle(new Vec2(225, 25), new Vec2(100, 100), false, Color.Brown);
             canvas.Present();
         }
 
