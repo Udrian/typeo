@@ -10,6 +10,7 @@ set(PROJECT_REFERENCES
 file(GLOB PROJECT_SRC
 	"Typedeaf/TypeO/Engine/Modules/TypeOSDL.cs"
 	"Typedeaf/TypeO/Engine/Graphics/TypeOSDLWindow.cs"
+	"Typedeaf/TypeO/Engine/Graphics/TypeOSDLCanvas.cs"
 )
 
 
@@ -25,3 +26,6 @@ set_property( TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_REFERENCES ${PROJECT_REF
 add_dependencies(${PROJECT_NAME} "TypeOCommon")
 add_dependencies(${PROJECT_NAME} "TypeOCore")
 add_dependencies(${PROJECT_NAME} "TypeO2D")
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY 
+    VS_DOTNET_REFERENCE_SDL2-CS "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/SDL2-CS.dll")

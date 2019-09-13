@@ -12,6 +12,7 @@ file(GLOB PROJECT_SRC
 	"Typedeaf/TypeO/Engine/Core/TypeO.cs"
 	"Typedeaf/TypeO/Engine/Core/Module.cs"
 	"Typedeaf/TypeO/Engine/Graphics/Window.cs"
+	"Typedeaf/TypeO/Engine/Graphics/Canvas.cs"
 )
 
 

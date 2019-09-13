@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Typedeaf.TypeO.Common;
 using Typedeaf.TypeO.Engine.Core;
+using Typedeaf.TypeO.Engine.Graphics;
 
 namespace SampleGameCore
 {
@@ -11,20 +12,24 @@ namespace SampleGameCore
 
         public override void Init()
         {
-            CreateWindow("Hello World", new Vec2(100, 100), new Vec2(640, 480));
+            var win = CreateWindow("Hello World", new Vec2(100, 100), new Vec2(640, 480));
+            win.CreateCanvas();
         }
 
-        public async override Task Draw()
+        public override void Draw(Canvas canvas)
         {
-            await Task.Yield();
+            canvas.Clear();
+            canvas.DrawLine();
+            canvas.Present();
         }
 
-        public async override Task Update(float dt)
+        float TimeToQuit = 5;
+        public override void Update(float dt)
         {
-            Console.WriteLine(dt);
-            if (dt == 10000)
-                Exit = true;
-            await Task.Yield();
+            TimeToQuit -= dt;
+            //Console.WriteLine(TimeToQuit);
+            //if (TimeToQuit <= 0)
+            //    Exit = true;
         }
     }
 }

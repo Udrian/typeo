@@ -12,8 +12,7 @@ namespace SampleGameSDLWin
         {
             TypeO.Create<SampleGame>()
                 .LoadModule(new TypeOSDL())
-                .Start()
-            .Wait();
+                .Start();
         }
     }
 }

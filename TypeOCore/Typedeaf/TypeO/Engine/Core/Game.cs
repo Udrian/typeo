@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Typedeaf.TypeO.Common;
+using Typedeaf.TypeO.Engine.Graphics;
 
 namespace Typedeaf.TypeO.Engine.Core
 {
@@ -14,8 +15,8 @@ namespace Typedeaf.TypeO.Engine.Core
         }
         protected Game() { }
         public abstract void Init();
-        public abstract Task Update(float dt);
-        public abstract Task Draw();
+        public abstract void Update(float dt);
+        public abstract void Draw(Canvas canvas);
         public bool Exit { get; set; } = false;
     }
 

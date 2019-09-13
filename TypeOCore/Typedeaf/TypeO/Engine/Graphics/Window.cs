@@ -8,22 +8,15 @@ namespace Typedeaf.TypeO.Engine
 {
     namespace Graphics
     {
-        public abstract class Window
+        public abstract partial class Window
         {
+            private Core.TypeO TypeO { get; set; }
             /// <summary>
             /// Do not call directly, use Game.CreateWindow instead
             /// </summary>
-            public Window(string title,
-                          Vec2 position,
-                          Vec2 size,
-                          bool fullscreen,
-                          bool borderless)
+            public Window(Core.TypeO typeO)
             {
-                Title      = title;
-                Position   = position;
-                Size       = size;
-                Fullscreen = fullscreen;
-                Borderless = borderless;
+                TypeO      = typeO;
             }
 
             public virtual string Title      { get; set; }
@@ -44,17 +37,19 @@ namespace Typedeaf.TypeO.Engine
                                          bool fullscreen = false,
                                          bool borderless = false)
             {
-                return TypeO.CreateWindow?.Invoke(title, position, size, fullscreen, borderless);
+                return TypeO.CreateWindow?.Invoke(TypeO, title, position, size, fullscreen, borderless);
             }
         }
 
-        public delegate Window CreateWindowDelegate(string title,
+        
+        public partial class TypeO
+        {
+            public delegate Window CreateWindowDelegate(TypeO typeO,
+                                                    string title,
                                                       Vec2 position,
                                                       Vec2 size,
                                                       bool fullscreen,
                                                       bool borderless);
-        public partial class TypeO
-        {
             public CreateWindowDelegate CreateWindow;
         }
     }

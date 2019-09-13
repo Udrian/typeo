@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Typedeaf.TypeO.Engine.Core
@@ -14,29 +15,54 @@ namespace Typedeaf.TypeO.Engine.Core
                 TypeO = new TypeO();
             }
 
-            public async Task Start()
+            public void Start()
             {
                 //Initialize the game
                 var game = (T)Activator.CreateInstance(typeof(T), TypeO);
                 TypeO.Game = game;
                 game.Init();
 
-                float dt = 0;
-                while (!TypeO.Game.Exit)
+                TypeO.Start();
+
+                //Cleanup
+                foreach(var module in TypeO.Modules)
                 {
-                    dt++;
-                    await TypeO.Game.Update(dt);
-                    await TypeO.Game.Draw();
+                    module.Cleanup();
                 }
             }
         }
 
-        private TypeO() { }
+        private TypeO() {
+            Modules = new List<Module>();
+            Canvas = new List<Graphics.Canvas>();
+            LastTick = DateTime.UtcNow;
+        }
 
         public static TypeO.Runner<T> Create<T>() where T : Game
         {
             var factory = new TypeO.Runner<T>();
             return factory;
+        }
+
+        private DateTime LastTick { get; set; }
+        public void Start()
+        {
+            while (!Game.Exit)
+            {
+                var dt = (DateTime.UtcNow - LastTick).TotalSeconds;
+                LastTick = DateTime.UtcNow;
+
+                foreach (var module in Modules)
+                {
+                    module.Update((float)dt);
+                }
+
+                Game.Update((float)dt);
+                foreach (var canvas in Canvas)
+                {
+                    Game.Draw(canvas);
+                }
+            }
         }
     }
 }

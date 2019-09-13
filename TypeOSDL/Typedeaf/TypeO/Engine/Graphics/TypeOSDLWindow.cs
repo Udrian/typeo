@@ -16,85 +16,80 @@ namespace Typedeaf.TypeO.Engine
             /// <summary>
             /// Do not call directly, use Game.CreateWindow instead
             /// </summary>
-            public TypeOSDLWindow(string title,
+            public TypeOSDLWindow(Core.TypeO typeO,
+                                  string title,
                                     Vec2 position,
-                                    Vec2 size,
-                                    bool fullscreen,
-                                    bool borderless) : base(title, position, size, fullscreen, borderless)
+                                    Vec2 size) : base(typeO)
             {
-                window = SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
-                if (window == null)
+                SDLWindow = SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+                if (SDLWindow == null)
                 {
                     //TODO: Error handling
                     Console.WriteLine("SDL_CreateWindow  Error: " + SDL.SDL_GetError());
                     SDL.SDL_Quit();
                     //return (SDL_Window)0;
                 }
-                if(fullscreen)
-                    Fullscreen = fullscreen;
-                if(borderless)
-                    Borderless = borderless;
             }
 
-            private SDL_Window window;
+            public SDL_Window SDLWindow { get; private set; }
 
             public override string Title {
                 get {
-                    if (window == null)
+                    if (SDLWindow == null)
                         return "";
-                    return SDL.SDL_GetWindowTitle(window);
+                    return SDL.SDL_GetWindowTitle(SDLWindow);
                 }
                 set {
-                    if (window != null)
-                        SDL.SDL_SetWindowTitle(window, value);
+                    if (SDLWindow != null)
+                        SDL.SDL_SetWindowTitle(SDLWindow, value);
                 }
             }
             public override Vec2 Position {
                 get {
-                    if (window == null)
+                    if (SDLWindow == null)
                         return Vec2.Zero;
-                    SDL.SDL_GetWindowPosition(window, out int x, out int y);
+                    SDL.SDL_GetWindowPosition(SDLWindow, out int x, out int y);
                     return new Vec2(x, y);
                 }
                 set {
-                    if (window != null)
-                        SDL.SDL_SetWindowPosition(window, (int)value.X, (int)value.Y);
+                    if (SDLWindow != null)
+                        SDL.SDL_SetWindowPosition(SDLWindow, (int)value.X, (int)value.Y);
                 }
             }
             public override Vec2 Size {
                 get {
-                    if (window == null)
+                    if (SDLWindow == null)
                         return Vec2.Zero;
-                    SDL.SDL_GetWindowSize(window, out int x, out int y);
+                    SDL.SDL_GetWindowSize(SDLWindow, out int x, out int y);
                     return new Vec2(x, y);
                 }
                 set {
-                    if (window != null)
-                        SDL.SDL_SetWindowSize(window, (int)value.X, (int)value.Y);
+                    if (SDLWindow != null)
+                        SDL.SDL_SetWindowSize(SDLWindow, (int)value.X, (int)value.Y);
                 }
             }
             public override bool Fullscreen {
                 get {
-                    if (window == null)
+                    if (SDLWindow == null)
                         return false;
-                    SDL.SDL_GetWindowDisplayMode(window, out SDL.SDL_DisplayMode mode);
+                    SDL.SDL_GetWindowDisplayMode(SDLWindow, out SDL.SDL_DisplayMode mode);
                     return mode.format == (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
                 }
                 set {
-                    if (window != null)
-                        SDL.SDL_SetWindowFullscreen(window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN : 0));
+                    if (SDLWindow != null)
+                        SDL.SDL_SetWindowFullscreen(SDLWindow, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN : 0));
                 }
             }
             public override bool Borderless {
                 get {
-                    if (window == null)
+                    if (SDLWindow == null)
                         return false;
-                    SDL.SDL_GetWindowDisplayMode(window, out SDL.SDL_DisplayMode mode);
+                    SDL.SDL_GetWindowDisplayMode(SDLWindow, out SDL.SDL_DisplayMode mode);
                     return mode.format == (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP;
                 }
                 set {
-                    if (window != null)
-                        SDL.SDL_SetWindowFullscreen(window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
+                    if (SDLWindow != null)
+                        SDL.SDL_SetWindowFullscreen(SDLWindow, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
         }
@@ -104,13 +99,20 @@ namespace Typedeaf.TypeO.Engine
     {
         public partial class TypeOSDL : Module
         {
-            public Window CreateWindow(string title,
-                             Vec2 position,
-                             Vec2 size,
-                             bool fullscreen,
-                             bool borderless)
+            public Window CreateWindow(Core.TypeO typeO,
+                                       string title,
+                                         Vec2 position,
+                                         Vec2 size,
+                                         bool fullscreen,
+                                         bool borderless)
             {
-                return new TypeOSDLWindow(title, position, size, fullscreen, borderless);
+                var win = new TypeOSDLWindow(typeO, title, position, size);
+
+                if (fullscreen)
+                    win.Fullscreen = fullscreen;
+                if (borderless)
+                    win.Borderless = borderless;
+                return win;
             }
         }
     }
