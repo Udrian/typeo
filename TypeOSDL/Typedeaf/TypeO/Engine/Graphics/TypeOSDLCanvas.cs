@@ -18,7 +18,7 @@ namespace Typedeaf.TypeO.Engine
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public TypeOSDLCanvas(Core.TypeO typeO, Window window) : base(typeO, window)
+            public TypeOSDLCanvas(Core.TypeO typeO, Window window, object context) : base(typeO, window, context)
             {
                 var sdlWindow = window as TypeOSDLWindow;
                 if (sdlWindow != null)
@@ -89,6 +89,11 @@ namespace Typedeaf.TypeO.Engine
                 SDL.SDL_RenderDrawPointsF(SDLRenderer, sdlpoints, points.Count);
             }
 
+            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color)
+            {
+                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color);
+            }
+
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color)
             {
                 SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
@@ -117,6 +122,22 @@ namespace Typedeaf.TypeO.Engine
             {
                 SDL.SDL_RenderPresent(SDLRenderer);
             }
+
+            public override Rectangle Viewport
+            {
+                get {
+                    SDL.SDL_RenderGetViewport(SDLRenderer, out SDL.SDL_Rect rect);
+                    return new Rectangle(rect.x, rect.y, rect.w, rect.h);
+                }
+                set {
+                    var rect = new SDL.SDL_Rect();
+                    rect.x = (int)value.Pos.X;
+                    rect.y = (int)value.Pos.Y;
+                    rect.w = (int)value.Size.X;
+                    rect.h = (int)value.Size.Y;
+                    SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
+                }
+            }
         }
     }
 
@@ -124,9 +145,9 @@ namespace Typedeaf.TypeO.Engine
     {
         public partial class TypeOSDL : Module
         {
-            public Canvas CreateCanvas(Core.TypeO typeO, Window window)
+            public Canvas CreateCanvas(Core.TypeO typeO, Window window, object context)
             {
-                return new TypeOSDLCanvas(typeO, window);
+                return new TypeOSDLCanvas(typeO, window, context);
             }
         }
     }
