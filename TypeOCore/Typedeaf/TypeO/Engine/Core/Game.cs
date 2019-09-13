@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Typedeaf.TypeO.Common;
+using Typedeaf.TypeO.Engine.Content;
 using Typedeaf.TypeO.Engine.Graphics;
 
 namespace Typedeaf.TypeO.Engine.Core
@@ -12,6 +13,7 @@ namespace Typedeaf.TypeO.Engine.Core
         public Game(TypeO typeO)
         {
             TypeO = typeO;
+            //Content = TypeO?.CreateContentLoader();
         }
         protected Game() { }
         public abstract void Init();

@@ -8,6 +8,8 @@ namespace Typedeaf.TypeO.Engine.Modules
 {
     public partial class TypeOSDL : Module
     {
+        public TypeOSDL(Core.TypeO typeO) : base(typeO) { }
+
         public override void Init()
         {
             //Set the delegate to create a window through SDL

@@ -16,7 +16,7 @@ namespace Typedeaf.TypeO.Engine
             /// </summary>
             public Window(Core.TypeO typeO)
             {
-                TypeO      = typeO;
+                TypeO = typeO;
             }
 
             public virtual string Title      { get; set; }
