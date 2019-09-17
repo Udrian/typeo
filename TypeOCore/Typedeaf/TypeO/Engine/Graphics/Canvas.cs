@@ -45,7 +45,6 @@ namespace Typedeaf.TypeO.Engine
             public Canvas CreateCanvas(object context = null)
             {
                 var canvas = TypeO.CreateCanvas?.Invoke(TypeO, this, context);
-                TypeO.AddCanvas(canvas);
                 return canvas;
             }
 
@@ -64,11 +63,6 @@ namespace Typedeaf.TypeO.Engine
         {
             public delegate Canvas CreateCanvasDelegate(TypeO typeO, Window window, object context);
             public CreateCanvasDelegate CreateCanvas;
-            private List<Canvas> Canvas;
-            public void AddCanvas(Canvas canvas)
-            {
-                Canvas.Add(canvas);
-            }
         }
     }
 }

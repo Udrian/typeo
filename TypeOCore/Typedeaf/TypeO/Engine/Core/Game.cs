@@ -18,7 +18,7 @@ namespace Typedeaf.TypeO.Engine.Core
         protected Game() { }
         public abstract void Initialize();
         public abstract void Update(float dt);
-        public abstract void Draw(Canvas canvas);
+        public abstract void Draw();
         public bool Exit { get; set; } = false;
     }
 

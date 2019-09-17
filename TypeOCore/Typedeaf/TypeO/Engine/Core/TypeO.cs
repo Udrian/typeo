@@ -34,7 +34,6 @@ namespace Typedeaf.TypeO.Engine.Core
 
         private TypeO() {
             Modules = new List<Module>();
-            Canvas = new List<Graphics.Canvas>();
             LastTick = DateTime.UtcNow;
         }
 
@@ -58,10 +57,7 @@ namespace Typedeaf.TypeO.Engine.Core
                 }
 
                 Game.Update((float)dt);
-                foreach (var canvas in Canvas)
-                {
-                    Game.Draw(canvas);
-                }
+                Game.Draw();
             }
         }
     }
