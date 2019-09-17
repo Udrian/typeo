@@ -19,7 +19,7 @@ namespace SampleGameCore
         private double  TextureRotSpeed { get; set; } = Math.PI/4;
         private Texture LoadedTexture   { get; set; }
 
-        public override void Init()
+        public override void Initialize()
         {
             var win = CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
             var canvas = win.CreateCanvas();

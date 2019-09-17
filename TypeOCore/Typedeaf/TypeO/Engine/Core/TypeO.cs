@@ -20,7 +20,7 @@ namespace Typedeaf.TypeO.Engine.Core
                 //Initialize the game
                 var game = (T)Activator.CreateInstance(typeof(T), TypeO);
                 TypeO.Game = game;
-                game.Init();
+                game.Initialize();
 
                 TypeO.Start();
 

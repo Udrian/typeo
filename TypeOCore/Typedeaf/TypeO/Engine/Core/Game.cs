@@ -16,7 +16,7 @@ namespace Typedeaf.TypeO.Engine.Core
             //Content = TypeO?.CreateContentLoader();
         }
         protected Game() { }
-        public abstract void Init();
+        public abstract void Initialize();
         public abstract void Update(float dt);
         public abstract void Draw(Canvas canvas);
         public bool Exit { get; set; } = false;
