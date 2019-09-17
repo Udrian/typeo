@@ -25,10 +25,6 @@ namespace Typedeaf.TypeO.Engine
                 Context = context;
             }
 
-
-            public void Hej(int a, int b = 35, int c = 25, int d = 11) { }
-
-
             public abstract void Clear(Color clearColor);
             public abstract void DrawLine (Vec2 from, Vec2 size, Color color);
             public abstract void DrawLineE(Vec2 from, Vec2 to,   Color color);
