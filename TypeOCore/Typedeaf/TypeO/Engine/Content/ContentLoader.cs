@@ -7,7 +7,7 @@ namespace Typedeaf.TypeO.Engine
     {
         public abstract partial class ContentLoader
         {
-            private Core.TypeO TypeO { get; set; }
+            protected Core.TypeO TypeO { get; private set; }
 
             public ContentLoader(Core.TypeO typeO)
             {

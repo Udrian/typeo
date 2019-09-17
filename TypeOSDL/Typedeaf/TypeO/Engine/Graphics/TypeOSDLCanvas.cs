@@ -12,7 +12,7 @@ namespace Typedeaf.TypeO.Engine
 {
     namespace Graphics
     {
-        public class TypeOSDLCanvas : Canvas
+        public partial class TypeOSDLCanvas : Canvas
         {
             public SDL_Renderer SDLRenderer { get; private set; }
             /// <summary>

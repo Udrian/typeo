@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Typedeaf.TypeO.Common;
+using Typedeaf.TypeO.Engine.Content;
 using Typedeaf.TypeO.Engine.Graphics;
 
 namespace Typedeaf.TypeO.Engine
 {
     namespace Graphics
     {
-        public abstract class Canvas
+        public abstract partial class Canvas
         {
             protected Core.TypeO  TypeO   { get; set; }
             protected      Window Window  { get; set; }
@@ -24,6 +25,10 @@ namespace Typedeaf.TypeO.Engine
                 Context = context;
             }
 
+
+            public void Hej(int a, int b = 35, int c = 25, int d = 11) { }
+
+
             public abstract void Clear(Color clearColor);
             public abstract void DrawLine (Vec2 from, Vec2 size, Color color);
             public abstract void DrawLineE(Vec2 from, Vec2 to,   Color color);
@@ -33,6 +38,7 @@ namespace Typedeaf.TypeO.Engine
             public abstract void DrawRectangle(Rectangle rectangle,   bool filled, Color color);
             public abstract void DrawRectangle (Vec2 from, Vec2 size, bool filled, Color color);
             public abstract void DrawRectangleE(Vec2 from, Vec2 to,   bool filled, Color color);
+
             public abstract void Present();
 
             public abstract Rectangle Viewport { get; set; }

@@ -54,7 +54,15 @@
         }
 
         public static bool operator==(Color a, Color b) {
-            return    a.A == b.A &&
+            if (object.ReferenceEquals(a, null))
+            {
+                return object.ReferenceEquals(b, null);
+            }
+            if (object.ReferenceEquals(b, null))
+            {
+                return object.ReferenceEquals(a, null);
+            }
+            return  a.A == b.A &&
                     a.R == b.R &&
                     a.G == b.G &&
                     a.B == b.B;
