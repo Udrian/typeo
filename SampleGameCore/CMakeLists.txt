@@ -10,6 +10,7 @@ set(PROJECT_REFERENCES
 file(GLOB PROJECT_SRC
 	"SampleGame.cs"
 	"SampleScene.cs"
+	"SampleService.cs"
 )
 
 

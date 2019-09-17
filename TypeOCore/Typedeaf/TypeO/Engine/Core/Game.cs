@@ -13,7 +13,7 @@ namespace Typedeaf.TypeO.Engine.Core
         public Game(TypeO typeO)
         {
             TypeO = typeO;
-            //Content = TypeO?.CreateContentLoader();
+            Services = new Dictionary<Type, Service>();
         }
         protected Game() { }
         public abstract void Initialize();

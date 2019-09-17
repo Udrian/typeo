@@ -8,23 +8,25 @@ namespace SampleGameCore
 {
     public class SampleScene : Scene<SampleGame>
     {
-        private Vec2    TexturePos      { get; set; } = new Vec2(175, 175);
-        private Vec2    TextureDir      { get; set; } = new Vec2(1  , 1  );
-        private float   TextureSpeed    { get; set; } = 50f;
-        private double  TextureRot      { get; set; } = 0;
-        private double  TextureRotSpeed { get; set; } = Math.PI/4;
-        private Texture LoadedTexture   { get; set; }
+        public Vec2    TexturePos      { get; set; } = new Vec2(175, 175);
+        public Vec2    TextureDir      { get; set; } = new Vec2(1  , 1  );
+        public float   TextureSpeed    { get; set; } = 50f;
+        public double  TextureRot      { get; set; } = 0;
+        public double  TextureRotSpeed { get; set; } = Math.PI/4;
+        public Texture LoadedTexture   { get; set; }
 
         public SampleScene(SampleGame game, Canvas canvas) : base(game, canvas) { }
 
         public override void Initialize()
         {
             LoadedTexture = Canvas.LoadTexture("content/image.png");
+
+            Game.AddService<SampleService>();
+            Game.GetService<SampleService>().SampleScene = this;
         }
 
         public override void Update(float dt)
         {
-                        TextureRot += TextureRotSpeed * dt;
             TexturePos += TextureDir * TextureSpeed * dt;
 
             if (TexturePos.X + LoadedTexture.Size.X   >= Game.ScreenSize.X) TextureDir = new Vec2(-1, TextureDir.Y);

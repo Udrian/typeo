@@ -48,15 +48,20 @@ namespace Typedeaf.TypeO.Engine.Core
         {
             while (!Game.Exit)
             {
-                var dt = (DateTime.UtcNow - LastTick).TotalSeconds;
+                var dt = (float)(DateTime.UtcNow - LastTick).TotalSeconds;
                 LastTick = DateTime.UtcNow;
 
                 foreach (var module in Modules)
                 {
-                    module.Update((float)dt);
+                    module.Update(dt);
                 }
 
-                Game.Update((float)dt);
+                foreach(var service in Game.GetServices())
+                {
+                    service.Update(dt);
+                }
+
+                Game.Update(dt);
                 Game.Draw();
             }
         }
