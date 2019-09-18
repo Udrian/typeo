@@ -16,6 +16,8 @@ namespace Typedeaf.TypeO.Engine.Modules
             TypeO.CreateWindow += CreateWindow;
             //Set the delegate to create a new Canvas through SDL
             TypeO.CreateCanvas += CreateCanvas;
+            //Set keyboard handler through SDL
+            TypeO.CreateKeyboardInput += CreateKeyboardInput;
 
             //Initial SDL
             SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");

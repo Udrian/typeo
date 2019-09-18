@@ -16,6 +16,8 @@ file(GLOB PROJECT_SRC
 	"Typedeaf/TypeO/Engine/Graphics/Window.cs"
 	"Typedeaf/TypeO/Engine/Graphics/Canvas.cs"
 	"Typedeaf/TypeO/Engine/Content/Texture.cs"
+	"Typedeaf/TypeO/Engine/Input/InputHandler.cs"
+	"Typedeaf/TypeO/Engine/Input/KeyboardInput.cs"
 )
 
 

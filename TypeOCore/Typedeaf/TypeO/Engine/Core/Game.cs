@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Typedeaf.TypeO.Common;
 using Typedeaf.TypeO.Engine.Content;
 using Typedeaf.TypeO.Engine.Graphics;
+using Typedeaf.TypeO.Engine.Input;
 
 namespace Typedeaf.TypeO.Engine.Core
 {
@@ -14,6 +15,7 @@ namespace Typedeaf.TypeO.Engine.Core
         {
             TypeO = typeO;
             Services = new Dictionary<Type, Service>();
+            Input = new InputHandler(typeO);
         }
         protected Game() { }
         public abstract void Initialize();
