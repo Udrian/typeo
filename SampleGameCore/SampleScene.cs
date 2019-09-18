@@ -21,8 +21,7 @@ namespace SampleGameCore
         {
             LoadedTexture = Canvas.LoadTexture("content/image.png");
 
-            Game.AddService<SampleService>();
-            Game.GetService<SampleService>().SampleScene = this;
+            Game.AddService<SampleService>(this);
         }
 
         public override void Update(float dt)

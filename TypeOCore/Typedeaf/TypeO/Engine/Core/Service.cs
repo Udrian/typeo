@@ -22,8 +22,10 @@ namespace Typedeaf.TypeO.Engine.Core
     {
         protected Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<T>() where T : Service {
-            Services.Add(typeof(T), (T)Activator.CreateInstance(typeof(T), this));
+        public void AddService<T>(params object[] args) where T : Service {
+            var constructorArgs = new List<object>(){ this };
+            constructorArgs.AddRange(args);
+            Services.Add(typeof(T), (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray()));
         }
 
         public void AddService(Service service) {

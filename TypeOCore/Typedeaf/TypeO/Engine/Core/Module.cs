@@ -23,7 +23,9 @@ namespace Typedeaf.TypeO.Engine.Core
         {
             public TypeO.Runner<T> LoadModule<C>(params object[] args) where C : Module
             {
-                var module = (C)Activator.CreateInstance(typeof(C), TypeO);
+                var constructorArgs = new List<object>() { TypeO };
+                constructorArgs.AddRange(args);
+                var module = (C)Activator.CreateInstance(typeof(C), constructorArgs.ToArray());
                 module.Init();
                 TypeO.Modules.Add(module);
                 return this;
