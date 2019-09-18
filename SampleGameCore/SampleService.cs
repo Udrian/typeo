@@ -12,7 +12,7 @@ namespace SampleGameCore
             Scene = scene;
         }
 
-        public override void Init()
+        public override void Initialize()
         {
         }
 

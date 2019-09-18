@@ -14,7 +14,7 @@ namespace Typedeaf.TypeO.Engine.Core
             Game = game;
         }
 
-        public abstract void Init();
+        public abstract void Initialize();
         public abstract void Update(float dt);
     }
 

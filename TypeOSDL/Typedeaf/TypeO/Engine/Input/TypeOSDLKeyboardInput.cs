@@ -14,17 +14,17 @@ namespace Typedeaf.TypeO.Engine
             {
             }
 
-            public override bool IsKeyDown(Enum input, Enum modifier = null)
+            public override bool IsDown(Enum input, Enum modifier = null)
             {
                 throw new NotImplementedException();
             }
 
-            public override bool IsKeyPressed(Enum input, Enum modifier = null)
+            public override bool IsPressed(Enum input, Enum modifier = null)
             {
                 throw new NotImplementedException();
             }
 
-            public override bool IsKeyReleased(Enum input, Enum modifier = null)
+            public override bool IsReleased(Enum input, Enum modifier = null)
             {
                 throw new NotImplementedException();
             }

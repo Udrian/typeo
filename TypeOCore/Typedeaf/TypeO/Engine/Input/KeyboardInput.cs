@@ -16,9 +16,9 @@ namespace Typedeaf.TypeO.Engine
                 TypeO = typeO;
             }
 
-            public abstract bool IsKeyDown(Enum input, Enum modifier = null);
-            public abstract bool IsKeyPressed(Enum input, Enum modifier = null);
-            public abstract bool IsKeyReleased(Enum input, Enum modifier = null);
+            public abstract bool IsDown(Enum input, Enum modifier = null);
+            public abstract bool IsPressed(Enum input, Enum modifier = null);
+            public abstract bool IsReleased(Enum input, Enum modifier = null);
         }
 
         public partial class InputHandler
