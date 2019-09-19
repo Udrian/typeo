@@ -31,7 +31,7 @@ namespace Typedeaf.TypeO.Engine.Core
         public void AddService(Service service) {
             Services.Add(service.GetType(), service);
 
-            service.Init();
+            service.Initialize();
         }
 
         public T GetService<T>() where T : Service {

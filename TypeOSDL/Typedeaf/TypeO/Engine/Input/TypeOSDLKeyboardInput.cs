@@ -14,19 +14,19 @@ namespace Typedeaf.TypeO.Engine
             {
             }
 
-            public override bool IsDown(Enum input, Enum modifier = null)
+            public override bool IsDown(params object[] args)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
-            public override bool IsPressed(Enum input, Enum modifier = null)
+            public override bool IsPressed(params object[] args)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
-            public override bool IsReleased(Enum input, Enum modifier = null)
+            public override bool IsReleased(params object[] args)
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
     }

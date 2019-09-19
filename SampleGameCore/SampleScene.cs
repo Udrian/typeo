@@ -26,6 +26,8 @@ namespace SampleGameCore
 
         public override void Update(float dt)
         {
+            if(Game.Input.Key.IsDown("test"))
+
             TexturePos += TextureDir * TextureSpeed * dt;
 
             if (TexturePos.X + LoadedTexture.Size.X   >= Game.ScreenSize.X) TextureDir = new Vec2(-1, TextureDir.Y);
