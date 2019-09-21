@@ -26,7 +26,7 @@ namespace Typedeaf.TypeO.Engine
                 NewEvents = es;
             }
 
-            public override bool CurrentKeyDownEvent(object key)
+            protected override bool CurrentKeyDownEvent(object key)
             {
                 foreach(var e in NewEvents)
                 {
@@ -38,7 +38,7 @@ namespace Typedeaf.TypeO.Engine
                 return false;
             }
 
-            public override bool CurrentKeyUpEvent(object key)
+            protected override bool CurrentKeyUpEvent(object key)
             {
                 foreach (var e in NewEvents)
                 {
@@ -50,7 +50,7 @@ namespace Typedeaf.TypeO.Engine
                 return false;
             }
 
-            public override bool OldKeyDownEvent(object key)
+            protected override bool OldKeyDownEvent(object key)
             {
                 foreach (var e in OldEvents)
                 {
@@ -62,7 +62,7 @@ namespace Typedeaf.TypeO.Engine
                 return false;
             }
 
-            public override bool OldKeyUpEvent(object key)
+            protected override bool OldKeyUpEvent(object key)
             {
                 foreach (var e in OldEvents)
                 {

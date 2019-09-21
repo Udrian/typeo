@@ -49,7 +49,7 @@ namespace Typedeaf.TypeO.Engine.Modules
             {
                 if (e.type == SDL.SDL_EventType.SDL_QUIT)
                 {
-                    TypeO.Game.Exit = true;
+                    TypeO.Game.Exit();
                 }
                 es.Add(e);
             }

@@ -28,7 +28,7 @@ namespace SampleGameCore
         {
             if (Game.Input.Key.IsReleased("Quit"))
             {
-                Game.Exit = true;
+                Game.Exit();
             }
 
             TexturePos += TextureDir * TextureSpeed * dt;

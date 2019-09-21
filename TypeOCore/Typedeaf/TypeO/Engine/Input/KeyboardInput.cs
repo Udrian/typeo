@@ -35,10 +35,10 @@ namespace Typedeaf.TypeO.Engine
                 return CurrentKeyUpEvent(TypeO.KeyConverter.GetKey(input)) && OldKeyDownEvent(TypeO.KeyConverter.GetKey(input));
             }
 
-            public abstract bool CurrentKeyDownEvent(object key);
-            public abstract bool CurrentKeyUpEvent(object key);
-            public abstract bool OldKeyDownEvent(object key);
-            public abstract bool OldKeyUpEvent(object key);
+            protected abstract bool CurrentKeyDownEvent(object key);
+            protected abstract bool CurrentKeyUpEvent(object key);
+            protected abstract bool OldKeyDownEvent(object key);
+            protected abstract bool OldKeyUpEvent(object key);
         }
 
         public partial class InputHandler

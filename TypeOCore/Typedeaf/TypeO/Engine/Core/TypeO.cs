@@ -51,10 +51,11 @@ namespace Typedeaf.TypeO.Engine.Core
             return factory;
         }
 
+        public bool Exit { get; set; } = false;
         private DateTime LastTick { get; set; }
         public void Start()
         {
-            while (!Game.Exit)
+            while (!Exit)
             {
                 var dt = (float)(DateTime.UtcNow - LastTick).TotalSeconds;
                 LastTick = DateTime.UtcNow;

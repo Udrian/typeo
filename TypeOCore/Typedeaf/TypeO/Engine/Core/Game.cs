@@ -21,7 +21,7 @@ namespace Typedeaf.TypeO.Engine.Core
         public abstract void Initialize();
         public abstract void Update(float dt);
         public abstract void Draw();
-        public bool Exit { get; set; } = false;
+        public void Exit() { TypeO.Exit = true; }
     }
 
     public partial class TypeO
