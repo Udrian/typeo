@@ -1,5 +1,6 @@
 using SDL2;
 using System;
+using System.Collections.Generic;
 using Typedeaf.TypeO.Common;
 using Typedeaf.TypeO.Engine.Core;
 using Typedeaf.TypeO.Engine.Graphics;
@@ -43,21 +44,16 @@ namespace Typedeaf.TypeO.Engine.Modules
 
         public override void Update(float dt)
         {
+            var es = new List<SDL.SDL_Event>();
             while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
             {
                 if (e.type == SDL.SDL_EventType.SDL_QUIT)
                 {
                     TypeO.Game.Exit = true;
                 }
-                else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
-                {
-                    TypeO.Game.Exit = true;
-                }
-                else if (e.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
-                {
-                    TypeO.Game.Exit = true;
-                }
+                es.Add(e);
             }
+            TypeOSDLKeyboardInput.Update(es);
         }
     }
 }

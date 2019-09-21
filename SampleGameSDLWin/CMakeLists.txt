@@ -28,6 +28,9 @@ add_dependencies(${PROJECT_NAME} "TypeO2D")
 add_dependencies(${PROJECT_NAME} "TypeOSDL")
 add_dependencies(${PROJECT_NAME} "SampleGameCore")
 
+set_property(TARGET ${PROJECT_NAME} PROPERTY 
+    VS_DOTNET_REFERENCE_SDL2-CS "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/SDL2-CS.dll")
+
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/libfreetype-6.dll"    DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/libjpeg-9.dll"        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/libpng16-16.dll"      DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Typedeaf.TypeO.Engine.Input;
 
 namespace Typedeaf.TypeO.Engine.Core
 {
@@ -13,6 +14,12 @@ namespace Typedeaf.TypeO.Engine.Core
             public Runner()
             {
                 TypeO = new TypeO();
+            }
+
+            public TypeO.Runner<T> SetKey(object input, object key)
+            {
+                TypeO.KeyConverter.SetKey(input, key);
+                return this;
             }
 
             public void Start()
@@ -34,6 +41,7 @@ namespace Typedeaf.TypeO.Engine.Core
 
         private TypeO() {
             Modules = new List<Module>();
+            KeyConverter = new KeyConverter(this);
             LastTick = DateTime.UtcNow;
         }
 

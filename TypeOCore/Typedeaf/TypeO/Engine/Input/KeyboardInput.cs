@@ -16,9 +16,29 @@ namespace Typedeaf.TypeO.Engine
                 TypeO = typeO;
             }
 
-            public abstract bool IsDown(params object[] args);
-            public abstract bool IsPressed(params object[] args);
-            public abstract bool IsReleased(params object[] args);
+            public bool IsDown(object input)
+            {
+                if (!TypeO.KeyConverter.ContainsInput(input)) return false;
+
+                return CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input));
+            }
+            public bool IsPressed(object input)
+            {
+                if (!TypeO.KeyConverter.ContainsInput(input)) return false;
+
+                return CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input)) && OldKeyUpEvent(TypeO.KeyConverter.GetKey(input));
+            }
+            public bool IsReleased(object input)
+            {
+                if (!TypeO.KeyConverter.ContainsInput(input)) return false;
+
+                return CurrentKeyUpEvent(TypeO.KeyConverter.GetKey(input)) && OldKeyDownEvent(TypeO.KeyConverter.GetKey(input));
+            }
+
+            public abstract bool CurrentKeyDownEvent(object key);
+            public abstract bool CurrentKeyUpEvent(object key);
+            public abstract bool OldKeyDownEvent(object key);
+            public abstract bool OldKeyUpEvent(object key);
         }
 
         public partial class InputHandler

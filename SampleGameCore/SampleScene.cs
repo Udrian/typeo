@@ -26,7 +26,10 @@ namespace SampleGameCore
 
         public override void Update(float dt)
         {
-            if(Game.Input.Key.IsDown("test"))
+            if (Game.Input.Key.IsReleased("Quit"))
+            {
+                Game.Exit = true;
+            }
 
             TexturePos += TextureDir * TextureSpeed * dt;
 
