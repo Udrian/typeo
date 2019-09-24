@@ -10,7 +10,7 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Window
         {
-            private TypeO TypeO { get; set; }
+            protected TypeO TypeO { get; set; }
             /// <summary>
             /// Do not call directly, use Game.CreateWindow instead
             /// </summary>

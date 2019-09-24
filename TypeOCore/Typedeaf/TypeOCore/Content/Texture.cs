@@ -19,20 +19,19 @@ namespace Typedeaf.TypeOCore
                 Both
             }
 
-            private TypeO TypeO { get; set; }
+            protected TypeO TypeO { get; set; }
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
             public Texture(TypeO typeO, string path)
             {
                 TypeO = typeO;
-                FileName = path;
+                FilePath = path;
             }
 
 
-            public string FileName { get; protected set; }
-
-            public abstract Vec2 Size { get; protected set; }
+            public string FilePath { get; protected set; }
+            public virtual Vec2 Size { get; protected set; }
 
             /*public abstract void SetColor(Vec2 pos, Color color);
             public abstract Color GetColor(Vec2 pos);
