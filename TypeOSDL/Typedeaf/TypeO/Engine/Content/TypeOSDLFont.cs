@@ -14,32 +14,33 @@ namespace Typedeaf.TypeO.Engine
     {
         public class TypeOSDLFont : Font
         {
-            public SDL_Font SDLFont { get; set; }
+            public TypeOSDLCanvas Canvas { get; private set; }
+            public SDL_Font SDLFont { get; private set; }
             //public SDL_Image SDLImage { get; set; }
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
             public TypeOSDLFont(TypeOSDLCanvas canvas, Core.TypeO typeO, string path, int fontSize) : base(typeO, path, fontSize)
             {
+                Canvas = canvas;
+                SDLFont = SDL_ttf.TTF_OpenFont(path, fontSize);
                 //TODO: Error handling
-                /*if (tex == null)
+                /*if (SDLFont == null)
                 {
                     Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
                     return (SDL_Texture)0;
                 }
 
-                return tex;*/
-
-
-
-
-                SDLFont = SDL_ttf.TTF_OpenFont(path, fontSize);
+                return SDLFont;*/
             }
 
             public override Vec2 MeasureString(string text)
             {
-                //TODO: Implement
-                return new Vec2(100);
+                var fontSur = SDL_ttf.TTF_RenderText_Solid(SDLFont, text, new SDL.SDL_Color());
+                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDLRenderer, fontSur);
+
+                SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
+                return new Vec2(w, h);
             }
         }
     }
@@ -86,7 +87,8 @@ namespace Typedeaf.TypeO.Engine
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(sdlFont.SDLFont, text, sdlColor);
                 var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDLRenderer, fontSur);
 
-                var fontSize = font.MeasureString(text);
+                SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
+                var fontSize = new Vec2(w, h);
                 var drect = new SDL.SDL_Rect();
                 drect.x = (int)(pos.X - origin.X);
                 drect.y = (int)(pos.Y - origin.Y);
