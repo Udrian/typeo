@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.15)
 
-set(PROJECT_NAME    "SampleGameSDLWin")
+set(PROJECT_NAME    "SampleGame")
 set(PROJECT_VERSION "0.1.0.0")
 set(DOTNET_VERSION  "v4.7.2")
 set(LANG_VERSION    "/langversion:7.3")
@@ -8,6 +8,10 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
+	"Program.cs"
+	"SampleGame.cs"
+	"SampleScene.cs"
+	"SampleService.cs"
 )
 
 
@@ -23,12 +27,10 @@ set_property( TARGET ${PROJECT_NAME} PROPERTY VS_GLOBAL_Prefer32Bit "false")
 
 add_dependencies(${PROJECT_NAME} "TypeOCommon")
 add_dependencies(${PROJECT_NAME} "TypeOCore")
-add_dependencies(${PROJECT_NAME} "TypeO2D")
 add_dependencies(${PROJECT_NAME} "TypeOSDL")
-add_dependencies(${PROJECT_NAME} "SampleGameCore")
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY 
-    VS_DOTNET_REFERENCE_SDL2-CS "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/SDL2-CS.dll")
+    VS_DOTNET_REFERENCE_SDL2-CS "${CMAKE_CURRENT_SOURCE_DIR}/../TypeOSDL/SDL2-CS.dll")
 
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/libfreetype-6.dll"    DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/libjpeg-9.dll"        DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")

@@ -7,9 +7,7 @@ add_subdirectory("TypeOCore")
 add_subdirectory("TypeOCommon")
 add_subdirectory("TypeOSDL")
 add_subdirectory("Box2D")
-add_subdirectory("TypeO2D")
-add_subdirectory("SampleGameCore")
-add_subdirectory("SampleGameSDLWin")
+add_subdirectory("SampleGame")
 
 # Set the startup target project
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT "SampleGameSDLWin")
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT "SampleGame")
