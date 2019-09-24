@@ -39,7 +39,7 @@ namespace Typedeaf.TypeO.Engine
             public override Vec2 MeasureString(string text)
             {
                 //TODO: Implement
-                return new Vec2();
+                return new Vec2(100);
             }
         }
     }

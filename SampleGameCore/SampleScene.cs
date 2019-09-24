@@ -14,12 +14,14 @@ namespace SampleGameCore
         public double  TextureRot      { get; set; } = 0;
         public double  TextureRotSpeed { get; set; } = Math.PI/4;
         public Texture LoadedTexture   { get; set; }
+        public Font    LoadedFont      { get; set; }
 
         public SampleScene(SampleGame game, Canvas canvas) : base(game, canvas) { }
 
         public override void Initialize()
         {
             LoadedTexture = Canvas.LoadTexture("content/image.png");
+            LoadedFont = Canvas.LoadFont("lazy.ttf", 26);
 
             Game.AddService<SampleService>(this);
         }
@@ -52,6 +54,8 @@ namespace SampleGameCore
                 color: Color.Green,
                 flipped: Texture.Flipped.Both,
                 source: new Rectangle(5, 5, 25, 25));
+
+            Canvas.DrawText(LoadedFont, "Test", new Vec2(100, 100), color: Color.Green);
         }
 
         public override void OnEnter(Scene<SampleGame> from)

@@ -33,6 +33,8 @@ namespace Typedeaf.TypeO.Engine.Modules
                 Console.WriteLine("SDL_Init Error: " + SDL.SDL_GetError());
                 return;
             }
+
+            SDL_ttf.TTF_Init();
         }
 
         public override void Cleanup()
