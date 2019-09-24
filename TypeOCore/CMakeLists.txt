@@ -8,18 +8,18 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Typedeaf/TypeO/Engine/Core/Game.cs"
-	"Typedeaf/TypeO/Engine/Core/TypeO.cs"
-	"Typedeaf/TypeO/Engine/Core/Module.cs"
-	"Typedeaf/TypeO/Engine/Core/Service.cs"
-	"Typedeaf/TypeO/Engine/Core/Scene.cs"
-	"Typedeaf/TypeO/Engine/Graphics/Window.cs"
-	"Typedeaf/TypeO/Engine/Graphics/Canvas.cs"
-	"Typedeaf/TypeO/Engine/Content/Font.cs"
-	"Typedeaf/TypeO/Engine/Content/Texture.cs"
-	"Typedeaf/TypeO/Engine/Input/InputHandler.cs"
-	"Typedeaf/TypeO/Engine/Input/KeyboardInput.cs"
-	"Typedeaf/TypeO/Engine/Input/KeyConverter.cs"
+	"Typedeaf/TypeOCore/Game.cs"
+	"Typedeaf/TypeOCore/TypeO.cs"
+	"Typedeaf/TypeOCore/Module.cs"
+	"Typedeaf/TypeOCore/Service.cs"
+	"Typedeaf/TypeOCore/Scene.cs"
+	"Typedeaf/TypeOCore/Graphics/Window.cs"
+	"Typedeaf/TypeOCore/Graphics/Canvas.cs"
+	"Typedeaf/TypeOCore/Content/Font.cs"
+	"Typedeaf/TypeOCore/Content/Texture.cs"
+	"Typedeaf/TypeOCore/Input/InputHandler.cs"
+	"Typedeaf/TypeOCore/Input/KeyboardInput.cs"
+	"Typedeaf/TypeOCore/Input/KeyConverter.cs"
 )
 
 

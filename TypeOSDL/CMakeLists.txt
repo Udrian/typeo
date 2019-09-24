@@ -8,12 +8,12 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Typedeaf/TypeO/Engine/Modules/TypeOSDL.cs"
-	"Typedeaf/TypeO/Engine/Graphics/TypeOSDLWindow.cs"
-	"Typedeaf/TypeO/Engine/Graphics/TypeOSDLCanvas.cs"
-	"Typedeaf/TypeO/Engine/Content/TypeOSDLFont.cs"
-	"Typedeaf/TypeO/Engine/Content/TypeOSDLTexture.cs"
-	"Typedeaf/TypeO/Engine/Input/TypeOSDLKeyboardInput.cs"
+	"Typedeaf/TypeOSDL/TypeOSDLModule.cs"
+	"Typedeaf/TypeOSDL/Graphics/SDLWindow.cs"
+	"Typedeaf/TypeOSDL/Graphics/SDLCanvas.cs"
+	"Typedeaf/TypeOSDL/Content/SDLFont.cs"
+	"Typedeaf/TypeOSDL/Content/SDLTexture.cs"
+	"Typedeaf/TypeOSDL/Input/SDLKeyboardInput.cs"
 )
 
 

@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using Typedeaf.TypeO.Common;
-using Typedeaf.TypeO.Engine.Content;
-using Typedeaf.TypeO.Engine.Core;
-using Typedeaf.TypeO.Engine.Graphics;
+using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Content;
+using Typedeaf.TypeOCore.Graphics;
 
 namespace SampleGameCore
 {

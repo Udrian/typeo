@@ -1,8 +1,8 @@
 using SampleGameCore;
 using SDL2;
 using System;
-using Typedeaf.TypeO.Engine.Core;
-using Typedeaf.TypeO.Engine.Modules;
+using Typedeaf.TypeOCore;
+using Typedeaf.TypeOSDL;
 
 namespace SampleGameSDLWin
 {
@@ -12,7 +12,7 @@ namespace SampleGameSDLWin
         public static void Main()
         {
             TypeO.Create<SampleGame>()
-                .LoadModule<TypeOSDL>()
+                .LoadModule<TypeOSDLModule>()
                 .SetKey("Quit", SDL.SDL_Keycode.SDLK_7)
                 .Start();
         }

@@ -1,5 +1,5 @@
 
-using Typedeaf.TypeO.Engine.Core;
+using Typedeaf.TypeOCore;
 
 namespace SampleGameCore
 {

@@ -1,8 +1,8 @@
 using System;
-using Typedeaf.TypeO.Common;
-using Typedeaf.TypeO.Engine.Content;
-using Typedeaf.TypeO.Engine.Core;
-using Typedeaf.TypeO.Engine.Graphics;
+using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOCore.Content;
+using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Graphics;
 
 namespace SampleGameCore
 {

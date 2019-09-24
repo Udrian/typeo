@@ -22,7 +22,7 @@
 
 
 
-using Typedeaf.TypeO.Common;
+using Typedeaf.TypeOCommon;
 /// A line segment (edge) Shape. These can be connected in chains or loops
 /// to other edge Shapes. The connectivity information is used to ensure
 /// correct contact normals.
