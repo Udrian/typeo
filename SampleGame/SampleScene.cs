@@ -28,7 +28,7 @@ namespace SampleGameCore
 
         public override void Update(float dt)
         {
-            if (Game.Input.Key.IsReleased("Quit"))
+            if (Game.Input.Key.IsDown("Quit"))
             {
                 Game.Exit();
             }

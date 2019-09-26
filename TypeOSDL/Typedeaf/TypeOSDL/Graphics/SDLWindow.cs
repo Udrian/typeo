@@ -17,12 +17,18 @@ namespace Typedeaf.TypeOSDL
             public SDL_Window SDL_Window { get; private set; }
 
             /// <summary>
-            /// Do not call directly, use Game.CreateWindow instead
+            /// Do not call directly, use Game.CreateWindow<SDLWindow>() instead
             /// </summary>
-            public SDLWindow(TypeO typeO,
-                                  string title,
-                                    Vec2 position,
-                                    Vec2 size) : base(typeO)
+            public SDLWindow(TypeO typeO) : base(typeO) { }
+            /// <summary>
+            /// Do not call directly, use Game.CreateWindow<SDLWindow>(string title, Vec2 position, Vec2 size) instead
+            /// </summary>
+            public SDLWindow(TypeO typeO, string title, Vec2 position, Vec2 size) : base(typeO)
+            {
+                Initialize(title, position, size, false, false);
+            }
+
+            public void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
                 SDL_Window = SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
                 if (SDL_Window == null)
@@ -32,6 +38,11 @@ namespace Typedeaf.TypeOSDL
                     SDL.SDL_Quit();
                     //return (SDL_Window)0;
                 }
+
+                if (fullscreen)
+                    Fullscreen = fullscreen;
+                if (borderless)
+                    Borderless = borderless;
             }
 
             public override string Title {
@@ -93,25 +104,6 @@ namespace Typedeaf.TypeOSDL
                         SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
-        }
-    }
-
-    public partial class TypeOSDLModule : Module
-    {
-        public Window CreateWindow(TypeO typeO,
-                                    string title,
-                                        Vec2 position,
-                                        Vec2 size,
-                                        bool fullscreen,
-                                        bool borderless)
-        {
-            var win = new SDLWindow(typeO, title, position, size);
-
-            if (fullscreen)
-                win.Fullscreen = fullscreen;
-            if (borderless)
-                win.Borderless = borderless;
-            return win;
         }
     }
 }

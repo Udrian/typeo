@@ -10,12 +10,12 @@ namespace Typedeaf.TypeOSDL
 {
     namespace Input
     {
-        public class SDLKeyboardInput : KeyboardInput
+        public class SDLKeyboardInputHandler : KeyboardInput.Internal
         {
             private List<SDL.SDL_Event> OldEvents { get; set; }
             private List<SDL.SDL_Event> NewEvents { get; set; }
 
-            public SDLKeyboardInput(TypeO typeO) : base(typeO)
+            public SDLKeyboardInputHandler(TypeO typeO) : base(typeO)
             {
                 OldEvents = new List<SDL.SDL_Event>();
                 NewEvents = new List<SDL.SDL_Event>();
@@ -27,7 +27,7 @@ namespace Typedeaf.TypeOSDL
                 NewEvents = es;
             }
 
-            protected override bool CurrentKeyDownEvent(object key)
+            public override bool CurrentKeyDownEvent(object key)
             {
                 foreach(var e in NewEvents)
                 {
@@ -39,7 +39,7 @@ namespace Typedeaf.TypeOSDL
                 return false;
             }
 
-            protected override bool CurrentKeyUpEvent(object key)
+            public override bool CurrentKeyUpEvent(object key)
             {
                 foreach (var e in NewEvents)
                 {
@@ -51,7 +51,7 @@ namespace Typedeaf.TypeOSDL
                 return false;
             }
 
-            protected override bool OldKeyDownEvent(object key)
+            public override bool OldKeyDownEvent(object key)
             {
                 foreach (var e in OldEvents)
                 {
@@ -63,7 +63,7 @@ namespace Typedeaf.TypeOSDL
                 return false;
             }
 
-            protected override bool OldKeyUpEvent(object key)
+            public override bool OldKeyUpEvent(object key)
             {
                 foreach (var e in OldEvents)
                 {
@@ -79,13 +79,6 @@ namespace Typedeaf.TypeOSDL
 
     public partial class TypeOSDLModule : Module
     {
-        public SDLKeyboardInput SDLKeyboardInput { get; set; }
-
-        public KeyboardInput CreateKeyboardInput(TypeO typeO)
-        {
-            SDLKeyboardInput = new SDLKeyboardInput(typeO);
-
-            return SDLKeyboardInput;
-        }
+        public SDLKeyboardInputHandler SDLKeyboardInput { get; set; }
     }
 }

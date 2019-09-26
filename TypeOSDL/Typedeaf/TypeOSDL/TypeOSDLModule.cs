@@ -14,12 +14,9 @@ namespace Typedeaf.TypeOSDL
 
         public override void Init()
         {
-            //Set the delegate to create a window through SDL
-            TypeO.CreateWindow += CreateWindow;
-            //Set the delegate to create a new Canvas through SDL
-            TypeO.CreateCanvas += CreateCanvas;
             //Set keyboard handler through SDL
-            TypeO.CreateKeyboardInput += CreateKeyboardInput;
+            SDLKeyboardInput = new SDLKeyboardInputHandler(TypeO);
+            TypeO.KeyHandler = SDLKeyboardInput;
 
             //Initial SDL
             SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
@@ -54,7 +51,10 @@ namespace Typedeaf.TypeOSDL
                 {
                     TypeO.Game.Exit();
                 }
-                es.Add(e);
+                else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
+                {
+                    es.Add(e);
+                }
             }
             SDLKeyboardInput.Update(es);
         }

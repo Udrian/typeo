@@ -13,7 +13,7 @@ namespace Typedeaf.TypeOCore
             public InputHandler(TypeO typeO)
             {
                 TypeO = typeO;
-                Key = TypeO.CreateKeyboardInput?.Invoke(TypeO);
+                Key = new KeyboardInput(TypeO);
             }
 
         }

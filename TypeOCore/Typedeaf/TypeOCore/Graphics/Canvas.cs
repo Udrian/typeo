@@ -42,24 +42,23 @@ namespace Typedeaf.TypeOCore
 
         public abstract partial class Window
         {
-            public Canvas CreateCanvas(object context = null)
+            public T CreateCanvas<T>(object context = null, params object[] args) where T : Canvas
             {
-                var canvas = TypeO.CreateCanvas?.Invoke(TypeO, this, context);
+                var constructorArgs = new List<object>() { TypeO, this, context };
+                constructorArgs.AddRange(args);
+                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
                 return canvas;
             }
 
-            public Canvas CreateCanvas(Rectangle rect, object context = null)
+            public T CreateCanvas<T>(Rectangle rect, object context = null, params object[] args) where T : Canvas
             {
-                var canvas = CreateCanvas(context);
-                canvas.Viewport = rect;
+                var constructorArgs = new List<object>() { TypeO, this, context };
+                constructorArgs.AddRange(args);
+                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                if (rect != null)
+                    canvas.Viewport = rect;
                 return canvas;
             }
         }
-    }
-
-    public partial class TypeO
-    {
-        public delegate Canvas CreateCanvasDelegate(TypeO typeO, Window window, object context);
-        public CreateCanvasDelegate CreateCanvas;
     }
 }

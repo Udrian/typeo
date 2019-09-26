@@ -7,8 +7,23 @@ namespace Typedeaf.TypeOCore
 {
     namespace Input
     {
-        public abstract partial class KeyboardInput
+        public partial class KeyboardInput
         {
+            public abstract class Internal
+            {
+                protected TypeO TypeO { get; private set; }
+
+                public Internal(TypeO typeO)
+                {
+                    TypeO = typeO;
+                }
+
+                public abstract bool CurrentKeyDownEvent(object key);
+                public abstract bool CurrentKeyUpEvent(object key);
+                public abstract bool OldKeyDownEvent(object key);
+                public abstract bool OldKeyUpEvent(object key);
+            }
+
             protected TypeO TypeO { get; private set; }
 
             public KeyboardInput(TypeO typeO)
@@ -20,36 +35,30 @@ namespace Typedeaf.TypeOCore
             {
                 if (!TypeO.KeyConverter.ContainsInput(input)) return false;
 
-                return CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input));
+                return TypeO.KeyHandler.CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input));
             }
             public bool IsPressed(object input)
             {
                 if (!TypeO.KeyConverter.ContainsInput(input)) return false;
 
-                return CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input)) && OldKeyUpEvent(TypeO.KeyConverter.GetKey(input));
+                return TypeO.KeyHandler.CurrentKeyDownEvent(TypeO.KeyConverter.GetKey(input)) && TypeO.KeyHandler.OldKeyUpEvent(TypeO.KeyConverter.GetKey(input));
             }
             public bool IsReleased(object input)
             {
                 if (!TypeO.KeyConverter.ContainsInput(input)) return false;
 
-                return CurrentKeyUpEvent(TypeO.KeyConverter.GetKey(input)) && OldKeyDownEvent(TypeO.KeyConverter.GetKey(input));
+                return TypeO.KeyHandler.CurrentKeyUpEvent(TypeO.KeyConverter.GetKey(input)) && TypeO.KeyHandler.OldKeyDownEvent(TypeO.KeyConverter.GetKey(input));
             }
-
-            protected abstract bool CurrentKeyDownEvent(object key);
-            protected abstract bool CurrentKeyUpEvent(object key);
-            protected abstract bool OldKeyDownEvent(object key);
-            protected abstract bool OldKeyUpEvent(object key);
         }
 
         public partial class InputHandler
         {
-            public KeyboardInput Key { get; set; }
+            public KeyboardInput Key { get; private set; }
         }
     }
 
     public partial class TypeO
     {
-        public delegate KeyboardInput CreateKeyboardInputDelegate(TypeO typeO);
-        public CreateKeyboardInputDelegate CreateKeyboardInput;
+        public KeyboardInput.Internal KeyHandler { get; set; }
     }
 }

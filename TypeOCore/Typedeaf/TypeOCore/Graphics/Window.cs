@@ -29,25 +29,12 @@ namespace Typedeaf.TypeOCore
 
     public abstract partial class Game
     {
-        public Window CreateWindow(string title,
-                                        Vec2 position,
-                                        Vec2 size,
-                                        bool fullscreen = false,
-                                        bool borderless = false)
+        public T CreateWindow<T>(params object[] args) where T : Window
         {
-            return TypeO.CreateWindow?.Invoke(TypeO, title, position, size, fullscreen, borderless);
+            var constructorArgs = new List<object>() { TypeO };
+            constructorArgs.AddRange(args);
+            var win = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+            return win;
         }
-    }
-
-        
-    public partial class TypeO
-    {
-        public delegate Window CreateWindowDelegate(TypeO typeO,
-                                                string title,
-                                                    Vec2 position,
-                                                    Vec2 size,
-                                                    bool fullscreen,
-                                                    bool borderless);
-        public CreateWindowDelegate CreateWindow;
     }
 }

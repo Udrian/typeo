@@ -141,12 +141,4 @@ namespace Typedeaf.TypeOSDL
             }
         }
     }
-
-    public partial class TypeOSDLModule : Module
-    {
-        public Canvas CreateCanvas(TypeO typeO, Window window, object context)
-        {
-            return new SDLCanvas(typeO, window, context);
-        }
-    }
 }
