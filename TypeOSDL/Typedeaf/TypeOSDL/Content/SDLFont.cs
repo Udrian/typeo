@@ -19,23 +19,25 @@ namespace Typedeaf.TypeOSDL
         {
             public SDLCanvas Canvas { get; private set; }
             public SDL_Font SDL_Font { get; private set; }
+            public int FontSize { get; protected set; }
             //public SDL_Image SDLImage { get; set; }
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public SDLFont(SDLCanvas canvas, TypeO typeO, string path, int fontSize) : base(typeO, path, fontSize)
+            public SDLFont(TypeO typeO, string path, int fontSize, SDLCanvas canvas) : base(typeO, path)
             {
                 Canvas = canvas;
                 SDL_Font = SDL_ttf.TTF_OpenFont(path, fontSize);
-                //TODO: Error handling
-                /*if (SDLFont == null)
-                {
-                    Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
-                    return (SDL_Texture)0;
-                }
-
-                return SDLFont;*/
+                FontSize = fontSize;
+            //TODO: Error handling
+            /*if (SDLFont == null)
+            {
+                Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
+                return (SDL_Texture)0;
             }
+
+            return SDLFont;*/
+        }
 
             public override Vec2 MeasureString(string text)
             {
@@ -46,17 +48,20 @@ namespace Typedeaf.TypeOSDL
                 return new Vec2(w, h);
             }
         }
+
+        public partial class SDLContentLoader : ContentLoader
+        {
+            public SDLFont LoadFont(string path, int fontSize)
+            {
+                return LoadFont<SDLFont>(path, fontSize, Canvas);
+            }
+        }
     }
 
     namespace Graphics
     {
         public partial class SDLCanvas : Canvas
         {
-            public override Font LoadFont(string path, int fontSize)
-            {
-                return new SDLFont(this, TypeO, path, fontSize);
-            }
-
             public override void DrawText(Font font, string text, Vec2 pos)
             {
                 DrawText(font, text, pos, null);

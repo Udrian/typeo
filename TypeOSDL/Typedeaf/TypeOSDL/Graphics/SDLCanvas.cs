@@ -19,7 +19,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public SDLCanvas(TypeO typeO, Window window, object context) : base(typeO, window, context)
+            public SDLCanvas(TypeO typeO, Window window) : base(typeO, window)
             {
                 var sdlWindow = window as SDLWindow;
                 if (sdlWindow != null)

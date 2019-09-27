@@ -45,6 +45,16 @@ namespace Typedeaf.TypeOSDL
                     Borderless = borderless;
             }
 
+            public SDLCanvas CreateCanvas()
+            {
+                return CreateCanvas<SDLCanvas>();
+            }
+
+            public SDLCanvas CreateCanvas(Rectangle rect)
+            {
+                return CreateCanvas<SDLCanvas>(rect);
+            }
+
             public override string Title {
                 get {
                     if (SDL_Window == null)
@@ -104,6 +114,25 @@ namespace Typedeaf.TypeOSDL
                         SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
+        }
+    }
+
+    public static partial class SDLGame
+    {
+        public static SDLWindow CreateWindow(this Game game)
+        {
+            return game.CreateWindow<SDLWindow>();
+        }
+
+        public static SDLWindow CreateWindow(this Game game, string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
+        {
+            var win = game.CreateWindow<SDLWindow>(title, position, size);
+            if (fullscreen)
+                win.Fullscreen = fullscreen;
+            if (borderless)
+                win.Borderless = borderless;
+
+            return win;
         }
     }
 }

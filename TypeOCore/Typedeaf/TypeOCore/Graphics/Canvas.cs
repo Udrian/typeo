@@ -13,16 +13,14 @@ namespace Typedeaf.TypeOCore
         {
             protected TypeO  TypeO   { get; set; }
             protected Window Window  { get; set; }
-            public    object Context { get; set; }
 
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public Canvas(TypeO typeO, Window window, object context)
+            public Canvas(TypeO typeO, Window window)
             {
                 TypeO   = typeO;
                 Window  = window;
-                Context = context;
             }
 
             public abstract void Clear(Color clearColor);
@@ -42,17 +40,17 @@ namespace Typedeaf.TypeOCore
 
         public abstract partial class Window
         {
-            public T CreateCanvas<T>(object context = null, params object[] args) where T : Canvas
+            public T CreateCanvas<T>(params object[] args) where T : Canvas
             {
-                var constructorArgs = new List<object>() { TypeO, this, context };
+                var constructorArgs = new List<object>() { TypeO, this };
                 constructorArgs.AddRange(args);
                 var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
                 return canvas;
             }
 
-            public T CreateCanvas<T>(Rectangle rect, object context = null, params object[] args) where T : Canvas
+            public T CreateCanvas<T>(Rectangle rect, params object[] args) where T : Canvas
             {
-                var constructorArgs = new List<object>() { TypeO, this, context };
+                var constructorArgs = new List<object>() { TypeO, this };
                 constructorArgs.AddRange(args);
                 var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
                 if (rect != null)

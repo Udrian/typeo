@@ -3,6 +3,7 @@ using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOSDL.Content;
 
 namespace SampleGameCore
 {
@@ -16,12 +17,16 @@ namespace SampleGameCore
         public Texture LoadedTexture   { get; set; }
         public Font    LoadedFont      { get; set; }
 
+        public SDLContentLoader ContentLoader { get; set; }
+
         public SampleScene(SampleGame game, Canvas canvas) : base(game, canvas) { }
 
         public override void Initialize()
         {
-            LoadedTexture = Canvas.LoadTexture("content/image.png");
-            LoadedFont = Canvas.LoadFont("lazy.ttf", 26);
+            ContentLoader = Game.CreateContentLoader<SDLContentLoader>("", Canvas);
+
+            LoadedTexture = ContentLoader.LoadTexture("content/image.png");
+            LoadedFont = ContentLoader.LoadFont("lazy.ttf", 26);
 
             Game.AddService<SampleService>(this);
         }

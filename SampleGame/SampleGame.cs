@@ -5,6 +5,7 @@ using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Graphics;
+using Typedeaf.TypeOSDL;
 
 namespace SampleGameCore
 {
@@ -17,8 +18,8 @@ namespace SampleGameCore
 
         public override void Initialize()
         {
-            var win = CreateWindow<SDLWindow>("Hello World", new Vec2(100, 100), ScreenSize);
-            var canvas = win.CreateCanvas<SDLCanvas>();
+            var win = this.CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
+            var canvas = win.CreateCanvas();
             Scene = new SampleScene(this, canvas);
             Scene.Initialize();
         }

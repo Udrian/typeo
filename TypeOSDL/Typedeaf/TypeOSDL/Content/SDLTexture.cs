@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public SDLTexture(SDLCanvas canvas, TypeO typeO, string path) : base(typeO, path)
+            public SDLTexture(TypeO typeO, string path, SDLCanvas canvas) : base(typeO, path)
             {
                 SDL_Image = SDL_image.IMG_LoadTexture(canvas.SDL_Renderer, path);
                 SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
@@ -43,17 +43,20 @@ namespace Typedeaf.TypeOSDL
             public abstract ColorMap ColorMap { get; set; }
             public abstract Texture Cut(Rectangle rectangle);*/
         }
+
+        public partial class SDLContentLoader : ContentLoader
+        {
+            public SDLTexture LoadTexture(string path)
+            {
+                return LoadTexture<SDLTexture>(path, Canvas);
+            }
+        }
     }
 
     namespace Graphics
     {
         public partial class SDLCanvas : Canvas
         {
-            public override Texture LoadTexture(string path)
-            {
-                return new SDLTexture(this, TypeO, path);
-            }
-
             public override void DrawImage(Texture texture, Vec2 pos)
             {
                 DrawImage(texture, pos, null);

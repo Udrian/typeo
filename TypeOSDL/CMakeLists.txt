@@ -8,9 +8,11 @@ set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
+	"Typedeaf/TypeOSDL/SDLGame.cs"
 	"Typedeaf/TypeOSDL/TypeOSDLModule.cs"
 	"Typedeaf/TypeOSDL/Graphics/SDLWindow.cs"
 	"Typedeaf/TypeOSDL/Graphics/SDLCanvas.cs"
+	"Typedeaf/TypeOSDL/Content/SDLContentLoader.cs"
 	"Typedeaf/TypeOSDL/Content/SDLFont.cs"
 	"Typedeaf/TypeOSDL/Content/SDLTexture.cs"
 	"Typedeaf/TypeOSDL/Input/SDLKeyboardInput.cs"
