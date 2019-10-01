@@ -10,7 +10,7 @@ namespace Typedeaf.TypeOCore
             TypeO = typeO;
         }
         protected TypeO TypeO { get; private set; }
-        public abstract void Init();
+        public abstract void Initialize();
         public abstract void Cleanup();
         public abstract void Update(float dt);
     }
@@ -26,7 +26,7 @@ namespace Typedeaf.TypeOCore
                 var constructorArgs = new List<object>() { TypeO };
                 constructorArgs.AddRange(args);
                 var module = (C)Activator.CreateInstance(typeof(C), constructorArgs.ToArray());
-                module.Init();
+                module.Initialize();
                 TypeO.Modules.Add(module);
                 return this;
             }

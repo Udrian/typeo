@@ -13,7 +13,6 @@ namespace SampleGameSDLWin
         {
             TypeO.Create<SampleGame>()
                 .LoadModule<TypeOSDLModule>()
-                .SetKey("Quit", SDL.SDL_Keycode.SDLK_7)
                 .Start();
         }
     }

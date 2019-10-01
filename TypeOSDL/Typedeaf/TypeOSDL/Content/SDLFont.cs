@@ -29,15 +29,15 @@ namespace Typedeaf.TypeOSDL
                 Canvas = canvas;
                 SDL_Font = SDL_ttf.TTF_OpenFont(path, fontSize);
                 FontSize = fontSize;
-            //TODO: Error handling
-            /*if (SDLFont == null)
-            {
-                Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
-                return (SDL_Texture)0;
-            }
+                //TODO: Error handling
+                /*if (SDLFont == null)
+                {
+                    Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
+                    return (SDL_Texture)0;
+                }
 
-            return SDLFont;*/
-        }
+                return SDLFont;*/
+            }
 
             public override Vec2 MeasureString(string text)
             {

@@ -18,7 +18,7 @@ namespace Typedeaf.TypeOCore
 
             private Dictionary<object, object> InputToKeyConverter { get; set; }
 
-            public KeyConverter SetKey(object input, object key)
+            public KeyConverter SetKeyAlias(object input, object key)
             {
                 InputToKeyConverter.Add(input, key);
                 return this;

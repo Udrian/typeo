@@ -31,6 +31,11 @@ namespace Typedeaf.TypeOCore
                 TypeO = typeO;
             }
 
+            public void SetKeyAlias(object input, object key)
+            {
+                TypeO.KeyConverter.SetKeyAlias(input, key);
+            }
+
             public bool IsDown(object input)
             {
                 if (!TypeO.KeyConverter.ContainsInput(input)) return false;

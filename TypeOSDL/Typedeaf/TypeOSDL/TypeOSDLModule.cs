@@ -12,7 +12,7 @@ namespace Typedeaf.TypeOSDL
     {
         public TypeOSDLModule(TypeO typeO) : base(typeO) { }
 
-        public override void Init()
+        public override void Initialize()
         {
             //Set keyboard handler through SDL
             SDLKeyboardInput = new SDLKeyboardInputHandler(TypeO);

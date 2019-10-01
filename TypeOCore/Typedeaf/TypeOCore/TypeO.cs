@@ -16,9 +16,9 @@ namespace Typedeaf.TypeOCore
                 TypeO = new TypeO();
             }
 
-            public TypeO.Runner<T> SetKey(object input, object key)
+            public TypeO.Runner<T> SetKeyAlias(object input, object key)
             {
-                TypeO.KeyConverter.SetKey(input, key);
+                TypeO.KeyConverter.SetKeyAlias(input, key);
                 return this;
             }
 

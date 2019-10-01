@@ -6,6 +6,7 @@ using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL;
+using SDL2;
 
 namespace SampleGameCore
 {
@@ -22,6 +23,8 @@ namespace SampleGameCore
             var canvas = win.CreateCanvas();
             Scene = new SampleScene(this, canvas);
             Scene.Initialize();
+
+            Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);
         }
 
         public override void Draw()

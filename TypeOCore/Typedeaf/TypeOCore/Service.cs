@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOCore
 
     public partial class Game
     {
-        protected Dictionary<Type, Service> Services { get; set; }
+        private Dictionary<Type, Service> Services { get; set; }
 
         public void AddService<T>(params object[] args) where T : Service {
             var constructorArgs = new List<object>(){ this };
