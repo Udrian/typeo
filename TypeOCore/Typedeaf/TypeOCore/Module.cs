@@ -17,7 +17,7 @@ namespace Typedeaf.TypeOCore
 
     public partial class TypeO
     {
-        public List<Module> Modules;
+        private List<Module> Modules;
 
         public partial class Runner<T> where T : Game
         {
