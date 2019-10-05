@@ -51,3 +51,5 @@ file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/SDL2_ttf.dll"         DESTINATION
 file(COPY "${CMAKE_CURRENT_BINARY_DIR}/../SDL2/zlib1.dll"            DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug")
 
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/content/image.png"            DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug/content/")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/content/Awesome.ttf"          DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug/content/")
+file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/content/font.txt"             DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Debug/content/")

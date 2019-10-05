@@ -26,7 +26,7 @@ namespace SampleGameCore
             ContentLoader = Game.CreateContentLoader<SDLContentLoader>("", Canvas);
 
             LoadedTexture = ContentLoader.LoadTexture("content/image.png");
-            LoadedFont = ContentLoader.LoadFont("lazy.ttf", 26);
+            LoadedFont = ContentLoader.LoadFont("content/Awesome.ttf", 26);
 
             Game.AddService<SampleService>(this);
         }
