@@ -4,10 +4,12 @@ using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOSDL.Graphics;
+using Typedeaf.TypeOSDL;
 
 namespace SampleGameCore
 {
-    public class SampleScene : Scene<SampleGame>
+    public class SampleScene : SDLScene<SampleGame>
     {
         public Vec2    TexturePos      { get; set; } = new Vec2(175, 175);
         public Vec2    TextureDir      { get; set; } = new Vec2(1  , 1  );
@@ -19,7 +21,7 @@ namespace SampleGameCore
 
         public SDLContentLoader ContentLoader { get; set; }
 
-        public SampleScene(SampleGame game, Canvas canvas) : base(game, canvas) { }
+        public SampleScene(SampleGame game, SDLCanvas canvas) : base(game, canvas) { }
 
         public override void Initialize()
         {
@@ -63,11 +65,11 @@ namespace SampleGameCore
             Canvas.DrawText(LoadedFont, "Test", new Vec2(100, 100), color: Color.Green);
         }
 
-        public override void OnEnter(Scene<SampleGame> from)
+        public override void OnEnter(Scene from)
         {
         }
 
-        public override void OnExit(Scene<SampleGame> to)
+        public override void OnExit(Scene to)
         {
         }
     }

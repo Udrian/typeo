@@ -9,6 +9,7 @@ set(PROJECT_REFERENCES
 )
 file(GLOB PROJECT_SRC
 	"Typedeaf/TypeOSDL/SDLGame.cs"
+	"Typedeaf/TypeOSDL/SDLScene.cs"
 	"Typedeaf/TypeOSDL/TypeOSDLModule.cs"
 	"Typedeaf/TypeOSDL/Graphics/SDLWindow.cs"
 	"Typedeaf/TypeOSDL/Graphics/SDLCanvas.cs"
