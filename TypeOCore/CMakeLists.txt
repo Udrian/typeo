@@ -21,6 +21,8 @@ file(GLOB PROJECT_SRC
 	"Typedeaf/TypeOCore/Input/InputHandler.cs"
 	"Typedeaf/TypeOCore/Input/KeyboardInput.cs"
 	"Typedeaf/TypeOCore/Input/KeyConverter.cs"
+	"Typedeaf/TypeOCore/Entities/Entity.cs"
+	"Typedeaf/TypeOCore/Entities/Entity2D.cs"
 )
 
 

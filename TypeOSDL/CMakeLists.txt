@@ -17,6 +17,7 @@ file(GLOB PROJECT_SRC
 	"Typedeaf/TypeOSDL/Content/SDLFont.cs"
 	"Typedeaf/TypeOSDL/Content/SDLTexture.cs"
 	"Typedeaf/TypeOSDL/Input/SDLKeyboardInput.cs"
+	"Typedeaf/TypeOSDL/Entities/ISDLDrawable.cs"
 )
 
 

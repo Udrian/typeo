@@ -6,18 +6,21 @@ using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL;
+using SampleGameCore.Entites;
 
 namespace SampleGameCore
 {
     public class SampleScene : SDLScene<SampleGame>
     {
-        public Vec2    TexturePos      { get; set; } = new Vec2(175, 175);
-        public Vec2    TextureDir      { get; set; } = new Vec2(1  , 1  );
-        public float   TextureSpeed    { get; set; } = 50f;
-        public double  TextureRot      { get; set; } = 0;
-        public double  TextureRotSpeed { get; set; } = Math.PI/4;
-        public Texture LoadedTexture   { get; set; }
-        public Font    LoadedFont      { get; set; }
+        public Vec2       TexturePos      { get; set; } = new Vec2(175, 175);
+        public Vec2       TextureDir      { get; set; } = new Vec2(1  , 1  );
+        public float      TextureSpeed    { get; set; } = 50f;
+        public double     TextureRot      { get; set; } = 0;
+        public double     TextureRotSpeed { get; set; } = Math.PI/4;
+        public SDLTexture LoadedTexture   { get; set; }
+        public Font       LoadedFont      { get; set; }
+
+        public BlobEntity BlobEntity { get; set; }
 
         public SDLContentLoader ContentLoader { get; set; }
 
@@ -29,6 +32,8 @@ namespace SampleGameCore
 
             LoadedTexture = ContentLoader.LoadTexture("content/image.png");
             LoadedFont = ContentLoader.LoadFont("content/Awesome.ttf", 26);
+
+            BlobEntity = new BlobEntity(Game, LoadedTexture, new Vec2(100, 100));
 
             Game.AddService<SampleService>(this);
         }
@@ -50,6 +55,8 @@ namespace SampleGameCore
 
         public override void Draw()
         {
+            BlobEntity.Draw(Canvas);
+
             Canvas.DrawImage(LoadedTexture, new Vec2(0), origin: new Vec2(25, 25), rotate: Math.PI / 4);
 
             Canvas.DrawImage(LoadedTexture, new Vec2(125, 25));

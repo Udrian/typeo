@@ -12,6 +12,7 @@ file(GLOB PROJECT_SRC
 	"SampleGame.cs"
 	"SampleScene.cs"
 	"SampleService.cs"
+	"Entities/BlobEntity.cs"
 )
 
 
