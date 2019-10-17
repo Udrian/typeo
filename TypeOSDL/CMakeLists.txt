@@ -2,8 +2,8 @@ cmake_minimum_required (VERSION 3.15)
 
 set(PROJECT_NAME    "TypeOSDL")
 set(PROJECT_VERSION "0.1.0.0")
-set(DOTNET_VERSION  "v4.7.2")
-set(LANG_VERSION    "/langversion:7.3")
+set(DOTNET_VERSION  "v4.8")
+set(LANG_VERSION    "/langversion:8.0")
 set(PROJECT_REFERENCES
 	"System"
 )
@@ -17,7 +17,7 @@ file(GLOB PROJECT_SRC
 	"Typedeaf/TypeOSDL/Content/SDLFont.cs"
 	"Typedeaf/TypeOSDL/Content/SDLTexture.cs"
 	"Typedeaf/TypeOSDL/Input/SDLKeyboardInput.cs"
-	"Typedeaf/TypeOSDL/Entities/ISDLDrawable.cs"
+	"Typedeaf/TypeOSDL/Entities/IIsSDLDrawable.cs"
 )
 
 

@@ -1,15 +1,31 @@
+using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Entities
     {
-        public interface IDrawable<T> where T : Canvas
+        public interface IHasDrawable
         {
-            void Draw(T canvas);
+            //TODO: I'm not super happy about having this as an interface, investigate further. Might need to .net core first
+            public void DrawDrawable(Canvas canvas);
+        }
+        public interface IHasDrawable<D> : IHasDrawable where D : Drawable
+        {
+            D Drawable { get; set; }
         }
 
-        public interface IUpdatable
+        public interface IIsDrawable
+        {
+            void Draw(Canvas canvas);
+        }
+
+        public interface IIsDrawable<C> where C : Canvas
+        {
+            void Draw(C canvas);
+        }
+
+        public interface IIsUpdatable
         {
             void Update(float dt);
         }

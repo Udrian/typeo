@@ -2,27 +2,30 @@ cmake_minimum_required (VERSION 3.15)
 
 set(PROJECT_NAME    "TypeOCore")
 set(PROJECT_VERSION "0.1.0.0")
-set(DOTNET_VERSION  "v4.7.2")
-set(LANG_VERSION    "/langversion:7.3")
+set(DOTNET_VERSION  "v4.8")
+set(LANG_VERSION    "/langversion:8.0")
 set(PROJECT_REFERENCES
 	"System"
 )
 file(GLOB PROJECT_SRC
-	"Typedeaf/TypeOCore/Game.cs"
-	"Typedeaf/TypeOCore/TypeO.cs"
-	"Typedeaf/TypeOCore/Module.cs"
-	"Typedeaf/TypeOCore/Service.cs"
-	"Typedeaf/TypeOCore/Scene.cs"
-	"Typedeaf/TypeOCore/Graphics/Window.cs"
-	"Typedeaf/TypeOCore/Graphics/Canvas.cs"
 	"Typedeaf/TypeOCore/Content/ContentLoader.cs"
 	"Typedeaf/TypeOCore/Content/Font.cs"
 	"Typedeaf/TypeOCore/Content/Texture.cs"
+	"Typedeaf/TypeOCore/Entities/Drawables/Drawable.cs"
+	"Typedeaf/TypeOCore/Entities/Drawables/Drawable2d.cs"
+	"Typedeaf/TypeOCore/Entities/Drawables/DrawableTexture.cs"
+	"Typedeaf/TypeOCore/Entities/Entity.cs"
+	"Typedeaf/TypeOCore/Entities/Entity2D.cs"
+	"Typedeaf/TypeOCore/Graphics/Canvas.cs"
+	"Typedeaf/TypeOCore/Graphics/Window.cs"
 	"Typedeaf/TypeOCore/Input/InputHandler.cs"
 	"Typedeaf/TypeOCore/Input/KeyboardInput.cs"
 	"Typedeaf/TypeOCore/Input/KeyConverter.cs"
-	"Typedeaf/TypeOCore/Entities/Entity.cs"
-	"Typedeaf/TypeOCore/Entities/Entity2D.cs"
+	"Typedeaf/TypeOCore/Game.cs"
+	"Typedeaf/TypeOCore/Module.cs"
+	"Typedeaf/TypeOCore/Scene.cs"
+	"Typedeaf/TypeOCore/Service.cs"
+	"Typedeaf/TypeOCore/TypeO.cs"
 )
 
 

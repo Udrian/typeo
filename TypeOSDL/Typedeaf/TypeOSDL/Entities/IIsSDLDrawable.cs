@@ -5,6 +5,6 @@ namespace Typedeaf.TypeOSDL
 {
     namespace Entities
     {
-        public interface ISDLDrawable : IDrawable<SDLCanvas> { }
+        public interface IIsSDLDrawable : IIsDrawable<SDLCanvas> { }
     }
 }
