@@ -10,6 +10,7 @@ set(PROJECT_REFERENCES
 file(GLOB PROJECT_SRC
 	"Typedeaf/TypeOCore/Game.cs"
 	"Typedeaf/TypeOCore/TypeO.cs"
+	"Typedeaf/TypeOCore/TypeORunner.cs"
 	"Typedeaf/TypeOCore/Module.cs"
 	"Typedeaf/TypeOCore/Service.cs"
 	"Typedeaf/TypeOCore/Scene.cs"
