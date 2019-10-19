@@ -7,4 +7,16 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TypeOCommon\TypeOCommon.csproj" />
+    <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
+    <ProjectReference Include="..\TypeOSDL\TypeOSDL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SDL2-CS">
+      <HintPath>..\SDL2\SDL2-CS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
