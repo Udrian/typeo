@@ -62,18 +62,18 @@ namespace Typedeaf.TypeOSDL
                 DrawImage(texture, pos, null);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
             {
-                InternalDrawImage(texture, pos, scale, rotate, origin, color, flipped, source);
+                InternalDrawImage(texture, pos, scale, rotation, origin, color, flipped, source);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotate = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
             {
-                InternalDrawImage(texture, pos, scale??new Vec2(1), rotate, origin, color, flipped, source);
+                InternalDrawImage(texture, pos, scale??new Vec2(1), rotation, origin, color, flipped, source);
 
             }
 
-            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -104,7 +104,7 @@ namespace Typedeaf.TypeOSDL
                     sdlRenderFlip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL.SDL_Rect srect = new SDL.SDL_Rect();
@@ -113,7 +113,7 @@ namespace Typedeaf.TypeOSDL
                     srect.w = (int)source.Size.X;
                     srect.h = (int)source.Size.Y;
 
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
             }
         }

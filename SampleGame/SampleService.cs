@@ -18,7 +18,7 @@ namespace SampleGameCore
 
         public override void Update(float dt)
         {
-            Scene.TextureRot += Scene.TextureRotSpeed * dt;
+            //Scene.TextureRot += Scene.TextureRotSpeed * dt;
         }
     }
 }
