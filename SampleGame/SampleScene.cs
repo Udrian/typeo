@@ -2,14 +2,12 @@ using System;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL;
 using SampleGameCore.Entites;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
-using Typedeaf.TypeOCore.Entities.Drawables;
 
 namespace SampleGameCore
 {

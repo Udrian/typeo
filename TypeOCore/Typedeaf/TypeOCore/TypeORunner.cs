@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
@@ -41,8 +38,8 @@ namespace Typedeaf.TypeOCore
 
         public static TypeO.Runner<T> Create<T>() where T : Game
         {
-            var factory = new TypeO.Runner<T>();
-            return factory;
+            var runner = new TypeO.Runner<T>();
+            return runner;
         }
     }
 }

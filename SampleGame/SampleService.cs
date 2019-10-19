@@ -1,4 +1,3 @@
-
 using Typedeaf.TypeOCore;
 
 namespace SampleGameCore

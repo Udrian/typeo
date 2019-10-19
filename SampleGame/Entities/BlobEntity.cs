@@ -5,8 +5,6 @@ using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;
-using Typedeaf.TypeOSDL.Entities;
-using Typedeaf.TypeOSDL.Graphics;
 
 namespace SampleGameCore.Entites
 {

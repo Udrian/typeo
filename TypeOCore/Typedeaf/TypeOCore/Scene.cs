@@ -1,5 +1,4 @@
-﻿using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Graphics;
+﻿using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {

@@ -1,5 +1,4 @@
 ﻿using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {

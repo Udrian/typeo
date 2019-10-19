@@ -1,6 +1,5 @@
 ﻿using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 

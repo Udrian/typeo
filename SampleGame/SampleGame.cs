@@ -1,10 +1,5 @@
-using System;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL;
 using SDL2;
 

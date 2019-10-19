@@ -1,13 +1,10 @@
 ﻿using SDL2;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
-using SDL_Window = System.IntPtr;
 using SDL_Renderer = System.IntPtr;
-using Typedeaf.TypeOSDL.Graphics;
 
 namespace Typedeaf.TypeOSDL
 {

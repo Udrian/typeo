@@ -1,11 +1,8 @@
 ﻿using SDL2;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
-using SDL_Image = System.IntPtr;
 using SDL_Font = System.IntPtr;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL.Content;

@@ -1,5 +1,4 @@
 using SampleGameCore;
-using SDL2;
 using System;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL;

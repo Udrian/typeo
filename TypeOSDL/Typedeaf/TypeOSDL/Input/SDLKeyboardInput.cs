@@ -1,8 +1,6 @@
 ﻿using SDL2;
-using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Input;
 using Typedeaf.TypeOSDL.Input;
 

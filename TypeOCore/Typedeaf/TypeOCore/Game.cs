@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
