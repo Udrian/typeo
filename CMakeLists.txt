@@ -6,7 +6,6 @@ add_subdirectory("SDL2")
 add_subdirectory("TypeOCore")
 add_subdirectory("TypeOCommon")
 add_subdirectory("TypeOSDL")
-add_subdirectory("Box2D")
 add_subdirectory("SampleGame")
 
 # Set the startup target project
