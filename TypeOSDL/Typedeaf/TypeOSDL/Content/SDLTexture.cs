@@ -32,14 +32,6 @@ namespace Typedeaf.TypeOSDL
 
                 return tex;*/
             }
-
-            public override Vec2 Size { get; protected set; }
-
-            /*public abstract void SetColor(Vec2 pos, Color color);
-            public abstract Color GetColor(Vec2 pos);
-
-            public abstract ColorMap ColorMap { get; set; }
-            public abstract Texture Cut(Rectangle rectangle);*/
         }
 
         public partial class SDLContentLoader : ContentLoader

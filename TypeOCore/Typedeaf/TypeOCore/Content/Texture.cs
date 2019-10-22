@@ -27,15 +27,8 @@ namespace Typedeaf.TypeOCore
                 FilePath = path;
             }
 
-
             public string FilePath { get; protected set; }
-            public virtual Vec2 Size { get; protected set; }
-
-            /*public abstract void SetColor(Vec2 pos, Color color);
-            public abstract Color GetColor(Vec2 pos);
-
-            public abstract ColorMap ColorMap { get; set; }
-            public abstract Texture Cut(Rectangle rectangle);*/
+            public Vec2   Size     { get; protected set; }
         }
 
         public partial class ContentLoader {

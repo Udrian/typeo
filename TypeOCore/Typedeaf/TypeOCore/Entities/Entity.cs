@@ -7,12 +7,16 @@ namespace Typedeaf.TypeOCore
     {
         public interface IHasDrawable
         {
-            //TODO: I'm not super happy about having this as an interface, investigate further. Might need to .net core first
             public void DrawDrawable(Canvas canvas);
         }
+
         public interface IHasDrawable<D> : IHasDrawable where D : Drawable
         {
             D Drawable { get; set; }
+            void IHasDrawable.DrawDrawable(Canvas canvas)
+            {
+                Drawable.Draw(canvas);
+            }
         }
 
         public interface IIsDrawable

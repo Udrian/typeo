@@ -13,15 +13,14 @@ namespace SampleGameCore
 {
     public class SampleScene : SDLScene<SampleGame>
     {
-        public Vec2       TextureDir      { get; set; } = new Vec2(1  , 1  );
-        public float      TextureSpeed    { get; set; } = 50f;
-        public double     TextureRotSpeed { get; set; } = Math.PI/4;
-        public Font       LoadedFont      { get; set; }
+        public Vec2   TextureDir      { get; set; } = new Vec2(1  , 1  );
+        public float  TextureSpeed    { get; set; } = 50f;
+        public double TextureRotSpeed { get; set; } = Math.PI/4;
+        public Font   LoadedFont      { get; set; }
 
         public SDLTexture LoadedTexture { get; set; }
         public BlobEntity MovingBlob { get; set; }
         public List<Entity> Entities { get; set; } = new List<Entity>();
-        //public List<IHasDrawable<Drawable<Entity, Canvas>>> DrawEntities { get; set; } = new List<IHasDrawable<Drawable<Entity, Canvas>>>();
         public SDLContentLoader ContentLoader { get; set; }
 
         public SampleScene(SampleGame game, SDLCanvas canvas) : base(game, canvas) { }
