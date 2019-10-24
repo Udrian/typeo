@@ -10,12 +10,12 @@ namespace Typedeaf.TypeOCore
         {
             public Texture Texture { get; set; }
 
-            public DrawableTexture(Entity2d<Game> entity, Texture texture) : base(entity)
+            public DrawableTexture(Entity2d entity, Texture texture) : base(entity)
             {
                 Texture = texture;
             }
 
-            public override void Init(Entity2d<Game> entity) { }
+            public override void Init(Entity2d entity) { }
 
             public override void Draw(Canvas canvas)
             {

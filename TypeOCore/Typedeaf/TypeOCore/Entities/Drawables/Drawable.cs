@@ -4,6 +4,30 @@ namespace Typedeaf.TypeOCore
 {
     namespace Entities.Drawables
     {
+        public interface IHasDrawable
+        {
+            public void DrawDrawable(Canvas canvas);
+        }
+
+        public interface IHasDrawable<D> : IHasDrawable where D : Drawable
+        {
+            public D Drawable { get; set; }
+            void IHasDrawable.DrawDrawable(Canvas canvas)
+            {
+                Drawable.Draw(canvas);
+            }
+        }
+
+        public interface IIsDrawable
+        {
+            void Draw(Canvas canvas);
+        }
+
+        public interface IIsDrawable<C> where C : Canvas
+        {
+            void Draw(C canvas);
+        }
+
         public abstract class Drawable {
             public abstract void Draw(Canvas canvas);
         }

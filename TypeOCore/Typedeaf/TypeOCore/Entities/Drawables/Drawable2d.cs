@@ -4,9 +4,9 @@ namespace Typedeaf.TypeOCore
 {
     namespace Entities.Drawables
     {
-        public abstract class Drawable2d : Drawable<Entity2d<Game>>
+        public abstract class Drawable2d : Drawable<Entity2d>
         {
-            public Drawable2d(Entity2d<Game> entity) : base(entity) { }
+            public Drawable2d(Entity2d entity) : base(entity) { }
 
             public abstract Vec2 GetSize();
         }

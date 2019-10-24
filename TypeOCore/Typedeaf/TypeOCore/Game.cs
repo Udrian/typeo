@@ -4,6 +4,11 @@ using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
+    public interface IHasGame<G> where G : Game
+    {
+        public G Game { get; set; }
+    }
+
     public abstract partial class Game
     {
         private TypeO TypeO { get; set; }

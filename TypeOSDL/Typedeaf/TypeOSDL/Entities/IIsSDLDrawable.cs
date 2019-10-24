@@ -1,4 +1,4 @@
-using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOSDL.Graphics;
 
 namespace Typedeaf.TypeOSDL

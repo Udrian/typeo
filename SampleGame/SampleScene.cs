@@ -8,6 +8,7 @@ using Typedeaf.TypeOSDL;
 using SampleGameCore.Entites;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
+using Typedeaf.TypeOCore.Entities.Drawables;
 
 namespace SampleGameCore
 {

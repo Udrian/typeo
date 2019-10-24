@@ -5,7 +5,7 @@ namespace Typedeaf.TypeOCore
 {
     namespace Entities
     {
-        public abstract class Entity2d<G> : Entity<G> where G : Game
+        public abstract class Entity2d : Entity
         {
             public Vec2            Position { get; set; }
             public Vec2            Scale    { get; set; } = Vec2.One;
@@ -14,7 +14,7 @@ namespace Typedeaf.TypeOCore
             public Color           Color    { get; set; }
             public Texture.Flipped Flipped  { get; set; }
 
-            public Entity2d(G game, Vec2 position, Vec2? scale = null, double rotation = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None) : base(game)
+            public Entity2d(Vec2 position, Vec2? scale = null, double rotation = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None) : base()
             {
                 Position = position;
                 Scale    = scale.HasValue ? scale.Value : Scale;
