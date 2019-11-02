@@ -21,7 +21,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public SDLFont(TypeO typeO, string path, int fontSize, SDLCanvas canvas) : base(typeO, path)
+            public SDLFont(string path, int fontSize, SDLCanvas canvas) : base(path)
             {
                 Canvas = canvas;
                 SDL_Font = SDL_ttf.TTF_OpenFont(path, fontSize);

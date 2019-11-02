@@ -7,15 +7,15 @@ namespace Typedeaf.TypeOCore
 {
     namespace Content
     {
-        public abstract class Font
+        public abstract class Font : IHasTypeO
         {
-            protected TypeO TypeO { get; private set; }
+            TypeO IHasTypeO.TypeO { get; set; }
+            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public Font(TypeO typeO, string path)
+            public Font(string path)
             {
-                TypeO = typeO;
                 FileName = path;
             }
 
@@ -27,9 +27,10 @@ namespace Typedeaf.TypeOCore
         {
             public T LoadFont<T>(string path, params object[] args) where T : Font
             {
-                var constructorArgs = new List<object>() { TypeO, path };
+                var constructorArgs = new List<object>() { path };
                 constructorArgs.AddRange(args);
                 var font = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                (font as IHasTypeO).SetTypeO(TypeO);
                 return font;
             }
         }

@@ -16,15 +16,14 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public SDLCanvas(TypeO typeO, Window window) : base(typeO, window)
+            public SDLCanvas(SDLWindow window) : base(window)
             {
-                var sdlWindow = window as SDLWindow;
-                if (sdlWindow != null)
+                if (window != null)
                 {
-                    SDL_Renderer = SDL.SDL_CreateRenderer(sdlWindow.SDL_Window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+                    SDL_Renderer = SDL.SDL_CreateRenderer(window.SDL_Window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
                     if (SDL_Renderer == null)
                     {
-                        SDL.SDL_DestroyWindow(sdlWindow.SDL_Window);
+                        SDL.SDL_DestroyWindow(window.SDL_Window);
                         Console.WriteLine("SDL_CreateRenderer  Error: " + SDL.SDL_GetError());
                         SDL.SDL_Quit();
                         //TODO: Error handling!

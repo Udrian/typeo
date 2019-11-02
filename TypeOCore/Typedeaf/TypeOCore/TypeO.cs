@@ -4,11 +4,24 @@ using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
+    internal interface IHasTypeO
+    {
+        protected TypeO TypeO { get; set; }
+        public void SetTypeO(TypeO typeO)
+        {
+            TypeO = typeO;
+        }
+        public TypeO GetTypeO()
+        {
+            return TypeO;
+        }
+    }
+
     public partial class TypeO
     {
         private TypeO() {
             Modules = new List<Module>();
-            KeyConverter = new KeyConverter(this);
+            KeyConverter = new KeyConverter();
             LastTick = DateTime.UtcNow;
         }
 

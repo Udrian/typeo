@@ -22,8 +22,9 @@ namespace Typedeaf.TypeOCore
             public void Start()
             {
                 //Initialize the game
-                var game = (T)Activator.CreateInstance(typeof(T), TypeO);
+                var game = (T)Activator.CreateInstance(typeof(T));
                 TypeO.Game = game;
+                (game as IHasTypeO).SetTypeO(TypeO);
                 game.Initialize();
 
                 TypeO.Start();

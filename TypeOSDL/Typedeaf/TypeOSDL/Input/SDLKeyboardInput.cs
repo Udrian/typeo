@@ -13,7 +13,7 @@ namespace Typedeaf.TypeOSDL
             private List<SDL.SDL_Event> OldEvents { get; set; }
             private List<SDL.SDL_Event> NewEvents { get; set; }
 
-            public SDLKeyboardInputHandler(TypeO typeO) : base(typeO)
+            public SDLKeyboardInputHandler()
             {
                 OldEvents = new List<SDL.SDL_Event>();
                 NewEvents = new List<SDL.SDL_Event>();

@@ -13,15 +13,10 @@ namespace Typedeaf.TypeOSDL
         public class SDLWindow : Window
         {
             public SDL_Window SDL_Window { get; private set; }
-
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow<SDLWindow>() instead
-            /// </summary>
-            public SDLWindow(TypeO typeO) : base(typeO) { }
             /// <summary>
             /// Do not call directly, use Game.CreateWindow<SDLWindow>(string title, Vec2 position, Vec2 size) instead
             /// </summary>
-            public SDLWindow(TypeO typeO, string title, Vec2 position, Vec2 size) : base(typeO)
+            public SDLWindow(string title, Vec2 position, Vec2 size) : base()
             {
                 Initialize(title, position, size, false, false);
             }

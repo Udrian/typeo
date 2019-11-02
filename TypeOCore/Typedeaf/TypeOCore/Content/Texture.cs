@@ -7,7 +7,7 @@ namespace Typedeaf.TypeOCore
 {
     namespace Content
     {
-        public abstract class Texture
+        public abstract class Texture : IHasTypeO
         {
             public enum Flipped
             {
@@ -17,13 +17,14 @@ namespace Typedeaf.TypeOCore
                 Both
             }
 
-            protected TypeO TypeO { get; set; }
+            TypeO IHasTypeO.TypeO { get; set; }
+            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public Texture(TypeO typeO, string path)
+            public Texture( string path)
             {
-                TypeO = typeO;
                 FilePath = path;
             }
 
@@ -35,9 +36,10 @@ namespace Typedeaf.TypeOCore
 
             public T LoadTexture<T>(string path, params object[] args) where T : Texture
             {
-                var constructorArgs = new List<object>() { TypeO, path };
+                var constructorArgs = new List<object>() { path };
                 constructorArgs.AddRange(args);
                 var texture = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                (texture as IHasTypeO).SetTypeO(TypeO);
                 return texture;
             }
         }

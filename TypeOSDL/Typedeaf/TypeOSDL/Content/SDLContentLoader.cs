@@ -11,7 +11,7 @@ namespace Typedeaf.TypeOSDL
         {
             protected SDLCanvas Canvas { get; set; }
 
-            public SDLContentLoader(TypeO typeO, string basePath, SDLCanvas canvas) : base(typeO, basePath)
+            public SDLContentLoader(string basePath, SDLCanvas canvas) : base(basePath)
             {
                 Canvas = canvas;
             }

@@ -6,12 +6,13 @@ namespace Typedeaf.TypeOCore
 {
     namespace Content
     {
-        public abstract partial class ContentLoader
+        public abstract partial class ContentLoader : IHasTypeO
         {
-            protected TypeO TypeO { get; set; }
-            public ContentLoader(TypeO typeO, string basePath)
+            TypeO IHasTypeO.TypeO { get; set; }
+            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
+            public ContentLoader(string basePath)
             {
-                TypeO = typeO;
                 BasePath = basePath;
             }
 
@@ -23,9 +24,10 @@ namespace Typedeaf.TypeOCore
     {
         public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
         {
-            var constructorArgs = new List<object>() { TypeO, basePath };
+            var constructorArgs = new List<object>() { basePath };
             constructorArgs.AddRange(args);
             var contentLoader = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+            (contentLoader as IHasTypeO).SetTypeO(TypeO);
             return contentLoader;
         }
     }

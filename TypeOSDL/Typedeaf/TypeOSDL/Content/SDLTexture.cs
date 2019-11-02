@@ -18,7 +18,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public SDLTexture(TypeO typeO, string path, SDLCanvas canvas) : base(typeO, path)
+            public SDLTexture(string path, SDLCanvas canvas) : base(path)
             {
                 SDL_Image = SDL_image.IMG_LoadTexture(canvas.SDL_Renderer, path);
                 SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);

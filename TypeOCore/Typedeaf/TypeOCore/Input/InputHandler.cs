@@ -6,12 +6,12 @@ namespace Typedeaf.TypeOCore
     {
         public partial class InputHandler
         {
-            protected TypeO TypeO { get; private set; }
+            protected Game Game { get; private set; }
 
-            public InputHandler(TypeO typeO)
+            public InputHandler(Game game) //TODO: This should take a TypeO instead, not super happy with this current solution
             {
-                TypeO = typeO;
-                Key = new KeyboardInput(TypeO);
+                Game = game;
+                Key = new KeyboardInput(Game);
             }
 
         }

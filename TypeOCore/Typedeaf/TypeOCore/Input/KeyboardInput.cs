@@ -8,24 +8,18 @@ namespace Typedeaf.TypeOCore
         {
             public abstract class Internal
             {
-                protected TypeO TypeO { get; private set; }
-
-                public Internal(TypeO typeO)
-                {
-                    TypeO = typeO;
-                }
-
                 public abstract bool CurrentKeyDownEvent(object key);
                 public abstract bool CurrentKeyUpEvent(object key);
                 public abstract bool OldKeyDownEvent(object key);
                 public abstract bool OldKeyUpEvent(object key);
             }
 
-            protected TypeO TypeO { get; private set; }
+            protected Game Game { get; private set; }
+            protected TypeO TypeO { get { return (Game as IHasTypeO).GetTypeO(); } }
 
-            public KeyboardInput(TypeO typeO)
+            public KeyboardInput(Game game)
             {
-                TypeO = typeO;
+                Game = game;
             }
 
             public void SetKeyAlias(object input, object key)

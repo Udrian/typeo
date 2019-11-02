@@ -9,16 +9,16 @@ namespace Typedeaf.TypeOCore
         public G Game { get; set; }
     }
 
-    public abstract partial class Game
+    public abstract partial class Game : IHasTypeO
     {
-        private TypeO TypeO { get; set; }
-        public Game(TypeO typeO)
+        TypeO IHasTypeO.TypeO { get; set; }
+        private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
+        public Game()
         {
-            TypeO = typeO;
             Services = new Dictionary<Type, Service>();
-            Input = new InputHandler(typeO);
+            Input = new InputHandler(this);
         }
-        protected Game() { }
         public abstract void Initialize();
         public abstract void Update(float dt);
         public abstract void Draw();

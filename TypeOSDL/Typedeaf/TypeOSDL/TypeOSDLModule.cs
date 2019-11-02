@@ -8,13 +8,10 @@ namespace Typedeaf.TypeOSDL
 {
     public partial class TypeOSDLModule : Module
     {
-        public TypeOSDLModule(TypeO typeO) : base(typeO) { }
-
         public override void Initialize()
         {
             //Set keyboard handler through SDL
-            SDLKeyboardInput = new SDLKeyboardInputHandler(TypeO);
-            TypeO.KeyHandler = SDLKeyboardInput;
+            TypeO.KeyHandler = SDLKeyboardInput = new SDLKeyboardInputHandler();
 
             //Initial SDL
             SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");

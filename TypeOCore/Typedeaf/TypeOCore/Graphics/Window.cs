@@ -7,16 +7,10 @@ namespace Typedeaf.TypeOCore
 {
     namespace Graphics
     {
-        public abstract partial class Window
+        public abstract partial class Window : IHasTypeO
         {
-            protected TypeO TypeO { get; set; }
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow instead
-            /// </summary>
-            public Window(TypeO typeO)
-            {
-                TypeO = typeO;
-            }
+            TypeO IHasTypeO.TypeO { get; set; }
+            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
@@ -30,9 +24,10 @@ namespace Typedeaf.TypeOCore
     {
         public T CreateWindow<T>(params object[] args) where T : Window
         {
-            var constructorArgs = new List<object>() { TypeO };
+            var constructorArgs = new List<object>();
             constructorArgs.AddRange(args);
             var win = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+            (win as IHasTypeO).SetTypeO(TypeO);
             return win;
         }
     }

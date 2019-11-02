@@ -6,17 +6,18 @@ namespace Typedeaf.TypeOCore
 {
     namespace Graphics
     {
-        public abstract partial class Canvas
+        public abstract partial class Canvas : IHasTypeO
         {
-            protected TypeO  TypeO   { get; set; }
+            TypeO IHasTypeO.TypeO { get; set; }
+            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
             protected Window Window  { get; set; }
 
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public Canvas(TypeO typeO, Window window)
+            public Canvas(Window window)
             {
-                TypeO   = typeO;
                 Window  = window;
             }
 
@@ -39,17 +40,19 @@ namespace Typedeaf.TypeOCore
         {
             public T CreateCanvas<T>(params object[] args) where T : Canvas
             {
-                var constructorArgs = new List<object>() { TypeO, this };
+                var constructorArgs = new List<object>() { this };
                 constructorArgs.AddRange(args);
                 var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                (canvas as IHasTypeO).SetTypeO(TypeO);
                 return canvas;
             }
 
             public T CreateCanvas<T>(Rectangle rect, params object[] args) where T : Canvas
             {
-                var constructorArgs = new List<object>() { TypeO, this };
+                var constructorArgs = new List<object>() { this };
                 constructorArgs.AddRange(args);
                 var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                (canvas as IHasTypeO).SetTypeO(TypeO);
                 if (rect != null)
                     canvas.Viewport = rect;
                 return canvas;
