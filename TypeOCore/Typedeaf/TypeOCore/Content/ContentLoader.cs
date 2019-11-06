@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOCore
         }
     }
 
-    public abstract partial class Game
+    partial class Game
     {
         public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
         {

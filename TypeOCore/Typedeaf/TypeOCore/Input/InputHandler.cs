@@ -16,7 +16,7 @@ namespace Typedeaf.TypeOCore
 
         }
     }
-    public abstract partial class Game
+    partial class Game
     {
         public InputHandler Input { get; private set; }
     }

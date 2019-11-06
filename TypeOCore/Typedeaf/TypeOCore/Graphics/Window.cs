@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOCore
         }
     }
 
-    public abstract partial class Game
+    partial class Game
     {
         public T CreateWindow<T>(params object[] args) where T : Window
         {

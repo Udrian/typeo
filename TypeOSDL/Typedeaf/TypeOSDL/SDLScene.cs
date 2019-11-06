@@ -3,8 +3,8 @@ using Typedeaf.TypeOSDL.Graphics;
 
 namespace Typedeaf.TypeOSDL
 {
-    public abstract class SDLScene<G> : Scene<G, SDLCanvas> where G : Game
+    public abstract class SDLScene : Scene<SDLCanvas>
     {
-        public SDLScene(G game, SDLCanvas canvas) : base(game, canvas) { }
+        public SDLScene(SDLCanvas canvas) : base(canvas) { }
     }
 }

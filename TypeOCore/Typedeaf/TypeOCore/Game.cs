@@ -4,9 +4,18 @@ using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
-    public interface IHasGame<G> where G : Game
+    public interface IHasGame
+    {
+        public void SetGame(Game game);
+    }
+    public interface IHasGame<G> : IHasGame where G : Game
     {
         public G Game { get; set; }
+
+        void IHasGame.SetGame(Game game)
+        {
+            Game = (G)game;
+        }
     }
 
     public abstract partial class Game : IHasTypeO
@@ -17,7 +26,8 @@ namespace Typedeaf.TypeOCore
         public Game()
         {
             Services = new Dictionary<Type, Service>();
-            Input = new InputHandler(this);
+            Scenes   = new Dictionary<Type, Scene>();
+            Input    = new InputHandler(this);
         }
         public abstract void Initialize();
         public abstract void Update(float dt);

@@ -18,14 +18,14 @@ namespace Typedeaf.TypeOCore
         public abstract void Update(float dt);
     }
 
-    public partial class Game
+    partial class Game
     {
         private Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<T>(params object[] args) where T : Service {
+        public void AddService<S>(params object[] args) where S : Service {
             var constructorArgs = new List<object>(){ this };
             constructorArgs.AddRange(args);
-            Services.Add(typeof(T), (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray()));
+            Services.Add(typeof(S), (S)Activator.CreateInstance(typeof(S), constructorArgs.ToArray()));
         }
 
         public void AddService(Service service) {
@@ -34,18 +34,18 @@ namespace Typedeaf.TypeOCore
             service.Initialize();
         }
 
-        public T GetService<T>() where T : Service {
-            if (!Services.ContainsKey(typeof(T))) return null;
-            var service = Services[typeof(T)];
-            return (T)Convert.ChangeType(service, typeof(T));
+        public S GetService<S>() where S : Service {
+            if (!Services.ContainsKey(typeof(S))) return null;
+            var service = Services[typeof(S)];
+            return (S)Convert.ChangeType(service, typeof(S));
         }
 
         public List<Service> GetServices() {
             return Services.Values.ToList();
         }
 
-        public void RemoveService<T>() where T : Service {
-            Services.Remove(typeof(T));
+        public void RemoveService<S>() where S : Service {
+            Services.Remove(typeof(S));
         }
     }
 }

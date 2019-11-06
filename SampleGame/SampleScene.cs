@@ -12,26 +12,28 @@ using Typedeaf.TypeOCore.Entities.Drawables;
 
 namespace SampleGameCore
 {
-    public class SampleScene : SDLScene<SampleGame>
+    public class SampleScene : SDLScene, IHasGame<SampleGame>
     {
-        public Vec2   TextureDir      { get; set; } = new Vec2(1  , 1  );
+        public SampleGame Game { get; set; }
+
+        public Vec2   TextureDir      { get; set; } = new Vec2(1, 1);
         public float  TextureSpeed    { get; set; } = 50f;
         public double TextureRotSpeed { get; set; } = Math.PI/4;
         public Font   LoadedFont      { get; set; }
 
-        public SDLTexture LoadedTexture { get; set; }
-        public BlobEntity MovingBlob { get; set; }
-        public List<Entity> Entities { get; set; } = new List<Entity>();
+        public SDLTexture       LoadedTexture { get; set; }
+        public BlobEntity       MovingBlob    { get; set; }
+        public List<Entity>     Entities      { get; set; } = new List<Entity>();
         public SDLContentLoader ContentLoader { get; set; }
 
-        public SampleScene(SampleGame game, SDLCanvas canvas) : base(game, canvas) { }
+        public SampleScene(SDLCanvas canvas) : base(canvas) { }
 
         public override void Initialize()
         {
             ContentLoader = Game.CreateContentLoader<SDLContentLoader>("", Canvas);
 
             LoadedTexture = ContentLoader.LoadTexture("content/image.png");
-            LoadedFont = ContentLoader.LoadFont("content/Awesome.ttf", 26);
+            LoadedFont    = ContentLoader.LoadFont("content/Awesome.ttf", 26);
 
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(100, 100)));
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(0), origin: new Vec2(25, 25), rotation: Math.PI / 4));
