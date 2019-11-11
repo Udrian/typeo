@@ -13,7 +13,7 @@ namespace SampleGameCore
         public override void Initialize()
         {
             var win = this.CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
-            var canvas =  win.CreateCanvas();
+            var canvas = win.CreateCanvas();
             Scene = canvas.SetScene<SampleScene>();
 
             Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);

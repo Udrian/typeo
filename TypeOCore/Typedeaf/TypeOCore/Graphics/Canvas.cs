@@ -11,7 +11,7 @@ namespace Typedeaf.TypeOCore
             TypeO IHasTypeO.TypeO { get; set; }
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
-            protected Window Window  { get; set; }
+            protected Window Window { get; set; }
             protected Game Game { get; set; }
 
             /// <summary>
