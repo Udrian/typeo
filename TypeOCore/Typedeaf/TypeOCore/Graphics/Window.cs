@@ -11,6 +11,12 @@ namespace Typedeaf.TypeOCore
         {
             TypeO IHasTypeO.TypeO { get; set; }
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            protected Game Game { get; set; }
+
+            public Window(Game game)
+            {
+                Game = game;
+            }
 
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
@@ -24,7 +30,7 @@ namespace Typedeaf.TypeOCore
     {
         public T CreateWindow<T>(params object[] args) where T : Window
         {
-            var constructorArgs = new List<object>();
+            var constructorArgs = new List<object>() { this };
             constructorArgs.AddRange(args);
             var win = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
             (win as IHasTypeO).SetTypeO(TypeO);

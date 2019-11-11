@@ -12,13 +12,16 @@ namespace Typedeaf.TypeOCore
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             protected Window Window  { get; set; }
+            protected Game Game { get; set; }
 
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public Canvas(Window window)
+            public Canvas(Game game, Window window)
             {
-                Window  = window;
+                Window = window;
+                Game = game;
+                Scenes = new Dictionary<Type, Scene>();
             }
 
             public abstract void Clear(Color clearColor);
@@ -40,7 +43,7 @@ namespace Typedeaf.TypeOCore
         {
             public T CreateCanvas<T>(params object[] args) where T : Canvas
             {
-                var constructorArgs = new List<object>() { this };
+                var constructorArgs = new List<object>() { Game, this };
                 constructorArgs.AddRange(args);
                 var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
                 (canvas as IHasTypeO).SetTypeO(TypeO);

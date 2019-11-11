@@ -16,7 +16,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Window.CreateCanvas instead
             /// </summary>
-            public SDLCanvas(SDLWindow window) : base(window)
+            public SDLCanvas(Game game, SDLWindow window) : base(game, window)
             {
                 if (window != null)
                 {

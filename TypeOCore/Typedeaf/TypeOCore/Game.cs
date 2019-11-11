@@ -26,8 +26,7 @@ namespace Typedeaf.TypeOCore
         public Game()
         {
             Services = new Dictionary<Type, Service>();
-            Scenes   = new Dictionary<Type, Scene>();
-            Input    = new InputHandler(this);
+            Input = new InputHandler(this);
         }
         public abstract void Initialize();
         public abstract void Update(float dt);

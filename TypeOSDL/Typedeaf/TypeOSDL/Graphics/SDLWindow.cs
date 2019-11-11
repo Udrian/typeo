@@ -16,7 +16,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Game.CreateWindow<SDLWindow>(string title, Vec2 position, Vec2 size) instead
             /// </summary>
-            public SDLWindow(string title, Vec2 position, Vec2 size) : base()
+            public SDLWindow(Game game, string title, Vec2 position, Vec2 size) : base(game)
             {
                 Initialize(title, position, size, false, false);
             }
