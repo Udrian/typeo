@@ -13,7 +13,7 @@ namespace Typedeaf.TypeOCore
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
             protected Game Game { get; set; }
 
-            public Window(Game game)
+            protected Window(Game game)
             {
                 Game = game;
             }
