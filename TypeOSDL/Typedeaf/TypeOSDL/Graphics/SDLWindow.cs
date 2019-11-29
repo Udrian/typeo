@@ -13,13 +13,6 @@ namespace Typedeaf.TypeOSDL
         public class SDLWindow : Window
         {
             public SDL_Window SDL_Window { get; private set; }
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow<SDLWindow>(string title, Vec2 position, Vec2 size) instead
-            /// </summary>
-            public SDLWindow(Game game, string title, Vec2 position, Vec2 size) : base(game)
-            {
-                Initialize(title, position, size, false, false);
-            }
 
             public void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
@@ -119,11 +112,8 @@ namespace Typedeaf.TypeOSDL
 
         public static SDLWindow CreateWindow(this Game game, string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
         {
-            var win = game.CreateWindow<SDLWindow>(title, position, size);
-            if (fullscreen)
-                win.Fullscreen = fullscreen;
-            if (borderless)
-                win.Borderless = borderless;
+            var win = game.CreateWindow<SDLWindow>();
+            win.Initialize(title, position, size, fullscreen, borderless);
 
             return win;
         }
