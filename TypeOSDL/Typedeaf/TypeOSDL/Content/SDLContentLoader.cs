@@ -1,5 +1,4 @@
-﻿using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Content;
+﻿using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 
@@ -18,11 +17,11 @@ namespace Typedeaf.TypeOSDL
         }
     }
 
-    public static partial class SDLGame
+    public partial class SDLGame
     {
-        public static SDLContentLoader CreateContentLoader(this Game game, string basePath, SDLCanvas canvas)
+        public SDLContentLoader CreateContentLoader(string basePath, SDLCanvas canvas)
         {
-            return game.CreateContentLoader<SDLContentLoader>(basePath, canvas);
+            return CreateContentLoader<SDLContentLoader>(basePath, canvas);
         }
     }
 }

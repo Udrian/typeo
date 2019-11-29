@@ -103,16 +103,16 @@ namespace Typedeaf.TypeOSDL
         }
     }
 
-    public static partial class SDLGame
+    public partial class SDLGame
     {
-        public static SDLWindow CreateWindow(this Game game)
+        public SDLWindow CreateWindow()
         {
-            return game.CreateWindow<SDLWindow>();
+            return CreateWindow<SDLWindow>();
         }
 
-        public static SDLWindow CreateWindow(this Game game, string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
+        public SDLWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
         {
-            var win = game.CreateWindow<SDLWindow>();
+            var win = CreateWindow();
             win.Initialize(title, position, size, fullscreen, borderless);
 
             return win;

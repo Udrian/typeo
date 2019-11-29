@@ -8,6 +8,7 @@ namespace Typedeaf.TypeOCore
     {
         public void SetGame(Game game);
     }
+
     public interface IHasGame<G> : IHasGame where G : Game
     {
         public G Game { get; set; }

@@ -1,6 +1,8 @@
+using Typedeaf.TypeOCore;
+
 namespace Typedeaf.TypeOSDL
 {
-    public static partial class SDLGame
+    public abstract partial class SDLGame : Game
     {
     }
 }

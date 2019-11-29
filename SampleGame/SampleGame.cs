@@ -1,11 +1,11 @@
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL;
 using SDL2;
+using System;
 
 namespace SampleGameCore
 {
-    public class SampleGame : Game
+    public class SampleGame : SDLGame
     {
         public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
         public SampleScene Scene { get; set; }
