@@ -1,7 +1,7 @@
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL;
 using SDL2;
-using System;
+using Typedeaf.TypeOSDL.Content;
 
 namespace SampleGameCore
 {
@@ -9,11 +9,13 @@ namespace SampleGameCore
     {
         public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
         public SampleScene Scene { get; set; }
+        public SDLContentLoader ContentLoader { get; set; }
 
         public override void Initialize()
         {
-            var win = this.CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
+            var win = CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
             var canvas = win.CreateCanvas();
+            ContentLoader = CreateContentLoader<SDLContentLoader>("", canvas);
             Scene = canvas.SetScene<SampleScene>();
 
             Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);

@@ -9,7 +9,6 @@ namespace SampleGameCore.Entites
 {
     public class BlobEntity : Entity2d, IHasGame<SampleGame>, IHasDrawable<DrawableTexture>
     {
-        public SDLTexture LoadedTexture { get; set; }
         public DrawableTexture Drawable { get; set; }
 
         public SampleGame Game { get; set; }
