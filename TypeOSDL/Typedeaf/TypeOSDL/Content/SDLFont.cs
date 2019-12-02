@@ -39,7 +39,7 @@ namespace Typedeaf.TypeOSDL
             public override Vec2 MeasureString(string text)
             {
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(SDL_Font, text, new SDL.SDL_Color());
-                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDL_Renderer, fontSur);
+                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDLRenderer, fontSur);
 
                 SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
                 return new Vec2(w, h);
@@ -90,7 +90,7 @@ namespace Typedeaf.TypeOSDL
                 sdlColor.b = (byte)color.B;
                 sdlColor.a = (byte)color.A;
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(sdlFont.SDL_Font, text, sdlColor);
-                var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDL_Renderer, fontSur);
+                var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDLRenderer, fontSur);
 
                 SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
                 var fontSize = new Vec2(w, h);
@@ -113,7 +113,7 @@ namespace Typedeaf.TypeOSDL
                     sdlRenderFlip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL.SDL_Rect srect = new SDL.SDL_Rect();
@@ -122,7 +122,7 @@ namespace Typedeaf.TypeOSDL
                     srect.w = (int)source.Size.X;
                     srect.h = (int)source.Size.Y;
 
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
             }
         }

@@ -24,11 +24,16 @@ namespace Typedeaf.TypeOCore
 
     partial class Game
     {
-        public T CreateWindow<T>() where T : Window, new()
+        public W CreateWindow<W>() where W : Window, new()
         {
-            var win = new T();
+            var win = new W();
             win.Game = this;
             (win as IHasTypeO).SetTypeO(TypeO);
+
+            if(this is Game.Interfaces.ISingleCanvasGame)
+            {
+                (this as Game.Interfaces.ISingleCanvasGame).SetWindow(win);
+            }
             return win;
         }
     }

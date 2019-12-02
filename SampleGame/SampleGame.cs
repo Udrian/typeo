@@ -2,21 +2,25 @@ using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL;
 using SDL2;
 using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOCore;
+using Typedeaf.TypeOSDL.Graphics;
 
 namespace SampleGameCore
 {
-    public class SampleGame : SDLGame
+    public class SampleGame : SDLGame, Game.Interfaces.ISingleCanvasGame<SDLWindow, SDLCanvas>
     {
         public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
         public SampleScene Scene { get; set; }
         public SDLContentLoader ContentLoader { get; set; }
+        public SDLWindow Window { get; set; }
+        public SDLCanvas Canvas { get; set; }
 
         public override void Initialize()
         {
-            var win = CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
-            var canvas = win.CreateCanvas();
-            ContentLoader = CreateContentLoader<SDLContentLoader>("", canvas);
-            Scene = canvas.SetScene<SampleScene>();
+            CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
+            Window.CreateCanvas();
+            ContentLoader = CreateContentLoader<SDLContentLoader>("", Canvas);
+            Scene = Canvas.SetScene<SampleScene>();
 
             Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);
         }
