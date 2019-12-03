@@ -45,6 +45,7 @@ namespace Typedeaf.TypeOCore
                 public W Window { get; set; }
                 public C Canvas { get; set; }
             }
+        }
 
         TypeO IHasTypeO.TypeO { get; set; }
         private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
