@@ -10,7 +10,7 @@ namespace SampleGameSDLWin
         [STAThread]
         public static void Main()
         {
-            TypeO.Create<SampleGame>()
+            TypeO.Create<SpaceInvaderGame>()
                 .LoadModule<TypeOSDLModule>()
                 .Start();
         }
