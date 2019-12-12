@@ -3,12 +3,11 @@ using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL.Content;
-using Typedeaf.TypeOSDL.Graphics;
-using Typedeaf.TypeOSDL;
 using SampleGameCore.Entites;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore.Entities.Drawables;
+using Typedeaf.TypeOSDL;
 
 namespace SampleGameCore
 {
@@ -21,16 +20,18 @@ namespace SampleGameCore
         public double TextureRotSpeed { get; set; } = Math.PI/4;
         public Font   LoadedFont      { get; set; }
 
-        public SDLTexture       LoadedTexture { get; set; }
-        public BlobEntity       MovingBlob    { get; set; }
-        public List<Entity>     Entities      { get; set; } = new List<Entity>();
-
-        public SampleScene(SDLCanvas canvas) : base(canvas) { }
+        public SDLTexture   LoadedTexture { get; set; }
+        public BlobEntity   MovingBlob    { get; set; }
+        public List<Entity> Entities      { get; set; } = new List<Entity>();
 
         public override void Initialize()
         {
-            LoadedTexture = Game.ContentLoader.LoadTexture("content/image.png");
-            LoadedFont    = Game.ContentLoader.LoadFont("content/Awesome.ttf", 26);
+            Canvas = CreateCanvas();
+            ContentLoader = CreateContentLoader<SDLContentLoader>("", Canvas);
+            SDLContentLoader sdlContentloader = ContentLoader as SDLContentLoader;
+
+            LoadedTexture = sdlContentloader.LoadTexture("content/image.png");
+            LoadedFont    = sdlContentloader.LoadFont("content/Awesome.ttf", 26);
 
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(100, 100)));
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(0), origin: new Vec2(25, 25), rotation: Math.PI / 4));

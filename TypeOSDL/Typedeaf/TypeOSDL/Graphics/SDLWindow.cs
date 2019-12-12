@@ -31,16 +31,6 @@ namespace Typedeaf.TypeOSDL
                     Borderless = borderless;
             }
 
-            public SDLCanvas CreateCanvas()
-            {
-                return CreateCanvas<SDLCanvas>();
-            }
-
-            public SDLCanvas CreateCanvas(Rectangle rect)
-            {
-                return CreateCanvas<SDLCanvas>(rect);
-            }
-
             public override string Title {
                 get {
                     if (SDL_Window == null)

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Graphics;
 
@@ -12,7 +12,10 @@ namespace Typedeaf.TypeOCore
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
             public Game Game { get; set; }
 
-            protected Window() { }
+            protected Window()
+            {
+                Scenes = new Dictionary<System.Type, Scene>();
+            }
 
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
@@ -30,10 +33,6 @@ namespace Typedeaf.TypeOCore
             win.Game = this;
             (win as IHasTypeO).SetTypeO(TypeO);
 
-            if(this is Game.Interfaces.ISingleCanvasGame)
-            {
-                (this as Game.Interfaces.ISingleCanvasGame).SetWindow(win);
-            }
             return win;
         }
     }

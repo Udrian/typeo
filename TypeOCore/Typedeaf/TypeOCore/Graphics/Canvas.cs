@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -12,12 +12,8 @@ namespace Typedeaf.TypeOCore
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             public Window Window { get; set; }
-            public Game   Game   { get; set; }
 
-            protected Canvas()
-            {
-                Scenes = new Dictionary<Type, Scene>();
-            }
+            protected Canvas(){}
 
             public abstract void Initialize();
 
@@ -35,32 +31,27 @@ namespace Typedeaf.TypeOCore
 
             public abstract Rectangle Viewport { get; set; }
         }
+        }
 
-        public abstract partial class Window
+    partial class Scene
+    {
+        public C CreateCanvas<C>() where C : Canvas, new()
         {
-            public C CreateCanvas<C>() where C : Canvas, new()
-            {
-                var canvas = new C();
+            var canvas = new C();
 
-                (canvas as IHasTypeO).SetTypeO(TypeO);
-                canvas.Window = this;
-                canvas.Game   = Game;
-                if (Game is Game.Interfaces.ISingleCanvasGame)
-                {
-                    (Game as Game.Interfaces.ISingleCanvasGame).SetCanvas(canvas);
-                }
-                canvas.Initialize();
-                return canvas;
-            }
+            (canvas as IHasTypeO).SetTypeO(TypeO);
+            canvas.Window = Window;
+            canvas.Initialize();
+            return canvas;
+        }
 
-            public C CreateCanvas<C>(Rectangle rect) where C : Canvas, new()
-            {
-                var canvas = CreateCanvas<C>();
+        public C CreateCanvas<C>(Rectangle rect) where C : Canvas, new()
+        {
+            var canvas = CreateCanvas<C>();
 
-                if (rect != null)
-                    canvas.Viewport = rect;
-                return canvas;
-            }
+            if (rect != null)
+                canvas.Viewport = rect;
+            return canvas;
         }
     }
 }

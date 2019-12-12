@@ -1,4 +1,5 @@
 ﻿using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 
@@ -9,9 +10,9 @@ namespace SampleGameCore.Entities
         public SampleGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
-        public Player()
+        public Player(Texture texture)
         {
-            Drawable = new DrawableTexture(this, Game.ContentLoader.LoadTexture("content/image.png"));
+            Drawable = new DrawableTexture(this, texture);
         }
     }
 }

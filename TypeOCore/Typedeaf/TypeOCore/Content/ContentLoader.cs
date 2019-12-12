@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOCore
         }
     }
 
-    partial class Game
+    partial class Scene
     {
         public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
         {

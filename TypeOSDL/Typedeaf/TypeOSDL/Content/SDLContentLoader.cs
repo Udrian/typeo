@@ -17,7 +17,7 @@ namespace Typedeaf.TypeOSDL
         }
     }
 
-    public partial class SDLGame
+    public partial class SDLScene
     {
         public SDLContentLoader CreateContentLoader(string basePath, SDLCanvas canvas)
         {
