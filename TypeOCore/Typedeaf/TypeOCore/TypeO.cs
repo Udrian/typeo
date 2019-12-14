@@ -31,17 +31,16 @@ namespace Typedeaf.TypeOCore
         public void Start();
     }
 
-    public static class TypeO
+    public class TypeO : ITypeO
     {
         public static ITypeO Create<G>() where G : Game, new()
         {
-            var typeO = new TypeO<G>();
+            var typeO = new TypeO();
+            typeO.Game = new G();
+            (typeO.Game as IHasTypeO).SetTypeO(typeO);
             return typeO;
         }
-    }
 
-    public class TypeO<G> : ITypeO where G : Game, new()
-    {
         public KeyboardInput.Internal KeyHandler { get; set; }
         public KeyConverter KeyConverter { get; set; }
 
@@ -83,8 +82,6 @@ namespace Typedeaf.TypeOCore
         public void Start()
         {
             //Initialize the game
-            Game = new G();
-            (Game as IHasTypeO).SetTypeO(this);
             Game.Initialize();
 
             while (!ExitApplication)
