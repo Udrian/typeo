@@ -8,8 +8,8 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Canvas : IHasTypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            ITypeO IHasTypeO.TypeO { get; set; }
+            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             public Window Window { get; set; }
 
@@ -31,7 +31,7 @@ namespace Typedeaf.TypeOCore
 
             public abstract Rectangle Viewport { get; set; }
         }
-        }
+    }
 
     partial class Scene
     {

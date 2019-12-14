@@ -8,8 +8,8 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Window : IHasTypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            ITypeO IHasTypeO.TypeO { get; set; }
+            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
             public Game Game { get; set; }
 
             protected Window()

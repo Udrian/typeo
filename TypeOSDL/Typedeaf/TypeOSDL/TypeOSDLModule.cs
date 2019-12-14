@@ -44,7 +44,7 @@ namespace Typedeaf.TypeOSDL
             {
                 if (e.type == SDL.SDL_EventType.SDL_QUIT)
                 {
-                    TypeO.Game.Exit();
+                    TypeO.Exit();
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
                 {

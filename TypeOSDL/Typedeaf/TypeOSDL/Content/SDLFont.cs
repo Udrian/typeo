@@ -6,7 +6,6 @@ using Typedeaf.TypeOCore.Graphics;
 using SDL_Font = System.IntPtr;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL.Content;
-using Typedeaf.TypeOCore;
 
 namespace Typedeaf.TypeOSDL
 {

@@ -21,8 +21,8 @@ namespace Typedeaf.TypeOCore
 
     public abstract partial class Game : IHasTypeO
     {
-        TypeO IHasTypeO.TypeO { get; set; }
-        private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+        ITypeO IHasTypeO.TypeO { get; set; }
+        private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
         public Game()
         {
@@ -32,11 +32,6 @@ namespace Typedeaf.TypeOCore
         public abstract void Initialize();
         public abstract void Update(float dt);
         public abstract void Draw();
-        public void Exit() { TypeO.Exit = true; }
-    }
-
-    public partial class TypeO
-    {
-        public Game Game { get; set; }
+        public void Exit() { TypeO.Exit(); }
     }
 }

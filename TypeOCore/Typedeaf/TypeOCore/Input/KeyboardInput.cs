@@ -15,7 +15,7 @@ namespace Typedeaf.TypeOCore
             }
 
             protected Game Game { get; private set; }
-            protected TypeO TypeO { get { return (Game as IHasTypeO).GetTypeO(); } }
+            protected ITypeO TypeO { get { return (Game as IHasTypeO).GetTypeO(); } }
 
             public KeyboardInput(Game game)
             {
@@ -51,10 +51,5 @@ namespace Typedeaf.TypeOCore
         {
             public KeyboardInput Key { get; private set; }
         }
-    }
-
-    public partial class TypeO
-    {
-        public KeyboardInput.Internal KeyHandler { get; set; }
     }
 }

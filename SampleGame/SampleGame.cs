@@ -1,7 +1,6 @@
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL;
 using SDL2;
-using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 
 namespace SampleGameCore

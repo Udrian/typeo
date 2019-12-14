@@ -17,8 +17,8 @@ namespace Typedeaf.TypeOCore
                 Both
             }
 
-            TypeO IHasTypeO.TypeO { get; set; }
-            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            ITypeO IHasTypeO.TypeO { get; set; }
+            private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead

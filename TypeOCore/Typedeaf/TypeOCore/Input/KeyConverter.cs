@@ -31,9 +31,4 @@ namespace Typedeaf.TypeOCore
             }
         }
     }
-
-    public partial class TypeO
-    {
-        public KeyConverter KeyConverter { get; private set; }
-    }
 }

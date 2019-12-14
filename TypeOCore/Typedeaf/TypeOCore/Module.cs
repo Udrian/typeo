@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract class Module : IHasTypeO
+    public abstract class Module : ITypeO, IHasTypeO
     {
-        TypeO IHasTypeO.TypeO { get; set; }
-        protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+        public KeyboardInput.Internal KeyHandler { get { return TypeO.KeyHandler; } set { TypeO.KeyHandler = value; } }
+        public KeyConverter KeyConverter { get { return TypeO.KeyConverter; } set { TypeO.KeyConverter = value; } }
+
+        ITypeO IHasTypeO.TypeO { get; set; }
+        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
         public abstract void Initialize();
         public abstract void Cleanup();
         public abstract void Update(float dt);
-    }
 
-    public partial class TypeO
-    {
-        private List<Module> Modules;
-
-        public partial class Runner<T> where T : Game
+        public void Exit()
         {
-            public TypeO.Runner<T> LoadModule<C>(params object[] args) where C : Module
-            {
-                var constructorArgs = new List<object>();
-                constructorArgs.AddRange(args);
-                var module = (C)Activator.CreateInstance(typeof(C), constructorArgs.ToArray());
-                (module as IHasTypeO).SetTypeO(TypeO);
-                module.Initialize();
-                TypeO.Modules.Add(module);
-                return this;
-            }
+            TypeO.Exit();
+        }
+
+        public ITypeO SetKeyAlias(object input, object key)
+        {
+            return TypeO.SetKeyAlias(input, key);
+        }
+
+        public M LoadModule<M>() where M : Module, new()
+        {
+            return TypeO.LoadModule<M>();
+        }
+
+        public void Start()
+        {
+            TypeO.Start();
         }
     }
 }

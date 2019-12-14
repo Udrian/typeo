@@ -8,8 +8,8 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class ContentLoader : IHasTypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            ITypeO IHasTypeO.TypeO { get; set; }
+            private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
             public ContentLoader(string basePath)
             {
