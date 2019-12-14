@@ -46,9 +46,6 @@ namespace SampleGameCore
             Entities.Add(MovingBlob);
             //DrawEntities.Add(MovingBlob);
                 //source: new Rectangle(5, 5, 25, 25));
-
-
-            Game.AddService<SampleService>(this);
         }
 
         public override void Update(float dt)

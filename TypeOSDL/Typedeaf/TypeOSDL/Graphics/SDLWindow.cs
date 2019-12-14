@@ -1,9 +1,7 @@
 ﻿using SDL2;
 using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOSDL.Graphics;
 using SDL_Window = System.IntPtr;
 
 namespace Typedeaf.TypeOSDL
@@ -90,22 +88,6 @@ namespace Typedeaf.TypeOSDL
                         SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
-        }
-    }
-
-    public partial class SDLGame
-    {
-        public SDLWindow CreateWindow()
-        {
-            return CreateWindow<SDLWindow>();
-        }
-
-        public SDLWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
-        {
-            var win = CreateWindow();
-            win.Initialize(title, position, size, fullscreen, borderless);
-
-            return win;
         }
     }
 }

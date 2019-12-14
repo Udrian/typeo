@@ -24,6 +24,11 @@ namespace Typedeaf.TypeOCore
             return TypeO.SetKeyAlias(input, key);
         }
 
+        public ITypeO AddService<S>() where S : Service, new()
+        {
+            return TypeO.AddService<S>();
+        }
+
         public M LoadModule<M>() where M : Module, new()
         {
             return TypeO.LoadModule<M>();

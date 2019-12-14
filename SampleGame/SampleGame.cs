@@ -2,6 +2,7 @@ using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL;
 using SDL2;
 using Typedeaf.TypeOSDL.Graphics;
+using TypeOSDL.Typedeaf.TypeOSDL.Services;
 
 namespace SampleGameCore
 {
@@ -14,7 +15,7 @@ namespace SampleGameCore
 
         public override void Initialize()
         {
-            Window = CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
+            Window = GetService<SDLWindowService>().CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
             Scene = Window.SetScene<SampleScene>();
 
             Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);

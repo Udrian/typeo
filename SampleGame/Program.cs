@@ -2,6 +2,7 @@ using SampleGameCore;
 using System;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL;
+using TypeOSDL.Typedeaf.TypeOSDL.Services;
 
 namespace SampleGameSDLWin
 {
@@ -12,6 +13,7 @@ namespace SampleGameSDLWin
         {
             TypeO.Create<SampleGame>()
                 .LoadModule<TypeOSDLModule>()
+                .AddService<SDLWindowService>()
                 .Start();
         }
     }

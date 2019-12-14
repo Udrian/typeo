@@ -4,15 +4,14 @@ using System.Linq;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract class Service
+    public abstract class Service : IHasTypeO
     {
+        ITypeO IHasTypeO.TypeO { get; set; }
+        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
         public bool Pause { get; set; }
 
-        public Game Game { get; private set; }
-        public Service(Game game)
-        {
-            Game = game;
-        }
+        protected Service() {}
 
         public abstract void Initialize();
         public abstract void Update(float dt);
@@ -22,16 +21,17 @@ namespace Typedeaf.TypeOCore
     {
         private Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<S>(params object[] args) where S : Service {
-            var constructorArgs = new List<object>(){ this };
-            constructorArgs.AddRange(args);
-            Services.Add(typeof(S), (S)Activator.CreateInstance(typeof(S), constructorArgs.ToArray()));
-        }
-
-        public void AddService(Service service) {
-            Services.Add(service.GetType(), service);
+        public void AddService<S>() where S : Service, new() {
+            var service = new S();
+            if (service is IHasGame)
+            {
+                (service as IHasGame).SetGame(this);
+            }
+            (service as IHasTypeO).SetTypeO(TypeO);
 
             service.Initialize();
+
+            Services.Add(typeof(S), service);
         }
 
         public S GetService<S>() where S : Service {

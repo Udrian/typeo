@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -14,7 +14,7 @@ namespace Typedeaf.TypeOCore
 
             protected Window()
             {
-                Scenes = new Dictionary<System.Type, Scene>();
+                Scenes = new Dictionary<Type, Scene>();
             }
 
             public virtual string Title      { get; set; }
@@ -22,18 +22,6 @@ namespace Typedeaf.TypeOCore
             public virtual Vec2   Size       { get; set; }
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
-        }
-    }
-
-    partial class Game
-    {
-        public W CreateWindow<W>() where W : Window, new()
-        {
-            var win = new W();
-            win.Game = this;
-            (win as IHasTypeO).SetTypeO(TypeO);
-
-            return win;
         }
     }
 }

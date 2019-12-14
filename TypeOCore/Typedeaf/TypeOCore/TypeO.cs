@@ -4,7 +4,7 @@ using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
-    internal interface IHasTypeO
+    public interface IHasTypeO
     {
         protected ITypeO TypeO { get; set; }
         public void SetTypeO(ITypeO typeO)
@@ -25,6 +25,7 @@ namespace Typedeaf.TypeOCore
         public void Exit();
 
         public ITypeO SetKeyAlias(object input, object key);
+        public ITypeO AddService<S>() where S : Service, new();
 
         public M LoadModule<M>() where M : Module, new();
 
@@ -66,6 +67,12 @@ namespace Typedeaf.TypeOCore
         public ITypeO SetKeyAlias(object input, object key)
         {
             KeyConverter.SetKeyAlias(input, key);
+            return this;
+        }
+
+        public ITypeO AddService<S>() where S : Service, new()
+        {
+            Game.AddService<S>();
             return this;
         }
 
