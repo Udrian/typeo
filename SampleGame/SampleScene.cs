@@ -67,12 +67,8 @@ namespace SampleGameCore
         {
             foreach(var entity in Entities)
             {
-                if(entity is IHasDrawable) {
-                    ((IHasDrawable)entity).DrawDrawable(Canvas);
-                }
-
-                if (entity is IIsDrawable)
-                    ((IIsDrawable)entity).Draw(Canvas);
+                (entity as IHasDrawable)?.DrawDrawable(Canvas);
+                (entity as IIsDrawable)?.Draw(Canvas);
 
             }
 

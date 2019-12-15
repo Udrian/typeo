@@ -14,7 +14,6 @@ namespace Typedeaf.TypeOCore
         protected Service() {}
 
         public abstract void Initialize();
-        public abstract void Update(float dt);
     }
 
     partial class Game

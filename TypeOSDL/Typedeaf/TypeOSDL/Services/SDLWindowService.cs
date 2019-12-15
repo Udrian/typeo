@@ -34,8 +34,6 @@ namespace TypeOSDL.Typedeaf.TypeOSDL
 
                 return window;
             }
-
-            public override void Update(float dt){ }
         }
     }
 }

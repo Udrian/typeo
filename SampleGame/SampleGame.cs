@@ -11,7 +11,6 @@ namespace SampleGameCore
         public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
         public SampleScene Scene { get; set; }
         public SDLWindow Window { get; set; }
-        public SDLCanvas Canvas { get; set; }
 
         public override void Initialize()
         {

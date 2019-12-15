@@ -6,11 +6,8 @@ namespace Typedeaf.TypeOCore
 {
     namespace Graphics
     {
-        public abstract partial class Canvas : IHasTypeO
+        public abstract partial class Canvas
         {
-            ITypeO IHasTypeO.TypeO { get; set; }
-            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
-
             public Window Window { get; set; }
 
             protected Canvas(){}
@@ -39,7 +36,6 @@ namespace Typedeaf.TypeOCore
         {
             var canvas = new C();
 
-            (canvas as IHasTypeO).SetTypeO(TypeO);
             canvas.Window = Window;
             canvas.Initialize();
             return canvas;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
@@ -103,7 +104,7 @@ namespace Typedeaf.TypeOCore
 
                 foreach (var service in Game.GetServices())
                 {
-                    service.Update(dt);
+                    (service as IIsUpdatable)?.Update(dt);
                 }
 
                 Game.Update(dt);
