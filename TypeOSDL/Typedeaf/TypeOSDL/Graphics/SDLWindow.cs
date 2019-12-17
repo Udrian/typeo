@@ -88,6 +88,22 @@ namespace Typedeaf.TypeOSDL
                         SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
+
+            public override Canvas CreateCanvas()
+            {
+                var canvas = new SDLCanvas();
+
+                canvas.Window = this;
+                canvas.Initialize();
+                return canvas;
+            }
+
+            public override Canvas CreateCanvas(Rectangle viewport)
+            {
+                var canvas = CreateCanvas();
+                canvas.Viewport = viewport;
+                return canvas;
+            }
         }
     }
 }

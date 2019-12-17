@@ -5,11 +5,8 @@ using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract partial class Scene : IHasTypeO
+    public abstract partial class Scene
     {
-        ITypeO IHasTypeO.TypeO { get; set; }
-        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
-
         public Window Window { get; set; }
         public Canvas Canvas { get; set; }
         public ContentLoader ContentLoader { get; set; }
@@ -35,7 +32,7 @@ namespace Typedeaf.TypeOCore
             private Dictionary<Type, Scene> Scenes { get; set; }
             public Scene CurrentScene { get; private set; }
 
-            public S SetScene<S>() where S : Scene, new()
+            public S CreateScene<S>() where S : Scene, new()
             {
                 if (!Scenes.ContainsKey(typeof(S)))
                 {
@@ -45,9 +42,20 @@ namespace Typedeaf.TypeOCore
                     {
                         (scene as IHasGame).SetGame(Game);
                     }
-                    (scene as IHasTypeO).SetTypeO(TypeO);
 
                     scene.Window = this;
+                    scene.Canvas = CreateCanvas();
+
+                    return scene;
+                }
+                return Scenes[typeof(S)] as S;
+            }
+
+            public S SetScene<S>() where S : Scene, new()
+            {
+                if (!Scenes.ContainsKey(typeof(S)))
+                {
+                    var scene = CreateScene<S>();
 
                     scene.Initialize();
                 }

@@ -22,6 +22,9 @@ namespace Typedeaf.TypeOCore
             public virtual Vec2   Size       { get; set; }
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
+
+            public abstract Canvas CreateCanvas();
+            public abstract Canvas CreateCanvas(Rectangle viewport);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace SampleGameCore
 
         public override void Initialize()
         {
-            Canvas = CreateCanvas();
             ContentLoader = CreateContentLoader<SDLContentLoader>("", Canvas);
             SDLContentLoader sdlContentloader = ContentLoader as SDLContentLoader;
 
@@ -44,8 +43,6 @@ namespace SampleGameCore
                 flipped: Texture.Flipped.Both);
 
             Entities.Add(MovingBlob);
-            //DrawEntities.Add(MovingBlob);
-                //source: new Rectangle(5, 5, 25, 25));
         }
 
         public override void Update(float dt)

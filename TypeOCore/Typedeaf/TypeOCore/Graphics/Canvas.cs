@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -27,27 +26,6 @@ namespace Typedeaf.TypeOCore
             public abstract void Present();
 
             public abstract Rectangle Viewport { get; set; }
-        }
-    }
-
-    partial class Scene
-    {
-        public C CreateCanvas<C>() where C : Canvas, new()
-        {
-            var canvas = new C();
-
-            canvas.Window = Window;
-            canvas.Initialize();
-            return canvas;
-        }
-
-        public C CreateCanvas<C>(Rectangle rect) where C : Canvas, new()
-        {
-            var canvas = CreateCanvas<C>();
-
-            if (rect != null)
-                canvas.Viewport = rect;
-            return canvas;
         }
     }
 }
