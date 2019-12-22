@@ -26,7 +26,7 @@ namespace Typedeaf.TypeOCore
         public void Exit();
 
         public ITypeO SetKeyAlias(object input, object key);
-        public ITypeO AddService<S>() where S : Service, new();
+        public ITypeO AddService<I, S>() where I : class where S : Service, new();
 
         public M LoadModule<M>() where M : Module, new();
 
@@ -71,9 +71,9 @@ namespace Typedeaf.TypeOCore
             return this;
         }
 
-        public ITypeO AddService<S>() where S : Service, new()
+        public ITypeO AddService<I, S>() where I : class where S : Service, new()
         {
-            Game.AddService<S>();
+            Game.AddService<I, S>();
             return this;
         }
 

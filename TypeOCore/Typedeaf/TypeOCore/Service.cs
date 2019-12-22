@@ -20,7 +20,12 @@ namespace Typedeaf.TypeOCore
     {
         private Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<S>() where S : Service, new() {
+        public void AddService<I, S>() where I : class where S : Service, new() {
+            if (!typeof(I).IsInterface)
+            {
+                throw new ArgumentException($"Generic argument {nameof(I)} must be of interface type");
+            }
+
             var service = new S();
             if (service is IHasGame)
             {
@@ -30,21 +35,21 @@ namespace Typedeaf.TypeOCore
 
             service.Initialize();
 
-            Services.Add(typeof(S), service);
+            Services.Add(typeof(I), service);
         }
 
-        public S GetService<S>() where S : Service {
-            if (!Services.ContainsKey(typeof(S))) return null;
-            var service = Services[typeof(S)];
-            return (S)Convert.ChangeType(service, typeof(S));
+        public I GetService<I>() where I : class {
+            if (!Services.ContainsKey(typeof(I))) return default;
+            var service = Services[typeof(I)];
+            return service as I;
         }
 
         public List<Service> GetServices() {
             return Services.Values.ToList();
         }
 
-        public void RemoveService<S>() where S : Service {
-            Services.Remove(typeof(S));
+        public void RemoveService<I>() where I : class {
+            Services.Remove(typeof(I));
         }
     }
 }
