@@ -62,7 +62,10 @@ namespace SampleGameCore
 
         public override void Draw()
         {
-            foreach(var entity in Entities)
+           Canvas.Clear(Color.Red);
+           Canvas.DrawLine(new Vec2(10, 10), new Vec2(150, 150), Color.Blue);
+
+            foreach (var entity in Entities)
             {
                 (entity as IHasDrawable)?.DrawDrawable(Canvas);
                 (entity as IIsDrawable)?.Draw(Canvas);
@@ -70,6 +73,8 @@ namespace SampleGameCore
             }
 
             Canvas.DrawText(LoadedFont, "Test", new Vec2(100, 100), color: Color.Green);
+
+            Canvas.Present();
         }
 
         public override void OnEnter(Scene from)

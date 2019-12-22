@@ -24,17 +24,12 @@ namespace SampleGameCore
 
         public override void Draw()
         {
-            Scene.Canvas.Clear(Color.Red);
-            Scene.Canvas.DrawLine(new Vec2(10, 10), new Vec2(150, 150), Color.Blue);
-
-            Scene.Draw();
-
-            Scene.Canvas.Present();
+            Window.Draw();
         }
 
         public override void Update(float dt)
         {
-            Scene.Update(dt);
+            Window.Update(dt);
         }
     }
 }

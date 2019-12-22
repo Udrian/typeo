@@ -23,6 +23,15 @@ namespace Typedeaf.TypeOCore
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
 
+            public virtual void Update(float dt)
+            {
+                CurrentScene?.Update(dt);
+            }
+            public virtual void Draw()
+            {
+                CurrentScene?.Draw();
+            }
+
             public abstract Canvas CreateCanvas();
             public abstract Canvas CreateCanvas(Rectangle viewport);
         }
