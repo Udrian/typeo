@@ -23,7 +23,7 @@ namespace Typedeaf.TypeOCore
         public void AddService<I, S>() where I : class where S : Service, new() {
             if (!typeof(I).IsInterface)
             {
-                throw new ArgumentException($"Generic argument {nameof(I)} must be of interface type");
+                throw new ArgumentException($"Generic argument <{nameof(I)}> must be of interface type");
             }
 
             var service = new S();

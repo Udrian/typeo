@@ -1,25 +1,30 @@
 using Typedeaf.TypeOCommon;
 using SDL2;
 using Typedeaf.TypeOSDL.Graphics;
-using TypeOSDL.Typedeaf.TypeOSDL.Services;
 using Typedeaf.TypeOCore;
-using TypeOCore.Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOSDL.Services;
+using Typedeaf.TypeOCore.Services;
 
 namespace SampleGameCore
 {
     public class SampleGame : Game
     {
-        public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
-        public SampleScene Scene { get; set; }
-        public SDLWindow Window { get; set; }
+        public SDLWindowService        WindowService        { get; private set; }
+        public SDLKeyboardInputService KeyboardInputService { get; private set; }
+
+        public Vec2        ScreenSize { get; set; } = new Vec2(640, 480);
+        public SampleScene Scene      { get; set; }
+        public SDLWindow   Window     { get; set; }
 
         public override void Initialize()
         {
-            var windowService = GetService<IWindowService>() as SDLWindowService;
-            Window = windowService.CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
-            Scene = Window.SetScene<SampleScene>();
+            WindowService        = GetService<IWindowService>()        as SDLWindowService;
+            KeyboardInputService = GetService<IKeyboardInputService>() as SDLKeyboardInputService;
 
-            Input.Key.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);
+            KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_7);
+
+            Window = WindowService.CreateWindow("Hello World", new Vec2(100, 100), ScreenSize);
+            Scene  = Window.SetScene<SampleScene>();
         }
 
         public override void Draw()

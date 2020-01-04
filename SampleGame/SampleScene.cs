@@ -47,7 +47,7 @@ namespace SampleGameCore
 
         public override void Update(float dt)
         {
-            if (Game.Input.Key.IsDown("Quit"))
+            if (Game.KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
@@ -77,12 +77,7 @@ namespace SampleGameCore
             Canvas.Present();
         }
 
-        public override void OnEnter(Scene from)
-        {
-        }
-
-        public override void OnExit(Scene to)
-        {
-        }
+        public override void OnEnter(Scene from) { }
+        public override void OnExit(Scene to) { }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOCore.Services;
 using Typedeaf.TypeOSDL.Graphics;
-using TypeOCore.Typedeaf.TypeOCore.Services;
 
-namespace TypeOSDL.Typedeaf.TypeOSDL
+namespace Typedeaf.TypeOSDL
 {
     namespace Services
     {

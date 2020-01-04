@@ -1,7 +1,6 @@
-﻿using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
+﻿using Typedeaf.TypeOCore.Graphics;
 
-namespace TypeOCore.Typedeaf.TypeOCore
+namespace Typedeaf.TypeOCore
 {
     namespace Services
     {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {

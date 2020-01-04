@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
@@ -27,7 +26,6 @@ namespace Typedeaf.TypeOCore
         public Game()
         {
             Services = new Dictionary<Type, Service>();
-            Input = new InputHandler(this);
         }
         public abstract void Initialize();
         public abstract void Update(float dt);

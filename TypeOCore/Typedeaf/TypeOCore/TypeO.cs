@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore.Entities;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
@@ -20,17 +19,11 @@ namespace Typedeaf.TypeOCore
 
     public interface ITypeO
     {
-        public KeyboardInput.Internal KeyHandler { get; set; }
-        public KeyConverter KeyConverter { get; set; }
-
+        public void Start();
         public void Exit();
 
-        public ITypeO SetKeyAlias(object input, object key);
         public ITypeO AddService<I, S>() where I : class where S : Service, new();
-
         public M LoadModule<M>() where M : Module, new();
-
-        public void Start();
     }
 
     public class TypeO : ITypeO
@@ -43,32 +36,20 @@ namespace Typedeaf.TypeOCore
             return typeO;
         }
 
-        public KeyboardInput.Internal KeyHandler { get; set; }
-        public KeyConverter KeyConverter { get; set; }
-
         public Game Game { get; set; }
-        
         private DateTime LastTick { get; set; }
-
-        protected List<Module> Modules;
+        private List<Module> Modules { get; set; }
 
         public TypeO() : base()
         {
-            Modules = new List<Module>();
-            KeyConverter = new KeyConverter();
             LastTick = DateTime.UtcNow;
+            Modules = new List<Module>();
         }
 
         private bool ExitApplication = false;
         public void Exit()
         {
             ExitApplication = true;
-        }
-
-        public ITypeO SetKeyAlias(object input, object key)
-        {
-            KeyConverter.SetKeyAlias(input, key);
-            return this;
         }
 
         public ITypeO AddService<I, S>() where I : class where S : Service, new()
@@ -99,7 +80,7 @@ namespace Typedeaf.TypeOCore
 
                 foreach (var module in Modules)
                 {
-                    module.Update(dt);
+                    (module as IIsUpdatable)?.Update(dt);
                 }
 
                 foreach (var service in Game.GetServices())
