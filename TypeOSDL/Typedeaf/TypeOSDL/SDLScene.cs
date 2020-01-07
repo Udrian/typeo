@@ -1,6 +1,4 @@
-﻿using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
-using Typedeaf.TypeOSDL.Graphics;
+﻿using Typedeaf.TypeOCore;
 
 namespace Typedeaf.TypeOSDL
 {

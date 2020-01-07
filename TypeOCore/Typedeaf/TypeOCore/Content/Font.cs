@@ -21,7 +21,7 @@ namespace Typedeaf.TypeOCore
             public abstract Vec2 MeasureString(string text);
         }
 
-        public abstract partial class ContentLoader
+        public partial class ContentLoader
         {
             public T LoadFont<T>(string path, params object[] args) where T : Font
             {

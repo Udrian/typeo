@@ -26,8 +26,8 @@ namespace SampleGameCore
 
         public override void Initialize()
         {
-            ContentLoader = CreateContentLoader<SDLContentLoader>("", Canvas);
-            SDLContentLoader sdlContentloader = ContentLoader as SDLContentLoader;
+            CreateContentLoader("");
+            var sdlContentloader = ContentLoader as SDLContentLoader;
 
             LoadedTexture = sdlContentloader.LoadTexture("content/image.png");
             LoadedFont    = sdlContentloader.LoadFont("content/Awesome.ttf", 26);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Typedeaf.TypeOCore.Content;
+﻿using Typedeaf.TypeOCore.Content;
 
 namespace Typedeaf.TypeOCore
 {
@@ -8,23 +6,18 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class ContentLoader
         {
-            public ContentLoader(string basePath)
-            {
-                BasePath = basePath;
-            }
+            protected ContentLoader() { }
 
-            public string BasePath { get; protected set; }
+            public string BasePath { get; set; }
         }
     }
 
     partial class Scene
     {
-        public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
+        public void CreateContentLoader<C>(string basePath) where C : ContentLoader, new()
         {
-            var constructorArgs = new List<object>() { basePath };
-            constructorArgs.AddRange(args);
-            var contentLoader = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-            return contentLoader;
+            ContentLoader = new C();
+            ContentLoader.BasePath = basePath;
         }
     }
 }
