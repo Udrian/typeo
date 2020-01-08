@@ -11,18 +11,15 @@ namespace Typedeaf.TypeOCore
             TypeO IHasTypeO.TypeO { get; set; }
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
-            protected Window Window { get; set; }
-            protected Game Game { get; set; }
+            public Window Window { get; set; }
+            public Game   Game   { get; set; }
 
-            /// <summary>
-            /// Do not call directly, use Window.CreateCanvas instead
-            /// </summary>
-            public Canvas(Game game, Window window)
+            protected Canvas()
             {
-                Window = window;
-                Game = game;
                 Scenes = new Dictionary<Type, Scene>();
             }
+
+            public abstract void Initialize();
 
             public abstract void Clear(Color clearColor);
             public abstract void DrawLine (Vec2 from, Vec2 size, Color color);
@@ -41,21 +38,25 @@ namespace Typedeaf.TypeOCore
 
         public abstract partial class Window
         {
-            public T CreateCanvas<T>(params object[] args) where T : Canvas
+            public C CreateCanvas<C>() where C : Canvas, new()
             {
-                var constructorArgs = new List<object>() { Game, this };
-                constructorArgs.AddRange(args);
-                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+                var canvas = new C();
+
                 (canvas as IHasTypeO).SetTypeO(TypeO);
+                canvas.Window = this;
+                canvas.Game   = Game;
+                if (Game is Game.Interfaces.ISingleCanvasGame)
+                {
+                    (Game as Game.Interfaces.ISingleCanvasGame).SetCanvas(canvas);
+                }
+                canvas.Initialize();
                 return canvas;
             }
 
-            public T CreateCanvas<T>(Rectangle rect, params object[] args) where T : Canvas
+            public C CreateCanvas<C>(Rectangle rect) where C : Canvas, new()
             {
-                var constructorArgs = new List<object>() { this };
-                constructorArgs.AddRange(args);
-                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-                (canvas as IHasTypeO).SetTypeO(TypeO);
+                var canvas = CreateCanvas<C>();
+
                 if (rect != null)
                     canvas.Viewport = rect;
                 return canvas;

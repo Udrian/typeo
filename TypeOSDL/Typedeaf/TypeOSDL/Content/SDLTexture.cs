@@ -20,7 +20,7 @@ namespace Typedeaf.TypeOSDL
             /// </summary>
             public SDLTexture(string path, SDLCanvas canvas) : base(path)
             {
-                SDL_Image = SDL_image.IMG_LoadTexture(canvas.SDL_Renderer, path);
+                SDL_Image = SDL_image.IMG_LoadTexture(canvas.SDLRenderer, path);
                 SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
                 Size = new Vec2(w, h);
                 //TODO: Error handling
@@ -94,7 +94,7 @@ namespace Typedeaf.TypeOSDL
                     sdlRenderFlip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL.SDL_Rect srect = new SDL.SDL_Rect();
@@ -103,7 +103,7 @@ namespace Typedeaf.TypeOSDL
                     srect.w = (int)source.Size.X;
                     srect.h = (int)source.Size.Y;
 
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
             }
         }

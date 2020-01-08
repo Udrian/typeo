@@ -150,7 +150,7 @@ namespace Typedeaf.TypeOCommon
             return new Vec2(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y));
         }
 
-        public static Vec2 One     { get { return new Vec2(1); } }
+        public static Vec2 One   { get { return new Vec2(1); } }
         public static Vec2 Zero  { get { return new Vec2(); } }
         public static Vec2 UnitY { get { return new Vec2(0, 1); } }
         public static Vec2 UnitX { get { return new Vec2(1, 0); } }

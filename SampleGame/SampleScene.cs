@@ -24,16 +24,13 @@ namespace SampleGameCore
         public SDLTexture       LoadedTexture { get; set; }
         public BlobEntity       MovingBlob    { get; set; }
         public List<Entity>     Entities      { get; set; } = new List<Entity>();
-        public SDLContentLoader ContentLoader { get; set; }
 
         public SampleScene(SDLCanvas canvas) : base(canvas) { }
 
         public override void Initialize()
         {
-            ContentLoader = Game.CreateContentLoader<SDLContentLoader>("", Canvas);
-
-            LoadedTexture = ContentLoader.LoadTexture("content/image.png");
-            LoadedFont    = ContentLoader.LoadFont("content/Awesome.ttf", 26);
+            LoadedTexture = Game.ContentLoader.LoadTexture("content/image.png");
+            LoadedFont    = Game.ContentLoader.LoadFont("content/Awesome.ttf", 26);
 
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(100, 100)));
             Entities.Add(new BlobEntity(Game, LoadedTexture, new Vec2(0), origin: new Vec2(25, 25), rotation: Math.PI / 4));

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Graphics;
 
@@ -11,12 +10,9 @@ namespace Typedeaf.TypeOCore
         {
             TypeO IHasTypeO.TypeO { get; set; }
             protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
-            protected Game Game { get; set; }
+            public Game Game { get; set; }
 
-            protected Window(Game game)
-            {
-                Game = game;
-            }
+            protected Window() { }
 
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
@@ -28,12 +24,16 @@ namespace Typedeaf.TypeOCore
 
     partial class Game
     {
-        public T CreateWindow<T>(params object[] args) where T : Window
+        public W CreateWindow<W>() where W : Window, new()
         {
-            var constructorArgs = new List<object>() { this };
-            constructorArgs.AddRange(args);
-            var win = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
+            var win = new W();
+            win.Game = this;
             (win as IHasTypeO).SetTypeO(TypeO);
+
+            if(this is Game.Interfaces.ISingleCanvasGame)
+            {
+                (this as Game.Interfaces.ISingleCanvasGame).SetWindow(win);
+            }
             return win;
         }
     }
