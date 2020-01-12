@@ -8,20 +8,19 @@ namespace Typedeaf.TypeOSDL
     {
         public partial class SDLContentLoader : ContentLoader
         {
-            protected SDLCanvas Canvas { get; set; }
+            public SDLCanvas Canvas { get; set; }
 
-            public SDLContentLoader(string basePath, SDLCanvas canvas) : base(basePath)
-            {
-                Canvas = canvas;
-            }
+            public SDLContentLoader() : base() { }
         }
     }
 
-    public partial class SDLGame
+    public partial class SDLScene
     {
-        public SDLContentLoader CreateContentLoader(string basePath, SDLCanvas canvas)
+        public void CreateContentLoader(string basePath)
         {
-            return CreateContentLoader<SDLContentLoader>(basePath, canvas);
+            CreateContentLoader<SDLContentLoader>(basePath);
+            if(ContentLoader is SDLContentLoader)
+                (ContentLoader as SDLContentLoader).Canvas = Canvas as SDLCanvas;
         }
     }
 }

@@ -1,34 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using Typedeaf.TypeOCore.Content;
+﻿using Typedeaf.TypeOCore.Content;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Content
     {
-        public abstract partial class ContentLoader : IHasTypeO
+        public abstract partial class ContentLoader
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            private TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            protected ContentLoader() { }
 
-            public ContentLoader(string basePath)
-            {
-                BasePath = basePath;
-            }
-
-            public string BasePath { get; protected set; }
+            public string BasePath { get; set; }
         }
     }
 
-    partial class Game
+    partial class Scene
     {
-        public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
+        public void CreateContentLoader<C>(string basePath) where C : ContentLoader, new()
         {
-            var constructorArgs = new List<object>() { basePath };
-            constructorArgs.AddRange(args);
-            var contentLoader = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-            (contentLoader as IHasTypeO).SetTypeO(TypeO);
-            return contentLoader;
+            ContentLoader = new C();
+            ContentLoader.BasePath = basePath;
         }
     }
 }

@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Graphics
     {
-        public abstract partial class Canvas : IHasTypeO
+        public abstract partial class Canvas
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
-
             public Window Window { get; set; }
-            public Game   Game   { get; set; }
 
-            protected Canvas()
-            {
-                Scenes = new Dictionary<Type, Scene>();
-            }
+            protected Canvas(){}
 
             public abstract void Initialize();
 
@@ -34,33 +26,6 @@ namespace Typedeaf.TypeOCore
             public abstract void Present();
 
             public abstract Rectangle Viewport { get; set; }
-        }
-
-        public abstract partial class Window
-        {
-            public C CreateCanvas<C>() where C : Canvas, new()
-            {
-                var canvas = new C();
-
-                (canvas as IHasTypeO).SetTypeO(TypeO);
-                canvas.Window = this;
-                canvas.Game   = Game;
-                if (Game is Game.Interfaces.ISingleCanvasGame)
-                {
-                    (Game as Game.Interfaces.ISingleCanvasGame).SetCanvas(canvas);
-                }
-                canvas.Initialize();
-                return canvas;
-            }
-
-            public C CreateCanvas<C>(Rectangle rect) where C : Canvas, new()
-            {
-                var canvas = CreateCanvas<C>();
-
-                if (rect != null)
-                    canvas.Viewport = rect;
-                return canvas;
-            }
         }
     }
 }

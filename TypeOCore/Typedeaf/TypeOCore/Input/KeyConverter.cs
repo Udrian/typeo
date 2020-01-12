@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
@@ -30,10 +29,5 @@ namespace Typedeaf.TypeOCore
                 return InputToKeyConverter[input];
             }
         }
-    }
-
-    public partial class TypeO
-    {
-        public KeyConverter KeyConverter { get; private set; }
     }
 }

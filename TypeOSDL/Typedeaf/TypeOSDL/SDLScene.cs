@@ -1,10 +1,8 @@
 ﻿using Typedeaf.TypeOCore;
-using Typedeaf.TypeOSDL.Graphics;
 
 namespace Typedeaf.TypeOSDL
 {
-    public abstract class SDLScene : Scene<SDLCanvas>
+    public abstract partial class SDLScene : Scene
     {
-        public SDLScene(SDLCanvas canvas) : base(canvas) { }
     }
 }

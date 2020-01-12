@@ -12,6 +12,7 @@ namespace SampleGameSDLWin
         {
             TypeO.Create<SpaceInvaderGame>()
                 .LoadModule<TypeOSDLModule>()
+                .AddModuleServices()
                 .Start();
         }
     }

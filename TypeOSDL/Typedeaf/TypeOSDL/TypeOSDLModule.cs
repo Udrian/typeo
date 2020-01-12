@@ -1,8 +1,8 @@
 using SDL2;
 using System;
-using System.Collections.Generic;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOSDL.Input;
+using Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOSDL.Services;
 
 namespace Typedeaf.TypeOSDL
 {
@@ -10,9 +10,6 @@ namespace Typedeaf.TypeOSDL
     {
         public override void Initialize()
         {
-            //Set keyboard handler through SDL
-            TypeO.KeyHandler = SDLKeyboardInput = new SDLKeyboardInputHandler();
-
             //Initial SDL
             SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) != 0)
@@ -37,21 +34,13 @@ namespace Typedeaf.TypeOSDL
             SDL.SDL_Quit();
         }
 
-        public override void Update(float dt)
+        public override ITypeO AddModuleServices()
         {
-            var es = new List<SDL.SDL_Event>();
-            while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
-            {
-                if (e.type == SDL.SDL_EventType.SDL_QUIT)
-                {
-                    TypeO.Game.Exit();
-                }
-                else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
-                {
-                    es.Add(e);
-                }
-            }
-            SDLKeyboardInput.Update(es);
+
+            TypeO.AddService<IWindowService, SDLWindowService>();
+            TypeO.AddService<IKeyboardInputService, SDLKeyboardInputService>();
+
+            return base.AddModuleServices();
         }
     }
 }

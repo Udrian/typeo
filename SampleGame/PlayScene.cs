@@ -23,11 +23,12 @@ namespace SampleGameCore
 
         public List<Entity> Entities { get; set; } = new List<Entity>();
 
-        public PlayScene(SDLCanvas canvas) : base(canvas) { }
-
         public override void Initialize()
         {
-            LoadedFont = Game.ContentLoader.LoadFont("content/Awesome.ttf", 26);
+            CreateContentLoader("");
+            var sdlContentloader = ContentLoader as SDLContentLoader;
+
+            LoadedFont = sdlContentloader.LoadFont("content/Awesome.ttf", 26);
 
             var player = new Player();
 
@@ -37,13 +38,13 @@ namespace SampleGameCore
             }
 
             player.Initialize();
-
+            player.Drawable = new DrawableTexture(player, sdlContentloader.LoadTexture("content/image.png"));
             Entities.Add(player);
         }
 
         public override void Update(float dt)
         {
-            if (Game.Input.Key.IsDown("Quit"))
+            if (Game.KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
@@ -59,6 +60,8 @@ namespace SampleGameCore
 
         public override void Draw()
         {
+            Canvas.Clear(Color.Black);
+
             foreach(var entity in Entities)
             {
                 if(entity is IHasDrawable) {
@@ -71,6 +74,8 @@ namespace SampleGameCore
             }
 
             Canvas.DrawText(LoadedFont, "Test", new Vec2(100, 100), color: Color.Green);
+
+            Canvas.Present();
         }
 
         public override void OnEnter(Scene from)

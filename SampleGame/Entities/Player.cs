@@ -2,6 +2,7 @@
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOSDL.Content;
 
 namespace SampleGameCore.Entities
 {
@@ -14,17 +15,16 @@ namespace SampleGameCore.Entities
 
         public override void Initialize()
         {
-            Drawable = new DrawableTexture(this, Game.ContentLoader.LoadTexture("content/image.png"));
             Position = new Vec2(100, 400);
         }
 
         public void Update(float dt)
         {
-            if (Game.Input.Key.IsDown("Left"))
+            if (Game.KeyboardInputService.IsDown("Left"))
             {
                 Position += new Vec2(-Speed, 0);
             }
-            if (Game.Input.Key.IsDown("Right"))
+            if (Game.KeyboardInputService.IsDown("Right"))
             {
                 Position += new Vec2(Speed, 0);
             }

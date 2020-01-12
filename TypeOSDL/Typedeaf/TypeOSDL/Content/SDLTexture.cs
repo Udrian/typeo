@@ -1,7 +1,6 @@
 ﻿using SDL2;
 using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Content;

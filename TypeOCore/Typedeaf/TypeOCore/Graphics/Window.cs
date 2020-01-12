@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -8,33 +8,32 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Window : IHasTypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            ITypeO IHasTypeO.TypeO { get; set; }
+            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
             public Game Game { get; set; }
 
-            protected Window() { }
+            protected Window()
+            {
+                Scenes = new Dictionary<Type, Scene>();
+            }
 
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
             public virtual Vec2   Size       { get; set; }
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
-        }
-    }
 
-    partial class Game
-    {
-        public W CreateWindow<W>() where W : Window, new()
-        {
-            var win = new W();
-            win.Game = this;
-            (win as IHasTypeO).SetTypeO(TypeO);
-
-            if(this is Game.Interfaces.ISingleCanvasGame)
+            public virtual void Update(float dt)
             {
-                (this as Game.Interfaces.ISingleCanvasGame).SetWindow(win);
+                CurrentScene?.Update(dt);
             }
-            return win;
+            public virtual void Draw()
+            {
+                CurrentScene?.Draw();
+            }
+
+            public abstract Canvas CreateCanvas();
+            public abstract Canvas CreateCanvas(Rectangle viewport);
         }
     }
 }
