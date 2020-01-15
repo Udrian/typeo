@@ -62,6 +62,10 @@ namespace Typedeaf.TypeOCore
         {
             var module = new M();
             (module as IHasTypeO).SetTypeO(this);
+            if(module is IHasGame)
+            {
+                (module as IHasGame).SetGame(Game);
+            }
             module.Initialize();
             Modules.Add(module);
 

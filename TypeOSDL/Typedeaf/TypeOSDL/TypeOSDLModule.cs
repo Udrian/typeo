@@ -1,12 +1,14 @@
 using SDL2;
 using System;
+using System.Collections.Generic;
 using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Services;
 using Typedeaf.TypeOSDL.Services;
 
 namespace Typedeaf.TypeOSDL
 {
-    public partial class TypeOSDLModule : Module
+    public partial class TypeOSDLModule : Module, IIsUpdatable, IHasGame
     {
         public override void Initialize()
         {
@@ -41,6 +43,34 @@ namespace Typedeaf.TypeOSDL
             TypeO.AddService<IKeyboardInputService, SDLKeyboardInputService>();
 
             return base.AddModuleServices();
+        }
+
+        public void Update(float dt)
+        {
+            var es = new List<SDL.SDL_Event>();
+            while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
+            {
+                if (e.type == SDL.SDL_EventType.SDL_QUIT)
+                {
+                    TypeO.Exit();
+                }
+                else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
+                {
+                    es.Add(e);
+                }
+            }
+
+            var keyboardService = Game.GetService<IKeyboardInputService>() as SDLKeyboardInputService;
+            if (keyboardService != null)
+            {
+                keyboardService.UpdateKeys(es);
+            }
+        }
+
+        private Game Game { get; set; }
+        public void SetGame(Game game)
+        {
+            Game = game;
         }
     }
 }

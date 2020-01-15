@@ -1,7 +1,6 @@
 ﻿using SDL2;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Input;
 using Typedeaf.TypeOCore.Services;
 
@@ -9,88 +8,74 @@ namespace Typedeaf.TypeOSDL
 {
     namespace Services
     {
-        public class SDLKeyboardInputService : Service, IKeyboardInputService, IIsUpdatable
+        public class SDLKeyboardInputService : Service, IKeyboardInputService
         {
             private KeyConverter KeyConverter { get; set; }
-
-            private List<SDL.SDL_Event> OldEvents { get; set; }
-            private List<SDL.SDL_Event> NewEvents { get; set; }
+            
+            private Dictionary<SDL.SDL_Keycode, bool> OldState { get; set; }
+            private Dictionary<SDL.SDL_Keycode, bool> NewState { get; set; }
 
             public SDLKeyboardInputService()
             {
                 KeyConverter = new KeyConverter();
 
-                OldEvents = new List<SDL.SDL_Event>();
-                NewEvents = new List<SDL.SDL_Event>();
+                OldState = new Dictionary<SDL.SDL_Keycode, bool>();
+                NewState = new Dictionary<SDL.SDL_Keycode, bool>();
             }
 
             public override void Initialize() {}
 
-            public void Update(float dt)
+            public void UpdateKeys(List<SDL.SDL_Event> es)
             {
-                var es = new List<SDL.SDL_Event>();
-                while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
-                {
-                    if (e.type == SDL.SDL_EventType.SDL_QUIT)
-                    {
-                        TypeO.Exit();
-                    }
-                    else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
-                    {
-                        es.Add(e);
-                    }
-                }
-
-                OldEvents = NewEvents;
-                NewEvents = es;
-            }
+                OldState = new Dictionary<SDL.SDL_Keycode, bool>(NewState);
+                foreach(var e in es)
+                 {
+                     bool? state = null;
+                     if(e.type == SDL.SDL_EventType.SDL_KEYDOWN && e.key.repeat == 0)
+                     {
+                         state = true;
+                     }
+                     else if(e.type == SDL.SDL_EventType.SDL_KEYUP)
+                     {
+                         state = false;
+                     }
+ 
+                     if (state.HasValue)
+                     {
+                         if (!NewState.ContainsKey(e.key.keysym.sym))
+                         {
+                             NewState.Add(e.key.keysym.sym, state.Value);
+                         }
+                         else
+                         {
+                             NewState[e.key.keysym.sym] = state.Value;
+                         }
+                     }
+                 }
+             }
 
             protected bool CurrentKeyDownEvent(object key)
             {
-                foreach (var e in NewEvents)
-                {
-                    if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
-                    {
-                        if (e.key.keysym.sym == (SDL.SDL_Keycode)key) return true;
-                    }
-                }
-                return false;
+                if (!NewState.ContainsKey((SDL.SDL_Keycode)key)) return false;
+                return NewState[(SDL.SDL_Keycode)key];
             }
 
             protected bool CurrentKeyUpEvent(object key)
             {
-                foreach (var e in NewEvents)
-                {
-                    if (e.type == SDL.SDL_EventType.SDL_KEYUP)
-                    {
-                        if (e.key.keysym.sym == (SDL.SDL_Keycode)key) return true;
-                    }
-                }
-                return false;
+                if (!NewState.ContainsKey((SDL.SDL_Keycode)key)) return true;
+                return !NewState[(SDL.SDL_Keycode)key];
             }
 
             protected bool OldKeyDownEvent(object key)
             {
-                foreach (var e in OldEvents)
-                {
-                    if (e.type == SDL.SDL_EventType.SDL_KEYDOWN)
-                    {
-                        if (e.key.keysym.sym == (SDL.SDL_Keycode)key) return true;
-                    }
-                }
-                return false;
+                if (!OldState.ContainsKey((SDL.SDL_Keycode)key)) return false;
+                return OldState[(SDL.SDL_Keycode)key];
             }
 
             protected bool OldKeyUpEvent(object key)
             {
-                foreach (var e in OldEvents)
-                {
-                    if (e.type == SDL.SDL_EventType.SDL_KEYUP)
-                    {
-                        if (e.key.keysym.sym == (SDL.SDL_Keycode)key) return true;
-                    }
-                }
-                return false;
+                if (!OldState.ContainsKey((SDL.SDL_Keycode)key)) return true;
+                return !OldState[(SDL.SDL_Keycode)key];
             }
 
             public void SetKeyAlias(object input, object key)
