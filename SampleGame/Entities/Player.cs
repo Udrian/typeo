@@ -2,9 +2,8 @@
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOSDL.Content;
 
-namespace SampleGameCore.Entities
+namespace SampleGame.Entities
 {
     public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable
     {

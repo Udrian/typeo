@@ -1,9 +1,8 @@
-using SampleGameCore;
 using System;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL;
 
-namespace SampleGameSDLWin
+namespace SampleGame
 {
     public static class Program
     {
