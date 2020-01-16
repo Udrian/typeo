@@ -4,6 +4,7 @@ using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL.Services;
 using Typedeaf.TypeOCore.Services;
+using System;
 
 namespace SampleGame
 {
@@ -15,9 +16,12 @@ namespace SampleGame
         public Vec2      ScreenSize { get; set; } = new Vec2(640, 480);
         public PlayScene Scene      { get; set; }
         public SDLWindow Window     { get; set; }
+        public Random    Random     { get; set; }
 
         public override void Initialize()
         {
+            Random = new Random();
+
             WindowService        = GetService<IWindowService>()        as SDLWindowService;
             KeyboardInputService = GetService<IKeyboardInputService>() as SDLKeyboardInputService;
 

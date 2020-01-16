@@ -10,7 +10,7 @@ namespace SampleGame.Entities
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
-        public float Speed { get; set; } = 3f;
+        public float Speed { get; set; } = 5f;
 
         public override void Initialize()
         {

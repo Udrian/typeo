@@ -30,6 +30,8 @@ namespace SampleGame
 
             LoadedFont = sdlContentloader.LoadFont("content/Awesome.ttf", 26);
 
+            EntityAdd(new Space());
+
             Player = new Player();
             Player.Drawable = new DrawableTexture(Player, sdlContentloader.LoadTexture("content/ship.png"));
             EntityAdd(Player);
@@ -43,8 +45,8 @@ namespace SampleGame
             }
             if (Game.KeyboardInputService.IsPressed("Shoot"))
             {
-                var bullet = new Bullet(Player);
-                EntityAdd(bullet);
+                EntityAdd(new Bullet(new Vec2(Player.Position.X, Player.Position.Y + 19)));
+                EntityAdd(new Bullet(new Vec2(Player.Position.X + 36, Player.Position.Y + 19)));
             }
 
             EntityUpdate(dt);

@@ -7,17 +7,11 @@ namespace SampleGame.Entities
 {
     public class Bullet : Entity2d, IIsDrawable, IIsUpdatable
     {
-        private Player Player { get; }
+        public float Speed { get; set; } = 500;
 
-        public Bullet(Player player)
-        {
-            Player = player;
-        }
+        public Bullet(Vec2 position) : base(position) { }
 
-        public override void Initialize()
-        {
-            Position = Player.Position;
-        }
+        public override void Initialize() {}
 
         public void Draw(Canvas canvas)
         {
@@ -26,7 +20,7 @@ namespace SampleGame.Entities
 
         public void Update(float dt)
         {
-            Position = new Vec2(Position.X, Position.Y - 500 * dt);
+            Position = new Vec2(Position.X, Position.Y - Speed * dt);
         }
     }
 }
