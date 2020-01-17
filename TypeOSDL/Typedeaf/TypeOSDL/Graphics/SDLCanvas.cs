@@ -1,13 +1,9 @@
 ﻿using SDL2;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
-using SDL_Window = System.IntPtr;
 using SDL_Renderer = System.IntPtr;
-using Typedeaf.TypeOSDL.Graphics;
 
 namespace Typedeaf.TypeOSDL
 {
@@ -15,19 +11,18 @@ namespace Typedeaf.TypeOSDL
     {
         public partial class SDLCanvas : Canvas
         {
-            public SDL_Renderer SDL_Renderer { get; private set; }
-            /// <summary>
-            /// Do not call directly, use Window.CreateCanvas instead
-            /// </summary>
-            public SDLCanvas(TypeO typeO, Window window) : base(typeO, window)
+            public SDL_Renderer SDLRenderer { get; private set; }
+
+            public override void Initialize()
             {
-                var sdlWindow = window as SDLWindow;
-                if (sdlWindow != null)
+                if (Window != null && Window is SDLWindow)
                 {
-                    SDL_Renderer = SDL.SDL_CreateRenderer(sdlWindow.SDL_Window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
-                    if (SDL_Renderer == null)
+                    var sdlWindow = (Window as SDLWindow).SDL_Window;
+
+                    SDLRenderer = SDL.SDL_CreateRenderer(sdlWindow, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
+                    if (SDLRenderer == null)
                     {
-                        SDL.SDL_DestroyWindow(sdlWindow.SDL_Window);
+                        SDL.SDL_DestroyWindow(sdlWindow);
                         Console.WriteLine("SDL_CreateRenderer  Error: " + SDL.SDL_GetError());
                         SDL.SDL_Quit();
                         //TODO: Error handling!
@@ -37,14 +32,14 @@ namespace Typedeaf.TypeOSDL
 
             public override void Clear(Color clearColor)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)clearColor.R, (byte)clearColor.G, (byte)clearColor.B, (byte)clearColor.A);
-                SDL.SDL_RenderClear(SDL_Renderer);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)clearColor.R, (byte)clearColor.G, (byte)clearColor.B, (byte)clearColor.A);
+                SDL.SDL_RenderClear(SDLRenderer);
             }
 
             public override void DrawLine(Vec2 from, Vec2 size, Color color)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL.SDL_RenderDrawLineF(SDL_Renderer, from.X, from.Y, size.X, size.Y);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+                SDL.SDL_RenderDrawLineF(SDLRenderer, from.X, from.Y, size.X, size.Y);
             }
 
             public override void DrawLineE(Vec2 from, Vec2 to, Color color)
@@ -54,7 +49,7 @@ namespace Typedeaf.TypeOSDL
 
             public override void DrawLines(List<Vec2> points, Color color)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
 
                 var sdlpoints = new SDL.SDL_FPoint[points.Count];
                 int i = 0;
@@ -66,18 +61,18 @@ namespace Typedeaf.TypeOSDL
                     i++;
                 }
 
-                SDL.SDL_RenderDrawLinesF(SDL_Renderer, sdlpoints, points.Count);
+                SDL.SDL_RenderDrawLinesF(SDLRenderer, sdlpoints, points.Count);
             }
 
             public override void DrawPixel(Vec2 point, Color color)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL.SDL_RenderDrawPointF(SDL_Renderer, point.X, point.Y);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+                SDL.SDL_RenderDrawPointF(SDLRenderer, point.X, point.Y);
             }
 
             public override void DrawPixels(List<Vec2> points, Color color)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var sdlpoints = new SDL.SDL_FPoint[points.Count];
                 int i = 0;
                 foreach (var point in points)
@@ -87,7 +82,7 @@ namespace Typedeaf.TypeOSDL
                     sdlpoints[i].y = point.Y;
                     i++;
                 }
-                SDL.SDL_RenderDrawPointsF(SDL_Renderer, sdlpoints, points.Count);
+                SDL.SDL_RenderDrawPointsF(SDLRenderer, sdlpoints, points.Count);
             }
 
             public override void DrawRectangle(Rectangle rectangle, bool filled, Color color)
@@ -97,7 +92,7 @@ namespace Typedeaf.TypeOSDL
 
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color)
             {
-                SDL.SDL_SetRenderDrawColor(SDL_Renderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
+                SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var rect = new SDL.SDL_FRect();
                 rect.x = from.X;
                 rect.y = from.Y;
@@ -106,11 +101,11 @@ namespace Typedeaf.TypeOSDL
 
                 if (filled)
                 {
-                    SDL.SDL_RenderFillRectF(SDL_Renderer, ref rect);
+                    SDL.SDL_RenderFillRectF(SDLRenderer, ref rect);
                 }
                 else
                 {
-                    SDL.SDL_RenderDrawRectF(SDL_Renderer, ref rect);
+                    SDL.SDL_RenderDrawRectF(SDLRenderer, ref rect);
                 }
             }
 
@@ -121,13 +116,13 @@ namespace Typedeaf.TypeOSDL
 
             public override void Present()
             {
-                SDL.SDL_RenderPresent(SDL_Renderer);
+                SDL.SDL_RenderPresent(SDLRenderer);
             }
 
             public override Rectangle Viewport
             {
                 get {
-                    SDL.SDL_RenderGetViewport(SDL_Renderer, out SDL.SDL_Rect rect);
+                    SDL.SDL_RenderGetViewport(SDLRenderer, out SDL.SDL_Rect rect);
                     return new Rectangle(rect.x, rect.y, rect.w, rect.h);
                 }
                 set {
@@ -136,7 +131,7 @@ namespace Typedeaf.TypeOSDL
                     rect.y = (int)value.Pos.Y;
                     rect.w = (int)value.Size.X;
                     rect.h = (int)value.Size.Y;
-                    SDL.SDL_RenderSetViewport(SDL_Renderer, ref rect);
+                    SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
                 }
             }
         }

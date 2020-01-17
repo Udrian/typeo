@@ -1,23 +1,17 @@
 using SDL2;
 using System;
 using System.Collections.Generic;
-using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOSDL.Input;
+using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOSDL.Services;
 
 namespace Typedeaf.TypeOSDL
 {
-    public partial class TypeOSDLModule : Module
+    public partial class TypeOSDLModule : Module, IIsUpdatable, IHasGame
     {
-        public TypeOSDLModule(TypeO typeO) : base(typeO) { }
-
         public override void Initialize()
         {
-            //Set keyboard handler through SDL
-            SDLKeyboardInput = new SDLKeyboardInputHandler(TypeO);
-            TypeO.KeyHandler = SDLKeyboardInput;
-
             //Initial SDL
             SDL.SDL_SetHint(SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
             if (SDL.SDL_Init(SDL.SDL_INIT_VIDEO) != 0)
@@ -42,21 +36,41 @@ namespace Typedeaf.TypeOSDL
             SDL.SDL_Quit();
         }
 
-        public override void Update(float dt)
+        public override ITypeO AddModuleServices()
+        {
+
+            TypeO.AddService<IWindowService, SDLWindowService>();
+            TypeO.AddService<IKeyboardInputService, SDLKeyboardInputService>();
+
+            return base.AddModuleServices();
+        }
+
+        public void Update(float dt)
         {
             var es = new List<SDL.SDL_Event>();
             while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
             {
                 if (e.type == SDL.SDL_EventType.SDL_QUIT)
                 {
-                    TypeO.Game.Exit();
+                    TypeO.Exit();
                 }
                 else if (e.type == SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL.SDL_EventType.SDL_KEYUP)
                 {
                     es.Add(e);
                 }
             }
-            SDLKeyboardInput.Update(es);
+
+            var keyboardService = Game.GetService<IKeyboardInputService>() as SDLKeyboardInputService;
+            if (keyboardService != null)
+            {
+                keyboardService.UpdateKeys(es);
+            }
+        }
+
+        private Game Game { get; set; }
+        public void SetGame(Game game)
+        {
+            Game = game;
         }
     }
 }

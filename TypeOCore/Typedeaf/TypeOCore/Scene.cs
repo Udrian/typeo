@@ -1,15 +1,21 @@
-﻿using Typedeaf.TypeOCore;
+﻿using System;
+using System.Collections.Generic;
+using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract class Scene
+    public abstract partial class Scene
     {
+        public Window Window { get; set; }
+        public Canvas Canvas { get; set; }
+        public ContentLoader ContentLoader { get; set; }
+
         public bool IsInitialized { get; set; } = false;
         public bool Pause         { get; set; } = false;
         public bool Hide          { get; set; } = false;
 
-        public Scene() { }
+        protected Scene() {}
 
         public abstract void Initialize();
         public abstract void Update(float dt);
@@ -19,14 +25,46 @@ namespace Typedeaf.TypeOCore
         public abstract void OnEnter(Scene from);
     }
 
-    public abstract class Scene<G, C> : Scene where G : Game where C : Canvas
+    namespace Graphics
     {
-        protected G Game   { get; private set; }
-        public    C Canvas { get; private set; }
+        partial class Window
+        {
+            private Dictionary<Type, Scene> Scenes { get; set; }
+            public Scene CurrentScene { get; private set; }
 
-        public Scene(G game, C canvas) {
-            Game   = game;
-            Canvas = canvas;
+            public S CreateScene<S>() where S : Scene, new()
+            {
+                if (!Scenes.ContainsKey(typeof(S)))
+                {
+                    var scene = new S();
+                    Scenes.Add(scene.GetType(), scene);
+                    if (scene is IHasGame)
+                    {
+                        (scene as IHasGame).SetGame(Game);
+                    }
+
+                    scene.Window = this;
+                    scene.Canvas = CreateCanvas();
+
+                    return scene;
+                }
+                return Scenes[typeof(S)] as S;
+            }
+
+            public S SetScene<S>() where S : Scene, new()
+            {
+                var init = false;
+                if (!Scenes.ContainsKey(typeof(S)))
+                {
+                    var scene = CreateScene<S>();
+                    init = true;
+                }
+                
+                CurrentScene = Scenes[typeof(S)];
+                if(init)
+                    CurrentScene.Initialize();
+                return Scenes[typeof(S)] as S;
+            }
         }
     }
 }

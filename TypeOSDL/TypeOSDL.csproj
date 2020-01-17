@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TypeOCommon\TypeOCommon.csproj" />
+    <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SDL2-CS">
+      <HintPath>..\SDL2\debug\SDL2-CS.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Graphics
     {
-        public abstract partial class Window
+        public abstract partial class Window : IHasTypeO
         {
-            protected TypeO TypeO { get; set; }
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow instead
-            /// </summary>
-            public Window(TypeO typeO)
+            ITypeO IHasTypeO.TypeO { get; set; }
+            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            public Game Game { get; set; }
+
+            protected Window()
             {
-                TypeO = typeO;
+                Scenes = new Dictionary<Type, Scene>();
             }
 
             public virtual string Title      { get; set; }
@@ -24,17 +22,18 @@ namespace Typedeaf.TypeOCore
             public virtual Vec2   Size       { get; set; }
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
-        }
-    }
 
-    public abstract partial class Game
-    {
-        public T CreateWindow<T>(params object[] args) where T : Window
-        {
-            var constructorArgs = new List<object>() { TypeO };
-            constructorArgs.AddRange(args);
-            var win = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-            return win;
+            public virtual void Update(float dt)
+            {
+                CurrentScene?.Update(dt);
+            }
+            public virtual void Draw()
+            {
+                CurrentScene?.Draw();
+            }
+
+            public abstract Canvas CreateCanvas();
+            public abstract Canvas CreateCanvas(Rectangle viewport);
         }
     }
 }

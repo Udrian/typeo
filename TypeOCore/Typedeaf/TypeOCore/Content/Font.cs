@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -11,13 +9,11 @@ namespace Typedeaf.TypeOCore
     {
         public abstract class Font
         {
-            protected TypeO TypeO { get; private set; }
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public Font(TypeO typeO, string path)
+            public Font(string path)
             {
-                TypeO = typeO;
                 FileName = path;
             }
 
@@ -25,11 +21,11 @@ namespace Typedeaf.TypeOCore
             public abstract Vec2 MeasureString(string text);
         }
 
-        public abstract partial class ContentLoader
+        public partial class ContentLoader
         {
             public T LoadFont<T>(string path, params object[] args) where T : Font
             {
-                var constructorArgs = new List<object>() { TypeO, path };
+                var constructorArgs = new List<object>() { path };
                 constructorArgs.AddRange(args);
                 var font = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
                 return font;

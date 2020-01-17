@@ -1,77 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Typedeaf.TypeOCore.Input;
+using Typedeaf.TypeOCore.Entities;
 
 namespace Typedeaf.TypeOCore
 {
-    public partial class TypeO
+    public interface IHasTypeO
     {
-        public partial class Runner<T> where T : Game
+        protected ITypeO TypeO { get; set; }
+        public void SetTypeO(ITypeO typeO)
         {
-            protected TypeO TypeO { get; private set; }
-
-            public Runner()
-            {
-                TypeO = new TypeO();
-            }
-
-            public TypeO.Runner<T> SetKeyAlias(object input, object key)
-            {
-                TypeO.KeyConverter.SetKeyAlias(input, key);
-                return this;
-            }
-
-            public void Start()
-            {
-                //Initialize the game
-                var game = (T)Activator.CreateInstance(typeof(T), TypeO);
-                TypeO.Game = game;
-                game.Initialize();
-
-                TypeO.Start();
-
-                //Cleanup
-                foreach(var module in TypeO.Modules)
-                {
-                    module.Cleanup();
-                }
-            }
+            TypeO = typeO;
         }
-
-        private TypeO() {
-            Modules = new List<Module>();
-            KeyConverter = new KeyConverter(this);
-            LastTick = DateTime.UtcNow;
-        }
-
-        public static TypeO.Runner<T> Create<T>() where T : Game
+        public ITypeO GetTypeO()
         {
-            var factory = new TypeO.Runner<T>();
-            return factory;
+            return TypeO;
+        }
+    }
+
+    public interface ITypeO
+    {
+        public void Start();
+        public void Exit();
+
+        public ITypeO AddService<I, S>() where I : class where S : Service, new();
+        public M LoadModule<M>() where M : Module, new();
+    }
+
+    public class TypeO : ITypeO
+    {
+        public static ITypeO Create<G>() where G : Game, new()
+        {
+            var typeO = new TypeO();
+            typeO.Game = new G();
+            (typeO.Game as IHasTypeO).SetTypeO(typeO);
+            return typeO;
         }
 
-        public bool Exit { get; set; } = false;
+        public Game Game { get; set; }
         private DateTime LastTick { get; set; }
+        private List<Module> Modules { get; set; }
+
+        public TypeO() : base()
+        {
+            LastTick = DateTime.UtcNow;
+            Modules = new List<Module>();
+        }
+
+        private bool ExitApplication = false;
+        public void Exit()
+        {
+            ExitApplication = true;
+        }
+
+        public ITypeO AddService<I, S>() where I : class where S : Service, new()
+        {
+            Game.AddService<I, S>();
+            return this;
+        }
+
+        public M LoadModule<M>() where M : Module, new()
+        {
+            var module = new M();
+            (module as IHasTypeO).SetTypeO(this);
+            if(module is IHasGame)
+            {
+                (module as IHasGame).SetGame(Game);
+            }
+            module.Initialize();
+            Modules.Add(module);
+
+            return module;
+        }
+
         public void Start()
         {
-            while (!Exit)
+            //Initialize the game
+            Game.Initialize();
+
+            while (!ExitApplication)
             {
                 var dt = (float)(DateTime.UtcNow - LastTick).TotalSeconds;
                 LastTick = DateTime.UtcNow;
 
                 foreach (var module in Modules)
                 {
-                    module.Update(dt);
+                    (module as IIsUpdatable)?.Update(dt);
                 }
 
-                foreach(var service in Game.GetServices())
+                foreach (var service in Game.GetServices())
                 {
-                    service.Update(dt);
+                    (service as IIsUpdatable)?.Update(dt);
                 }
 
                 Game.Update(dt);
                 Game.Draw();
+            }
+
+            //Cleanup
+            foreach (var module in Modules)
+            {
+                module.Cleanup();
             }
         }
     }

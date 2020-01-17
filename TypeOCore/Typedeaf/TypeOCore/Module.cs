@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Typedeaf.TypeOCore
+﻿namespace Typedeaf.TypeOCore
 {
-    public abstract class Module
+    public abstract class Module : ITypeO, IHasTypeO
     {
-        public Module(TypeO typeO)
-        {
-            TypeO = typeO;
-        }
-        protected TypeO TypeO { get; private set; }
+        ITypeO IHasTypeO.TypeO { get; set; }
+        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
         public abstract void Initialize();
         public abstract void Cleanup();
-        public abstract void Update(float dt);
-    }
 
-    public partial class TypeO
-    {
-        private List<Module> Modules;
+        public virtual ITypeO AddModuleServices() { return TypeO; }
 
-        public partial class Runner<T> where T : Game
+        public void Exit()
         {
-            public TypeO.Runner<T> LoadModule<C>(params object[] args) where C : Module
-            {
-                var constructorArgs = new List<object>() { TypeO };
-                constructorArgs.AddRange(args);
-                var module = (C)Activator.CreateInstance(typeof(C), constructorArgs.ToArray());
-                module.Initialize();
-                TypeO.Modules.Add(module);
-                return this;
-            }
+            TypeO.Exit();
+        }
+
+        public ITypeO AddService<I, S>() where I : class where S : Service, new()
+        {
+            return TypeO.AddService<I, S>();
+        }
+
+        public M LoadModule<M>() where M : Module, new()
+        {
+            return TypeO.LoadModule<M>();
+        }
+
+        public void Start()
+        {
+            TypeO.Start();
         }
     }
 }

@@ -1,31 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract partial class Game
+    public interface IHasGame
     {
-        private TypeO TypeO { get; set; }
-        public Game(TypeO typeO)
+        public void SetGame(Game game);
+    }
+
+    public interface IHasGame<G> : IHasGame where G : Game
+    {
+        public G Game { get; set; }
+
+        void IHasGame.SetGame(Game game)
         {
-            TypeO = typeO;
-            Services = new Dictionary<Type, Service>();
-            Input = new InputHandler(typeO);
+            Game = (G)game;
         }
-        protected Game() { }
+    }
+
+    public abstract partial class Game : IHasTypeO
+    {
+        ITypeO IHasTypeO.TypeO { get; set; }
+        private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
+        public Game()
+        {
+            Services = new Dictionary<Type, Service>();
+        }
         public abstract void Initialize();
         public abstract void Update(float dt);
         public abstract void Draw();
-        public void Exit() { TypeO.Exit = true; }
-    }
-
-    public partial class TypeO
-    {
-        public Game Game { get; set; }
+        public void Exit() { TypeO.Exit(); }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Input;
 
 namespace Typedeaf.TypeOCore
 {
@@ -8,11 +6,8 @@ namespace Typedeaf.TypeOCore
     {
         public partial class KeyConverter
         {
-            protected TypeO TypeO { get; private set; }
-
-            public KeyConverter(TypeO typeO)
+            public KeyConverter()
             {
-                TypeO = typeO;
                 InputToKeyConverter = new Dictionary<object, object>();
             }
 
@@ -34,10 +29,5 @@ namespace Typedeaf.TypeOCore
                 return InputToKeyConverter[input];
             }
         }
-    }
-
-    public partial class TypeO
-    {
-        public KeyConverter KeyConverter { get; private set; }
     }
 }

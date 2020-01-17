@@ -4,48 +4,52 @@ using System.Linq;
 
 namespace Typedeaf.TypeOCore
 {
-    public abstract class Service
+    public abstract class Service : IHasTypeO
     {
+        ITypeO IHasTypeO.TypeO { get; set; }
+        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+
         public bool Pause { get; set; }
 
-        public Game Game { get; private set; }
-        public Service(Game game)
-        {
-            Game = game;
-        }
+        protected Service() {}
 
         public abstract void Initialize();
-        public abstract void Update(float dt);
     }
 
-    public partial class Game
+    partial class Game
     {
         private Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<T>(params object[] args) where T : Service {
-            var constructorArgs = new List<object>(){ this };
-            constructorArgs.AddRange(args);
-            Services.Add(typeof(T), (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray()));
-        }
+        public void AddService<I, S>() where I : class where S : Service, new() {
+            if (!typeof(I).IsInterface)
+            {
+                throw new ArgumentException($"Generic argument <{nameof(I)}> must be of interface type");
+            }
 
-        public void AddService(Service service) {
-            Services.Add(service.GetType(), service);
+            var service = new S();
+            if (service is IHasGame)
+            {
+                (service as IHasGame).SetGame(this);
+            }
+            (service as IHasTypeO).SetTypeO(TypeO);
 
             service.Initialize();
+
+            Services.Add(typeof(I), service);
         }
 
-        public T GetService<T>() where T : Service {
-            if (!Services.ContainsKey(typeof(T))) return null;
-            var service = Services[typeof(T)];
-            return (T)Convert.ChangeType(service, typeof(T));
+        public I GetService<I>() where I : class {
+            if (!Services.ContainsKey(typeof(I))) return default;
+            var service = Services[typeof(I)];
+            return service as I;
         }
 
         public List<Service> GetServices() {
             return Services.Values.ToList();
         }
 
-        public void RemoveService<T>() where T : Service {
-            Services.Remove(typeof(T));
+        public void RemoveService<I>() where I : class {
+            Services.Remove(typeof(I));
         }
     }
 }

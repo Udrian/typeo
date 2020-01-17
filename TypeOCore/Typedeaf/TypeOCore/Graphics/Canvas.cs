@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
@@ -11,17 +7,11 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Canvas
         {
-            protected TypeO  TypeO   { get; set; }
-            protected Window Window  { get; set; }
+            public Window Window { get; set; }
 
-            /// <summary>
-            /// Do not call directly, use Window.CreateCanvas instead
-            /// </summary>
-            public Canvas(TypeO typeO, Window window)
-            {
-                TypeO   = typeO;
-                Window  = window;
-            }
+            protected Canvas(){}
+
+            public abstract void Initialize();
 
             public abstract void Clear(Color clearColor);
             public abstract void DrawLine (Vec2 from, Vec2 size, Color color);
@@ -36,27 +26,6 @@ namespace Typedeaf.TypeOCore
             public abstract void Present();
 
             public abstract Rectangle Viewport { get; set; }
-        }
-
-        public abstract partial class Window
-        {
-            public T CreateCanvas<T>(params object[] args) where T : Canvas
-            {
-                var constructorArgs = new List<object>() { TypeO, this };
-                constructorArgs.AddRange(args);
-                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-                return canvas;
-            }
-
-            public T CreateCanvas<T>(Rectangle rect, params object[] args) where T : Canvas
-            {
-                var constructorArgs = new List<object>() { TypeO, this };
-                constructorArgs.AddRange(args);
-                var canvas = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-                if (rect != null)
-                    canvas.Viewport = rect;
-                return canvas;
-            }
         }
     }
 }

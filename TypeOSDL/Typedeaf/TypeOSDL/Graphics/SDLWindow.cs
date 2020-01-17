@@ -1,11 +1,7 @@
 ﻿using SDL2;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOSDL.Graphics;
 using SDL_Window = System.IntPtr;
 
 namespace Typedeaf.TypeOSDL
@@ -15,18 +11,6 @@ namespace Typedeaf.TypeOSDL
         public class SDLWindow : Window
         {
             public SDL_Window SDL_Window { get; private set; }
-
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow<SDLWindow>() instead
-            /// </summary>
-            public SDLWindow(TypeO typeO) : base(typeO) { }
-            /// <summary>
-            /// Do not call directly, use Game.CreateWindow<SDLWindow>(string title, Vec2 position, Vec2 size) instead
-            /// </summary>
-            public SDLWindow(TypeO typeO, string title, Vec2 position, Vec2 size) : base(typeO)
-            {
-                Initialize(title, position, size, false, false);
-            }
 
             public void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
@@ -43,16 +27,6 @@ namespace Typedeaf.TypeOSDL
                     Fullscreen = fullscreen;
                 if (borderless)
                     Borderless = borderless;
-            }
-
-            public SDLCanvas CreateCanvas()
-            {
-                return CreateCanvas<SDLCanvas>();
-            }
-
-            public SDLCanvas CreateCanvas(Rectangle rect)
-            {
-                return CreateCanvas<SDLCanvas>(rect);
             }
 
             public override string Title {
@@ -114,25 +88,22 @@ namespace Typedeaf.TypeOSDL
                         SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
             }
-        }
-    }
 
-    public static partial class SDLGame
-    {
-        public static SDLWindow CreateWindow(this Game game)
-        {
-            return game.CreateWindow<SDLWindow>();
-        }
+            public override Canvas CreateCanvas()
+            {
+                var canvas = new SDLCanvas();
 
-        public static SDLWindow CreateWindow(this Game game, string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
-        {
-            var win = game.CreateWindow<SDLWindow>(title, position, size);
-            if (fullscreen)
-                win.Fullscreen = fullscreen;
-            if (borderless)
-                win.Borderless = borderless;
+                canvas.Window = this;
+                canvas.Initialize();
+                return canvas;
+            }
 
-            return win;
+            public override Canvas CreateCanvas(Rectangle viewport)
+            {
+                var canvas = CreateCanvas();
+                canvas.Viewport = viewport;
+                return canvas;
+            }
         }
     }
 }

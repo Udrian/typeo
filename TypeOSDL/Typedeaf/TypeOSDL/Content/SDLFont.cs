@@ -1,15 +1,11 @@
 ﻿using SDL2;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
-using SDL_Image = System.IntPtr;
 using SDL_Font = System.IntPtr;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOSDL.Content;
-using Typedeaf.TypeOCore;
 
 namespace Typedeaf.TypeOSDL
 {
@@ -24,7 +20,7 @@ namespace Typedeaf.TypeOSDL
             /// <summary>
             /// Do not call directly, use Game.Content.LoadTexture instead
             /// </summary>
-            public SDLFont(TypeO typeO, string path, int fontSize, SDLCanvas canvas) : base(typeO, path)
+            public SDLFont(string path, int fontSize, SDLCanvas canvas) : base(path)
             {
                 Canvas = canvas;
                 SDL_Font = SDL_ttf.TTF_OpenFont(path, fontSize);
@@ -42,7 +38,7 @@ namespace Typedeaf.TypeOSDL
             public override Vec2 MeasureString(string text)
             {
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(SDL_Font, text, new SDL.SDL_Color());
-                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDL_Renderer, fontSur);
+                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDLRenderer, fontSur);
 
                 SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
                 return new Vec2(w, h);
@@ -93,7 +89,7 @@ namespace Typedeaf.TypeOSDL
                 sdlColor.b = (byte)color.B;
                 sdlColor.a = (byte)color.A;
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(sdlFont.SDL_Font, text, sdlColor);
-                var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDL_Renderer, fontSur);
+                var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDLRenderer, fontSur);
 
                 SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
                 var fontSize = new Vec2(w, h);
@@ -116,7 +112,7 @@ namespace Typedeaf.TypeOSDL
                     sdlRenderFlip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL.SDL_Rect srect = new SDL.SDL_Rect();
@@ -125,7 +121,7 @@ namespace Typedeaf.TypeOSDL
                     srect.w = (int)source.Size.X;
                     srect.h = (int)source.Size.Y;
 
-                    SDL.SDL_RenderCopyEx(this.SDL_Renderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
             }
         }

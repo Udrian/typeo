@@ -1,6 +1,4 @@
-﻿using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
+﻿using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOSDL.Content;
 using Typedeaf.TypeOSDL.Graphics;
 
@@ -10,20 +8,19 @@ namespace Typedeaf.TypeOSDL
     {
         public partial class SDLContentLoader : ContentLoader
         {
-            protected SDLCanvas Canvas { get; set; }
+            public SDLCanvas Canvas { get; set; }
 
-            public SDLContentLoader(TypeO typeO, string basePath, SDLCanvas canvas) : base(typeO, basePath)
-            {
-                Canvas = canvas;
-            }
+            public SDLContentLoader() : base() { }
         }
     }
 
-    public static partial class SDLGame
+    public partial class SDLScene
     {
-        public static SDLContentLoader CreateContentLoader(this Game game, string basePath, SDLCanvas canvas)
+        public void CreateContentLoader(string basePath)
         {
-            return game.CreateContentLoader<SDLContentLoader>(basePath, canvas);
+            CreateContentLoader<SDLContentLoader>(basePath);
+            if(ContentLoader is SDLContentLoader)
+                (ContentLoader as SDLContentLoader).Canvas = Canvas as SDLCanvas;
         }
     }
 }

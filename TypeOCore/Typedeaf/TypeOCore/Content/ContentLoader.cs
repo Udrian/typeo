@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
-using Typedeaf.TypeOCore.Graphics;
+﻿using Typedeaf.TypeOCore.Content;
 
 namespace Typedeaf.TypeOCore
 {
@@ -11,25 +6,18 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class ContentLoader
         {
-            protected TypeO TypeO { get; set; }
-            public ContentLoader(TypeO typeO, string basePath)
-            {
-                TypeO = typeO;
-                BasePath = basePath;
-            }
+            protected ContentLoader() { }
 
-            public string BasePath { get; protected set; }
+            public string BasePath { get; set; }
         }
     }
 
-    public abstract partial class Game
+    partial class Scene
     {
-        public T CreateContentLoader<T>(string basePath, params object[] args) where T : ContentLoader
+        public void CreateContentLoader<C>(string basePath) where C : ContentLoader, new()
         {
-            var constructorArgs = new List<object>() { TypeO, basePath };
-            constructorArgs.AddRange(args);
-            var contentLoader = (T)Activator.CreateInstance(typeof(T), constructorArgs.ToArray());
-            return contentLoader;
+            ContentLoader = new C();
+            ContentLoader.BasePath = basePath;
         }
     }
 }
