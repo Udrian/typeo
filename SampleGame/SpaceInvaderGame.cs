@@ -14,7 +14,6 @@ namespace SampleGame
         public SDLKeyboardInputService KeyboardInputService { get; private set; }
 
         public Vec2      ScreenSize { get; set; } = new Vec2(640, 480);
-        public PlayScene Scene      { get; set; }
         public SDLWindow Window     { get; set; }
         public Random    Random     { get; set; }
 
@@ -31,7 +30,7 @@ namespace SampleGame
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
 
             Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
-            Scene  = Window.SetScene<PlayScene>();
+            Window.SetScene<PlayScene>();
         }
 
         public override void Draw()

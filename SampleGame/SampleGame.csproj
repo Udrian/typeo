@@ -71,7 +71,7 @@
     <None Update="content\font.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="content\image.png">
+    <None Update="content\alien.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="content\ship.png">

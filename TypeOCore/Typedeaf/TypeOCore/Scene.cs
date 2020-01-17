@@ -53,14 +53,16 @@ namespace Typedeaf.TypeOCore
 
             public S SetScene<S>() where S : Scene, new()
             {
+                var init = false;
                 if (!Scenes.ContainsKey(typeof(S)))
                 {
                     var scene = CreateScene<S>();
-
-                    scene.Initialize();
+                    init = true;
                 }
                 
                 CurrentScene = Scenes[typeof(S)];
+                if(init)
+                    CurrentScene.Initialize();
                 return Scenes[typeof(S)] as S;
             }
         }
