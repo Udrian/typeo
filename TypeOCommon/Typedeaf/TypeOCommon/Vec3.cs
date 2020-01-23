@@ -4,17 +4,17 @@ namespace  Typedeaf.TypeOCommon
 {
     public struct Vec3 : IEquatable<Vec3>
     {
-        public float X;
-        public float Y;
-        public float Z;
+        public double X;
+        public double Y;
+        public double Z;
 
-        public Vec3(float xyz) {
+        public Vec3(double xyz) {
             X = xyz;
             Y = xyz;
             Z = xyz;
         }
 
-        public Vec3(Vec2 v2, float z) {
+        public Vec3(Vec2 v2, double z) {
             X = v2.X;
             Y = v2.Y;
             Z = z;
@@ -26,7 +26,7 @@ namespace  Typedeaf.TypeOCommon
             Z = 0;
         }
 
-        public Vec3(float x, float y, float z) {
+        public Vec3(double x, double y, double z) {
             X = x;
             Y = y;
             Z = z;
@@ -38,7 +38,7 @@ namespace  Typedeaf.TypeOCommon
             Z = vec.Z;
         }
 
-        public void Set(float x, float y, float z) {
+        public void Set(double x, double y, double z) {
             X = x;
             Y = y;
             Z = z;
@@ -62,37 +62,37 @@ namespace  Typedeaf.TypeOCommon
             return new Vec3(-a.X, -a.Y, -a.Z);
         }
 
-        public float LengthSquared() {
+        public double LengthSquared() {
             return (X * X) + (Y * Y) + (Z * Z);
         }
 
-        public float Length() {
-            return (float)Math.Sqrt(LengthSquared());
+        public double Length() {
+            return Math.Sqrt(LengthSquared());
         }
 
-        public float Distance(Vec3 to) {
+        public double Distance(Vec3 to) {
             return Distance(this, to);
         }
 
-        public float DistanceSquared(Vec3 to) {
+        public double DistanceSquared(Vec3 to) {
             return DistanceSquared(this, to);
         }
 
-        public static float Distance(Vec3 from, Vec3 to) {
+        public static double Distance(Vec3 from, Vec3 to) {
             return (to - from).Length();
         }
 
-        public static float DistanceSquared(Vec3 from, Vec3 to) {
+        public static double DistanceSquared(Vec3 from, Vec3 to) {
             return (to - from).LengthSquared();
         }
 
         public void Normalize() {
-            float l = Length();
+            var l = Length();
             if(l <= 0) return;
-            float factor = 1.0f/l;
-            X = X * factor;
-            Y = Y * factor;
-            Z = Z * factor;
+            var factor = 1.0/l;
+            X *= factor;
+            Y *= factor;
+            Z *= factor;
         }
 
         public static Vec3 operator*(Vec3 a, Vec3 b) {
@@ -103,19 +103,19 @@ namespace  Typedeaf.TypeOCommon
             return new Vec3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
         }
 
-        public static Vec3 operator*(Vec3 a, float scalar) {
+        public static Vec3 operator*(Vec3 a, double scalar) {
             return new Vec3(a.X * scalar, a.Y * scalar, a.Z * scalar);
         }
 
-        public static Vec3 operator*(float scalar, Vec3 a) {
+        public static Vec3 operator*(double scalar, Vec3 a) {
             return new Vec3(a.X * scalar, a.Y * scalar, a.Z * scalar);
         }
 
-        public static Vec3 operator/(Vec3 a, float scalar) {
+        public static Vec3 operator/(Vec3 a, double scalar) {
             return new Vec3(a.X / scalar, a.Y / scalar, a.Z / scalar);
         }
 
-        public static Vec3 operator/(float scalar, Vec3 a) {
+        public static Vec3 operator/(double scalar, Vec3 a) {
             return new Vec3(a.X / scalar, a.Y / scalar, a.Z / scalar);
         }
 
@@ -127,11 +127,11 @@ namespace  Typedeaf.TypeOCommon
             return !(a == b);
         }
 
-        public float Dot(Vec3 vec) {
+        public double Dot(Vec3 vec) {
             return (X * vec.X) + (Y * vec.Y) + (Z * vec.Z);
         }
 
-        public static float Dot(Vec3 a, Vec3 b) {
+        public static double Dot(Vec3 a, Vec3 b) {
             return a.Dot(b);
         }
 

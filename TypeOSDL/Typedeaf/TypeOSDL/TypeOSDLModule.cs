@@ -45,7 +45,7 @@ namespace Typedeaf.TypeOSDL
             return base.AddModuleServices();
         }
 
-        public void Update(float dt)
+        public void Update(double dt)
         {
             var es = new List<SDL.SDL_Event>();
             while (SDL.SDL_PollEvent(out SDL.SDL_Event e) > 0)
@@ -60,8 +60,7 @@ namespace Typedeaf.TypeOSDL
                 }
             }
 
-            var keyboardService = Game.GetService<IKeyboardInputService>() as SDLKeyboardInputService;
-            if (keyboardService != null)
+            if (Game.GetService<IKeyboardInputService>() is SDLKeyboardInputService keyboardService)
             {
                 keyboardService.UpdateKeys(es);
             }

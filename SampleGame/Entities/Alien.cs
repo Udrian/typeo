@@ -13,12 +13,12 @@ namespace SampleGame.Entities
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
-        public float Speed { get; set; } = 100f;
+        public double Speed { get; set; } = 100;
         public Vec2 Size { get; set; } = new Vec2(58, 57);
-        public float SinTime { get; set; } = 0;
-        public float Amplitude { get; set; } = 250f;
-        public float Frequency { get; set; } = 3f;
-        public float Phase { get; set; } = 0f;
+        public double SinTime { get; set; } = 0;
+        public double Amplitude { get; set; } = 250;
+        public double Frequency { get; set; } = 3;
+        public double Phase { get; set; } = 0;
 
         public int Health { get; set; } = 5;
 
@@ -29,10 +29,10 @@ namespace SampleGame.Entities
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }
 
-        public void Update(float dt)
+        public void Update(double dt)
         {
             SinTime += dt;
-            Position = new Vec2((float)Math.Sin((Frequency * SinTime) + Phase) * Amplitude + Game.Window.Size.X / 2 - Size.X/2, Position.Y + Speed * dt);
+            Position = new Vec2((double)Math.Sin((Frequency * SinTime) + Phase) * Amplitude + Game.Window.Size.X / 2 - Size.X/2, Position.Y + Speed * dt);
 
             if (Position.Y >= Game.Window.Size.Y)
                 Remove();

@@ -38,7 +38,7 @@ namespace SampleGame
             Window.Draw();
         }
 
-        public override void Update(float dt)
+        public override void Update(double dt)
         {
             Window.Update(dt);
         }

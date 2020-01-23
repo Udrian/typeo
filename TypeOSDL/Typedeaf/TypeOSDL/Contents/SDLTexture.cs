@@ -64,15 +64,19 @@ namespace Typedeaf.TypeOSDL
                 var sdltexture = texture as SDLTexture;
                 //TODO: Error handling
 
-                var drect = new SDL.SDL_Rect();
-                drect.x = (int)(pos.X - origin.X);
-                drect.y = (int)(pos.Y - origin.Y);
-                drect.w = (int)(texture.Size.X * scale.X);
-                drect.h = (int)(texture.Size.Y * scale.Y);
+                var drect = new SDL.SDL_Rect
+                {
+                    x = (int)(pos.X - origin.X),
+                    y = (int)(pos.Y - origin.Y),
+                    w = (int)(texture.Size.X * scale.X),
+                    h = (int)(texture.Size.Y * scale.Y)
+                };
 
-                var sdlPoint = new SDL.SDL_Point();
-                sdlPoint.x = (int)origin.X;
-                sdlPoint.y = (int)origin.Y;
+                var sdlPoint = new SDL.SDL_Point
+                {
+                    x = (int)origin.X,
+                    y = (int)origin.Y
+                };
 
                 if (color == null)
                     color = Color.White;
@@ -91,11 +95,13 @@ namespace Typedeaf.TypeOSDL
                     SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
-                    SDL.SDL_Rect srect = new SDL.SDL_Rect();
-                    srect.x = (int)source.Pos.X;
-                    srect.y = (int)source.Pos.Y;
-                    srect.w = (int)source.Size.X;
-                    srect.h = (int)source.Size.Y;
+                    SDL.SDL_Rect srect = new SDL.SDL_Rect
+                    {
+                        x = (int)source.Pos.X,
+                        y = (int)source.Pos.Y,
+                        w = (int)source.Size.X,
+                        h = (int)source.Size.Y
+                    };
 
                     SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }

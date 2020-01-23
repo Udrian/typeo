@@ -13,7 +13,7 @@ namespace SampleGame.Entities
         private List<Vec2>      Stars { get; set; }
         
         private int   NumberOfStars { get; set; } = 100;
-        private float Speed         { get; set; } = 250;
+        private double Speed        { get; set; } = 250;
 
         public override void Initialize() {
 
@@ -40,7 +40,7 @@ namespace SampleGame.Entities
             }
         }
 
-        public void Update(float dt)
+        public void Update(double dt)
         {
             for(int i = 0; i < Stars.Count; i++)
             {

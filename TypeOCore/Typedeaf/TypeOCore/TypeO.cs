@@ -30,8 +30,10 @@ namespace Typedeaf.TypeOCore
     {
         public static ITypeO Create<G>() where G : Game, new()
         {
-            var typeO = new TypeO();
-            typeO.Game = new G();
+            var typeO = new TypeO
+            {
+                Game = new G()
+            };
             (typeO.Game as IHasTypeO).SetTypeO(typeO);
             return typeO;
         }
@@ -79,7 +81,7 @@ namespace Typedeaf.TypeOCore
 
             while (!ExitApplication)
             {
-                var dt = (float)(DateTime.UtcNow - LastTick).TotalSeconds;
+                var dt = (DateTime.UtcNow - LastTick).TotalSeconds;
                 LastTick = DateTime.UtcNow;
 
                 foreach (var module in Modules)

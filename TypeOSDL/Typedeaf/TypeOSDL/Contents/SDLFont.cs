@@ -81,25 +81,31 @@ namespace Typedeaf.TypeOSDL
 
                 if (color == null)
                     color = Color.White;
-                var sdlColor = new SDL.SDL_Color();
-                sdlColor.r = (byte)color.R;
-                sdlColor.g = (byte)color.G;
-                sdlColor.b = (byte)color.B;
-                sdlColor.a = (byte)color.A;
+                var sdlColor = new SDL.SDL_Color
+                {
+                    r = (byte)color.R,
+                    g = (byte)color.G,
+                    b = (byte)color.B,
+                    a = (byte)color.A
+                };
                 var fontSur = SDL_ttf.TTF_RenderText_Solid(sdlFont.SDL_Font, text, sdlColor);
                 var fontTex = SDL.SDL_CreateTextureFromSurface(this.SDLRenderer, fontSur);
 
                 SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
                 var fontSize = new Vec2(w, h);
-                var drect = new SDL.SDL_Rect();
-                drect.x = (int)(pos.X - origin.X);
-                drect.y = (int)(pos.Y - origin.Y);
-                drect.w = (int)(fontSize.X * scale.X);
-                drect.h = (int)(fontSize.Y * scale.Y);
+                var drect = new SDL.SDL_Rect
+                {
+                    x = (int)(pos.X - origin.X),
+                    y = (int)(pos.Y - origin.Y),
+                    w = (int)(fontSize.X * scale.X),
+                    h = (int)(fontSize.Y * scale.Y)
+                };
 
-                var sdlPoint = new SDL.SDL_Point();
-                sdlPoint.x = (int)origin.X;
-                sdlPoint.y = (int)origin.Y;
+                var sdlPoint = new SDL.SDL_Point
+                {
+                    x = (int)origin.X,
+                    y = (int)origin.Y
+                };
 
                 var sdlRenderFlip = SDL.SDL_RendererFlip.SDL_FLIP_NONE;
                 if (flipped == Texture.Flipped.Horizontal)
@@ -113,11 +119,13 @@ namespace Typedeaf.TypeOSDL
                     SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
-                    SDL.SDL_Rect srect = new SDL.SDL_Rect();
-                    srect.x = (int)source.Pos.X;
-                    srect.y = (int)source.Pos.Y;
-                    srect.w = (int)source.Size.X;
-                    srect.h = (int)source.Size.Y;
+                    SDL.SDL_Rect srect = new SDL.SDL_Rect
+                    {
+                        x = (int)source.Pos.X,
+                        y = (int)source.Pos.Y,
+                        w = (int)source.Size.X,
+                        h = (int)source.Size.Y
+                    };
 
                     SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }

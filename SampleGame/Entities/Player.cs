@@ -12,7 +12,7 @@ namespace SampleGame.Entities
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
-        public float Speed { get; set; } = 5f;
+        public double Speed { get; set; } = 5;
         public Vec2 Size { get; set; } = new Vec2(46, 29);
 
         public override void Initialize()
@@ -21,7 +21,7 @@ namespace SampleGame.Entities
             Position = new Vec2(100, 400);
         }
 
-        public void Update(float dt)
+        public void Update(double dt)
         {
             if (Game.KeyboardInputService.IsDown("Left"))
             {

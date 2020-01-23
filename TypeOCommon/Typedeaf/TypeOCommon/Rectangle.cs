@@ -15,7 +15,7 @@
             Size = size;
         }
 
-        public Rectangle(float x, float y, float width, float height) {
+        public Rectangle(double x, double y, double width, double height) {
             Pos = new Vec2(x, y);
             Size = new Vec2(width, height);
         }

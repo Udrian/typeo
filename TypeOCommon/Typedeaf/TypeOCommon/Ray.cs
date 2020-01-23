@@ -12,7 +12,7 @@ namespace Typedeaf.TypeOCommon
             Direction = direction;
         }
 
-        public float? Intersects(Plane plane) {
+        public double? Intersects(Plane plane) {
             var den = Vec3.Dot(Direction, plane.Normal);
             if(Math.Abs(den) < 0.00001f) {
                 return null;
@@ -25,7 +25,7 @@ namespace Typedeaf.TypeOCommon
                     return null;
                 }
 
-                result = 0.0f;
+                result = 0.0;
             }
 
             return result;

@@ -93,9 +93,10 @@ namespace Typedeaf.TypeOSDL
 
             public override Canvas CreateCanvas()
             {
-                var canvas = new SDLCanvas();
-
-                canvas.Window = this;
+                var canvas = new SDLCanvas
+                {
+                    Window = this
+                };
                 canvas.Initialize();
                 return canvas;
             }

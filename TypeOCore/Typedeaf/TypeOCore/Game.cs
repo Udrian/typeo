@@ -28,7 +28,7 @@ namespace Typedeaf.TypeOCore
             Services = new Dictionary<Type, Service>();
         }
         public abstract void Initialize();
-        public abstract void Update(float dt);
+        public abstract void Update(double dt);
         public abstract void Draw();
         public void Exit() { TypeO.Exit(); }
     }

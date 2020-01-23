@@ -18,7 +18,7 @@ namespace Typedeaf.TypeOCore
         protected Scene() {}
 
         public abstract void Initialize();
-        public abstract void Update(float dt);
+        public abstract void Update(double dt);
         public abstract void Draw();
 
         public abstract void OnExit(Scene to);
@@ -32,7 +32,7 @@ namespace Typedeaf.TypeOCore
             private Dictionary<Type, Scene> Scenes { get; set; }
             public Scene CurrentScene { get; private set; }
 
-            public S CreateScene<S>() where S : Scene, new()
+            public void CreateScene<S>() where S : Scene, new()
             {
                 if (!Scenes.ContainsKey(typeof(S)))
                 {
@@ -46,10 +46,7 @@ namespace Typedeaf.TypeOCore
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
-
-                    return scene;
                 }
-                return Scenes[typeof(S)] as S;
             }
 
             public S SetScene<S>() where S : Scene, new()
@@ -57,7 +54,7 @@ namespace Typedeaf.TypeOCore
                 var init = false;
                 if (!Scenes.ContainsKey(typeof(S)))
                 {
-                    var scene = CreateScene<S>();
+                    CreateScene<S>();
                     init = true;
                 }
                 

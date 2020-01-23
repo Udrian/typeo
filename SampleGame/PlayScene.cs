@@ -18,15 +18,15 @@ namespace SampleGame
         public List<Bullet> Bullets { get; set; } = new List<Bullet>();
         public Player Player { get; set; }
 
-        public int Score { get; set; } = 0;
-        public float AlienSpawnTimer { get; set; } = 0;
-        public float AlienSpawnTime { get; set; } = 5f;
-        public float AlienSpawnFrequencyTimer { get; set; } = 0;
-        public float AlienSpawnFrequencyTime { get; set; } = 0.25f;
-        public int   AlienSpawnAmount { get; set; } = 4;
-        public int   AlienSpawns { get; set; } = 0;
-        public bool  AlienSpawning { get; set; } = false;
-        public float AlienSpawnPhase { get; set; } = 0;
+        public int    Score { get; set; } = 0;
+        public double AlienSpawnTimer { get; set; } = 0;
+        public double AlienSpawnTime { get; set; } = 5;
+        public double AlienSpawnFrequencyTimer { get; set; } = 0;
+        public double AlienSpawnFrequencyTime { get; set; } = 0.25;
+        public int    AlienSpawnAmount { get; set; } = 4;
+        public int    AlienSpawns { get; set; } = 0;
+        public bool   AlienSpawning { get; set; } = false;
+        public double AlienSpawnPhase { get; set; } = 0;
 
         public override void Initialize()
         {
@@ -39,7 +39,7 @@ namespace SampleGame
             EntityAdd(Player);
         }
 
-        public override void Update(float dt)
+        public override void Update(double dt)
         {
             if (!AlienSpawning)
             {
@@ -48,7 +48,7 @@ namespace SampleGame
                 {
                     AlienSpawnTimer -= AlienSpawnTime;
                     AlienSpawning = true;
-                    AlienSpawnPhase = (float)(Game.Random.NextDouble() * Math.PI * 3);
+                    AlienSpawnPhase = Game.Random.NextDouble() * Math.PI * 3;
                 }
             } 
             else
@@ -106,7 +106,7 @@ namespace SampleGame
             return entity;
         }
 
-        private void EntityUpdate(float dt)
+        private void EntityUpdate(double dt)
         {
             foreach (var entity in Entities)
             {

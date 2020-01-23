@@ -4,15 +4,15 @@ namespace Typedeaf.TypeOCommon
 {
     public struct Vec2 : IEquatable<Vec2>
     {
-        public float X;
-        public float Y;
+        public double X;
+        public double Y;
 
-        public Vec2(float xy) {
+        public Vec2(double xy) {
             X = xy;
             Y = xy;
         }
 
-        public Vec2(float x, float y) {
+        public Vec2(double x, double y) {
             X = x;
             Y = y;
         }
@@ -22,7 +22,7 @@ namespace Typedeaf.TypeOCommon
             Y = vec.Y;
         }
 
-        public void Set(float x, float y) {
+        public void Set(double x, double y) {
             X = x;
             Y = y;
         }
@@ -36,11 +36,11 @@ namespace Typedeaf.TypeOCommon
             return new Vec2(a.X + b.X, a.Y + b.Y);
         }
 
-        public static Vec2 operator+(Vec2 a, float b) {
+        public static Vec2 operator+(Vec2 a, double b) {
             return new Vec2(a.X + b, a.Y + b);
         }
 
-        public static Vec2 operator+(float a, Vec2 b) {
+        public static Vec2 operator+(double a, Vec2 b) {
             return new Vec2(a + b.X, a + b.Y);
         }
 
@@ -48,11 +48,11 @@ namespace Typedeaf.TypeOCommon
             return new Vec2(a.X - b.X, a.Y - b.Y);
         }
 
-        public static Vec2 operator-(Vec2 a, float b) {
+        public static Vec2 operator-(Vec2 a, double b) {
             return new Vec2(a.X - b, a.Y - b);
         }
 
-        public static Vec2 operator-(float a, Vec2 b) {
+        public static Vec2 operator-(double a, Vec2 b) {
             return new Vec2(a - b.X, a - b.Y);
         }
 
@@ -60,42 +60,42 @@ namespace Typedeaf.TypeOCommon
             return new Vec2(-a.X, -a.Y);
         }
 
-        public float LengthSquared() {
+        public double LengthSquared() {
             return (X * X) + (Y * Y);
         }
 
-        public float Length() {
-            return (float)Math.Sqrt(LengthSquared());
+        public double Length() {
+            return Math.Sqrt(LengthSquared());
         }
 
-        public float Distance(Vec2 to) {
+        public double Distance(Vec2 to) {
             return Distance(this, to);
         }
 
-        public float DistanceSquared(Vec2 to) {
+        public double DistanceSquared(Vec2 to) {
             return DistanceSquared(this, to);
         }
 
-        public static float Distance(Vec2 from, Vec2 to) {
+        public static double Distance(Vec2 from, Vec2 to) {
             return (to - from).Length();
         }
 
-        public static float DistanceSquared(Vec2 from, Vec2 to) {
+        public static double DistanceSquared(Vec2 from, Vec2 to) {
             return (to - from).LengthSquared();
         }
 
         public void Normalize() {
-            float l = Length();
+            var l = Length();
             if(l <= 0) return;
-            float factor = 1.0f/l;
+            var factor = 1.0/l;
             X *= factor;
             Y *= factor;
         }
 
-        public Vec2 Rotate(float radians)
+        public Vec2 Rotate(double radians)
         {
-            float cosRadians = (float)Math.Cos(radians);
-            float sinRadians = (float)Math.Sin(radians);
+            var cosRadians = Math.Cos(radians);
+            var sinRadians = Math.Sin(radians);
 
             return new Vec2(
                 X * cosRadians - Y * sinRadians,
@@ -110,19 +110,19 @@ namespace Typedeaf.TypeOCommon
             return new Vec2(a.X / b.X, a.Y / b.Y);
         }
 
-        public static Vec2 operator*(Vec2 a, float scalar) {
+        public static Vec2 operator*(Vec2 a, double scalar) {
             return new Vec2(a.X * scalar, a.Y * scalar);
         }
 
-        public static Vec2 operator*(float scalar, Vec2 a) {
+        public static Vec2 operator*(double scalar, Vec2 a) {
             return new Vec2(a.X * scalar, a.Y * scalar);
         }
 
-        public static Vec2 operator/(Vec2 a, float scalar) {
+        public static Vec2 operator/(Vec2 a, double scalar) {
             return new Vec2(a.X / scalar, a.Y / scalar);
         }
 
-        public static Vec2 operator/(float scalar, Vec2 a) {
+        public static Vec2 operator/(double scalar, Vec2 a) {
             return new Vec2(scalar / a.X, scalar / a.Y);
         }
 
@@ -134,11 +134,11 @@ namespace Typedeaf.TypeOCommon
             return !(a == b);
         }
 
-        public float Dot(Vec2 vec) {
+        public double Dot(Vec2 vec) {
             return (X * vec.X) + (Y * vec.Y);
         }
 
-        public static float Dot(Vec2 a, Vec2 b) {
+        public static double Dot(Vec2 a, Vec2 b) {
             return a.Dot(b);
         }
 

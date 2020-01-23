@@ -7,7 +7,7 @@ namespace SampleGame.Entities
 {
     public class Bullet : Entity2d, IIsDrawable, IIsUpdatable
     {
-        public float Speed { get; set; } = 500;
+        public double Speed { get; set; } = 500;
         public Vec2 Size { get; set; } = new Vec2(10, 10);
 
         public Bullet(Vec2 position) : base(position) { }
@@ -19,7 +19,7 @@ namespace SampleGame.Entities
             canvas.DrawRectangle(Position, Size, true, Color.CapeHoney);
         }
 
-        public void Update(float dt)
+        public void Update(double dt)
         {
             Position = new Vec2(Position.X, Position.Y - Speed * dt);
 

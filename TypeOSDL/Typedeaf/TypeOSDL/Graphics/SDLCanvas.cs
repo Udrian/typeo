@@ -39,7 +39,7 @@ namespace Typedeaf.TypeOSDL
             public override void DrawLine(Vec2 from, Vec2 size, Color color)
             {
                 SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL.SDL_RenderDrawLineF(SDLRenderer, from.X, from.Y, size.X, size.Y);
+                SDL.SDL_RenderDrawLineF(SDLRenderer, (float)from.X, (float)from.Y, (float)size.X, (float)size.Y);
             }
 
             public override void DrawLineE(Vec2 from, Vec2 to, Color color)
@@ -55,9 +55,11 @@ namespace Typedeaf.TypeOSDL
                 int i = 0;
                 foreach (var point in points)
                 {
-                    sdlpoints[i] = new SDL.SDL_FPoint();
-                    sdlpoints[i].x = point.X;
-                    sdlpoints[i].y = point.Y;
+                    sdlpoints[i] = new SDL.SDL_FPoint
+                    {
+                        x = (float)point.X,
+                        y = (float)point.Y
+                    };
                     i++;
                 }
 
@@ -67,7 +69,7 @@ namespace Typedeaf.TypeOSDL
             public override void DrawPixel(Vec2 point, Color color)
             {
                 SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL.SDL_RenderDrawPointF(SDLRenderer, point.X, point.Y);
+                SDL.SDL_RenderDrawPointF(SDLRenderer, (float)point.X, (float)point.Y);
             }
 
             public override void DrawPixels(List<Vec2> points, Color color)
@@ -77,9 +79,11 @@ namespace Typedeaf.TypeOSDL
                 int i = 0;
                 foreach (var point in points)
                 {
-                    sdlpoints[i] = new SDL.SDL_FPoint();
-                    sdlpoints[i].x = point.X;
-                    sdlpoints[i].y = point.Y;
+                    sdlpoints[i] = new SDL.SDL_FPoint
+                    {
+                        x = (float)point.X,
+                        y = (float)point.Y
+                    };
                     i++;
                 }
                 SDL.SDL_RenderDrawPointsF(SDLRenderer, sdlpoints, points.Count);
@@ -93,11 +97,13 @@ namespace Typedeaf.TypeOSDL
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color)
             {
                 SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                var rect = new SDL.SDL_FRect();
-                rect.x = from.X;
-                rect.y = from.Y;
-                rect.w = size.X;
-                rect.h = size.Y;
+                var rect = new SDL.SDL_FRect
+                {
+                    x = (float)from.X,
+                    y = (float)from.Y,
+                    w = (float)size.X,
+                    h = (float)size.Y
+                };
 
                 if (filled)
                 {
@@ -126,11 +132,13 @@ namespace Typedeaf.TypeOSDL
                     return new Rectangle(rect.x, rect.y, rect.w, rect.h);
                 }
                 set {
-                    var rect = new SDL.SDL_Rect();
-                    rect.x = (int)value.Pos.X;
-                    rect.y = (int)value.Pos.Y;
-                    rect.w = (int)value.Size.X;
-                    rect.h = (int)value.Size.Y;
+                    var rect = new SDL.SDL_Rect
+                    {
+                        x = (int)value.Pos.X,
+                        y = (int)value.Pos.Y,
+                        w = (int)value.Size.X,
+                        h = (int)value.Size.Y
+                    };
                     SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
                 }
             }

@@ -7,8 +7,8 @@
         }
 
         public override bool Equals(object obj) {
-            if(ReferenceEquals(null, obj)) return false;
-            if(ReferenceEquals(this, obj)) return true;
+            if(obj == null) return false;
+            if((Color)obj == this) return true;
             if(obj.GetType() != this.GetType()) return false;
             return Equals((Color)obj);
         }
@@ -39,14 +39,14 @@
             B = b;
         }
 
-        public Color(float a, float r, float g, float b) {
+        public Color(double a, double r, double g, double b) {
             A = (int)(a * 255);
             R = (int)(r * 255);
             G = (int)(g * 255);
             B = (int)(b * 255);
         }
 
-        public Color(float r, float g, float b) {
+        public Color(double r, double g, double b) {
             A = 255;
             R = (int)(r * 255);
             G = (int)(g * 255);
@@ -54,13 +54,13 @@
         }
 
         public static bool operator==(Color a, Color b) {
-            if (object.ReferenceEquals(a, null))
+            if (a is null)
             {
-                return object.ReferenceEquals(b, null);
+                return b is null;
             }
-            if (object.ReferenceEquals(b, null))
+            if (b is null)
             {
-                return object.ReferenceEquals(a, null);
+                return a is null;
             }
             return  a.A == b.A &&
                     a.R == b.R &&
@@ -87,10 +87,10 @@
         public static Color operator/(Color a, Color b) {
             return new Color((a.A/255f) / (b.A/255f), (a.R/255f) / (b.R/255f), (a.G/255f) / (b.G/255f), (a.B/255f) / (b.B/255f));
         }
-        public static Color Lerp(Color A, Color B, float lerp) {
+        public static Color Lerp(Color A, Color B, double lerp) {
             if(lerp < 0) lerp = 0;
             if(lerp > 1) lerp = 1;
-            float invLerp = 1 - lerp;
+            var invLerp = 1 - lerp;
             return new Color((int)(A.A*invLerp + B.A*lerp), (int)(A.R*invLerp + B.R*lerp), (int)(A.G*invLerp + B.G*lerp), (int)(A.B*invLerp + B.B*lerp));
         }
 

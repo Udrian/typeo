@@ -3,9 +3,9 @@
     public class Plane
     {
         public Vec3 Normal;
-        public float D;
+        public double D;
 
-        public Plane(Vec3 normal, float d) {
+        public Plane(Vec3 normal, double d) {
             Normal = normal;
             Normal.Normalize();
             D = d;

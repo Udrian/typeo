@@ -4,7 +4,7 @@ namespace Typedeaf.TypeOCore
     {
         public interface IIsUpdatable
         {
-            void Update(float dt);
+            void Update(double dt);
         }
 
         public abstract class Entity

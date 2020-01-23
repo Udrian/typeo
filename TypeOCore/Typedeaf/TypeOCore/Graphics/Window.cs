@@ -24,7 +24,7 @@ namespace Typedeaf.TypeOCore
             public virtual bool   Fullscreen { get; set; }
             public virtual bool   Borderless { get; set; }
 
-            public virtual void Update(float dt)
+            public virtual void Update(double dt)
             {
                 CurrentScene?.Update(dt);
             }

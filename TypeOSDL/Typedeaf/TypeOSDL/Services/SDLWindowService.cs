@@ -21,8 +21,10 @@ namespace Typedeaf.TypeOSDL
 
             public SDLWindow CreateWindow()
             {
-                var window = new SDLWindow();
-                window.Game = Game;
+                var window = new SDLWindow
+                {
+                    Game = Game
+                };
                 (window as IHasTypeO).SetTypeO(TypeO);
                 return window;
             }
