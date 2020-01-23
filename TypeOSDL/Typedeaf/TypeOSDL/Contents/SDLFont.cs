@@ -1,30 +1,36 @@
 ﻿using SDL2;
 using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore.Graphics;
 using SDL_Font = System.IntPtr;
 using Typedeaf.TypeOSDL.Graphics;
-using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOSDL.Contents;
+using Typedeaf.TypeOCore.Contents;
 
 namespace Typedeaf.TypeOSDL
 {
-    namespace Content
+    namespace Contents
     {
         public class SDLFont : Font
         {
             public SDLCanvas Canvas { get; private set; }
             public SDL_Font SDL_Font { get; private set; }
-            public int FontSize { get; protected set; }
-            //public SDL_Image SDLImage { get; set; }
-            /// <summary>
-            /// Do not call directly, use Game.Content.LoadTexture instead
-            /// </summary>
-            public SDLFont(string path, int fontSize, SDLCanvas canvas) : base(path)
+
+            public SDLFont() : base() { }
+
+            public override Vec2 MeasureString(string text)
             {
-                Canvas = canvas;
-                SDL_Font = SDL_ttf.TTF_OpenFont(path, fontSize);
-                FontSize = fontSize;
+                SDL_ttf.TTF_SizeText(SDL_Font, text, out int w, out int h);
+                return new Vec2(w, h);
+            }
+
+            public override void Load(string path, ContentLoader contentLoader)
+            {
+                Canvas = contentLoader.Canvas as SDLCanvas;
+                FilePath = path;
+
+                SDL_Font = SDL_ttf.TTF_OpenFont(FilePath, FontSize);
+                FontSize = FontSize;
                 //TODO: Error handling
                 /*if (SDLFont == null)
                 {
@@ -35,21 +41,13 @@ namespace Typedeaf.TypeOSDL
                 return SDLFont;*/
             }
 
-            public override Vec2 MeasureString(string text)
-            {
-                var fontSur = SDL_ttf.TTF_RenderText_Solid(SDL_Font, text, new SDL.SDL_Color());
-                var fontTex = SDL.SDL_CreateTextureFromSurface(Canvas.SDLRenderer, fontSur);
+            public override int FontSize { 
+                get => base.FontSize;
+                set {
+                    base.FontSize = value;
 
-                SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
-                return new Vec2(w, h);
-            }
-        }
-
-        public partial class SDLContentLoader : ContentLoader
-        {
-            public SDLFont LoadFont(string path, int fontSize)
-            {
-                return LoadFont<SDLFont>(path, fontSize, Canvas);
+                    SDL_Font = SDL_ttf.TTF_OpenFont(FilePath, FontSize);
+                }
             }
         }
     }

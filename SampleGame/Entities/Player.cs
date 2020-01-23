@@ -2,7 +2,8 @@
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOSDL.Contents;
+using Typedeaf.TypeOCore.Contents;
 
 namespace SampleGame.Entities
 {
@@ -16,8 +17,7 @@ namespace SampleGame.Entities
 
         public override void Initialize()
         {
-            var sdlContentloader = Game.Window.CurrentScene.ContentLoader as SDLContentLoader;
-            Drawable = new DrawableTexture(this, sdlContentloader.LoadTexture("content/ship.png"));
+            Drawable = new DrawableTexture(this, (Texture)Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
             Position = new Vec2(100, 400);
         }
 

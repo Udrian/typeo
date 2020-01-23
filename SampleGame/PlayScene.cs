@@ -1,17 +1,16 @@
 using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOSDL.Content;
-using Typedeaf.TypeOSDL;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using SampleGame.Entities;
+using Typedeaf.TypeOSDL.Contents;
+using Typedeaf.TypeOCore.Contents;
 
 namespace SampleGame
 {
-    public class PlayScene : SDLScene, IHasGame<SpaceInvaderGame>
+    public class PlayScene : Scene, IHasGame<SpaceInvaderGame>
     {
         public SpaceInvaderGame Game { get; set; }
         public Font LoadedFont { get; set; }
@@ -31,10 +30,8 @@ namespace SampleGame
 
         public override void Initialize()
         {
-            CreateContentLoader("");
-            var sdlContentloader = ContentLoader as SDLContentLoader;
-
-            LoadedFont = sdlContentloader.LoadFont("content/Awesome.ttf", 26);
+            LoadedFont = ContentLoader.LoadContent<SDLFont>("content/Awesome.ttf");
+            LoadedFont.FontSize = 26;
 
             EntityAdd(new Space());
 

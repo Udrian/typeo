@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Typedeaf.TypeOCore.Content;
+using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
@@ -45,6 +45,7 @@ namespace Typedeaf.TypeOCore
 
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();
+                    scene.ContentLoader = CreateContentLoader(scene.Canvas);
 
                     return scene;
                 }

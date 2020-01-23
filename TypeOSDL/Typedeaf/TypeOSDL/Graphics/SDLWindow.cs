@@ -1,7 +1,9 @@
 ﻿using SDL2;
 using System;
 using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOSDL.Contents;
 using SDL_Window = System.IntPtr;
 
 namespace Typedeaf.TypeOSDL
@@ -103,6 +105,11 @@ namespace Typedeaf.TypeOSDL
                 var canvas = CreateCanvas();
                 canvas.Viewport = viewport;
                 return canvas;
+            }
+
+            public override ContentLoader CreateContentLoader(Canvas canvas)
+            {
+                return new SDLContentLoader((SDLCanvas)canvas);
             }
         }
     }

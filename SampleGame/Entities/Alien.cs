@@ -1,9 +1,10 @@
 ﻿using System;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
-using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOSDL.Contents;
 
 namespace SampleGame.Entities
 {
@@ -23,8 +24,7 @@ namespace SampleGame.Entities
 
         public override void Initialize()
         {
-            var sdlContentloader = Game.Window.CurrentScene.ContentLoader as SDLContentLoader;
-            Drawable = new DrawableTexture(this, sdlContentloader.LoadTexture("content/alien.png"));
+            Drawable = new DrawableTexture(this, (Texture)Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png"));
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }

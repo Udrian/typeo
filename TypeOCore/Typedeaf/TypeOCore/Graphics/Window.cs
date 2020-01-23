@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
+using Typedeaf.TypeOCore.Contents;
 
 namespace Typedeaf.TypeOCore
 {
@@ -34,6 +35,7 @@ namespace Typedeaf.TypeOCore
 
             public abstract Canvas CreateCanvas();
             public abstract Canvas CreateCanvas(Rectangle viewport);
+            public abstract ContentLoader CreateContentLoader(Canvas canvas);
         }
     }
 }

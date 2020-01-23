@@ -1,25 +1,28 @@
 ﻿using SDL2;
 using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore.Content;
+using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOSDL.Content;
+using Typedeaf.TypeOSDL.Contents;
 using Typedeaf.TypeOSDL.Graphics;
 using SDL_Image = System.IntPtr;
 
 namespace Typedeaf.TypeOSDL
 {
-    namespace Content
+    namespace Contents
     {
         public class SDLTexture : Texture
         {
             public SDL_Image SDL_Image { get; set; }
-            /// <summary>
-            /// Do not call directly, use Game.Content.LoadTexture instead
-            /// </summary>
-            public SDLTexture(string path, SDLCanvas canvas) : base(path)
+
+            public SDLTexture() : base() { }
+
+            public override void Load(string path, ContentLoader contentLoader)
             {
-                SDL_Image = SDL_image.IMG_LoadTexture(canvas.SDLRenderer, path);
+                var SDLCanvas = contentLoader.Canvas as SDLCanvas;
+                FilePath = path;
+
+                SDL_Image = SDL_image.IMG_LoadTexture(SDLCanvas.SDLRenderer, FilePath);
                 SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
                 Size = new Vec2(w, h);
                 //TODO: Error handling
@@ -30,14 +33,6 @@ namespace Typedeaf.TypeOSDL
                 }
 
                 return tex;*/
-            }
-        }
-
-        public partial class SDLContentLoader : ContentLoader
-        {
-            public SDLTexture LoadTexture(string path)
-            {
-                return LoadTexture<SDLTexture>(path, Canvas);
             }
         }
     }
