@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleGame", "SampleGame\SampleGame.csproj", "{B06015DF-228D-4963-9C57-3226D8F1EECE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleGame", "SampleGame\SampleGame.csproj", "{B06015DF-228D-4963-9C57-3226D8F1EECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeOCommon", "TypeOCommon\TypeOCommon.csproj", "{6D91AB55-BBDC-4A09-8727-CF9DCD848A36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOCommon", "TypeOCommon\TypeOCommon.csproj", "{6D91AB55-BBDC-4A09-8727-CF9DCD848A36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeOCore", "TypeOCore\TypeOCore.csproj", "{11292511-77BA-4ED3-ADB4-6ECFA96389E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOCore", "TypeOCore\TypeOCore.csproj", "{11292511-77BA-4ED3-ADB4-6ECFA96389E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeOSDL", "TypeOSDL\TypeOSDL.csproj", "{D7B1798A-D54D-4992-9D74-7A28D0263760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOSDL", "TypeOSDL\TypeOSDL.csproj", "{D7B1798A-D54D-4992-9D74-7A28D0263760}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E2A58BC1-632E-4C37-B558-23E11D36290D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
