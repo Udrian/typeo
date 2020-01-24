@@ -61,14 +61,9 @@ namespace Typedeaf.TypeOSDL
                 DrawText(font, text, pos, null);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
             {
-                InternalDrawText(font, text, pos, scale, rotate, origin, color, flipped, source);
-            }
-
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotate = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
-            {
-                InternalDrawText(font, text, pos, scale??new Vec2(1), rotate, origin, color, flipped, source);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source);
 
             }
 

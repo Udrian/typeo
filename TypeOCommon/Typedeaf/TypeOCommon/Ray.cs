@@ -4,8 +4,8 @@ namespace Typedeaf.TypeOCommon
 {
     public class Ray
     {
-        public Vec3 Position;
-        public Vec3 Direction;
+        public Vec3 Position { get; set; }
+        public Vec3 Direction { get; set; }
 
         public Ray(Vec3 position, Vec3 direction) {
             Position = position;

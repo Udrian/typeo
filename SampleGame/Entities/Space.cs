@@ -45,7 +45,7 @@ namespace SampleGame.Entities
             for(int i = 0; i < Stars.Count; i++)
             {
                 var star = Stars[i];
-                star = new Vec2(star.X, star.Y + Speed * dt);
+                star.Y += Speed * dt;
                 if (star.Y > Game.Window.Size.Y)
                     star = new Vec2(Game.Random.Next((int)Game.Window.Size.X), Game.Random.Next(-(int)Game.Window.Size.Y, 0));
                 

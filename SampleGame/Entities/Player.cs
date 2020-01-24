@@ -25,11 +25,11 @@ namespace SampleGame.Entities
         {
             if (Game.KeyboardInputService.IsDown("Left"))
             {
-                Position += new Vec2(-Speed, 0);
+                Position.X -= Speed;
             }
             if (Game.KeyboardInputService.IsDown("Right"))
             {
-                Position += new Vec2(Speed, 0);
+                Position.X += Speed;
             }
         }
     }

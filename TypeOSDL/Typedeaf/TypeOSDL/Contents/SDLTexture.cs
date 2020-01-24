@@ -46,14 +46,9 @@ namespace Typedeaf.TypeOSDL
                 DrawImage(texture, pos, null);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
             {
-                InternalDrawImage(texture, pos, scale, rotation, origin, color, flipped, source);
-            }
-
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
-            {
-                InternalDrawImage(texture, pos, scale??new Vec2(1), rotation, origin, color, flipped, source);
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source);
 
             }
 

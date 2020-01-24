@@ -2,8 +2,8 @@
 {
     public class Rectangle
     {
-        public Vec2 Pos;
-        public Vec2 Size;
+        public Vec2 Pos { get; set; }
+        public Vec2 Size { get; set; }
 
         public Rectangle() {
             Pos = new Vec2();

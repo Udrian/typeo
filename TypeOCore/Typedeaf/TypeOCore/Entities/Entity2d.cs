@@ -14,7 +14,7 @@ namespace Typedeaf.TypeOCore
             public Color           Color    { get; set; }
             public Texture.Flipped Flipped  { get; set; }
 
-            public Entity2d(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2 origin = new Vec2(), Color color = null, Texture.Flipped flipped = Texture.Flipped.None) : base()
+            public Entity2d(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None) : base()
             {
                 Position = position ?? Vec2.Zero;
                 Scale    = scale    ?? Vec2.One;

@@ -2,11 +2,18 @@
 
 namespace  Typedeaf.TypeOCommon
 {
-    public struct Vec3 : IEquatable<Vec3>
+    public class Vec3 : IEquatable<Vec3>
     {
-        public double X;
-        public double Y;
-        public double Z;
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
+
+        public Vec3()
+        {
+            X = 0;
+            Y = 0;
+            Z = 0;
+        }
 
         public Vec3(double xyz) {
             X = xyz;
@@ -157,6 +164,23 @@ namespace  Typedeaf.TypeOCommon
         public static Vec3 UnitY { get { return new Vec3(0, 1, 0); } }
         public bool Equals(Vec3 other) {
             return (X == other.X && Y == other.Y && Z == other.Z);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hash = 23;
+                hash = hash * 31 + X.GetHashCode();
+                hash = hash * 31 + Y.GetHashCode();
+                hash = hash * 31 + Z.GetHashCode();
+                return hash;
+            }
         }
     }
 }
