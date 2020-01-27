@@ -5,12 +5,13 @@ using Typedeaf.TypeOCore;
 using Typedeaf.TypeOSDL.Services;
 using Typedeaf.TypeOCore.Services;
 using System;
+using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace SampleGame
 {
     public class SpaceInvaderGame : Game
     {
-        public SDLWindowService        WindowService        { get; private set; }
+        public IWindowService WindowService { get; private set; }
         public SDLKeyboardInputService KeyboardInputService { get; private set; }
 
         public Vec2      ScreenSize { get; set; } = new Vec2(640, 480);
@@ -21,7 +22,7 @@ namespace SampleGame
         {
             Random = new Random();
 
-            WindowService        = GetService<IWindowService>()        as SDLWindowService;
+            WindowService        = GetService<IWindowService>();
             KeyboardInputService = GetService<IKeyboardInputService>() as SDLKeyboardInputService;
 
             KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_ESCAPE);
@@ -29,7 +30,7 @@ namespace SampleGame
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
 
-            Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
+            Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize) as SDLWindow;
             Window.SetScene<PlayScene>();
         }
 

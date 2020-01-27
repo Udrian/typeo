@@ -20,22 +20,8 @@ namespace Typedeaf.TypeOCore
     {
         private Dictionary<Type, Service> Services { get; set; }
 
-        public void AddService<I, S>() where I : class where S : Service, new() {
-            if (!typeof(I).IsInterface)
-            {
-                throw new ArgumentException($"Generic argument <{nameof(I)}> must be of interface type");
-            }
-
-            var service = new S();
-            if (service is IHasGame)
-            {
-                (service as IHasGame).SetGame(this);
-            }
-            (service as IHasTypeO).SetTypeO(TypeO);
-
-            service.Initialize();
-
-            Services.Add(typeof(I), service);
+        public void AddService(Type interfaceType, Service service) {
+            Services.Add(interfaceType, service);
         }
 
         public I GetService<I>() where I : class {

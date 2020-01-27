@@ -1,4 +1,6 @@
-﻿namespace Typedeaf.TypeOCore
+﻿using Typedeaf.TypeOCore.Engine.Hardware;
+
+namespace Typedeaf.TypeOCore
 {
     public abstract class Module : ITypeO, IHasTypeO
     {
@@ -15,9 +17,18 @@
             TypeO.Exit();
         }
 
-        public ITypeO AddService<I, S>() where I : class where S : Service, new()
+        public ITypeO AddService<I, S>()
+            where I : class
+            where S : Service, new()
         {
             return TypeO.AddService<I, S>();
+        }
+
+        public ITypeO AddHardware<I, H>()
+            where I : IHardware
+            where H : HardwareBase, new()
+        {
+            return TypeO.AddHardware<I, H>();
         }
 
         public M LoadModule<M>() where M : Module, new()

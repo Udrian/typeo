@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOCore.Services.Interfaces;
 using Typedeaf.TypeOSDL.Services;
 
 namespace Typedeaf.TypeOSDL
@@ -39,7 +40,7 @@ namespace Typedeaf.TypeOSDL
         public override ITypeO AddModuleServices()
         {
 
-            TypeO.AddService<IWindowService, SDLWindowService>();
+            TypeO.AddService<IWindowService, WindowService>();
             TypeO.AddService<IKeyboardInputService, SDLKeyboardInputService>();
 
             return base.AddModuleServices();

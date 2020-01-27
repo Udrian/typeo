@@ -18,6 +18,8 @@ namespace Typedeaf.TypeOCore
                 Scenes = new Dictionary<Type, Scene>();
             }
 
+            public abstract void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false);
+
             public virtual string Title      { get; set; }
             public virtual Vec2   Position   { get; set; }
             public virtual Vec2   Size       { get; set; }
