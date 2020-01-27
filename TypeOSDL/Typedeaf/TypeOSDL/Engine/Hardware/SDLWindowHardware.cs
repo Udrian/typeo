@@ -1,5 +1,5 @@
-﻿using Typedeaf.TypeOCore.Engine.Hardware;
-using Typedeaf.TypeOCore.Engine.Hardware.Interfaces;
+﻿using Typedeaf.TypeOCore.Engine.Hardwares;
+using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Graphics;
 

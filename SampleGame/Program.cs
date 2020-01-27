@@ -1,6 +1,6 @@
 using System;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Engine.Hardware.Interfaces;
+using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOSDL;
 using Typedeaf.TypeOSDL.Engine.Hardware;
 

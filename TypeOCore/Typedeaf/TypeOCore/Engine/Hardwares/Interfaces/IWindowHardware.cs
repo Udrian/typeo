@@ -3,7 +3,7 @@ using Typedeaf.TypeOCore.Graphics;
 
 namespace Typedeaf.TypeOCore
 {
-    namespace Engine.Hardware.Interfaces
+    namespace Engine.Hardwares.Interfaces
     {
         public interface IWindowHardware : IHardware
         {

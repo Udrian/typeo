@@ -1,4 +1,4 @@
-﻿using Typedeaf.TypeOCore.Engine.Hardware;
+﻿using Typedeaf.TypeOCore.Engine.Hardwares;
 
 namespace Typedeaf.TypeOCore
 {

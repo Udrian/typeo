@@ -1,6 +1,6 @@
 ﻿namespace Typedeaf.TypeOCore
 {
-    namespace Engine.Hardware
+    namespace Engine.Hardwares
     {
         public abstract class HardwareBase : IHasTypeO
         {
