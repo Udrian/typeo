@@ -1,4 +1,5 @@
 ﻿using Typedeaf.TypeOCore.Engine.Hardwares;
+using Typedeaf.TypeOCore.Services;
 
 namespace Typedeaf.TypeOCore
 {
@@ -18,7 +19,7 @@ namespace Typedeaf.TypeOCore
         }
 
         public ITypeO AddService<I, S>()
-            where I : class
+            where I : IService
             where S : Service, new()
         {
             return TypeO.AddService<I, S>();
@@ -26,7 +27,7 @@ namespace Typedeaf.TypeOCore
 
         public ITypeO AddHardware<I, H>()
             where I : IHardware
-            where H : HardwareBase, new()
+            where H : Hardware, new()
         {
             return TypeO.AddHardware<I, H>();
         }

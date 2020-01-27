@@ -15,6 +15,7 @@ namespace SampleGame
                 .LoadModule<TypeOSDLModule>()
                 .AddModuleServices()
                 .AddHardware<IWindowHardware, SDLWindowHardware>()
+                .AddHardware<IKeyboardHardware, SDLKeyboardHardware>()
                 .Start();
         }
     }

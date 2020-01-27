@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Typedeaf.TypeOCore.Engine.Hardwares;
 using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Services;
 
 namespace Typedeaf.TypeOCore
 {
@@ -24,8 +24,8 @@ namespace Typedeaf.TypeOCore
         public void Start();
         public void Exit();
 
-        public ITypeO AddService<I, S>() where I : class where S : Service, new();
-        public ITypeO AddHardware<I, H>() where I : IHardware where H : HardwareBase, new();
+        public ITypeO AddService<I, S>() where I : IService where S : Service, new();
+        public ITypeO AddHardware<I, H>() where I : IHardware where H : Hardware, new();
         public M LoadModule<M>() where M : Module, new();
     }
 
@@ -44,14 +44,14 @@ namespace Typedeaf.TypeOCore
         public Game Game { get; set; }
         private DateTime LastTick { get; set; }
         private List<Module> Modules { get; set; }
-        private Dictionary<Type, Type> Hardwares { get; set; }
+        private Dictionary<Type, Hardware> Hardwares { get; set; }
         private Dictionary<Type, Type> Services { get; set; }
 
         public TypeO() : base()
         {
             LastTick = DateTime.UtcNow;
             Modules = new List<Module>();
-            Hardwares = new Dictionary<Type, Type>();
+            Hardwares = new Dictionary<Type, Hardware>();
             Services = new Dictionary<Type, Type>();
         }
 
@@ -62,7 +62,7 @@ namespace Typedeaf.TypeOCore
         }
 
         public ITypeO AddService<I, S>()
-            where I : class
+            where I : IService
             where S : Service, new()
         {
             Services.Add(typeof(I), typeof(S));
@@ -71,9 +71,18 @@ namespace Typedeaf.TypeOCore
 
         public ITypeO AddHardware<I, H>()
             where I : IHardware
-            where H : HardwareBase, new()
+            where H : Hardware, new()
         {
-            Hardwares.Add(typeof(I), typeof(H));
+            //Instantiate the Hardware
+            var hardware = new H();
+            if (hardware is IHasGame)
+            {
+                (hardware as IHasGame).SetGame(Game);
+            }
+            (hardware as IHasTypeO).SetTypeO(this);
+            hardware.Initialize();
+
+            Hardwares.Add(typeof(I), hardware);
             return this;
         }
 
@@ -96,11 +105,6 @@ namespace Typedeaf.TypeOCore
             //Create Services
             foreach(var servicePair in Services)
             {
-                if (!servicePair.Key.IsInterface)
-                {
-                    throw new ArgumentException($"Generic argument <{servicePair.Key.Name}> must be of interface type");
-                }
-
                 var service = (Service)Activator.CreateInstance(servicePair.Value);
                 if (service is IHasGame)
                 {
@@ -108,35 +112,18 @@ namespace Typedeaf.TypeOCore
                 }
                 (service as IHasTypeO).SetTypeO(this);
 
-                //Instaniate and add Hardware to service using reflection on the Service properties
-                var serviceType = service.GetType();
-                var serviceProperties = serviceType.GetProperties();
-                foreach(var serviceProperty in serviceProperties)
-                {
-                    if(serviceProperty.PropertyType.GetInterface(nameof(IHardware)) == null)
-                    {
-                        continue;
-                    }
-                    if (!Hardwares.ContainsKey(serviceProperty.PropertyType))
-                    {
-                        throw new Exception($"Hardware type '{serviceProperty.PropertyType.Name}' is not loaded for Service '{service.GetType().Name}'");
-                    }
-
-                    //Instantiate the Hardware
-                    var hardware = (HardwareBase)Activator.CreateInstance(Hardwares[serviceProperty.PropertyType]);
-                    if (hardware is IHasGame)
-                    {
-                        (hardware as IHasGame).SetGame(Game);
-                    }
-                    (hardware as IHasTypeO).SetTypeO(this);
-                    hardware.Initialize();
-
-                    serviceProperty.SetValue(service, hardware);
-                }
+                //Add Hardware to service using reflection on the Service properties
+                SetHardware(service);
 
                 service.Initialize();
 
                 Game.AddService(servicePair.Key, service);
+            }
+
+            //Set modules Hardware
+            foreach (var module in Modules)
+            {
+                SetHardware(module);
             }
 
             //Initialize the game
@@ -165,6 +152,25 @@ namespace Typedeaf.TypeOCore
             foreach (var module in Modules)
             {
                 module.Cleanup();
+            }
+        }
+
+        private void SetHardware(object obj)
+        {
+            var type = obj.GetType();
+            var properties = type.GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.PropertyType.GetInterface(nameof(IHardware)) == null)
+                {
+                    continue;
+                }
+                if (!Hardwares.ContainsKey(property.PropertyType))
+                {
+                    throw new Exception($"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                }
+
+                property.SetValue(obj, Hardwares[property.PropertyType]);
             }
         }
     }

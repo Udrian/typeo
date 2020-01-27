@@ -2,8 +2,6 @@ using Typedeaf.TypeOCommon;
 using SDL2;
 using Typedeaf.TypeOSDL.Graphics;
 using Typedeaf.TypeOCore;
-using Typedeaf.TypeOSDL.Services;
-using Typedeaf.TypeOCore.Services;
 using System;
 using Typedeaf.TypeOCore.Services.Interfaces;
 
@@ -12,7 +10,7 @@ namespace SampleGame
     public class SpaceInvaderGame : Game
     {
         public IWindowService WindowService { get; private set; }
-        public SDLKeyboardInputService KeyboardInputService { get; private set; }
+        public IKeyboardInputService KeyboardInputService { get; private set; }
 
         public Vec2      ScreenSize { get; set; } = new Vec2(640, 480);
         public SDLWindow Window     { get; set; }
@@ -23,7 +21,7 @@ namespace SampleGame
             Random = new Random();
 
             WindowService        = GetService<IWindowService>();
-            KeyboardInputService = GetService<IKeyboardInputService>() as SDLKeyboardInputService;
+            KeyboardInputService = GetService<IKeyboardInputService>();
 
             KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_ESCAPE);
             KeyboardInputService.SetKeyAlias("Left", SDL.SDL_Keycode.SDLK_LEFT);

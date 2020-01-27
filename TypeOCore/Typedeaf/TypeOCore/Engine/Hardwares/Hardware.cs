@@ -2,12 +2,12 @@
 {
     namespace Engine.Hardwares
     {
-        public abstract class HardwareBase : IHasTypeO
+        public abstract class Hardware : IHasTypeO
         {
             ITypeO IHasTypeO.TypeO { get; set; }
             protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
-            protected HardwareBase() { }
+            protected Hardware() { }
 
             public abstract void Initialize();
         }

@@ -2,15 +2,18 @@ using SDL2;
 using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore;
+using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Services;
 using Typedeaf.TypeOCore.Services.Interfaces;
-using Typedeaf.TypeOSDL.Services;
+using Typedeaf.TypeOSDL.Engine.Hardware;
 
 namespace Typedeaf.TypeOSDL
 {
-    public partial class TypeOSDLModule : Module, IIsUpdatable, IHasGame
+    public partial class TypeOSDLModule : Module, IIsUpdatable
     {
+        public IKeyboardHardware KeyboardHardware { get; set; }
+
         public override void Initialize()
         {
             //Initial SDL
@@ -41,7 +44,7 @@ namespace Typedeaf.TypeOSDL
         {
 
             TypeO.AddService<IWindowService, WindowService>();
-            TypeO.AddService<IKeyboardInputService, SDLKeyboardInputService>();
+            TypeO.AddService<IKeyboardInputService, KeyboardInputService>();
 
             return base.AddModuleServices();
         }
@@ -61,16 +64,10 @@ namespace Typedeaf.TypeOSDL
                 }
             }
 
-            if (Game.GetService<IKeyboardInputService>() is SDLKeyboardInputService keyboardService)
+            if (KeyboardHardware is SDLKeyboardHardware sdlKeyboardHardware)
             {
-                keyboardService.UpdateKeys(es);
+                sdlKeyboardHardware.UpdateKeys(es);
             }
-        }
-
-        private Game Game { get; set; }
-        public void SetGame(Game game)
-        {
-            Game = game;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Typedeaf.TypeOCore.Engine.Hardwares;
-using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
+﻿using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Graphics;
 using Typedeaf.TypeOSDL.Graphics;
 
@@ -7,7 +6,7 @@ namespace Typedeaf.TypeOSDL
 {
     namespace Engine.Hardware
     {
-        public class SDLWindowHardware : HardwareBase, IWindowHardware
+        public class SDLWindowHardware : TypeOCore.Engine.Hardwares.Hardware, IWindowHardware
         {
             public override void Initialize() { }
 

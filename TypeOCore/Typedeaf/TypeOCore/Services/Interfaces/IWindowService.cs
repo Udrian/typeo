@@ -6,7 +6,7 @@ namespace Typedeaf.TypeOCore
 {
     namespace Services.Interfaces
     {
-        public interface IWindowService
+        public interface IWindowService : IService
         {
             public IWindowHardware WindowHardware { get; set; }
 
