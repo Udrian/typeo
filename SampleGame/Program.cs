@@ -2,7 +2,7 @@ using System;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOSDL;
-using Typedeaf.TypeOSDL.Engine.Hardware;
+using Typedeaf.TypeOSDL.Engine.Hardwares;
 
 namespace SampleGame
 {

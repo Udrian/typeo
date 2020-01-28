@@ -120,6 +120,7 @@ namespace Typedeaf.TypeOCore
                 var service = servicePair.Value;
                 //Add Hardware to service using reflection on the Service properties
                 SetHardware(service);
+                SetService(service);
 
                 service.Initialize();
 
@@ -130,6 +131,7 @@ namespace Typedeaf.TypeOCore
             foreach (var module in Modules)
             {
                 SetHardware(module);
+                SetService(module);
                 module.Initialize();
             }
 

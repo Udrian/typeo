@@ -1,12 +1,13 @@
 ﻿using SDL2;
 using System.Collections.Generic;
+using Typedeaf.TypeOCore.Engine.Hardwares;
 using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 
 namespace Typedeaf.TypeOSDL
 {
-    namespace Engine.Hardware
+    namespace Engine.Hardwares
     {
-        public class SDLKeyboardHardware : TypeOCore.Engine.Hardwares.Hardware, IKeyboardHardware
+        public class SDLKeyboardHardware : Hardware, IKeyboardHardware
         {
             private Dictionary<SDL.SDL_Keycode, bool> OldState { get; set; }
             private Dictionary<SDL.SDL_Keycode, bool> NewState { get; set; }

@@ -6,7 +6,7 @@ using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Services;
 using Typedeaf.TypeOCore.Services.Interfaces;
-using Typedeaf.TypeOSDL.Engine.Hardware;
+using Typedeaf.TypeOSDL.Engine.Hardwares;
 
 namespace Typedeaf.TypeOSDL
 {
