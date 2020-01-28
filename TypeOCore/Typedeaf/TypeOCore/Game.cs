@@ -24,10 +24,7 @@ namespace Typedeaf.TypeOCore
         ITypeO IHasTypeO.TypeO { get; set; }
         private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
 
-        public Game()
-        {
-            Services = new Dictionary<Type, Service>();
-        }
+        protected Game() {}
         public abstract void Initialize();
         public abstract void Update(double dt);
         public abstract void Draw();

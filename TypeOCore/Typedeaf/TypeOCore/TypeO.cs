@@ -45,14 +45,14 @@ namespace Typedeaf.TypeOCore
         private DateTime LastTick { get; set; }
         private List<Module> Modules { get; set; }
         private Dictionary<Type, Hardware> Hardwares { get; set; }
-        private Dictionary<Type, Type> Services { get; set; }
+        private Dictionary<Type, Service> Services { get; set; }
 
         public TypeO() : base()
         {
             LastTick = DateTime.UtcNow;
             Modules = new List<Module>();
             Hardwares = new Dictionary<Type, Hardware>();
-            Services = new Dictionary<Type, Type>();
+            Services = new Dictionary<Type, Service>();
         }
 
         private bool ExitApplication = false;
@@ -65,7 +65,15 @@ namespace Typedeaf.TypeOCore
             where I : IService
             where S : Service, new()
         {
-            Services.Add(typeof(I), typeof(S));
+            //Instantiate the Service
+            var service = new S();
+            (service as IHasTypeO).SetTypeO(this);
+            if (service is IHasGame)
+            {
+                (service as IHasGame).SetGame(Game);
+            }
+
+            Services.Add(typeof(I), service);
             return this;
         }
 
@@ -75,12 +83,11 @@ namespace Typedeaf.TypeOCore
         {
             //Instantiate the Hardware
             var hardware = new H();
+            (hardware as IHasTypeO).SetTypeO(this);
             if (hardware is IHasGame)
             {
                 (hardware as IHasGame).SetGame(Game);
             }
-            (hardware as IHasTypeO).SetTypeO(this);
-            hardware.Initialize();
 
             Hardwares.Add(typeof(I), hardware);
             return this;
@@ -94,39 +101,40 @@ namespace Typedeaf.TypeOCore
             {
                 (module as IHasGame).SetGame(Game);
             }
-            module.Initialize();
-            Modules.Add(module);
 
+            Modules.Add(module);
             return module;
         }
 
         public void Start()
         {
+            //Initialize Hardware
+            foreach(var hardware in Hardwares.Values)
+            {
+                hardware.Initialize();
+            }
+
             //Create Services
             foreach(var servicePair in Services)
             {
-                var service = (Service)Activator.CreateInstance(servicePair.Value);
-                if (service is IHasGame)
-                {
-                    (service as IHasGame).SetGame(Game);
-                }
-                (service as IHasTypeO).SetTypeO(this);
-
+                var service = servicePair.Value;
                 //Add Hardware to service using reflection on the Service properties
                 SetHardware(service);
 
                 service.Initialize();
 
-                Game.AddService(servicePair.Key, service);
+                //Game.AddService(servicePair.Key, service);
             }
 
-            //Set modules Hardware
+            //Set modules Hardware and initialize
             foreach (var module in Modules)
             {
                 SetHardware(module);
+                module.Initialize();
             }
 
             //Initialize the game
+            SetService(Game);
             Game.Initialize();
 
             while (!ExitApplication)
@@ -139,9 +147,15 @@ namespace Typedeaf.TypeOCore
                     (module as IIsUpdatable)?.Update(dt);
                 }
 
-                foreach (var service in Game.GetServices())
+                foreach (var hardware in Hardwares.Values)
                 {
-                    (service as IIsUpdatable)?.Update(dt);
+                    (hardware as IIsUpdatable)?.Update(dt);
+                }
+
+                foreach (var service in Services.Values)
+                {
+                    if(!service.Pause)
+                        (service as IIsUpdatable)?.Update(dt);
                 }
 
                 Game.Update(dt);
@@ -171,6 +185,25 @@ namespace Typedeaf.TypeOCore
                 }
 
                 property.SetValue(obj, Hardwares[property.PropertyType]);
+            }
+        }
+
+        private void SetService(object obj)
+        {
+            var type = obj.GetType();
+            var properties = type.GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.PropertyType.GetInterface(nameof(IService)) == null)
+                {
+                    continue;
+                }
+                if (!Services.ContainsKey(property.PropertyType))
+                {
+                    throw new Exception($"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                }
+
+                property.SetValue(obj, Services[property.PropertyType]);
             }
         }
     }

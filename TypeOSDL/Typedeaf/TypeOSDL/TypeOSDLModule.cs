@@ -42,7 +42,6 @@ namespace Typedeaf.TypeOSDL
 
         public override ITypeO AddModuleServices()
         {
-
             TypeO.AddService<IWindowService, WindowService>();
             TypeO.AddService<IKeyboardInputService, KeyboardInputService>();
 
