@@ -8,7 +8,6 @@
     ".NETCoreApp,Version=v3.1": {
       "SpaceInvader/1.0.0": {
         "dependencies": {
-          "TypeOCommon": "1.0.0",
           "TypeOCore": "1.0.0",
           "TypeOSDL": "1.0.0",
           "SDL2-CS.Core": "1.0.0.0"
@@ -17,22 +16,13 @@
           "SpaceInvader.dll": {}
         }
       },
-      "TypeOCommon/1.0.0": {
-        "runtime": {
-          "TypeOCommon.dll": {}
-        }
-      },
       "TypeOCore/1.0.0": {
-        "dependencies": {
-          "TypeOCommon": "1.0.0"
-        },
         "runtime": {
           "TypeOCore.dll": {}
         }
       },
       "TypeOSDL/1.0.0": {
         "dependencies": {
-          "TypeOCommon": "1.0.0",
           "TypeOCore": "1.0.0"
         },
         "runtime": {
@@ -51,11 +41,6 @@
   },
   "libraries": {
     "SpaceInvader/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "TypeOCommon/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

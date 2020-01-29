@@ -2,22 +2,9 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "TypeOCommon/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "compile": {
-          "bin/placeholder/TypeOCommon.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/TypeOCommon.dll": {}
-        }
-      },
       "TypeOCore/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "TypeOCommon": "1.0.0"
-        },
         "compile": {
           "bin/placeholder/TypeOCore.dll": {}
         },
@@ -29,7 +16,6 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "TypeOCommon": "1.0.0",
           "TypeOCore": "1.0.0"
         },
         "compile": {
@@ -42,11 +28,6 @@
     }
   },
   "libraries": {
-    "TypeOCommon/1.0.0": {
-      "type": "project",
-      "path": "../../TypeOCommon/TypeOCommon.csproj",
-      "msbuildProject": "../../TypeOCommon/TypeOCommon.csproj"
-    },
     "TypeOCore/1.0.0": {
       "type": "project",
       "path": "../../TypeOCore/TypeOCore.csproj",
@@ -60,7 +41,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "TypeOCommon >= 1.0.0",
       "TypeOCore >= 1.0.0",
       "TypeOSDL >= 1.0.0"
     ]
@@ -96,9 +76,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\simon\\projects\\typeo\\TypeOCommon\\TypeOCommon.csproj": {
-              "projectPath": "C:\\Users\\simon\\projects\\typeo\\TypeOCommon\\TypeOCommon.csproj"
-            },
             "C:\\Users\\simon\\projects\\typeo\\TypeOCore\\TypeOCore.csproj": {
               "projectPath": "C:\\Users\\simon\\projects\\typeo\\TypeOCore\\TypeOCore.csproj"
             },

@@ -1,4 +1,4 @@
-﻿using Typedeaf.TypeOCommon;
+﻿using Typedeaf.Common;
 
 namespace Typedeaf.TypeOCore
 {

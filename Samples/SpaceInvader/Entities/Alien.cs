@@ -1,5 +1,5 @@
 ﻿using System;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;

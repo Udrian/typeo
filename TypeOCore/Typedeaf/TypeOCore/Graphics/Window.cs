@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Interfaces;
 

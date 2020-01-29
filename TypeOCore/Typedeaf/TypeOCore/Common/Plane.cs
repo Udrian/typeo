@@ -1,4 +1,4 @@
-﻿namespace Typedeaf.TypeOCommon
+﻿namespace Typedeaf.Common
 {
     public class Plane
     {

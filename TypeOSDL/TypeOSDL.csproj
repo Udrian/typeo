@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypeOCommon\TypeOCommon.csproj" />
     <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
   </ItemGroup>
 

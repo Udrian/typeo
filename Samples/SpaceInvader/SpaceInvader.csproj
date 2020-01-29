@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TypeOCommon\TypeOCommon.csproj" />
     <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
     <ProjectReference Include="..\..\TypeOSDL\TypeOSDL.csproj" />
   </ItemGroup>

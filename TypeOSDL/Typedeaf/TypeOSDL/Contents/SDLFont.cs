@@ -1,6 +1,6 @@
 ﻿using SDL2;
 using System;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOCore.Graphics;
 using SDL_Font = System.IntPtr;
 using Typedeaf.TypeOSDL.Graphics;

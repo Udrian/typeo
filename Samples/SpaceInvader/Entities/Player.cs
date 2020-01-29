@@ -1,6 +1,6 @@
 ﻿using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOSDL.Contents;
 using Typedeaf.TypeOCore.Services.Interfaces;
 using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;

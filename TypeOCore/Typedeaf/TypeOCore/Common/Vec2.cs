@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Typedeaf.TypeOCommon
+namespace Typedeaf.Common
 {
     public class Vec2 : IEquatable<Vec2>
     {

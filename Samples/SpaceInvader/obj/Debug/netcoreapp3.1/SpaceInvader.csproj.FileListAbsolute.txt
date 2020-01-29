@@ -32,10 +32,8 @@ C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\Space
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\SpaceInvader.dll
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\SpaceInvader.pdb
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\SDL2-CS.Core.dll
-C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOCommon.dll
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOCore.dll
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOSDL.dll
-C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOCommon.pdb
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOCore.pdb
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\bin\Debug\netcoreapp3.1\TypeOSDL.pdb
 C:\Users\simon\projects\typeo\Samples\SpaceInvader\obj\Debug\netcoreapp3.1\SpaceInvader.csprojAssemblyReference.cache

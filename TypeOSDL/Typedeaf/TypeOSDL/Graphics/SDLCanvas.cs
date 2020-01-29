@@ -1,7 +1,7 @@
 ﻿using SDL2;
 using System;
 using System.Collections.Generic;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOCore.Graphics;
 using SDL_Renderer = System.IntPtr;
 

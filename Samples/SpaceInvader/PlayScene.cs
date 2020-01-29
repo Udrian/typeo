@@ -1,5 +1,5 @@
 using System;
-using Typedeaf.TypeOCommon;
+using Typedeaf.Common;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
