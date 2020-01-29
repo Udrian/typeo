@@ -3,7 +3,7 @@ using Typedeaf.Common;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Graphics
+    namespace Engine.Graphics
     {
         public abstract partial class Canvas
         {

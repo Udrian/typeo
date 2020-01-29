@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using SDL_Renderer = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    namespace Graphics
+    namespace Engine.Graphics
     {
         public partial class SDLCanvas : Canvas
         {

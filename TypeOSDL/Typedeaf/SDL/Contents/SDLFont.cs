@@ -1,10 +1,9 @@
 ﻿using SDL2;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Graphics;
 using SDL_Font = System.IntPtr;
-using TypeOEngine.Typedeaf.SDL.Graphics;
 using TypeOEngine.Typedeaf.SDL.Contents;
 using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -51,9 +50,9 @@ namespace TypeOEngine.Typedeaf.SDL
         }
     }
 
-    namespace Graphics
+    namespace Engine.Graphics
     {
-        public partial class SDLCanvas : Canvas
+        partial class SDLCanvas
         {
             public override void DrawText(Font font, string text, Vec2 pos)
             {

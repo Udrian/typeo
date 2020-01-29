@@ -1,5 +1,5 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
-using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.Core
 {

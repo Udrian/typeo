@@ -1,9 +1,8 @@
 ﻿using SDL2;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.Core.Graphics;
 using TypeOEngine.Typedeaf.SDL.Contents;
-using TypeOEngine.Typedeaf.SDL.Graphics;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using SDL_Image = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -18,10 +17,10 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void Load(string path, ContentLoader contentLoader)
             {
-                var SDLCanvas = contentLoader.Canvas as SDLCanvas;
+                var sdlCanvas = contentLoader.Canvas as SDLCanvas;
                 FilePath = path;
 
-                SDL_Image = SDL_image.IMG_LoadTexture(SDLCanvas.SDLRenderer, FilePath);
+                SDL_Image = SDL_image.IMG_LoadTexture(sdlCanvas.SDLRenderer, FilePath);
                 SDL2.SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
                 Size = new Vec2(w, h);
                 //TODO: Error handling
@@ -36,9 +35,9 @@ namespace TypeOEngine.Typedeaf.SDL
         }
     }
 
-    namespace Graphics
+    namespace Engine.Graphics
     {
-        public partial class SDLCanvas : Canvas
+        partial class SDLCanvas
         {
             public override void DrawImage(Texture texture, Vec2 pos)
             {

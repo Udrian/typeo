@@ -1,6 +1,6 @@
 ﻿using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.Core
 {

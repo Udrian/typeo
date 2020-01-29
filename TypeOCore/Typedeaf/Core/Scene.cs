@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -26,7 +26,7 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract void OnEnter(Scene from);
     }
 
-    namespace Graphics
+    namespace Engine.Graphics
     {
         partial class Window
         {

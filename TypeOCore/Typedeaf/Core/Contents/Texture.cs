@@ -21,9 +21,9 @@ namespace TypeOEngine.Typedeaf.Core
         }
     }
 
-    namespace Graphics
+    namespace Engine.Graphics
     {
-        public abstract partial class Canvas
+        partial class Canvas
         {
             public abstract void DrawImage(Texture texture, Vec2 pos);
             public abstract void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null);

@@ -1,5 +1,5 @@
 ﻿using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.SDL.Graphics;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.SDL
 {

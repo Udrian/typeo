@@ -1,14 +1,13 @@
-﻿using SDL2;
-using System;
+﻿using System;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Contents;
 using SDL_Window = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    namespace Graphics
+    namespace Engine.Graphics
     {
         public class SDLWindow : Window
         {
