@@ -8,61 +8,61 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypeOCommon\TypeOCommon.csproj" />
-    <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
-    <ProjectReference Include="..\TypeOSDL\TypeOSDL.csproj" />
+    <ProjectReference Include="..\..\TypeOCommon\TypeOCommon.csproj" />
+    <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
+    <ProjectReference Include="..\..\TypeOSDL\TypeOSDL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="SDL2-CS">
-      <HintPath>..\SDL2\debug\SDL2-CS.Core.dll</HintPath>
+      <HintPath>..\..\SDL2\debug\SDL2-CS.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="..\SDL2\debug\libfreetype-6.dll">
+    <None Update="..\..\SDL2\debug\libfreetype-6.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\libjpeg-9.dll">
+    <None Update="..\..\SDL2\debug\libjpeg-9.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\libpng16-16">
+    <None Update="..\..\SDL2\debug\libpng16-16">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\libtiff-5.dll">
+    <None Update="..\..\SDL2\debug\libtiff-5.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\libwebp-7.dll">
+    <None Update="..\..\SDL2\debug\libwebp-7.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\LICENSE.jpeg.txt">
+    <None Update="..\..\SDL2\debug\LICENSE.jpeg.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\LICENSE.png.txt">
+    <None Update="..\..\SDL2\debug\LICENSE.png.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\LICENSE.tiff.txt">
+    <None Update="..\..\SDL2\debug\LICENSE.tiff.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\LICENSE.webp.txt">
+    <None Update="..\..\SDL2\debug\LICENSE.webp.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\LICENSE.zlib.txt">
+    <None Update="..\..\SDL2\debug\LICENSE.zlib.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\README.txt">
+    <None Update="..\..\SDL2\debug\README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\SDL2.dll">
+    <None Update="..\..\SDL2\debug\SDL2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\SDL2_image.dll">
+    <None Update="..\..\SDL2\debug\SDL2_image.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\SDL2_ttf.dll">
+    <None Update="..\..\SDL2\debug\SDL2_ttf.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="..\SDL2\debug\zlib1.dll">
+    <None Update="..\..\SDL2\debug\zlib1.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="content\Awesome.ttf">
