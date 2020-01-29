@@ -1,16 +1,16 @@
 using System;
 using Typedeaf.Common;
-using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Entities;
+using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Entities;
 using System.Collections.Generic;
-using SampleGame.Entities;
-using Typedeaf.TypeOSDL.Contents;
-using Typedeaf.TypeOCore.Contents;
-using Typedeaf.TypeOCore.Services.Interfaces;
-using Typedeaf.TypeOCore.Interfaces;
-using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
+using SpaceInvader.Entities;
+using TypeOEngine.Typedeaf.SDL.Contents;
+using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 
-namespace SampleGame
+namespace SpaceInvader
 {
     public class PlayScene : Scene, IHasGame<SpaceInvaderGame>
     {

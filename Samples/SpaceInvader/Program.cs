@@ -1,10 +1,10 @@
 using System;
-using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
-using Typedeaf.TypeOSDL;
-using Typedeaf.TypeOSDL.Engine.Hardwares;
+using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.SDL;
+using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
+using TypeOEngine.Typedeaf.Core;
 
-namespace SampleGame
+namespace SpaceInvader
 {
     public static class Program
     {
@@ -12,7 +12,7 @@ namespace SampleGame
         public static void Main()
         {
             TypeO.Create<SpaceInvaderGame>()
-                .LoadModule<TypeOSDLModule>()
+                .LoadModule<SDLModule>()
                 .AddModuleServices()
                 .AddHardware<IWindowHardware, SDLWindowHardware>()
                 .AddHardware<IKeyboardHardware, SDLKeyboardHardware>()

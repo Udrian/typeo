@@ -1,13 +1,13 @@
 ﻿using System;
 using Typedeaf.Common;
-using Typedeaf.TypeOCore.Contents;
-using Typedeaf.TypeOCore.Entities;
-using Typedeaf.TypeOCore.Entities.Drawables;
-using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
-using Typedeaf.TypeOCore.Interfaces;
-using Typedeaf.TypeOSDL.Contents;
+using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Contents;
 
-namespace SampleGame.Entities
+namespace SpaceInvader.Entities
 {
     public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable
     {

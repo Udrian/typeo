@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Typedeaf.Common;
-using Typedeaf.TypeOCore.Entities;
-using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
-using Typedeaf.TypeOCore.Graphics;
-using Typedeaf.TypeOCore.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
+using TypeOEngine.Typedeaf.Core.Graphics;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
-namespace SampleGame.Entities
+namespace SpaceInvader.Entities
 {
     public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable
     {

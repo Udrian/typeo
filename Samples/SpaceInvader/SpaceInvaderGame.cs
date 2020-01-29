@@ -1,11 +1,11 @@
 using Typedeaf.Common;
 using SDL2;
-using Typedeaf.TypeOCore;
+using TypeOEngine.Typedeaf.Core;
 using System;
-using Typedeaf.TypeOCore.Services.Interfaces;
-using Typedeaf.TypeOCore.Graphics;
+using TypeOEngine.Typedeaf.Core.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Graphics;
 
-namespace SampleGame
+namespace SpaceInvader
 {
     public class SpaceInvaderGame : Game
     {
