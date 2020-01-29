@@ -2,7 +2,7 @@
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Input
+    namespace Engine.Services.Input
     {
         public partial class KeyConverter
         {

@@ -1,6 +1,6 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services.Input;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.Core.Input;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
