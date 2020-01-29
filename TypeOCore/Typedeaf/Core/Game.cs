@@ -1,6 +1,7 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -18,14 +19,12 @@ namespace TypeOEngine.Typedeaf.Core
 
         public void EntityAdd(Entity entity)
         {
-            if (entity is IHasGame)
-            {
-                (entity as IHasGame).SetGame(this);
-            }
+            (entity as IHasGame)?.SetGame(this);
 
-            (TypeO as TypeO).SetServices(entity);
+            (TypeO as TypeO)?.SetServices(entity);
 
             entity.Initialize();
+            (entity as IHasData)?.Data?.Initialize();
         }
     }
 }

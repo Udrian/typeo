@@ -1,5 +1,4 @@
-﻿using SDL2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
