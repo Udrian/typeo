@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOCore.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {

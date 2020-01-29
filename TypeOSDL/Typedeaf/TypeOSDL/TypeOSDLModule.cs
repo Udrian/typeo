@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
-using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOCore.Services;
 using Typedeaf.TypeOCore.Services.Interfaces;
 using Typedeaf.TypeOSDL.Engine.Hardwares;

@@ -3,11 +3,12 @@ using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Entities;
 using System.Collections.Generic;
-using Typedeaf.TypeOCore.Entities.Drawables;
 using SampleGame.Entities;
 using Typedeaf.TypeOSDL.Contents;
 using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Services.Interfaces;
+using Typedeaf.TypeOCore.Interfaces;
+using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
 
 namespace SampleGame
 {

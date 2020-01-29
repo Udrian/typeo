@@ -1,12 +1,13 @@
-﻿namespace Typedeaf.TypeOCore
+﻿using Typedeaf.TypeOCore.Interfaces;
+
+namespace Typedeaf.TypeOCore
 {
     namespace Services
     {
-
         public abstract class Service : IHasTypeO
         {
-            ITypeO IHasTypeO.TypeO { get; set; }
-            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            TypeO IHasTypeO.TypeO { get; set; }
+            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
 
             public bool Pause { get; set; }
 

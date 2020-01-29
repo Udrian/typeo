@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Contents;
+using Typedeaf.TypeOCore.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
@@ -9,8 +10,8 @@ namespace Typedeaf.TypeOCore
     {
         public abstract partial class Window : IHasTypeO
         {
-            ITypeO IHasTypeO.TypeO { get; set; }
-            protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+            TypeO IHasTypeO.TypeO { get; set; }
+            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
             public Game Game { get; set; }
 
             protected Window()

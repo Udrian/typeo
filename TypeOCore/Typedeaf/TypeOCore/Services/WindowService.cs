@@ -1,13 +1,14 @@
 ﻿using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Services
     {
-        public class WindowService : Service, IHasGame<Game>, IWindowService
+        public class WindowService : Service, IHasGame, IWindowService
         {
             public IWindowHardware WindowHardware { get; set; }
 

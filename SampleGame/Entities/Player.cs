@@ -1,10 +1,10 @@
-﻿using Typedeaf.TypeOCore;
-using Typedeaf.TypeOCore.Entities;
+﻿using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL.Contents;
-using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Services.Interfaces;
+using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
+using Typedeaf.TypeOCore.Interfaces;
 
 namespace SampleGame.Entities
 {
@@ -20,7 +20,7 @@ namespace SampleGame.Entities
 
         public override void Initialize()
         {
-            Drawable = new DrawableTexture(this, (Texture)Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
+            Drawable = new DrawableTexture(this, Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
             Position = new Vec2(100, 400);
         }
 

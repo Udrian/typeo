@@ -1,26 +1,12 @@
 ﻿using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
-    public interface IHasGame
-    {
-        public void SetGame(Game game);
-    }
-
-    public interface IHasGame<G> : IHasGame where G : Game
-    {
-        public G Game { get; set; }
-
-        void IHasGame.SetGame(Game game)
-        {
-            Game = (G)game;
-        }
-    }
-
     public abstract partial class Game : IHasTypeO
     {
-        ITypeO IHasTypeO.TypeO { get; set; }
-        private ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+        TypeO IHasTypeO.TypeO { get; set; }
+        private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
 
         protected Game() {}
         public abstract void Initialize();

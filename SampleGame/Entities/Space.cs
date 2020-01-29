@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Entities;
-using Typedeaf.TypeOCore.Entities.Drawables;
+using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
 using Typedeaf.TypeOCore.Graphics;
+using Typedeaf.TypeOCore.Interfaces;
 
 namespace SampleGame.Entities
 {

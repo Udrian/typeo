@@ -1,6 +1,6 @@
 ﻿namespace Typedeaf.TypeOCore
 {
-    namespace Services
+    namespace Services.Interfaces
     {
         public interface IService { }
     }

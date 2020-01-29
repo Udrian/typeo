@@ -1,34 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Typedeaf.TypeOCore.Engine.Hardwares;
-using Typedeaf.TypeOCore.Entities;
+using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
-    public interface IHasTypeO
-    {
-        protected ITypeO TypeO { get; set; }
-        public void SetTypeO(ITypeO typeO)
-        {
-            TypeO = typeO;
-        }
-        public ITypeO GetTypeO()
-        {
-            return TypeO;
-        }
-    }
-
-    public interface ITypeO
-    {
-        public void Start();
-        public void Exit();
-
-        public ITypeO AddService<I, S>() where I : IService where S : Service, new();
-        public ITypeO AddHardware<I, H>() where I : IHardware where H : Hardware, new();
-        public M LoadModule<M>() where M : Module, new();
-    }
-
     public class TypeO : ITypeO
     {
         public static ITypeO Create<G>() where G : Game, new()

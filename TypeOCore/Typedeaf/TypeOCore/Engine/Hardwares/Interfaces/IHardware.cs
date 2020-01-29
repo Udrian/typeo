@@ -1,6 +1,6 @@
 ﻿namespace Typedeaf.TypeOCore
 {
-    namespace Engine.Hardwares
+    namespace Engine.Hardwares.Interfaces
     {
         public interface IHardware { }
     }

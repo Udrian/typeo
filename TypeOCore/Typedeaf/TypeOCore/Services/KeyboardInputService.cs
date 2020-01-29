@@ -1,12 +1,13 @@
 ﻿using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
 using Typedeaf.TypeOCore.Input;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
     namespace Services
     {
-        public class KeyboardInputService : Service, IHasGame<Game>, IKeyboardInputService
+        public class KeyboardInputService : Service, IHasGame, IKeyboardInputService
         {
             public IKeyboardHardware KeyboardHardware { get; set; }
 

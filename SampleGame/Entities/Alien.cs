@@ -1,9 +1,10 @@
 ﻿using System;
 using Typedeaf.TypeOCommon;
-using Typedeaf.TypeOCore;
 using Typedeaf.TypeOCore.Contents;
 using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Entities.Drawables;
+using Typedeaf.TypeOCore.Entities.Drawables.Interfaces;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOSDL.Contents;
 
 namespace SampleGame.Entities

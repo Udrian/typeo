@@ -1,12 +1,15 @@
 ﻿using Typedeaf.TypeOCore.Engine.Hardwares;
+using Typedeaf.TypeOCore.Engine.Hardwares.Interfaces;
+using Typedeaf.TypeOCore.Interfaces;
 using Typedeaf.TypeOCore.Services;
+using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace Typedeaf.TypeOCore
 {
     public abstract class Module : ITypeO, IHasTypeO
     {
-        ITypeO IHasTypeO.TypeO { get; set; }
-        protected ITypeO TypeO { get { return (this as IHasTypeO).GetTypeO(); } }
+        TypeO IHasTypeO.TypeO { get; set; }
+        protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
 
         public abstract void Initialize();
         public abstract void Cleanup();
