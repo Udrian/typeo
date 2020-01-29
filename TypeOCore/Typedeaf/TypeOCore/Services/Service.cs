@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Typedeaf.TypeOCore.Services;
-
-namespace Typedeaf.TypeOCore
+﻿namespace Typedeaf.TypeOCore
 {
     namespace Services
     {

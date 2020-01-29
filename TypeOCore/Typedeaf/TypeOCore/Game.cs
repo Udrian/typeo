@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Typedeaf.TypeOCore.Entities;
-using Typedeaf.TypeOCore.Services;
+﻿using Typedeaf.TypeOCore.Entities;
 
 namespace Typedeaf.TypeOCore
 {
