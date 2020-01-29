@@ -2,6 +2,7 @@ using SDL2;
 using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
