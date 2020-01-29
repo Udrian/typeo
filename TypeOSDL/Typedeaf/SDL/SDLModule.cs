@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services;
+using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Services;
-using TypeOEngine.Typedeaf.Core.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 
 namespace TypeOEngine.Typedeaf.SDL

@@ -1,12 +1,12 @@
 ﻿using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Services
+    namespace Engine.Services
     {
         public class WindowService : Service, IHasGame, IWindowService
         {

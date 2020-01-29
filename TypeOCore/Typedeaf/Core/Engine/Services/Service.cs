@@ -2,7 +2,7 @@
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Services
+    namespace Engine.Services
     {
         public abstract class Service : IHasTypeO
         {

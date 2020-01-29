@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services;
+using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Services;
-using TypeOEngine.Typedeaf.Core.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {

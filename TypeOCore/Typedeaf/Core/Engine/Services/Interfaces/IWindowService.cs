@@ -4,7 +4,7 @@ using TypeOEngine.Typedeaf.Core.Graphics;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Services.Interfaces
+    namespace Engine.Services.Interfaces
     {
         public interface IWindowService : IService
         {
