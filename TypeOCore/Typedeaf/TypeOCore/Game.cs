@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Typedeaf.TypeOCore.Entities;
 using Typedeaf.TypeOCore.Services;
 
 namespace Typedeaf.TypeOCore
@@ -29,5 +30,17 @@ namespace Typedeaf.TypeOCore
         public abstract void Update(double dt);
         public abstract void Draw();
         public void Exit() { TypeO.Exit(); }
+
+        public void EntityAdd(Entity entity)
+        {
+            if (entity is IHasGame)
+            {
+                (entity as IHasGame).SetGame(this);
+            }
+
+            (TypeO as TypeO).SetServices(entity);
+
+            entity.Initialize();
+        }
     }
 }

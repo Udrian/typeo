@@ -119,8 +119,8 @@ namespace Typedeaf.TypeOCore
             {
                 var service = servicePair.Value;
                 //Add Hardware to service using reflection on the Service properties
-                SetHardware(service);
-                SetService(service);
+                SetHardwares(service);
+                SetServices(service);
 
                 service.Initialize();
 
@@ -130,13 +130,13 @@ namespace Typedeaf.TypeOCore
             //Set modules Hardware and initialize
             foreach (var module in Modules)
             {
-                SetHardware(module);
-                SetService(module);
+                SetHardwares(module);
+                SetServices(module);
                 module.Initialize();
             }
 
             //Initialize the game
-            SetService(Game);
+            SetServices(Game);
             Game.Initialize();
 
             while (!ExitApplication)
@@ -171,7 +171,7 @@ namespace Typedeaf.TypeOCore
             }
         }
 
-        private void SetHardware(object obj)
+        private void SetHardwares(object obj)
         {
             var type = obj.GetType();
             var properties = type.GetProperties();
@@ -190,7 +190,7 @@ namespace Typedeaf.TypeOCore
             }
         }
 
-        private void SetService(object obj)
+        public void SetServices(object obj)
         {
             var type = obj.GetType();
             var properties = type.GetProperties();

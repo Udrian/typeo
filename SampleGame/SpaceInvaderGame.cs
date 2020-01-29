@@ -9,8 +9,8 @@ namespace SampleGame
 {
     public class SpaceInvaderGame : Game
     {
-        public IWindowService WindowService { get; private set; }
-        public IKeyboardInputService KeyboardInputService { get; private set; }
+        public IWindowService WindowService { get; set; }
+        public IKeyboardInputService KeyboardInputService { get; set; }
 
         public Vec2   ScreenSize { get; set; } = new Vec2(640, 480);
         public Window Window     { get; set; }

@@ -4,11 +4,14 @@ using Typedeaf.TypeOCore.Entities.Drawables;
 using Typedeaf.TypeOCommon;
 using Typedeaf.TypeOSDL.Contents;
 using Typedeaf.TypeOCore.Contents;
+using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace SampleGame.Entities
 {
     public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable
     {
+        public IKeyboardInputService KeyboardInputService { get; set; }
+
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
@@ -23,11 +26,11 @@ namespace SampleGame.Entities
 
         public void Update(double dt)
         {
-            if (Game.KeyboardInputService.IsDown("Left"))
+            if (KeyboardInputService.IsDown("Left"))
             {
                 Position.X -= Speed;
             }
-            if (Game.KeyboardInputService.IsDown("Right"))
+            if (KeyboardInputService.IsDown("Right"))
             {
                 Position.X += Speed;
             }

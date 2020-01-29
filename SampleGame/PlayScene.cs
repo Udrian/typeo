@@ -7,11 +7,14 @@ using Typedeaf.TypeOCore.Entities.Drawables;
 using SampleGame.Entities;
 using Typedeaf.TypeOSDL.Contents;
 using Typedeaf.TypeOCore.Contents;
+using Typedeaf.TypeOCore.Services.Interfaces;
 
 namespace SampleGame
 {
     public class PlayScene : Scene, IHasGame<SpaceInvaderGame>
     {
+        public IKeyboardInputService KeyboardInputService { get; set; }
+
         public SpaceInvaderGame Game { get; set; }
         public Font LoadedFont { get; set; }
         public List<Entity> Entities { get; set; } = new List<Entity>();
@@ -69,11 +72,11 @@ namespace SampleGame
                 }
             }
 
-            if (Game.KeyboardInputService.IsDown("Quit"))
+            if (KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
-            if (Game.KeyboardInputService.IsPressed("Shoot"))
+            if (KeyboardInputService.IsPressed("Shoot"))
             {
                 Bullets.Add((Bullet)EntityAdd(new Bullet(new Vec2(Player.Position.X, Player.Position.Y + 19))));
                 Bullets.Add((Bullet)EntityAdd(new Bullet(new Vec2(Player.Position.X + 36, Player.Position.Y + 19))));
@@ -95,12 +98,7 @@ namespace SampleGame
 
         public Entity2d EntityAdd(Entity2d entity)
         {
-            if (entity is IHasGame)
-            {
-                (entity as IHasGame).SetGame(Game);
-            }
-
-            entity.Initialize();
+            Game.EntityAdd(entity);
             Entities.Add(entity);
 
             return entity;

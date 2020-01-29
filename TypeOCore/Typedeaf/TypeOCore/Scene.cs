@@ -46,6 +46,7 @@ namespace Typedeaf.TypeOCore
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
+                    (TypeO as TypeO).SetServices(scene);
                 }
             }
 
