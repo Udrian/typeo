@@ -1,12 +1,11 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Interfaces
+    namespace Engine.Interfaces
     {
         public interface ITypeO
         {

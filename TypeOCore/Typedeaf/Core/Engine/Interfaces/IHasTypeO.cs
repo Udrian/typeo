@@ -1,8 +1,6 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine;
-
-namespace TypeOEngine.Typedeaf.Core
+﻿namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Interfaces
+    namespace Engine.Interfaces
     {
         public interface IHasTypeO
         {

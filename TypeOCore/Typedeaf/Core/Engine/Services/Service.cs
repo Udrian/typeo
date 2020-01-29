@@ -1,4 +1,4 @@
-﻿using TypeOEngine.Typedeaf.Core.Interfaces;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
