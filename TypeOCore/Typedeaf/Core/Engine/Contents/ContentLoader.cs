@@ -2,7 +2,7 @@
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Contents
+    namespace Engine.Contents
     {
         public class ContentLoader
         {

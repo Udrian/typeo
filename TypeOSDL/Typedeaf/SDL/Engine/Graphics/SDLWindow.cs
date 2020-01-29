@@ -1,8 +1,8 @@
 ﻿using System;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.SDL.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Window = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL

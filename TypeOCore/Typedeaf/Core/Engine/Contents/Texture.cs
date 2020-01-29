@@ -1,9 +1,9 @@
 ﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Contents
+    namespace Engine.Contents
     {
         public abstract class Texture : Content
         {

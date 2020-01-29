@@ -1,11 +1,10 @@
 ﻿using System;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.SDL.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
@@ -25,7 +24,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = new DrawableTexture(this, (Texture)Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png"));
+            Drawable = new DrawableTexture(this, Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png"));
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }

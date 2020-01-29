@@ -1,13 +1,13 @@
 ﻿using SDL2;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
-using TypeOEngine.Typedeaf.SDL.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using SDL_Image = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    namespace Contents
+    namespace Engine.Contents
     {
         public class SDLTexture : Texture
         {

@@ -1,10 +1,10 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.SDL.Contents;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {

@@ -1,13 +1,13 @@
 ﻿using SDL2;
 using Typedeaf.Common;
 using SDL_Font = System.IntPtr;
-using TypeOEngine.Typedeaf.SDL.Contents;
-using TypeOEngine.Typedeaf.Core.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    namespace Contents
+    namespace Engine.Contents
     {
         public class SDLFont : Font
         {

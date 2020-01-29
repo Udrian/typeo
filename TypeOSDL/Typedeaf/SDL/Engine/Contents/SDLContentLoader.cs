@@ -1,9 +1,9 @@
-﻿using TypeOEngine.Typedeaf.Core.Contents;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    namespace Contents
+    namespace Engine.Contents
     {
         public partial class SDLContentLoader : ContentLoader
         {

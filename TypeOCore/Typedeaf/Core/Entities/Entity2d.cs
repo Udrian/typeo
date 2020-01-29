@@ -1,5 +1,5 @@
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 
 namespace TypeOEngine.Typedeaf.Core
 {

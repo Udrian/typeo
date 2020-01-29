@@ -4,11 +4,11 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using System.Collections.Generic;
 using SpaceInvader.Entities;
-using TypeOEngine.Typedeaf.SDL.Contents;
-using TypeOEngine.Typedeaf.Core.Contents;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader
 {

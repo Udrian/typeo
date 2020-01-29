@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
