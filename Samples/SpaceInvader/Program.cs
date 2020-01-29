@@ -2,7 +2,7 @@ using System;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Engine;
 
 namespace SpaceInvader
 {

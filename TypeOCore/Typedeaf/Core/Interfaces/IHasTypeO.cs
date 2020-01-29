@@ -1,4 +1,6 @@
-﻿namespace TypeOEngine.Typedeaf.Core
+﻿using TypeOEngine.Typedeaf.Core.Engine;
+
+namespace TypeOEngine.Typedeaf.Core
 {
     namespace Interfaces
     {
