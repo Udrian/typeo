@@ -4,21 +4,35 @@ using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable
+    public class SpaceData : EntityData
     {
-        public SpaceInvaderGame Game  { get; set; }
-        private List<Vec2>      Stars { get; set; }
-        
-        private int   NumberOfStars { get; set; } = 100;
-        private double Speed        { get; set; } = 250;
+        public int NumberOfStars { get; set; }
+        public double Speed { get; set; }
 
-        public override void Initialize() {
+        public override void Initialize() { }
+    }
+
+    public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>
+    {
+        public SpaceInvaderGame Game { get; set; }
+        private List<Vec2> Stars { get; set; }
+
+        public SpaceData EntityData { get; set; }
+
+        public override void Initialize()
+        {
+            EntityData = new SpaceData()
+            {
+                NumberOfStars = 100,
+                Speed = 250
+            };
 
             Stars = new List<Vec2>();
-            for (int i = 0; i < NumberOfStars; i++)
+            for (int i = 0; i < EntityData.NumberOfStars; i++)
             {
                 Stars.Add(new Vec2(Game.Random.Next((int)Game.Window.Size.X), Game.Random.Next(-(int)Game.Window.Size.Y, (int)Game.Window.Size.Y)));
             }
@@ -45,7 +59,7 @@ namespace SpaceInvader.Entities
             for(int i = 0; i < Stars.Count; i++)
             {
                 var star = Stars[i];
-                star.Y += Speed * dt;
+                star.Y += EntityData.Speed * dt;
                 if (star.Y > Game.Window.Size.Y)
                     star = new Vec2(Game.Random.Next((int)Game.Window.Size.X), Game.Random.Next(-(int)Game.Window.Size.Y, 0));
                 

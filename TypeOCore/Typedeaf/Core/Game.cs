@@ -24,7 +24,7 @@ namespace TypeOEngine.Typedeaf.Core
             (TypeO as TypeO)?.SetServices(entity);
 
             entity.Initialize();
-            (entity as IHasData)?.Data?.Initialize();
+            (entity as IHasData)?.EntityData?.Initialize();
         }
     }
 }

@@ -9,6 +9,7 @@ using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace SpaceInvader
 {
@@ -61,7 +62,8 @@ namespace SpaceInvader
                 if(AlienSpawnFrequencyTimer >= AlienSpawnFrequencyTime)
                 {
                     AlienSpawnFrequencyTimer -= AlienSpawnFrequencyTime;
-                    (EntityAdd(new Alien()) as Alien).Phase = AlienSpawnPhase;
+                    var entity = EntityAdd(new Alien());
+                    (entity as IHasData<AlienData>).EntityData.Phase = AlienSpawnPhase;
 
                     AlienSpawns++;
                     if(AlienSpawns >= AlienSpawnAmount)
@@ -123,8 +125,8 @@ namespace SpaceInvader
                            alien.Position.Y <= bullet.Position.Y && (alien.Position.Y + alien.Size.Y) >= bullet.Position.Y)
                         {
                             bullet.Remove();
-                            alien.Health--;
-                            if (alien.Health <= 0)
+                            alien.EntityData.Health--;
+                            if (alien.EntityData.Health <= 0)
                             {
                                 alien.Remove();
                                 Score++;

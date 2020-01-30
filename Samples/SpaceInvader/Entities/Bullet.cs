@@ -3,17 +3,32 @@ using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Bullet : Entity2d, IIsDrawable, IIsUpdatable
+    public class BulletData : EntityData
     {
-        public double Speed { get; set; } = 500;
+        public double Speed { get; set; }
+
+        public override void Initialize() { }
+    }
+
+    public class Bullet : Entity2d, IIsDrawable, IIsUpdatable, IHasData<BulletData>
+    {
+        public BulletData EntityData { get; set; }
+
         public Vec2 Size { get; set; } = new Vec2(10, 10);
 
         public Bullet(Vec2 position) : base(position) { }
 
-        public override void Initialize() {}
+        public override void Initialize()
+        {
+            EntityData = new BulletData()
+            {
+                Speed = 500
+            };
+        }
 
         public void Draw(Canvas canvas)
         {
@@ -22,13 +37,14 @@ namespace SpaceInvader.Entities
 
         public void Update(double dt)
         {
-            Position = new Vec2(Position.X, Position.Y - Speed * dt);
+            Position = new Vec2(Position.X, Position.Y - EntityData.Speed * dt);
 
             if (Position.Y <= -Size.Y)
                 Remove();
         }
 
         public bool WillBeDeleted { get; private set; }
+
         public void Remove()
         {
             WillBeDeleted = true;

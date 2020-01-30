@@ -4,13 +4,13 @@
     {
         public interface IHasData
         {
-            public EntityData Data { get; set; }
+            public EntityData EntityData { get; set; }
         }
 
         public interface IHasData<D> : IHasData where D : EntityData
         {
-            EntityData IHasData.Data { get => Data; set => Data = (D)value; }
-            public new D Data { get; set; }
+            EntityData IHasData.EntityData { get => EntityData; set => EntityData = (D)value; }
+            public new D EntityData { get; set; }
         }
     }
 }
