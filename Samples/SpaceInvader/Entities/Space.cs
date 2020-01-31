@@ -11,12 +11,13 @@ namespace SpaceInvader.Entities
     {
         public SpaceInvaderGame Game  { get; set; }
         private List<Vec2>      Stars { get; set; }
-        
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
+
         private int   NumberOfStars { get; set; } = 100;
         private double Speed        { get; set; } = 250;
 
         public override void Initialize() {
-
             Stars = new List<Vec2>();
             for (int i = 0; i < NumberOfStars; i++)
             {

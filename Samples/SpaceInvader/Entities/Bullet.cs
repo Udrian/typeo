@@ -11,7 +11,7 @@ namespace SpaceInvader.Entities
         public double Speed { get; set; } = 500;
         public Vec2 Size { get; set; } = new Vec2(10, 10);
 
-        public Bullet(Vec2 position) : base(position) { }
+        public Bullet() : base() { }
 
         public override void Initialize() {}
 
@@ -28,10 +28,7 @@ namespace SpaceInvader.Entities
                 Remove();
         }
 
-        public bool WillBeDeleted { get; private set; }
-        public void Remove()
-        {
-            WillBeDeleted = true;
-        }
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
     }
 }

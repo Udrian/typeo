@@ -15,6 +15,9 @@ namespace SpaceInvader.Entities
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
 
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
+
         public double Speed { get; set; } = 5;
         public Vec2 Size { get; set; } = new Vec2(46, 29);
 
