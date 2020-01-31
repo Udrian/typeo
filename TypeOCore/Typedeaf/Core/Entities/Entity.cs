@@ -7,6 +7,12 @@ namespace TypeOEngine.Typedeaf.Core
             public Entity() {}
 
             public abstract void Initialize();
+
+            public void Remove()
+            {
+                WillBeDeleted = true;
+            }
+            public bool WillBeDeleted { get; private set; }
         }
     }
 }

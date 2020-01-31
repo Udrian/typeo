@@ -1,11 +1,8 @@
 using System;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Entities;
-using System.Collections.Generic;
 using SpaceInvader.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
@@ -19,8 +16,6 @@ namespace SpaceInvader
 
         public SpaceInvaderGame Game { get; set; }
         public Font LoadedFont { get; set; }
-        public List<Entity> Entities { get; set; } = new List<Entity>();
-        public List<Bullet> Bullets { get; set; } = new List<Bullet>();
         public Player Player { get; set; }
 
         public int    Score { get; set; } = 0;
@@ -38,10 +33,9 @@ namespace SpaceInvader
             LoadedFont = ContentLoader.LoadContent<SDLFont>("content/Awesome.ttf");
             LoadedFont.FontSize = 26;
 
-            EntityAdd(new Space());
+            Entities.Create<Space>();
 
-            Player = new Player();
-            EntityAdd(Player);
+            Player = Entities.Create<Player>();
         }
 
         public override void Update(double dt)
@@ -62,8 +56,8 @@ namespace SpaceInvader
                 if(AlienSpawnFrequencyTimer >= AlienSpawnFrequencyTime)
                 {
                     AlienSpawnFrequencyTimer -= AlienSpawnFrequencyTime;
-                    var entity = EntityAdd(new Alien());
-                    (entity as IHasData<AlienData>).EntityData.Phase = AlienSpawnPhase;
+                    var alien = Entities.Create<Alien>();
+                    alien.EntityData.Phase = AlienSpawnPhase;
 
                     AlienSpawns++;
                     if(AlienSpawns >= AlienSpawnAmount)
@@ -81,8 +75,8 @@ namespace SpaceInvader
             }
             if (KeyboardInputService.IsPressed("Shoot"))
             {
-                Bullets.Add((Bullet)EntityAdd(new Bullet(new Vec2(Player.Position.X, Player.Position.Y + 19))));
-                Bullets.Add((Bullet)EntityAdd(new Bullet(new Vec2(Player.Position.X + 36, Player.Position.Y + 19))));
+                Entities.Create<Bullet>(new Vec2(Player.Position.X, Player.Position.Y + 19));
+                Entities.Create<Bullet>(new Vec2(Player.Position.X + 36, Player.Position.Y + 19));
             }
 
             EntityUpdate(dt);
@@ -92,89 +86,39 @@ namespace SpaceInvader
         {
             Canvas.Clear(Color.Black);
 
-            EntityDraw();
+            Entities.Draw(Canvas);
 
             Canvas.DrawText(LoadedFont, $"Score: {Score}", new Vec2(15, 15), color: Color.Green);
 
             Canvas.Present();
         }
 
-        public Entity2d EntityAdd(Entity2d entity)
-        {
-            Game.EntityAdd(entity);
-            Entities.Add(entity);
-
-            return entity;
-        }
-
         private void EntityUpdate(double dt)
         {
-            foreach (var entity in Entities)
+            Entities.Update(dt);
+
+            foreach (var alien in Entities.List<Alien>())
             {
-                if (entity is IIsUpdatable)
+                foreach(var bullet in Entities.List<Bullet>())
                 {
-                    (entity as IIsUpdatable).Update(dt);
-                }
-
-                if(entity is Alien)
-                {
-                    var alien = entity as Alien;
-                    foreach(var bullet in Bullets)
+                    if(alien.Position.X <= bullet.Position.X && (alien.Position.X + alien.Size.X) >= bullet.Position.X &&
+                        alien.Position.Y <= bullet.Position.Y && (alien.Position.Y + alien.Size.Y) >= bullet.Position.Y)
                     {
-                        if(alien.Position.X <= bullet.Position.X && (alien.Position.X + alien.Size.X) >= bullet.Position.X &&
-                           alien.Position.Y <= bullet.Position.Y && (alien.Position.Y + alien.Size.Y) >= bullet.Position.Y)
+                        bullet.Remove();
+                        alien.EntityData.Health--;
+                        if (alien.EntityData.Health <= 0)
                         {
-                            bullet.Remove();
-                            alien.EntityData.Health--;
-                            if (alien.EntityData.Health <= 0)
-                            {
-                                alien.Remove();
-                                Score++;
-                            }
-                        }
-                    }
-
-                    if (alien.Position.X <= Player.Position.X + Player.Size.X && (alien.Position.X + alien.Size.X) >= Player.Position.X &&
-                        alien.Position.Y <= Player.Position.Y + Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Player.Position.Y)
-                    {
-                        alien.Remove();
-                        Score--;
-                    }
-                }
-            }
-
-            for(int i = Entities.Count - 1; i >= 0; i--)
-            {
-                var bullet = Entities[i] as Bullet;
-                var alien = Entities[i] as Alien;
-                if (bullet?.WillBeDeleted == true)
-                {
-                    Entities.RemoveAt(i);
-                    for(int j = Bullets.Count -1; j >= 0; j--)
-                    {
-                        if(Bullets[j] == bullet)
-                        {
-                            Bullets.RemoveAt(j);
-                            break;
+                            alien.Remove();
+                            Score++;
                         }
                     }
                 }
-                if (alien?.WillBeDeleted == true) Entities.RemoveAt(i);
-            }
-        }
 
-        private void EntityDraw()
-        {
-            foreach (var entity in Entities)
-            {
-                if (entity is IHasDrawable)
+                if (alien.Position.X <= Player.Position.X + Player.Size.X && (alien.Position.X + alien.Size.X) >= Player.Position.X &&
+                    alien.Position.Y <= Player.Position.Y + Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Player.Position.Y)
                 {
-                    ((IHasDrawable)entity).DrawDrawable(Canvas);
-                }
-
-                if (entity is IIsDrawable)
-                {
-                    ((IIsDrawable)entity).Draw(Canvas);
+                    alien.Remove();
+                    Score--;
                 }
             }
         }

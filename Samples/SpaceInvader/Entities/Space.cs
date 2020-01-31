@@ -20,6 +20,8 @@ namespace SpaceInvader.Entities
     {
         public SpaceInvaderGame Game { get; set; }
         private List<Vec2> Stars { get; set; }
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
 
         public SpaceData EntityData { get; set; }
 

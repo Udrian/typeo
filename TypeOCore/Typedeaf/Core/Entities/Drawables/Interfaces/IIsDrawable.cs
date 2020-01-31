@@ -6,12 +6,14 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public interface IIsDrawable
         {
-            void Draw(Canvas canvas);
+            public bool Hidden { get; set; }
+            public void Draw(Canvas canvas);
         }
 
-        public interface IIsDrawable<C> where C : Canvas
+        public interface IIsDrawable<C> : IIsDrawable where C : Canvas
         {
-            void Draw(C canvas);
+            void IIsDrawable.Draw(Canvas canvas) { Draw(canvas as C); }
+            public void Draw(C canvas);
         }
     }
 }

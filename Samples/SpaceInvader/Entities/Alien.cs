@@ -31,6 +31,9 @@ namespace SpaceInvader.Entities
     {
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
+        
         public Vec2 Size { get; set; } = new Vec2(58, 57);
 
         public AlienData EntityData { get; set; }
@@ -60,13 +63,6 @@ namespace SpaceInvader.Entities
 
             if (Position.Y >= Game.Window.Size.Y)
                 Remove();
-        }
-
-        public bool WillBeDeleted { get; private set; }
-
-        public void Remove()
-        {
-            WillBeDeleted = true;
         }
     }
 }

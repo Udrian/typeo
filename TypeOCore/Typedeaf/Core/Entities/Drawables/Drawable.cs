@@ -12,7 +12,8 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract class Drawable<E> : Drawable, IIsDrawable where E : Entity
         {
             protected E Entity { get; private set; }
-            
+            public bool Hidden { get; set; }
+
             public Drawable(E entity)
             {
                 Entity = entity;

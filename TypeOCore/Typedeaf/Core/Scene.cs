@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -11,6 +13,7 @@ namespace TypeOEngine.Typedeaf.Core
         public Window Window { get; set; }
         public Canvas Canvas { get; set; }
         public ContentLoader ContentLoader { get; set; }
+        public EntityList Entities { get; set; }
 
         public bool IsInitialized { get; set; } = false;
         public bool Pause         { get; set; } = false;
@@ -44,6 +47,11 @@ namespace TypeOEngine.Typedeaf.Core
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
+                    scene.Entities = new EntityList()
+                    {
+                        Game = Game
+                    };
+                    (scene.Entities as IHasTypeO).TypeO = TypeO;
                     (TypeO as TypeO).SetServices(scene);
                 }
             }
