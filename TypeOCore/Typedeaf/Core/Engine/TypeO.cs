@@ -119,17 +119,19 @@ namespace TypeOEngine.Typedeaf.Core
 
                     foreach (var module in Modules)
                     {
-                        (module as IIsUpdatable)?.Update(dt);
+                        if((module as IIsUpdatable)?.Pause == false)
+                            (module as IIsUpdatable)?.Update(dt);
                     }
 
                     foreach (var hardware in Hardwares.Values)
                     {
-                        (hardware as IIsUpdatable)?.Update(dt);
+                        if ((hardware as IIsUpdatable)?.Pause == false)
+                            (hardware as IIsUpdatable)?.Update(dt);
                     }
 
                     foreach (var service in Services.Values)
                     {
-                        if (!service.Pause)
+                        if ((service as IIsUpdatable)?.Pause == false)
                             (service as IIsUpdatable)?.Update(dt);
                     }
 

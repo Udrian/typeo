@@ -6,6 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public interface IHasDrawable
         {
+            public bool Hidden { get; set; }
             public void DrawDrawable(Canvas canvas);
         }
 

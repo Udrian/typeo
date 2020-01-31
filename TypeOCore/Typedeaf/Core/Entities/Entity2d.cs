@@ -13,15 +13,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Color   Color    { get; set; }
             public Flipped Flipped  { get; set; }
 
-            public Entity2d(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None) : base()
-            {
-                Position = position ?? Vec2.Zero;
-                Scale    = scale    ?? Vec2.One;
-                Rotation = rotation;
-                Origin   = origin;
-                Color    = color;
-                Flipped  = flipped;
-            }
+            protected Entity2d() : base() {}
         }
     }
 }

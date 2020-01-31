@@ -14,6 +14,7 @@ namespace TypeOEngine.Typedeaf.SDL
     public partial class SDLModule : Module, IIsUpdatable
     {
         public IKeyboardHardware KeyboardHardware { get; set; }
+        public bool Pause { get; set; }
 
         public override void Initialize()
         {
