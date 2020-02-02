@@ -1,25 +1,15 @@
-﻿using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public abstract class Drawable {
-            public abstract void Draw(Canvas canvas);
-        }
-
-        public abstract class Drawable<E> : Drawable, IIsDrawable where E : Entity
+        public abstract class Drawable
         {
-            protected E Entity { get; private set; }
-            public bool Hidden { get; set; }
+            public Drawable() { }
 
-            public Drawable(E entity)
-            {
-                Entity = entity;
-            }
-
-            public abstract void Init(E entity);
+            public abstract void Init();
+            public abstract void Draw(Entity entity, Canvas canvas);
         }
     }
 }

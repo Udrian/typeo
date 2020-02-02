@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;

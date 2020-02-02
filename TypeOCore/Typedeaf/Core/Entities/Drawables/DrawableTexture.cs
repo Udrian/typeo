@@ -10,24 +10,24 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Texture Texture { get; set; }
 
-            public DrawableTexture(Entity2d entity, Texture texture) : base(entity)
+            public DrawableTexture(Texture texture) : base()
             {
                 Texture = texture;
             }
 
-            public override void Init(Entity2d entity) { }
+            public override void Init() { }
 
-            public override void Draw(Canvas canvas)
+            public override void Draw(Entity2d entity, Canvas canvas)
             {
                 //TODO: Fix Drawing bounds and screen bounds
                 canvas.DrawImage(
                     Texture,
-                    Entity.Position,
-                    Entity.Scale,
-                    Entity.Rotation,
-                    Entity.Origin,
-                    Entity.Color,
-                    Entity.Flipped
+                    entity.Position,
+                    entity.Scale,
+                    entity.Rotation,
+                    entity.Origin,
+                    entity.Color,
+                    entity.Flipped
                 );
             }
 

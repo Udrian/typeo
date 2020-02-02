@@ -1,7 +1,6 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
@@ -37,7 +36,7 @@ namespace SpaceInvader.Entities
                 Speed = 5
             };
 
-            Drawable = new DrawableTexture(this, Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
+            Drawable = new DrawableTexture(Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
             Position = new Vec2(100, 400);
         }
 

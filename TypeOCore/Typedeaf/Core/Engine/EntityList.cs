@@ -4,7 +4,6 @@ using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -133,7 +132,7 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     if (!entity.Hidden)
                     {
-                        entity.DrawDrawable(canvas);
+                        entity.DrawDrawable(entity as Entity, canvas);
                     }
                 }
 

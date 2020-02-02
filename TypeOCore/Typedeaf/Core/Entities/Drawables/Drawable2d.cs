@@ -1,12 +1,21 @@
 ﻿using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public abstract class Drawable2d : Drawable<Entity2d>
+        public abstract class Drawable2d : Drawable
         {
-            public Drawable2d(Entity2d entity) : base(entity) { }
+            public Drawable2d() : base() { }
+
+            public override void Draw(Entity entity, Canvas canvas)
+            {
+                if (entity is Entity2d)
+                    Draw(entity as Entity2d, canvas);
+            }
+
+            public abstract void Draw(Entity2d entity, Canvas canvas);
 
             public abstract Vec2 GetSize();
         }

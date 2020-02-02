@@ -2,7 +2,7 @@
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    namespace Entities.Drawables.Interfaces
+    namespace Entities.Interfaces
     {
         public interface IIsDrawable
         {
