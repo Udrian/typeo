@@ -57,10 +57,6 @@ namespace TypeOEngine.Typedeaf.Core
 
                 (TypeO as TypeO)?.SetServices(entity);
 
-                entity.Initialize();
-                (entity as IHasData)?.EntityData?.Initialize();
-                Entities.Add(entity);
-
                 if (entity is IIsUpdatable)
                 {
                     UpdatableEntities.Add(entity as IIsUpdatable);
@@ -68,6 +64,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if (entity is IHasDrawable)
                 {
+                    (entity as IHasDrawable).CreateDrawable(entity);
                     HasDrawableEntities.Add(entity as IHasDrawable);
                 }
 
@@ -75,6 +72,10 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     IsDrawableEntities.Add(entity as IIsDrawable);
                 }
+
+                entity.Initialize();
+                (entity as IHasData)?.EntityData?.Initialize();
+                Entities.Add(entity);
 
                 return entity;
             }

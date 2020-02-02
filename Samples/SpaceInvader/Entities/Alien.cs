@@ -33,7 +33,7 @@ namespace SpaceInvader.Entities
                 Health = 5
             };
 
-            Drawable = new DrawableTexture(Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png"));
+            Drawable.Texture = Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png");
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }

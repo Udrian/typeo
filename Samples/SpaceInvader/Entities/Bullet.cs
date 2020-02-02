@@ -4,14 +4,16 @@ using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Data;
+using SpaceInvader.Entities.Drawable;
 
 namespace SpaceInvader.Entities
 {
-    public class Bullet : Entity2d, IIsDrawable, IIsUpdatable, IHasData<BulletData>
+    public class Bullet : Entity2d, IHasDrawable<DrawableBullet>, IIsUpdatable, IHasData<BulletData>
     {
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
+        public DrawableBullet Drawable { get; set; }
         public BulletData EntityData { get; set; }
-
-        public Vec2 Size { get; set; } = new Vec2(10, 10);
 
         public Bullet() : base() { }
 
@@ -23,20 +25,12 @@ namespace SpaceInvader.Entities
             };
         }
 
-        public void Draw(Canvas canvas)
-        {
-            canvas.DrawRectangle(Position, Size, true, Color.CapeHoney);
-        }
-
         public void Update(double dt)
         {
             Position = new Vec2(Position.X, Position.Y - EntityData.Speed * dt);
 
-            if (Position.Y <= -Size.Y)
+            if (Position.Y <= -Drawable.Size.Y)
                 Remove();
         }
-
-        public bool Pause { get; set; }
-        public bool Hidden { get; set; }
     }
 }

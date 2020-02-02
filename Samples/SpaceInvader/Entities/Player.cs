@@ -30,7 +30,7 @@ namespace SpaceInvader.Entities
                 Speed = 5
             };
 
-            Drawable = new DrawableTexture(Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png"));
+            Drawable.Texture = Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/ship.png");
             Position = new Vec2(100, 400);
         }
 

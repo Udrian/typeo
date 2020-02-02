@@ -17,7 +17,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public abstract void Draw(Entity2d entity, Canvas canvas);
 
-            public abstract Vec2 GetSize();
+            public abstract Vec2 Size { get; protected set; }
         }
     }
 }

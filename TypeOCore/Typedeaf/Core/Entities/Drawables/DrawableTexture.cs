@@ -9,11 +9,9 @@ namespace TypeOEngine.Typedeaf.Core
         public class DrawableTexture : Drawable2d
         {
             public Texture Texture { get; set; }
+            public override Vec2 Size { get { return Texture.Size; } protected set { } }
 
-            public DrawableTexture(Texture texture) : base()
-            {
-                Texture = texture;
-            }
+            public DrawableTexture() : base() { }
 
             public override void Init() { }
 
@@ -29,11 +27,6 @@ namespace TypeOEngine.Typedeaf.Core
                     entity.Color,
                     entity.Flipped
                 );
-            }
-
-            public override Vec2 GetSize()
-            {
-                return new Vec2(Texture.Size.X, Texture.Size.Y);
             }
         }
     }
