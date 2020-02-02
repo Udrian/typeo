@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceInvader.Entities.Data;
+using System;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -8,24 +9,6 @@ using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
-    public class AlienWaveData : EntityData
-    {
-        public double SinTime { get; set; }
-        public double Amplitude { get; set; }
-        public double Frequency { get; set; }
-        public double Phase { get; set; }
-
-        public override void Initialize() { }
-    }
-
-    public class AlienData : AlienWaveData
-    {
-        public double Speed { get; set; }
-        public int Health { get; set; }
-
-        public override void Initialize() { }
-    }
-
     public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable, IHasData<AlienData>
     {
         public SpaceInvaderGame Game { get; set; }

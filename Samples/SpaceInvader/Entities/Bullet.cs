@@ -3,16 +3,10 @@ using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using SpaceInvader.Entities.Data;
 
 namespace SpaceInvader.Entities
 {
-    public class BulletData : EntityData
-    {
-        public double Speed { get; set; }
-
-        public override void Initialize() { }
-    }
-
     public class Bullet : Entity2d, IIsDrawable, IIsUpdatable, IHasData<BulletData>
     {
         public BulletData EntityData { get; set; }

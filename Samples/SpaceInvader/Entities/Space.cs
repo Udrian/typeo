@@ -4,17 +4,10 @@ using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using SpaceInvader.Entities.Data;
 
 namespace SpaceInvader.Entities
 {
-    public class SpaceData : EntityData
-    {
-        public int NumberOfStars { get; set; }
-        public double Speed { get; set; }
-
-        public override void Initialize() { }
-    }
-
     public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>
     {
         public SpaceInvaderGame Game { get; set; }

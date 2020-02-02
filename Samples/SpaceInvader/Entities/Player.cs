@@ -5,16 +5,10 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using SpaceInvader.Entities.Data;
 
 namespace SpaceInvader.Entities
 {
-    public class PlayerData : EntityData
-    {
-        public double Speed { get; set; }
-
-        public override void Initialize() {}
-    }
-
     public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable, IHasData<PlayerData>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
