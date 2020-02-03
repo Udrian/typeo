@@ -2,11 +2,11 @@
 using System;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
@@ -35,7 +35,7 @@ namespace SpaceInvader.Entities
                 Health = 5
             };
 
-            Drawable.Texture = Scene.ContentLoader.LoadContent<SDLTexture>("content/alien.png");
+            Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/alien.png");
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }

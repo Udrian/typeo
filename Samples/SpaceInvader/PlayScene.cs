@@ -5,7 +5,6 @@ using SpaceInvader.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader
 {
@@ -29,7 +28,7 @@ namespace SpaceInvader
 
         public override void Initialize()
         {
-            LoadedFont = ContentLoader.LoadContent<SDLFont>("content/Awesome.ttf");
+            LoadedFont = ContentLoader.LoadContent<Font>("content/Awesome.ttf");
             LoadedFont.FontSize = 26;
 
             Entities.Create<Space>();

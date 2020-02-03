@@ -109,7 +109,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override ContentLoader CreateContentLoader(Canvas canvas)
             {
-                return new SDLContentLoader((SDLCanvas)canvas);
+                return new SDLContentLoader((SDLCanvas)canvas, TypeO.GetContentBinding());
             }
         }
     }

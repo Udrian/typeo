@@ -3,10 +3,10 @@ using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Data;
 using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
@@ -32,7 +32,7 @@ namespace SpaceInvader.Entities
                 Speed = 5
             };
 
-            Drawable.Texture = Scene.ContentLoader.LoadContent<SDLTexture>("content/ship.png");
+            Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/ship.png");
             Position = new Vec2(100, 400);
         }
 

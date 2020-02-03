@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -28,6 +29,7 @@ namespace TypeOEngine.Typedeaf.Core
             private List<Module> Modules { get; set; }
             private Dictionary<Type, Hardware> Hardwares { get; set; }
             private Dictionary<Type, Service> Services { get; set; }
+            private Dictionary<Type, Type> ContentBinding { get; set; }
 
             public TypeO() : base()
             {
@@ -35,6 +37,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Modules = new List<Module>();
                 Hardwares = new Dictionary<Type, Hardware>();
                 Services = new Dictionary<Type, Service>();
+                ContentBinding = new Dictionary<Type, Type>();
             }
 
             private bool ExitApplication = false;
@@ -191,6 +194,25 @@ namespace TypeOEngine.Typedeaf.Core
 
                     property.SetValue(obj, Services[property.PropertyType]);
                 }
+            }
+
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                if (!typeof(CTo).IsSubclassOf(typeof(CFrom)))
+                {
+                    throw new ArgumentException($"Content Binding from '{typeof(CFrom).Name}' must be of a base type to '{typeof(CTo).Name}'");
+                }
+
+                ContentBinding.Add(typeof(CFrom), typeof(CTo));
+
+                return this;
+            }
+
+            public Dictionary<Type, Type> GetContentBinding()
+            {
+                return ContentBinding;
             }
         }
     }
