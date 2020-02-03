@@ -1,11 +1,13 @@
 ﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core;
 
-namespace TypeOEngine.Typedeaf.Core
+namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Services
     {

@@ -1,6 +1,7 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 
-namespace TypeOEngine.Typedeaf.Core
+namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Hardwares.Interfaces
     {

@@ -1,7 +1,6 @@
-﻿using SDL2;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {

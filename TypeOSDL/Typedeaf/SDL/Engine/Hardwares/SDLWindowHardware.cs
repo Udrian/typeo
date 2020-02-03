@@ -1,7 +1,7 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {

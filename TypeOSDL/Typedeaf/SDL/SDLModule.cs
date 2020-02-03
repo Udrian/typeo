@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 

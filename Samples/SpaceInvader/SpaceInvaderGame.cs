@@ -3,7 +3,7 @@ using SDL2;
 using TypeOEngine.Typedeaf.Core;
 using System;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader
 {
