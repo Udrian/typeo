@@ -27,6 +27,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Game Game { get; set; }
             private DateTime LastTick { get; set; }
             private List<Module> Modules { get; set; }
+            private List<Type> ModuleReferences { get; set; }
             private Dictionary<Type, Hardware> Hardwares { get; set; }
             private Dictionary<Type, Service> Services { get; set; }
             private Dictionary<Type, Type> ContentBinding { get; set; }
@@ -38,6 +39,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Hardwares = new Dictionary<Type, Hardware>();
                 Services = new Dictionary<Type, Service>();
                 ContentBinding = new Dictionary<Type, Type>();
+                ModuleReferences = new List<Type>();
             }
 
             private bool ExitApplication = false;
@@ -118,6 +120,24 @@ namespace TypeOEngine.Typedeaf.Core
                     SetHardwares(module);
                     SetServices(module);
                     module.Initialize();
+                }
+
+                //Check if all referenced modules are loaded
+                foreach (var moduleReference in ModuleReferences)
+                {
+                    var found = false;
+                    foreach (var module in Modules)
+                    {
+                        if (module.GetType() == moduleReference)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        throw new Exception($"Referenced Module '{moduleReference.Name}' needs to be loaded");
+                    }
                 }
 
                 //Initialize the game
@@ -213,6 +233,12 @@ namespace TypeOEngine.Typedeaf.Core
             public Dictionary<Type, Type> GetContentBinding()
             {
                 return ContentBinding;
+            }
+
+            public ITypeO ReferenceModule<M>() where M : Module
+            {
+                ModuleReferences.Add(typeof(M));
+                return this;
             }
         }
     }

@@ -10,6 +10,7 @@ namespace SpaceInvader
         public static void Main()
         {
             TypeO.Create<SpaceInvaderGame>()
+                .LoadModule<DesktopModule>()
                 .LoadModule<SDLModule>()
                 .AddDefaultSDLServices()
                 .AddDefaultSDLHardware()

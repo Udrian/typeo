@@ -19,6 +19,8 @@ namespace TypeOEngine.Typedeaf.SDL
 
         public override void Initialize()
         {
+            TypeO.ReferenceModule<DesktopModule>();
+
             //Initial SDL
             SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
             if (SDL2.SDL.SDL_Init(SDL2.SDL.SDL_INIT_VIDEO) != 0)
