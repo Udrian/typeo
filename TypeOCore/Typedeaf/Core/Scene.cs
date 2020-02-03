@@ -42,7 +42,10 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     var scene = new S();
                     Scenes.Add(scene.GetType(), scene);
-                    (scene as IHasGame)?.SetGame(Game);
+                    if(scene is IHasGame)
+                    {
+                        (scene as IHasGame).Game = Game;
+                    }
 
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();

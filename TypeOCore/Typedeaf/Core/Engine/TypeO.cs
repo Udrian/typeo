@@ -50,7 +50,10 @@ namespace TypeOEngine.Typedeaf.Core
                 //Instantiate the Service
                 var service = new S();
                 (service as IHasTypeO).SetTypeO(this);
-                (service as IHasGame)?.SetGame(Game);
+                if(service is IHasGame)
+                {
+                    (service as IHasGame).Game = Game;
+                }
 
                 Services.Add(typeof(I), service);
                 return this;
@@ -63,7 +66,10 @@ namespace TypeOEngine.Typedeaf.Core
                 //Instantiate the Hardware
                 var hardware = new H();
                 (hardware as IHasTypeO).SetTypeO(this);
-                (hardware as IHasGame)?.SetGame(Game);
+                if (hardware is IHasGame)
+                {
+                    (hardware as IHasGame).Game = Game;
+                }
 
                 Hardwares.Add(typeof(I), hardware);
                 return this;
@@ -73,7 +79,10 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var module = new M();
                 (module as IHasTypeO).SetTypeO(this);
-                (module as IHasGame)?.SetGame(Game);
+                if(module is IHasGame)
+                {
+                    (module as IHasGame).Game = Game;
+                }
 
                 Modules.Add(module);
                 return module;

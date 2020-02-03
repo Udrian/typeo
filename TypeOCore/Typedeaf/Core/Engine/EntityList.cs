@@ -53,7 +53,10 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var entity = new E();
 
-                (entity as IHasGame)?.SetGame(Game);
+                if(entity is IHasGame)
+                {
+                    (entity as IHasGame).Game = Game;
+                }
 
                 (TypeO as TypeO)?.SetServices(entity);
 

@@ -27,7 +27,10 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Drawable = new D();
 
-                (Drawable as IHasGame)?.SetGame((entity as IHasGame)?.Game);
+                if(Drawable is IHasGame)
+                {
+                    (Drawable as IHasGame).Game = (entity as IHasGame)?.Game;
+                }
 
                 Drawable.Init();
             }
