@@ -1,5 +1,5 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {
@@ -7,7 +7,7 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public interface IWindowHardware : IHardware
         {
-            public Window CreateWindow();
+            public DesktopWindow CreateWindow();
         }
     }
 }

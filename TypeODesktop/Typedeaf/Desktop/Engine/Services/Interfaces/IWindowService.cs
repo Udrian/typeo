@@ -1,6 +1,6 @@
 ﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Desktop
@@ -11,8 +11,8 @@ namespace TypeOEngine.Typedeaf.Desktop
         {
             public IWindowHardware WindowHardware { get; set; }
 
-            public Window CreateWindow();
-            public Window CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false);
+            public DesktopWindow CreateWindow();
+            public DesktopWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false);
         }
     }
 }
