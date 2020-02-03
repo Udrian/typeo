@@ -52,7 +52,8 @@ namespace TypeOEngine.Typedeaf.Core
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
                     scene.Entities = new EntityList()
                     {
-                        Game = Game
+                        Game = Game,
+                        Scene = scene
                     };
                     (scene.Entities as IHasTypeO).TypeO = TypeO;
                     (TypeO as TypeO).SetServices(scene);

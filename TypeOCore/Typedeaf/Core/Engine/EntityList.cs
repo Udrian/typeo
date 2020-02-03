@@ -11,11 +11,12 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class EntityList : IHasTypeO, IHasGame
+        public class EntityList : IHasTypeO, IHasGame, IHasScene
         {
             TypeO IHasTypeO.TypeO { get; set; }
             private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
             public Game Game { get; set; }
+            public Scene Scene { get; set; }
 
             protected List<Entity> Entities;
             protected List<IIsUpdatable> UpdatableEntities;
@@ -56,6 +57,10 @@ namespace TypeOEngine.Typedeaf.Core
                 if(entity is IHasGame)
                 {
                     (entity as IHasGame).Game = Game;
+                }
+                if(entity is IHasScene)
+                {
+                    (entity as IHasScene).Scene = Scene;
                 }
 
                 (TypeO as TypeO)?.SetServices(entity);

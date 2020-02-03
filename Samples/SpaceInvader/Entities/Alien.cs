@@ -1,6 +1,7 @@
 ﻿using SpaceInvader.Entities.Data;
 using System;
 using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
@@ -9,7 +10,7 @@ using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
-    public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable, IHasData<AlienData>
+    public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable, IHasData<AlienData>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
@@ -19,6 +20,7 @@ namespace SpaceInvader.Entities
         public Vec2 Size { get; set; } = new Vec2(58, 57);
 
         public AlienData EntityData { get; set; }
+        public Scene Scene { get; set; }
 
         public override void Initialize()
         {
@@ -33,7 +35,7 @@ namespace SpaceInvader.Entities
                 Health = 5
             };
 
-            Drawable.Texture = Game.Window.CurrentScene.ContentLoader.LoadContent<SDLTexture>("content/alien.png");
+            Drawable.Texture = Scene.ContentLoader.LoadContent<SDLTexture>("content/alien.png");
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
         }
