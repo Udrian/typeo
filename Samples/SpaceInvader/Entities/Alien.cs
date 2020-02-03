@@ -43,7 +43,7 @@ namespace SpaceInvader.Entities
         public void Update(double dt)
         {
             EntityData.SinTime += dt;
-            Position = new Vec2((double)Math.Sin((EntityData.Frequency * EntityData.SinTime) + EntityData.Phase) * EntityData.Amplitude + Game.Window.Size.X / 2 - Size.X/2, Position.Y + EntityData.Speed * dt);
+            Position = new Vec2(Math.Sin((EntityData.Frequency * EntityData.SinTime) + EntityData.Phase) * EntityData.Amplitude + Game.Window.Size.X / 2 - Size.X/2, Position.Y + EntityData.Speed * dt);
 
             if (Position.Y >= Game.Window.Size.Y)
                 Remove();

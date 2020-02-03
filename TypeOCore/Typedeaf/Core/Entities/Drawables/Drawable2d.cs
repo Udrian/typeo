@@ -7,7 +7,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable2d : Drawable
         {
-            public Drawable2d() : base() { }
+            protected Drawable2d() : base() { }
 
             public override void Draw(Entity entity, Canvas canvas)
             {

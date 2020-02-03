@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable
         {
-            public Drawable() { }
+            protected Drawable() { }
 
             public abstract void Init();
             public abstract void Draw(Entity entity, Canvas canvas);

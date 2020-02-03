@@ -6,7 +6,6 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace SpaceInvader
 {
