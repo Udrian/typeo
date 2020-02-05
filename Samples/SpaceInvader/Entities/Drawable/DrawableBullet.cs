@@ -9,7 +9,7 @@ namespace SpaceInvader.Entities.Drawable
     {
         public override Vec2 Size { get; protected set; }
 
-        public override void Init()
+        public override void Initialize()
         {
             Size = new Vec2(10, 10);
         }

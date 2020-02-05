@@ -32,7 +32,7 @@ namespace TypeOEngine.Typedeaf.Core
                     (Drawable as IHasGame).Game = (entity as IHasGame)?.Game;
                 }
 
-                Drawable.Init();
+                Drawable.Initialize();
             }
         }
     }

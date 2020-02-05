@@ -13,7 +13,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public DrawableTexture() : base() { }
 
-            public override void Init() { }
+            public override void Initialize() { }
 
             public override void Draw(Entity2d entity, Canvas canvas)
             {
