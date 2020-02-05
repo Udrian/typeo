@@ -1,4 +1,5 @@
 ﻿using SpaceInvader.Entities.Data;
+using SpaceInvader.Logics;
 using System;
 using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core;
@@ -17,13 +18,13 @@ namespace SpaceInvader.Entities
         public bool Pause { get; set; }
         public bool Hidden { get; set; }
         
-        public Vec2 Size { get; set; } = new Vec2(58, 57);
-
         public AlienData EntityData { get; set; }
         public Scene Scene { get; set; }
 
         public override void Initialize()
         {
+            Size = new Vec2(58, 57);
+
             EntityData = new AlienData()
             {
                 SinTime = 0,
@@ -38,15 +39,12 @@ namespace SpaceInvader.Entities
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/alien.png");
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
+
+            CreateLogic<AlienLogic>();
         }
 
         public void Update(double dt)
         {
-            EntityData.SinTime += dt;
-            Position = new Vec2(Math.Sin((EntityData.Frequency * EntityData.SinTime) + EntityData.Phase) * EntityData.Amplitude + Game.Window.Size.X / 2 - Size.X/2, Position.Y + EntityData.Speed * dt);
-
-            if (Position.Y >= Game.Window.Size.Y)
-                Remove();
         }
     }
 }

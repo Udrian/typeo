@@ -9,7 +9,7 @@
 
         public interface IHasGame<G> : IHasGame where G : Game
         {
-            Game IHasGame.Game { get => Game; set => Game = (G)value; }
+            Game IHasGame.Game { get => Game; set => Game = value as G; }
             public new G Game { get; set; }
         }
     }

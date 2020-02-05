@@ -240,6 +240,20 @@ namespace TypeOEngine.Typedeaf.Core
                 ModuleReferences.Add(typeof(M));
                 return this;
             }
+
+            public L CreateLogic<L>(object from) where L : Logic, new()
+            {
+                var logic = new L();
+
+                if (logic is IHasGame)
+                {
+                    (logic as IHasGame).Game = (from as IHasGame)?.Game;
+                }
+
+                SetServices(logic);
+
+                return logic;
+            }
         }
     }
 }

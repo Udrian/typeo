@@ -21,12 +21,13 @@ namespace SpaceInvader.Entities
 
         public bool Pause { get; set; }
         public bool Hidden { get; set; }
-        
-        public Vec2 Size { get; set; } = new Vec2(46, 29);
+
         public Scene Scene { get; set; }
 
         public override void Initialize()
         {
+            Size = new Vec2(46, 29);
+
             EntityData = new PlayerData()
             {
                 Speed = 5

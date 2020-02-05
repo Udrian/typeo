@@ -19,16 +19,16 @@ namespace TypeOEngine.Typedeaf.Core
             public Scene Scene { get; set; }
 
             protected List<Entity> Entities;
-            protected List<IIsUpdatable> UpdatableEntities;
-            protected List<IHasDrawable> HasDrawableEntities;
-            protected List<IIsDrawable> IsDrawableEntities;
+            protected List<IIsUpdatable> Updatables;
+            protected List<IHasDrawable> HasDrawables;
+            protected List<IIsDrawable> IsDrawables;
 
             public EntityList()
             {
                 Entities = new List<Entity>();
-                UpdatableEntities = new List<IIsUpdatable>();
-                HasDrawableEntities = new List<IHasDrawable>();
-                IsDrawableEntities = new List<IIsDrawable>();
+                Updatables = new List<IIsUpdatable>();
+                HasDrawables = new List<IHasDrawable>();
+                IsDrawables = new List<IIsDrawable>();
             }
 
             public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None) where E : Entity2d, new()
@@ -54,6 +54,7 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var entity = new E();
 
+                (entity as IHasTypeO).TypeO = TypeO;
                 if(entity is IHasGame)
                 {
                     (entity as IHasGame).Game = Game;
@@ -67,18 +68,18 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if (entity is IIsUpdatable)
                 {
-                    UpdatableEntities.Add(entity as IIsUpdatable);
+                    Updatables.Add(entity as IIsUpdatable);
                 }
 
                 if (entity is IHasDrawable)
                 {
                     (entity as IHasDrawable).CreateDrawable(entity);
-                    HasDrawableEntities.Add(entity as IHasDrawable);
+                    HasDrawables.Add(entity as IHasDrawable);
                 }
 
                 if (entity is IIsDrawable)
                 {
-                    IsDrawableEntities.Add(entity as IIsDrawable);
+                    IsDrawables.Add(entity as IIsDrawable);
                 }
 
                 entity.Initialize();
@@ -90,7 +91,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Update(double dt)
             {
-                foreach(var entity in UpdatableEntities)
+                foreach(var entity in Updatables)
                 {
                     if ((entity as Entity)?.WillBeDeleted == true) continue;
                     if (!entity.Pause)
@@ -99,33 +100,47 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
+                //Update all entities logics
+                //TODO: theese should really be put in the Updatables
+                foreach (var entity in Entities)
+                {
+                    if (entity.WillBeDeleted == true) continue;
+                    if ((entity as IIsUpdatable)?.Pause == false)
+                    {
+                        foreach (var logic in entity.GetLogics())
+                        {
+                            logic.Update(dt);
+                        }
+                    }
+                }
+
                 for (int i = Entities.Count - 1; i >= 0; i--)
                 {
                     if (Entities[i].WillBeDeleted)
                     {
-                        for(int j = 0; j < UpdatableEntities.Count; j++)
+                        for(int j = 0; j < Updatables.Count; j++)
                         {
-                            if(UpdatableEntities[j] == Entities[i])
+                            if(Updatables[j] == Entities[i])
                             {
-                                UpdatableEntities.RemoveAt(j);
+                                Updatables.RemoveAt(j);
                                 break;
                             }
                         }
 
-                        for (int j = 0; j < HasDrawableEntities.Count; j++)
+                        for (int j = 0; j < HasDrawables.Count; j++)
                         {
-                            if (HasDrawableEntities[j] == Entities[i])
+                            if (HasDrawables[j] == Entities[i])
                             {
-                                HasDrawableEntities.RemoveAt(j);
+                                HasDrawables.RemoveAt(j);
                                 break;
                             }
                         }
 
-                        for (int j = 0; j < IsDrawableEntities.Count; j++)
+                        for (int j = 0; j < IsDrawables.Count; j++)
                         {
-                            if (IsDrawableEntities[j] == Entities[i])
+                            if (IsDrawables[j] == Entities[i])
                             {
-                                IsDrawableEntities.RemoveAt(j);
+                                IsDrawables.RemoveAt(j);
                                 break;
                             }
                         }
@@ -137,7 +152,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Draw(Canvas canvas)
             {
-                foreach (var entity in HasDrawableEntities)
+                foreach (var entity in HasDrawables)
                 {
                     if (!entity.Hidden)
                     {
@@ -145,7 +160,7 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
-                foreach (var entity in IsDrawableEntities)
+                foreach (var entity in IsDrawables)
                 {
                     if (!entity.Hidden)
                     {

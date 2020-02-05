@@ -8,6 +8,7 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Vec2    Position { get; set; } = Vec2.Zero;
             public Vec2    Scale    { get; set; } = Vec2.One;
+            public Vec2    Size     { get; set; } = Vec2.Zero;
             public double  Rotation { get; set; }
             public Vec2    Origin   { get; set; } = Vec2.Zero;
             public Color   Color    { get; set; } = Color.White;
