@@ -82,8 +82,8 @@ namespace TypeOEngine.Typedeaf.Core
                     IsDrawables.Add(entity as IIsDrawable);
                 }
 
+                (entity as IHasData)?.CreateData();
                 entity.Initialize();
-                (entity as IHasData)?.EntityData?.Initialize();
                 Entities.Add(entity);
 
                 return entity;
