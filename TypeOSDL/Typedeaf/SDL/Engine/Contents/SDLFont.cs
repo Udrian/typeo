@@ -1,10 +1,10 @@
 ﻿using SDL2;
-using Typedeaf.Common;
 using SDL_Font = System.IntPtr;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace TypeOEngine.Typedeaf.SDL
 {

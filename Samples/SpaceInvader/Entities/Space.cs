@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Data;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Entities
 {

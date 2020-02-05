@@ -1,14 +1,18 @@
-﻿namespace Typedeaf.Common
+﻿namespace TypeOEngine.Typedeaf.Core
 {
-    public class Plane
+    namespace Common
     {
-        public Vec3 Normal { get; set; }
-        public double D { get; set; }
+        public class Plane
+        {
+            public Vec3 Normal { get; set; }
+            public double D { get; set; }
 
-        public Plane(Vec3 normal, double d) {
-            Normal = normal;
-            Normal.Normalize();
-            D = d;
+            public Plane(Vec3 normal, double d)
+            {
+                Normal = normal;
+                Normal.Normalize();
+                D = d;
+            }
         }
     }
 }

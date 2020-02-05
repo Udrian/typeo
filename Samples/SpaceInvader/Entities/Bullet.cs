@@ -1,9 +1,9 @@
-﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Entities;
+﻿using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Data;
 using SpaceInvader.Entities.Drawable;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Entities
 {

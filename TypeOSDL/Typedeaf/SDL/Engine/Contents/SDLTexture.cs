@@ -1,5 +1,5 @@
 ﻿using SDL2;
-using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;

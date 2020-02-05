@@ -1,9 +1,9 @@
-using Typedeaf.Common;
 using SDL2;
 using TypeOEngine.Typedeaf.Core;
 using System;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader
 {

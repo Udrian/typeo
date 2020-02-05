@@ -1,4 +1,4 @@
-﻿using Typedeaf.Common;
+﻿using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 

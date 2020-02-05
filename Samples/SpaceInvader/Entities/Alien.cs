@@ -1,8 +1,7 @@
 ﻿using SpaceInvader.Entities.Data;
 using SpaceInvader.Logics;
-using System;
-using Typedeaf.Common;
 using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
