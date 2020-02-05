@@ -11,7 +11,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IIsUpdatable, IHasData<AlienData>, IHasScene
+    public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
@@ -40,11 +40,7 @@ namespace SpaceInvader.Entities
 
             Position = new Vec2(Game.Window.Size.X/2, -50);
 
-            CreateLogic<AlienLogic>();
-        }
-
-        public void Update(double dt)
-        {
+            CreateLogic<DownwardSwayLogic>();
         }
     }
 }

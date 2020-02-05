@@ -105,12 +105,10 @@ namespace TypeOEngine.Typedeaf.Core
                 foreach (var entity in Entities)
                 {
                     if (entity.WillBeDeleted == true) continue;
-                    if ((entity as IIsUpdatable)?.Pause == false)
+                    if (entity is IIsUpdatable && (entity as IIsUpdatable)?.Pause == true) continue;
+                    foreach (var logic in entity.GetLogics())
                     {
-                        foreach (var logic in entity.GetLogics())
-                        {
-                            logic.Update(dt);
-                        }
+                        logic.Update(dt);
                     }
                 }
 

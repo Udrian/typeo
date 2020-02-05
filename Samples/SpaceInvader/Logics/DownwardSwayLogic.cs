@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Logics
 {
-    public class AlienLogic : Logic, IHasGame<SpaceInvaderGame>, IHasData<AlienData>, IHasEntity<Entity2d>
+    public class DownwardSwayLogic : Logic, IHasGame<SpaceInvaderGame>, IHasData<AlienData>, IHasEntity<Entity2d>
     {
         public AlienData EntityData { get; set; }
         public SpaceInvaderGame Game { get; set; }
