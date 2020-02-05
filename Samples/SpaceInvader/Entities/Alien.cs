@@ -25,16 +25,14 @@ namespace SpaceInvader.Entities
         {
             Size = new Vec2(58, 57);
 
-            EntityData = new AlienData()
-            {
-                SinTime = 0,
-                Amplitude = 250,
-                Frequency = 3,
-                Phase = 0,
 
-                Speed = 100,
-                Health = 5
-            };
+            EntityData.SinTime = 0;
+            EntityData.Amplitude = 250;
+            EntityData.Frequency = 3;
+            EntityData.Phase = 0;
+
+            EntityData.Speed = 100;
+            EntityData.Health = 5;
 
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/alien.png");
 

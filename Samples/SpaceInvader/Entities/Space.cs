@@ -19,11 +19,8 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            EntityData = new SpaceData()
-            {
-                NumberOfStars = 100,
-                Speed = 250
-            };
+            EntityData.NumberOfStars = 100;
+            EntityData.Speed = 250;
 
             Stars = new List<Vec2>();
             for (int i = 0; i < EntityData.NumberOfStars; i++)

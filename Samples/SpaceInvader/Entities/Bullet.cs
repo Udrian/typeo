@@ -18,10 +18,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            EntityData = new BulletData()
-            {
-                Speed = 500
-            };
+            EntityData.Speed = 500;
         }
 
         public void Update(double dt)
