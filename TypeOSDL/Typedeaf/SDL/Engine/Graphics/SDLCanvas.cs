@@ -38,7 +38,7 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawLine(Vec2 from, Vec2 size, Color color)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL2.SDL.SDL_RenderDrawLineF(SDLRenderer, (float)from.X, (float)from.Y, (float)size.X, (float)size.Y);
+                SDL2.SDL.SDL_RenderDrawLine(SDLRenderer, (int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
             }
 
             public override void DrawLineE(Vec2 from, Vec2 to, Color color)
@@ -50,42 +50,42 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
 
-                var sdlpoints = new SDL2.SDL.SDL_FPoint[points.Count];
+                var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
                 foreach (var point in points)
                 {
-                    sdlpoints[i] = new SDL2.SDL.SDL_FPoint
+                    sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
-                        x = (float)point.X,
-                        y = (float)point.Y
+                        x = (int)point.X,
+                        y = (int)point.Y
                     };
                     i++;
                 }
 
-                SDL2.SDL.SDL_RenderDrawLinesF(SDLRenderer, sdlpoints, points.Count);
+                SDL2.SDL.SDL_RenderDrawLines(SDLRenderer, sdlpoints, points.Count);
             }
 
             public override void DrawPixel(Vec2 point, Color color)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                SDL2.SDL.SDL_RenderDrawPointF(SDLRenderer, (float)point.X, (float)point.Y);
+                SDL2.SDL.SDL_RenderDrawPoint(SDLRenderer, (int)point.X, (int)point.Y);
             }
 
             public override void DrawPixels(List<Vec2> points, Color color)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                var sdlpoints = new SDL2.SDL.SDL_FPoint[points.Count];
+                var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
                 foreach (var point in points)
                 {
-                    sdlpoints[i] = new SDL2.SDL.SDL_FPoint
+                    sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
-                        x = (float)point.X,
-                        y = (float)point.Y
+                        x = (int)point.X,
+                        y = (int)point.Y
                     };
                     i++;
                 }
-                SDL2.SDL.SDL_RenderDrawPointsF(SDLRenderer, sdlpoints, points.Count);
+                SDL2.SDL.SDL_RenderDrawPoints(SDLRenderer, sdlpoints, points.Count);
             }
 
             public override void DrawRectangle(Rectangle rectangle, bool filled, Color color)
@@ -96,21 +96,21 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
-                var rect = new SDL2.SDL.SDL_FRect
+                var rect = new SDL2.SDL.SDL_Rect
                 {
-                    x = (float)from.X,
-                    y = (float)from.Y,
-                    w = (float)size.X,
-                    h = (float)size.Y
+                    x = (int)from.X,
+                    y = (int)from.Y,
+                    w = (int)size.X,
+                    h = (int)size.Y
                 };
 
                 if (filled)
                 {
-                    SDL2.SDL.SDL_RenderFillRectF(SDLRenderer, ref rect);
+                    SDL2.SDL.SDL_RenderFillRect(SDLRenderer, ref rect);
                 }
                 else
                 {
-                    SDL2.SDL.SDL_RenderDrawRectF(SDLRenderer, ref rect);
+                    SDL2.SDL.SDL_RenderDrawRect(SDLRenderer, ref rect);
                 }
             }
 
