@@ -15,17 +15,18 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override void Initialize() { }
 
-            public override void Draw(Entity2d entity, Canvas canvas)
+            public override void Draw(Canvas canvas)
             {
+                if (Texture == null) return;
                 //TODO: Fix Drawing bounds and screen bounds
                 canvas.DrawImage(
                     Texture,
-                    entity.Position,
-                    entity.Scale,
-                    entity.Rotation,
-                    entity.Origin,
-                    entity.Color,
-                    entity.Flipped
+                    Entity.Position,
+                    Entity.Scale,
+                    Entity.Rotation,
+                    Entity.Origin,
+                    Entity.Color,
+                    Entity.Flipped
                 );
             }
         }

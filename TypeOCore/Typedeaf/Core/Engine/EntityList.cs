@@ -154,7 +154,7 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     if (!entity.Hidden)
                     {
-                        entity.DrawDrawable(entity as Entity, canvas);
+                        entity.Drawable.Draw(canvas);
                     }
                 }
 
