@@ -17,6 +17,19 @@ namespace TypeOEngine.Typedeaf.Core
             public new Entity2d Parent { get { return base.Parent as Entity2d; } set { base.Parent = value as Entity2d; } }
 
             protected Entity2d() : base() {}
+
+            public Rectangle DrawBounds {
+                get {
+                    return new Rectangle(
+                           Position + (Parent?.DrawBounds.Pos  ?? Vec2.Zero),
+                           Size//     + (Parent?.DrawBounds.Size ?? Vec2.Zero)
+                        );
+                }
+                set {
+                    Position = value.Pos  - (Parent?.DrawBounds.Pos  ?? Vec2.Zero);
+                    Size     = value.Size;// - (Parent?.DrawBounds.Size ?? Vec2.Zero);
+                }
+            }
         }
     }
 }
