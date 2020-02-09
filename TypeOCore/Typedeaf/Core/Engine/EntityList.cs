@@ -17,11 +17,13 @@ namespace TypeOEngine.Typedeaf.Core
             private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
             public Game Game { get; set; }
             public Scene Scene { get; set; }
+            public Entity Entity { get; set; }
 
             protected List<Entity> Entities;
             protected List<IIsUpdatable> Updatables;
             protected List<IHasDrawable> HasDrawables;
             protected List<IIsDrawable> IsDrawables;
+            protected List<IHasEntities> HasEntities;
 
             public EntityList()
             {
@@ -29,6 +31,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Updatables = new List<IIsUpdatable>();
                 HasDrawables = new List<IHasDrawable>();
                 IsDrawables = new List<IIsDrawable>();
+                HasEntities = new List<IHasEntities>();
             }
 
             public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None) where E : Entity2d, new()
@@ -52,7 +55,10 @@ namespace TypeOEngine.Typedeaf.Core
 
             private E CreateEntity<E>() where E : Entity, new()
             {
-                var entity = new E();
+                var entity = new E
+                {
+                    Parent = Entity
+                };
 
                 (entity as IHasTypeO).TypeO = TypeO;
                 if(entity is IHasGame)
@@ -80,6 +86,21 @@ namespace TypeOEngine.Typedeaf.Core
                 if (entity is IIsDrawable)
                 {
                     IsDrawables.Add(entity as IIsDrawable);
+                }
+
+                if(entity is IHasEntities)
+                {
+                    var hasEntitiesEntity = entity as IHasEntities;
+
+                    hasEntitiesEntity.Entities = new EntityList()
+                    {
+                        Game = Game,
+                        Scene = Scene,
+                        Entity = entity
+                    };
+                    (hasEntitiesEntity.Entities as IHasTypeO).TypeO = TypeO;
+
+                    HasEntities.Add(hasEntitiesEntity);
                 }
 
                 (entity as IHasData)?.CreateData();
@@ -112,6 +133,14 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
+                foreach(var entity in HasEntities)
+                {
+                    if ((entity as Entity)?.WillBeDeleted == true) continue;
+                    if ((entity as IIsUpdatable)?.Pause == true) continue;
+                    entity.Entities.Update(dt);
+                }
+
+                //Remove entities
                 for (int i = Entities.Count - 1; i >= 0; i--)
                 {
                     if (Entities[i].WillBeDeleted)
@@ -143,6 +172,15 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
+                        for (int j = 0; j < HasEntities.Count; j++)
+                        {
+                            if (HasEntities[j] == Entities[i])
+                            {
+                                HasEntities.RemoveAt(j);
+                                break;
+                            }
+                        }
+
                         Entities.RemoveAt(i);
                     }
                 }
@@ -164,6 +202,13 @@ namespace TypeOEngine.Typedeaf.Core
                     {
                         entity.Draw(canvas);
                     }
+                }
+
+                foreach (var entity in HasEntities)
+                {
+                    if ((entity as IIsDrawable)?.Hidden == true) continue;
+                    if ((entity as IHasDrawable)?.Hidden == true) continue;
+                    entity.Entities.Draw(canvas);
                 }
             }
 

@@ -13,6 +13,8 @@ namespace TypeOEngine.Typedeaf.Core
             TypeO IHasTypeO.TypeO { get; set; }
             private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
 
+            public Entity Parent { get; set; }
+
             protected List<Logic> Logics { get; set; }
             public List<Logic> GetLogics()
             {

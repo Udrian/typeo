@@ -14,6 +14,8 @@ namespace TypeOEngine.Typedeaf.Core
             public Color   Color    { get; set; } = Color.White;
             public Flipped Flipped  { get; set; }
 
+            public new Entity2d Parent { get { return base.Parent as Entity2d; } set { base.Parent = value as Entity2d; } }
+
             protected Entity2d() : base() {}
         }
     }
