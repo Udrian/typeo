@@ -34,6 +34,7 @@ namespace SpaceInvader
             Entities.Create<Space>();
 
             Player = Entities.Create<Player>();
+            Entities.Create<Powerup>();
         }
 
         public override void Update(double dt)
