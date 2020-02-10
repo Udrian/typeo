@@ -35,12 +35,12 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var entity = CreateEntity<E>() as Entity2d;
 
-                entity.Position = position ?? Vec2.Zero;
-                entity.Scale    = scale    ?? Vec2.One;
+                entity.Position = position ?? entity.Position;
+                entity.Scale    = scale    ?? entity.Scale;
                 entity.Rotation = rotation;
-                entity.Origin   = origin   ?? Vec2.Zero;
-                entity.Color    = color    ?? Color.White;
-                entity.Flipped = flipped;
+                entity.Origin   = origin   ?? entity.Origin;
+                entity.Color    = color    ?? entity.Color;
+                entity.Flipped  = flipped;
 
                 return entity as E;
             }
