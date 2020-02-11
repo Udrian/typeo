@@ -1,5 +1,4 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -24,13 +23,6 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     Entity = entity
                 };
-
-                if (Drawable is IHasGame)
-                {
-                    (Drawable as IHasGame).Game = (entity as IHasGame)?.Game;
-                }
-
-                Drawable.Initialize();
             }
         }
     }

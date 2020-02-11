@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Entities
 {
-    public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IHasData<PlayerData>, IHasScene
+    public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IHasData<PlayerData>, IHasLogic<PlayerMoveLogic>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
@@ -21,10 +21,11 @@ namespace SpaceInvader.Entities
         public bool Hidden { get; set; }
 
         public Scene Scene { get; set; }
+        public PlayerMoveLogic Logic { get; set; }
+        public bool PauseLogic { get; set; }
 
         public override void Initialize()
         {
-            CreateLogic<PlayerMoveLogic>();
             Size = new Vec2(46, 29);
 
             EntityData.Speed = 5;

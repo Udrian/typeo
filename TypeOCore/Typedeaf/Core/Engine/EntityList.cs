@@ -21,6 +21,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             protected List<Entity> Entities;
             protected List<IIsUpdatable> Updatables;
+            protected List<IHasLogic> HasLogics;
             protected List<IHasDrawable> HasDrawables;
             protected List<IIsDrawable> IsDrawables;
             protected List<IHasEntities> HasEntities;
@@ -29,6 +30,7 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Entities = new List<Entity>();
                 Updatables = new List<IIsUpdatable>();
+                HasLogics = new List<IHasLogic>();
                 HasDrawables = new List<IHasDrawable>();
                 IsDrawables = new List<IIsDrawable>();
                 HasEntities = new List<IHasEntities>();
@@ -60,7 +62,12 @@ namespace TypeOEngine.Typedeaf.Core
                     Parent = Entity
                 };
 
-                (entity as IHasTypeO).TypeO = TypeO;
+                (entity as IHasData)?.CreateData();
+
+                if(entity is IHasTypeO)
+                {
+                    (entity as IHasTypeO).TypeO = TypeO;
+                }
                 if(entity is IHasGame)
                 {
                     (entity as IHasGame).Game = Game;
@@ -79,8 +86,17 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if (entity is IHasDrawable)
                 {
-                    (entity as IHasDrawable).CreateDrawable(entity);
-                    HasDrawables.Add(entity as IHasDrawable);
+                    var hasDrawableEntity = entity as IHasDrawable;
+
+                    hasDrawableEntity.CreateDrawable(entity);
+
+                    if (hasDrawableEntity.Drawable is IHasGame)
+                    {
+                        (hasDrawableEntity.Drawable as IHasGame).Game = Game;
+                    }
+
+                    hasDrawableEntity.Drawable.Initialize();
+                    HasDrawables.Add(hasDrawableEntity);
                 }
 
                 if (entity is IIsDrawable)
@@ -103,7 +119,25 @@ namespace TypeOEngine.Typedeaf.Core
                     HasEntities.Add(hasEntitiesEntity);
                 }
 
-                (entity as IHasData)?.CreateData();
+                if (entity is IHasLogic)
+                {
+                    var hasLogicEntity = entity as IHasLogic;
+                    hasLogicEntity.CreateLogic(entity);
+                    (TypeO as TypeO)?.SetServices(hasLogicEntity.Logic);
+
+                    if (hasLogicEntity.Logic is IHasGame)
+                    {
+                        (hasLogicEntity.Logic as IHasGame).Game = (entity as IHasGame)?.Game;
+                    }
+                    if (hasLogicEntity.Logic is IHasScene)
+                    {
+                        (hasLogicEntity.Logic as IHasScene).Scene = Scene;
+                    }
+
+                    hasLogicEntity.Logic.Initialize();
+                    HasLogics.Add(hasLogicEntity);
+                }
+
                 entity.Initialize();
                 Entities.Add(entity);
 
@@ -121,15 +155,12 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
-                //Update all entities logics
-                //TODO: theese should really be put in the Updatables
-                foreach (var entity in Entities)
+                foreach(var entity in HasLogics)
                 {
-                    if (entity.WillBeDeleted == true) continue;
-                    if (entity is IIsUpdatable && (entity as IIsUpdatable)?.Pause == true) continue;
-                    foreach (var logic in entity.GetLogics())
+                    if ((entity as Entity)?.WillBeDeleted == true) continue;
+                    if (!entity.PauseLogic)
                     {
-                        logic.Update(dt);
+                        entity.Logic.Update(dt);
                     }
                 }
 
