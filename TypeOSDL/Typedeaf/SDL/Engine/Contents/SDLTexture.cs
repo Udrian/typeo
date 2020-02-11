@@ -40,23 +40,29 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         partial class SDLCanvas
         {
-            public override void DrawImage(Texture texture, Vec2 pos)
+            public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
             {
-                DrawImage(texture, pos, null);
+                DrawImage(texture, pos, null, entity: entity);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
-                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source);
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
 
             }
 
-            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source)
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdltexture = texture as SDLTexture;
                 //TODO: Error handling
+
+                pos      += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                scale    *= entity?.Scale          ?? Vec2.One;
+                rotation += entity?.Rotation       ?? 0;
+                origin   += entity?.Origin         ?? Vec2.Zero;
+                //TODO: Blend color and flip entity
 
                 var drect = new SDL2.SDL.SDL_Rect
                 {

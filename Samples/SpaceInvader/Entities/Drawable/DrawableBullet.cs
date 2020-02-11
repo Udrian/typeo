@@ -15,7 +15,7 @@ namespace SpaceInvader.Entities.Drawable
 
         public override void Draw(Canvas canvas)
         {
-            canvas.DrawRectangle(Entity.DrawBounds.Pos, Size, true, Color.CapeHoney);
+            canvas.DrawRectangle(Vec2.Zero, Size, true, Color.CapeHoney, Entity);
         }
     }
 }
