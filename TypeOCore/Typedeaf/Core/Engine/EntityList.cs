@@ -36,7 +36,7 @@ namespace TypeOEngine.Typedeaf.Core
                 HasEntities = new List<IHasEntities>();
             }
 
-            public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None) where E : Entity2d, new()
+            public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
             {
                 var entity = CreateEntity<E>() as Entity2d;
 
@@ -44,8 +44,6 @@ namespace TypeOEngine.Typedeaf.Core
                 entity.Scale    = scale    ?? entity.Scale;
                 entity.Rotation = rotation;
                 entity.Origin   = origin   ?? entity.Origin;
-                entity.Color    = color    ?? entity.Color;
-                entity.Flipped  = flipped;
 
                 return entity as E;
             }

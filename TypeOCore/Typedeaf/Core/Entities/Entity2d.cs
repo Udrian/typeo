@@ -1,17 +1,14 @@
 using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities
     {
-        public abstract class Entity2d : Entity, IDrawContext2d
+        public abstract class Entity2d : Entity
         {
             public Vec2    Position { get; set; }
             public Vec2    Scale    { get; set; }
             public double  Rotation { get; set; }
-            public Color   Color    { get; set; }
-            public Flipped Flipped  { get; set; }
             public Vec2    Size     { get; set; }
             public Vec2    Origin   { get; set; }
 
@@ -19,9 +16,11 @@ namespace TypeOEngine.Typedeaf.Core
             
             protected Entity2d() : base()
             {
-                (this as IDrawContext2d).InitializeDrawContext2d();
-                Size = Vec2.Zero;
-                Origin = Vec2.Zero;
+                Position = Vec2.Zero;
+                Scale    = Vec2.One;
+                Rotation = 0;
+                Size     = Vec2.Zero;
+                Origin   = Vec2.Zero;
             }
 
             public Rectangle DrawBounds {
