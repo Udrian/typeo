@@ -1,37 +1,32 @@
-﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+﻿using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using SpaceInvader.Entities.Data;
+using SpaceInvader.Entities.Drawable;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Entities
 {
-    public class Bullet : Entity2d, IIsDrawable, IIsUpdatable
+    public class Bullet : Entity2d, IHasDrawable<DrawableBullet>, IIsUpdatable, IHasData<BulletData>
     {
-        public double Speed { get; set; } = 500;
-        public Vec2 Size { get; set; } = new Vec2(10, 10);
+        public bool Pause { get; set; }
+        public bool Hidden { get; set; }
+        public DrawableBullet Drawable { get; set; }
+        public BulletData EntityData { get; set; }
 
-        public Bullet(Vec2 position) : base(position) { }
+        public Bullet() : base() { }
 
-        public override void Initialize() {}
-
-        public void Draw(Canvas canvas)
+        public override void Initialize()
         {
-            canvas.DrawRectangle(Position, Size, true, Color.CapeHoney);
+            EntityData.Speed = 500;
         }
 
         public void Update(double dt)
         {
-            Position = new Vec2(Position.X, Position.Y - Speed * dt);
+            Position = new Vec2(Position.X, Position.Y - EntityData.Speed * dt);
 
-            if (Position.Y <= -Size.Y)
+            if (Position.Y <= -Drawable.Size.Y)
                 Remove();
-        }
-
-        public bool WillBeDeleted { get; private set; }
-        public void Remove()
-        {
-            WillBeDeleted = true;
         }
     }
 }

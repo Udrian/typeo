@@ -1,7 +1,8 @@
 ﻿using System;
-using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Window = System.IntPtr;
 
@@ -9,7 +10,7 @@ namespace TypeOEngine.Typedeaf.SDL
 {
     namespace Engine.Graphics
     {
-        public class SDLWindow : Window
+        public class SDLWindow : DesktopWindow
         {
             public SDL_Window SDL_Window { get; private set; }
 
@@ -109,7 +110,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override ContentLoader CreateContentLoader(Canvas canvas)
             {
-                return new SDLContentLoader((SDLCanvas)canvas);
+                return new SDLContentLoader((SDLCanvas)canvas, TypeO.GetContentBinding());
             }
         }
     }

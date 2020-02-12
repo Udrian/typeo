@@ -1,11 +1,13 @@
-﻿using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Interfaces;
+﻿using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Services;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Common;
 
-namespace TypeOEngine.Typedeaf.Core
+namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Services
     {
@@ -17,7 +19,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override void Initialize() { }
 
-            public Window CreateWindow()
+            public DesktopWindow CreateWindow()
             {
                 var window = WindowHardware.CreateWindow();
                 window.Game = Game;
@@ -25,9 +27,10 @@ namespace TypeOEngine.Typedeaf.Core
                 return window;
             }
 
-            public Window CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
+            public DesktopWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
                 var window = CreateWindow();
+
                 window.Initialize(title, position, size, fullscreen, borderless);
 
                 return window;

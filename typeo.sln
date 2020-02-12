@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{664A8562
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeOSDLUnitTest", "Tests\TypeOSDLUnitTest\TypeOSDLUnitTest.csproj", "{1D700D1C-A709-4DC9-94E8-D5B1944F84B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeODesktop", "TypeODesktop\TypeODesktop.csproj", "{43ED0436-BE0D-4AD2-B1BD-0C5970316323}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{1D700D1C-A709-4DC9-94E8-D5B1944F84B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D700D1C-A709-4DC9-94E8-D5B1944F84B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D700D1C-A709-4DC9-94E8-D5B1944F84B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43ED0436-BE0D-4AD2-B1BD-0C5970316323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43ED0436-BE0D-4AD2-B1BD-0C5970316323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43ED0436-BE0D-4AD2-B1BD-0C5970316323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43ED0436-BE0D-4AD2-B1BD-0C5970316323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,10 @@
 ﻿using SDL2;
-using Typedeaf.Common;
 using SDL_Font = System.IntPtr;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -54,23 +55,25 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         partial class SDLCanvas
         {
-            public override void DrawText(Font font, string text, Vec2 pos)
+            public override void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null)
             {
-                DrawText(font, text, pos, null);
+                DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source, entity);
 
             }
 
-            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdlFont = font as SDLFont;
                 //TODO: Error handling
+
+                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
 
                 if (color == null)
                     color = Color.White;
@@ -101,11 +104,11 @@ namespace TypeOEngine.Typedeaf.SDL
                 };
 
                 var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
-                if (flipped == Texture.Flipped.Horizontal)
+                if (flipped == Flipped.Horizontal)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
-                else if (flipped == Texture.Flipped.Vertical)
+                else if (flipped == Flipped.Vertical)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
-                else if (flipped == Texture.Flipped.Both)
+                else if (flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)

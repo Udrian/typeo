@@ -1,5 +1,4 @@
-using Typedeaf.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Common;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -7,21 +6,34 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Entity2d : Entity
         {
-            public Vec2            Position { get; set; }
-            public Vec2            Scale    { get; set; } = Vec2.One;
-            public double          Rotation { get; set; }
-            public Vec2            Origin   { get; set; }
-            public Color           Color    { get; set; }
-            public Texture.Flipped Flipped  { get; set; }
+            public Vec2    Position { get; set; }
+            public Vec2    Scale    { get; set; }
+            public double  Rotation { get; set; }
+            public Vec2    Size     { get; set; }
+            public Vec2    Origin   { get; set; }
 
-            public Entity2d(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None) : base()
+            public new Entity2d Parent { get { return base.Parent as Entity2d; } set { base.Parent = value as Entity2d; } }
+            
+            protected Entity2d() : base()
             {
-                Position = position ?? Vec2.Zero;
-                Scale    = scale    ?? Vec2.One;
-                Rotation = rotation;
-                Origin   = origin;
-                Color    = color;
-                Flipped  = flipped;
+                Position = Vec2.Zero;
+                Scale    = Vec2.One;
+                Rotation = 0;
+                Size     = Vec2.Zero;
+                Origin   = Vec2.Zero;
+            }
+
+            public Rectangle DrawBounds {
+                get {
+                    return new Rectangle(
+                           Position + (Parent?.DrawBounds.Pos  ?? Vec2.Zero),
+                           Size//     + (Parent?.DrawBounds.Size ?? Vec2.Zero)
+                        );
+                }
+                set {
+                    Position = value.Pos  - (Parent?.DrawBounds.Pos  ?? Vec2.Zero);
+                    Size     = value.Size;// - (Parent?.DrawBounds.Size ?? Vec2.Zero);
+                }
             }
         }
     }

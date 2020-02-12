@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
@@ -14,18 +14,15 @@ namespace TypeOEngine.Typedeaf.Core
             protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
             public Game Game { get; set; }
 
+            public virtual string Title { get; set; }
+            public virtual Vec2 Size { get; set; }
+
             protected Window()
             {
                 Scenes = new Dictionary<Type, Scene>();
             }
 
-            public abstract void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false);
-
-            public virtual string Title      { get; set; }
-            public virtual Vec2   Position   { get; set; }
-            public virtual Vec2   Size       { get; set; }
-            public virtual bool   Fullscreen { get; set; }
-            public virtual bool   Borderless { get; set; }
+            public abstract void Initialize();
 
             public virtual void Update(double dt)
             {

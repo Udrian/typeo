@@ -1,7 +1,5 @@
 using System;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL;
-using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine;
 
 namespace SpaceInvader
@@ -12,10 +10,11 @@ namespace SpaceInvader
         public static void Main()
         {
             TypeO.Create<SpaceInvaderGame>()
+                .LoadModule<DesktopModule>()
                 .LoadModule<SDLModule>()
-                .AddModuleServices()
-                .AddHardware<IWindowHardware, SDLWindowHardware>()
-                .AddHardware<IKeyboardHardware, SDLKeyboardHardware>()
+                .AddDefaultSDLServices()
+                .AddDefaultSDLHardware()
+                .AddDefaultSDLContentBinding()
                 .Start();
         }
     }

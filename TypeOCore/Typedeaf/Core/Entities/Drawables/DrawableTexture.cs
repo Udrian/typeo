@@ -1,4 +1,4 @@
-﻿using Typedeaf.Common;
+﻿using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
@@ -10,30 +10,35 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Texture Texture { get; set; }
 
-            public DrawableTexture(Entity2d entity, Texture texture) : base(entity)
+            public Vec2 Scale      { get; set; }
+            public double Rotation { get; set; }
+            public Color Color     { get; set; }
+            public Flipped Flipped { get; set; }
+
+            public override Vec2 Size { get { return Texture.Size; } protected set { } }
+
+            public DrawableTexture() : base()
             {
-                Texture = texture;
+                Scale    = Vec2.One;
+                Rotation = 0;
+                Color    = Color.White;
+                Flipped  = Flipped.None;
             }
 
-            public override void Init(Entity2d entity) { }
+            public override void Initialize() { }
 
             public override void Draw(Canvas canvas)
             {
-                //TODO: Fix Drawing bounds and screen bounds
+                if (Texture == null) return;
                 canvas.DrawImage(
                     Texture,
-                    Entity.Position,
-                    Entity.Scale,
-                    Entity.Rotation,
-                    Entity.Origin,
-                    Entity.Color,
-                    Entity.Flipped
+                    Position,
+                    scale:    Scale,
+                    rotation: Rotation,
+                    color:    Color,
+                    flipped:  Flipped,
+                    entity:   Entity
                 );
-            }
-
-            public override Vec2 GetSize()
-            {
-                return new Vec2(Texture.Size.X, Texture.Size.Y);
             }
         }
     }

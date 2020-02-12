@@ -2,11 +2,12 @@ using SDL2;
 using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -14,9 +15,12 @@ namespace TypeOEngine.Typedeaf.SDL
     public partial class SDLModule : Module, IIsUpdatable
     {
         public IKeyboardHardware KeyboardHardware { get; set; }
+        public bool Pause { get; set; }
 
         public override void Initialize()
         {
+            TypeO.ReferenceModule<DesktopModule>();
+
             //Initial SDL
             SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
             if (SDL2.SDL.SDL_Init(SDL2.SDL.SDL_INIT_VIDEO) != 0)
@@ -41,12 +45,26 @@ namespace TypeOEngine.Typedeaf.SDL
             SDL2.SDL.SDL_Quit();
         }
 
-        public override ITypeO AddModuleServices()
+        public SDLModule AddDefaultSDLServices()
         {
             TypeO.AddService<IWindowService, WindowService>();
             TypeO.AddService<IKeyboardInputService, KeyboardInputService>();
 
-            return base.AddModuleServices();
+            return this;
+        }
+        public SDLModule AddDefaultSDLHardware()
+        {
+            TypeO.AddHardware<IWindowHardware, SDLWindowHardware>();
+            TypeO.AddHardware<IKeyboardHardware, SDLKeyboardHardware>();
+
+            return this;
+        }
+        public SDLModule AddDefaultSDLContentBinding()
+        {
+            TypeO.BindContent<Texture, SDLTexture>();
+            TypeO.BindContent<Font, SDLFont>();
+
+            return this;
         }
 
         public void Update(double dt)

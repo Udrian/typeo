@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -26,8 +27,10 @@ namespace TypeOEngine.Typedeaf.Core
             public Game Game { get; set; }
             private DateTime LastTick { get; set; }
             private List<Module> Modules { get; set; }
+            private List<Type> ModuleReferences { get; set; }
             private Dictionary<Type, Hardware> Hardwares { get; set; }
             private Dictionary<Type, Service> Services { get; set; }
+            private Dictionary<Type, Type> ContentBinding { get; set; }
 
             public TypeO() : base()
             {
@@ -35,6 +38,8 @@ namespace TypeOEngine.Typedeaf.Core
                 Modules = new List<Module>();
                 Hardwares = new Dictionary<Type, Hardware>();
                 Services = new Dictionary<Type, Service>();
+                ContentBinding = new Dictionary<Type, Type>();
+                ModuleReferences = new List<Type>();
             }
 
             private bool ExitApplication = false;
@@ -50,9 +55,9 @@ namespace TypeOEngine.Typedeaf.Core
                 //Instantiate the Service
                 var service = new S();
                 (service as IHasTypeO).SetTypeO(this);
-                if (service is IHasGame)
+                if(service is IHasGame)
                 {
-                    (service as IHasGame).SetGame(Game);
+                    (service as IHasGame).Game = Game;
                 }
 
                 Services.Add(typeof(I), service);
@@ -68,7 +73,7 @@ namespace TypeOEngine.Typedeaf.Core
                 (hardware as IHasTypeO).SetTypeO(this);
                 if (hardware is IHasGame)
                 {
-                    (hardware as IHasGame).SetGame(Game);
+                    (hardware as IHasGame).Game = Game;
                 }
 
                 Hardwares.Add(typeof(I), hardware);
@@ -79,9 +84,9 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var module = new M();
                 (module as IHasTypeO).SetTypeO(this);
-                if (module is IHasGame)
+                if(module is IHasGame)
                 {
-                    (module as IHasGame).SetGame(Game);
+                    (module as IHasGame).Game = Game;
                 }
 
                 Modules.Add(module);
@@ -117,6 +122,24 @@ namespace TypeOEngine.Typedeaf.Core
                     module.Initialize();
                 }
 
+                //Check if all referenced modules are loaded
+                foreach (var moduleReference in ModuleReferences)
+                {
+                    var found = false;
+                    foreach (var module in Modules)
+                    {
+                        if (module.GetType() == moduleReference)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        throw new Exception($"Referenced Module '{moduleReference.Name}' needs to be loaded");
+                    }
+                }
+
                 //Initialize the game
                 SetServices(Game);
                 Game.Initialize();
@@ -128,17 +151,19 @@ namespace TypeOEngine.Typedeaf.Core
 
                     foreach (var module in Modules)
                     {
-                        (module as IIsUpdatable)?.Update(dt);
+                        if((module as IIsUpdatable)?.Pause == false)
+                            (module as IIsUpdatable)?.Update(dt);
                     }
 
                     foreach (var hardware in Hardwares.Values)
                     {
-                        (hardware as IIsUpdatable)?.Update(dt);
+                        if ((hardware as IIsUpdatable)?.Pause == false)
+                            (hardware as IIsUpdatable)?.Update(dt);
                     }
 
                     foreach (var service in Services.Values)
                     {
-                        if (!service.Pause)
+                        if ((service as IIsUpdatable)?.Pause == false)
                             (service as IIsUpdatable)?.Update(dt);
                     }
 
@@ -189,6 +214,31 @@ namespace TypeOEngine.Typedeaf.Core
 
                     property.SetValue(obj, Services[property.PropertyType]);
                 }
+            }
+
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                if (!typeof(CTo).IsSubclassOf(typeof(CFrom)))
+                {
+                    throw new ArgumentException($"Content Binding from '{typeof(CFrom).Name}' must be of a base type to '{typeof(CTo).Name}'");
+                }
+
+                ContentBinding.Add(typeof(CFrom), typeof(CTo));
+
+                return this;
+            }
+
+            public Dictionary<Type, Type> GetContentBinding()
+            {
+                return ContentBinding;
+            }
+
+            public ITypeO ReferenceModule<M>() where M : Module
+            {
+                ModuleReferences.Add(typeof(M));
+                return this;
             }
         }
     }

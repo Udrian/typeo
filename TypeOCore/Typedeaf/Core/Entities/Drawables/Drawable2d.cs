@@ -1,14 +1,20 @@
-﻿using Typedeaf.Common;
+﻿using TypeOEngine.Typedeaf.Core.Common;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public abstract class Drawable2d : Drawable<Entity2d>
+        public abstract class Drawable2d : Drawable
         {
-            public Drawable2d(Entity2d entity) : base(entity) { }
+            public Vec2     Position { get; set; }
+            public abstract Vec2 Size { get; protected set; }
 
-            public abstract Vec2 GetSize();
+            public new Entity2d Entity { get { return base.Entity as Entity2d; } set { base.Entity = value as Entity2d; } }
+
+            protected Drawable2d() : base()
+            {
+                Position = Vec2.Zero;
+            }
         }
     }
 }

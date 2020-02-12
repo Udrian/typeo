@@ -1,6 +1,7 @@
 ﻿using SDL2;
-using Typedeaf.Common;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using SDL_Image = System.IntPtr;
@@ -39,23 +40,29 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         partial class SDLCanvas
         {
-            public override void DrawImage(Texture texture, Vec2 pos)
+            public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
             {
-                DrawImage(texture, pos, null);
+                DrawImage(texture, pos, null, entity: entity);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Texture.Flipped flipped = Texture.Flipped.None, Rectangle source = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
-                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source);
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
 
             }
 
-            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Texture.Flipped flipped, Rectangle source)
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdltexture = texture as SDLTexture;
                 //TODO: Error handling
+
+                pos      += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                scale    *= entity?.Scale          ?? Vec2.One;
+                rotation += entity?.Rotation       ?? 0;
+                origin   += entity?.Origin         ?? Vec2.Zero;
+                //TODO: Blend color and flip entity
 
                 var drect = new SDL2.SDL.SDL_Rect
                 {
@@ -77,11 +84,11 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_SetTextureAlphaMod(sdltexture.SDL_Image, (byte)color.A);
 
                 var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
-                if (flipped == Texture.Flipped.Horizontal)
+                if (flipped == Flipped.Horizontal)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
-                else if (flipped == Texture.Flipped.Vertical)
+                else if (flipped == Flipped.Vertical)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
-                else if (flipped == Texture.Flipped.Both)
+                else if (flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if(source == null)

@@ -1,4 +1,5 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
@@ -15,8 +16,6 @@ namespace TypeOEngine.Typedeaf.Core
 
             public abstract void Initialize();
             public abstract void Cleanup();
-
-            public virtual ITypeO AddModuleServices() { return TypeO; }
 
             public void Exit()
             {
@@ -45,6 +44,13 @@ namespace TypeOEngine.Typedeaf.Core
             public void Start()
             {
                 TypeO.Start();
+            }
+
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                return TypeO.BindContent<CFrom, CTo>();
             }
         }
     }

@@ -6,13 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
+    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="SDL2-CS">
-      <HintPath>..\SDL2\debug\SDL2-CS.Core.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\TypeOCore\TypeOCore.csproj" />
+    <ProjectReference Include="..\TypeODesktop\TypeODesktop.csproj" />
   </ItemGroup>
 
 </Project>
