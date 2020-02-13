@@ -15,6 +15,7 @@ namespace SpaceInvader
                 .AddDefaultSDLServices()
                 .AddDefaultSDLHardware()
                 .AddDefaultSDLContentBinding()
+                .SetLogger(LogLevel.Debug)
                 .Start();
         }
     }

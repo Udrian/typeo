@@ -46,6 +46,7 @@ namespace TypeOEngine.Typedeaf.Core
                     {
                         (scene as IHasGame).Game = Game;
                     }
+                    Context.SetLogger(scene);
 
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();

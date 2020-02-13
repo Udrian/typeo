@@ -65,6 +65,34 @@ namespace TypeOEngine.Typedeaf.Core
                 return this;
             }
 
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                if (!typeof(CTo).IsSubclassOf(typeof(CFrom)))
+                {
+                    throw new ArgumentException($"Content Binding from '{typeof(CFrom).Name}' must be of a base type to '{typeof(CTo).Name}'");
+                }
+
+                Context.ContentBinding.Add(typeof(CFrom), typeof(CTo));
+
+                return this;
+            }
+
+            public ITypeO SetLogger(LogLevel logLevel = LogLevel.None)
+            {
+                return SetLogger<DefaultLogger>(logLevel);
+            }
+
+            public ITypeO SetLogger<L>(LogLevel logLevel = LogLevel.None) where L : ILogger, new()
+            {
+                Context.Logger = new L
+                {
+                    LogLevel = logLevel
+                };
+                return this;
+            }
+
             public M LoadModule<M>() where M : Module
             {
                 var module = (M)Activator.CreateInstance(typeof(M), this);
@@ -98,20 +126,6 @@ namespace TypeOEngine.Typedeaf.Core
                 }
 
                 Context.Start();
-            }
-
-            public ITypeO BindContent<CFrom, CTo>()
-                where CFrom : Content
-                where CTo : Content, new()
-            {
-                if (!typeof(CTo).IsSubclassOf(typeof(CFrom)))
-                {
-                    throw new ArgumentException($"Content Binding from '{typeof(CFrom).Name}' must be of a base type to '{typeof(CTo).Name}'");
-                }
-
-                Context.ContentBinding.Add(typeof(CFrom), typeof(CTo));
-
-                return this;
             }
 
             public ITypeO ReferenceModule<M>() where M : Module

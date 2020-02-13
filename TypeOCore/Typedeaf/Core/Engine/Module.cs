@@ -35,6 +35,23 @@ namespace TypeOEngine.Typedeaf.Core
                 return TypeO.AddHardware<I, H>();
             }
 
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                return TypeO.BindContent<CFrom, CTo>();
+            }
+
+            public ITypeO SetLogger(LogLevel logLevel = LogLevel.None)
+            {
+                return TypeO.SetLogger(logLevel);
+            }
+
+            public ITypeO SetLogger<L>(LogLevel logLevel = LogLevel.None) where L : ILogger, new()
+            {
+                return TypeO.SetLogger<L>(logLevel);
+            }
+
             public M LoadModule<M>() where M : Module
             {
                 return TypeO.LoadModule<M>();
@@ -43,13 +60,6 @@ namespace TypeOEngine.Typedeaf.Core
             public void Start()
             {
                 TypeO.Start();
-            }
-
-            public ITypeO BindContent<CFrom, CTo>()
-                where CFrom : Content
-                where CTo : Content, new()
-            {
-                return TypeO.BindContent<CFrom, CTo>();
             }
         }
     }

@@ -76,6 +76,7 @@ namespace TypeOEngine.Typedeaf.Core
                 }
 
                 Context.SetServices(entity);
+                Context.SetLogger(entity);
 
                 if (entity is IIsUpdatable)
                 {

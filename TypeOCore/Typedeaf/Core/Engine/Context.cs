@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
@@ -18,6 +19,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Dictionary<Type, Hardware> Hardwares { get; set; }
             public Dictionary<Type, Service> Services { get; set; }
             public Dictionary<Type, Type> ContentBinding { get; set; }
+            public ILogger Logger { get; set; }
 
             public Context(Game game) : base()
             {
@@ -37,10 +39,18 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Start()
             {
+                if(Logger is null)
+                {
+                    Logger = new DefaultLogger
+                    {
+                        LogLevel = LogLevel.None
+                    };
+                }
                 //Initialize Hardware
                 foreach (var hardware in Hardwares.Values)
                 {
                     hardware.Initialize();
+                    SetLogger(hardware);
                 }
 
                 //Create Services
@@ -50,6 +60,7 @@ namespace TypeOEngine.Typedeaf.Core
                     //Add Hardware to service using reflection on the Service properties
                     SetHardwares(service);
                     SetServices(service);
+                    SetLogger(service);
 
                     service.Initialize();
 
@@ -61,11 +72,13 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     SetHardwares(module);
                     SetServices(module);
+                    SetLogger(module);
                     module.Initialize();
                 }
 
                 //Initialize the game
                 SetServices(Game);
+                SetLogger(Game);
                 Game.Initialize();
 
                 while (!ExitApplication)
@@ -137,6 +150,22 @@ namespace TypeOEngine.Typedeaf.Core
                     }
 
                     property.SetValue(obj, Services[property.PropertyType]);
+                }
+            }
+
+            public void SetLogger(object obj)
+            {
+                var type = obj.GetType();
+                var properties = type.GetProperties();
+                foreach (var property in properties)
+                {
+                    if (property.PropertyType != typeof(ILogger))
+                    {
+                        continue;
+                    }
+
+                    property.SetValue(obj, Logger);
+                    break;
                 }
             }
         }
