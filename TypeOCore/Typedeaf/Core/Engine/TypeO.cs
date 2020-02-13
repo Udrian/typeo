@@ -93,7 +93,7 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                     if (!found)
                     {
-                        throw new Exception($"Referenced Module '{moduleReference.Name}' needs to be loaded");
+                        throw new InvalidOperationException($"Referenced Module '{moduleReference.Name}' needs to be loaded");
                     }
                 }
 

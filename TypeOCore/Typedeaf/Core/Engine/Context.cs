@@ -114,7 +114,7 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                     if (!Hardwares.ContainsKey(property.PropertyType))
                     {
-                        throw new Exception($"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                        throw new InvalidOperationException($"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
                     }
 
                     property.SetValue(obj, Hardwares[property.PropertyType]);
@@ -133,7 +133,7 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                     if (!Services.ContainsKey(property.PropertyType))
                     {
-                        throw new Exception($"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                        throw new InvalidOperationException($"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
                     }
 
                     property.SetValue(obj, Services[property.PropertyType]);
