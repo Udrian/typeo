@@ -9,18 +9,17 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public abstract class Module : ITypeO, IHasTypeO
+        public abstract class Module : ITypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            protected TypeO TypeO { get; set; }
+
+            protected Module(TypeO typeO)
+            {
+                TypeO = typeO;
+            }
 
             public abstract void Initialize();
             public abstract void Cleanup();
-
-            public void Exit()
-            {
-                TypeO.Exit();
-            }
 
             public ITypeO AddService<I, S>()
                 where I : IService
@@ -36,7 +35,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return TypeO.AddHardware<I, H>();
             }
 
-            public M LoadModule<M>() where M : Module, new()
+            public M LoadModule<M>() where M : Module
             {
                 return TypeO.LoadModule<M>();
             }

@@ -4,10 +4,10 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Hardwares
     {
-        public abstract class Hardware : IHasTypeO
+        public abstract class Hardware : IHasContext
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            Context IHasContext.Context { get; set; }
+            protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
             protected Hardware() { }
 

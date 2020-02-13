@@ -4,10 +4,10 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Services
     {
-        public abstract class Service : IHasTypeO
+        public abstract class Service : IHasContext
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            Context IHasContext.Context { get; set; }
+            protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
             protected Service() { }
 

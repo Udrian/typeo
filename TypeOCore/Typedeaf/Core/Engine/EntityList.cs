@@ -11,10 +11,10 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class EntityList : IHasTypeO, IHasGame, IHasScene
+        public class EntityList : IHasContext, IHasGame, IHasScene
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            Context IHasContext.Context { get; set; }
+            private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
             public Game Game { get; set; }
             public Scene Scene { get; set; }
             public Entity Entity { get; set; }
@@ -62,9 +62,9 @@ namespace TypeOEngine.Typedeaf.Core
 
                 (entity as IHasData)?.CreateData();
 
-                if(entity is IHasTypeO)
+                if(entity is IHasContext)
                 {
-                    (entity as IHasTypeO).TypeO = TypeO;
+                    (entity as IHasContext).Context = Context;
                 }
                 if(entity is IHasGame)
                 {
@@ -75,7 +75,7 @@ namespace TypeOEngine.Typedeaf.Core
                     (entity as IHasScene).Scene = Scene;
                 }
 
-                (TypeO as TypeO)?.SetServices(entity);
+                Context.SetServices(entity);
 
                 if (entity is IIsUpdatable)
                 {
@@ -112,7 +112,7 @@ namespace TypeOEngine.Typedeaf.Core
                         Scene = Scene,
                         Entity = entity
                     };
-                    (hasEntitiesEntity.Entities as IHasTypeO).TypeO = TypeO;
+                    (hasEntitiesEntity.Entities as IHasContext).Context = Context;
 
                     HasEntities.Add(hasEntitiesEntity);
                 }
@@ -121,7 +121,7 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     var hasLogicEntity = entity as IHasLogic;
                     hasLogicEntity.CreateLogic(entity);
-                    (TypeO as TypeO)?.SetServices(hasLogicEntity.Logic);
+                    Context.SetServices(hasLogicEntity.Logic);
 
                     if (hasLogicEntity.Logic is IHasGame)
                     {

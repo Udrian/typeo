@@ -23,7 +23,7 @@ namespace TypeOEngine.Typedeaf.Desktop
             {
                 var window = WindowHardware.CreateWindow();
                 window.Game = Game;
-                (window as IHasTypeO).SetTypeO(TypeO);
+                (window as IHasContext).SetContext(Context);
                 return window;
             }
 

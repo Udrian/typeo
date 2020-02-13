@@ -11,11 +11,10 @@ namespace TypeOEngine.Typedeaf.Core
         public interface ITypeO
         {
             public void Start();
-            public void Exit();
 
             public ITypeO AddService<I, S>() where I : IService where S : Service, new();
             public ITypeO AddHardware<I, H>() where I : IHardware where H : Hardware, new();
-            public M LoadModule<M>() where M : Module, new();
+            public M LoadModule<M>() where M : Module;
 
             public ITypeO BindContent<CFrom, CTo>() where CFrom : Content where CTo : Content, new();
         }

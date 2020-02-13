@@ -55,8 +55,8 @@ namespace TypeOEngine.Typedeaf.Core
                         Game = Game,
                         Scene = scene
                     };
-                    (scene.Entities as IHasTypeO).TypeO = TypeO;
-                    (TypeO as TypeO).SetServices(scene);
+                    (scene.Entities as IHasContext).Context = Context;
+                    Context.SetServices(scene);
                 }
             }
 
