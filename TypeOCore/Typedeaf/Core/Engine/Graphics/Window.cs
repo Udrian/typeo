@@ -8,10 +8,10 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Graphics
     {
-        public abstract partial class Window : IHasTypeO
+        public abstract partial class Window : IHasContext
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            Context IHasContext.Context { get; set; }
+            protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
             public Game Game { get; set; }
 
             public virtual string Title { get; set; }

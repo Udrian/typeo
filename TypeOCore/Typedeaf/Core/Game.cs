@@ -3,16 +3,16 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract partial class Game : IHasTypeO
+    public abstract partial class Game : IHasContext
     {
-        TypeO IHasTypeO.TypeO { get; set; }
-        private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+        Context IHasContext.Context { get; set; }
+        private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
         protected Game() {}
 
         public abstract void Initialize();
         public abstract void Update(double dt);
         public abstract void Draw();
-        public void Exit() { TypeO.Exit(); }
+        public void Exit() { Context.Exit(); }
     }
 }
