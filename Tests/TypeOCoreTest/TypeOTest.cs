@@ -4,6 +4,7 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using Xunit;
@@ -12,6 +13,8 @@ namespace TypeOCoreTest
 {
     public class TypeOTest
     {
+        public string GameName { get; set; } = "test";
+
         public class TestGame : Game
         {
             public override void Initialize()
@@ -107,10 +110,19 @@ namespace TypeOCoreTest
             }
         }
 
+        public class TestLogger : ILogger
+        {
+            public LogLevel LogLevel { get; set; }
+
+            public void Log(LogLevel level, string log)
+            {
+            }
+        }
+
         [Fact]
         public void CreateGame()
         {
-            var typeO = TypeO.Create<TestGame>() as TypeO;
+            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
             Assert.NotNull(typeO);
             Assert.NotNull(typeO.Context);
             Assert.NotNull(typeO.Context.Game);
@@ -120,7 +132,7 @@ namespace TypeOCoreTest
         [Fact]
         public void AddService()
         {
-            var typeO = TypeO.Create<TestGameWithService>()
+            var typeO = TypeO.Create<TestGameWithService>(GameName)
                 .AddService<ITestService, TestService>() as TypeO;
             typeO.Start();
 
@@ -129,7 +141,7 @@ namespace TypeOCoreTest
             Assert.IsType<TestService>(game.TestService);
             Assert.NotEmpty(typeO.Context.Services);
 
-            typeO = TypeO.Create<TestGameWithService>()
+            typeO = TypeO.Create<TestGameWithService>(GameName)
                 .AddService<ITestService, TestServiceWithHardware>() as TypeO;
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
         }
@@ -137,7 +149,7 @@ namespace TypeOCoreTest
         [Fact]
         public void AddHardware()
         {
-            var typeO = TypeO.Create<TestGameWithService>()
+            var typeO = TypeO.Create<TestGameWithService>(GameName)
                 .AddHardware<ITestHardware, TestHardware>()
                 .AddService<ITestService, TestServiceWithHardware>() as TypeO;
             typeO.Start();
@@ -151,7 +163,7 @@ namespace TypeOCoreTest
         [Fact]
         public void AddModule()
         {
-            var typeO = TypeO.Create<TestGameWithService>() as TypeO;
+            var typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
             var module = typeO.LoadModule<TestModule>();
             Assert.NotNull(module);
             Assert.IsType<TestModule>(module);
@@ -168,7 +180,7 @@ namespace TypeOCoreTest
             Assert.NotNull(module.TestService);
             Assert.NotNull(module.TestHardware);
 
-            typeO = TypeO.Create<TestGameWithService>() as TypeO;
+            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
             typeO.ReferenceModule<TestModule>();
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
         }
@@ -176,12 +188,38 @@ namespace TypeOCoreTest
         [Fact]
         public void BindContent()
         {
-            var typeO = TypeO.Create<TestGame>()
+            var typeO = TypeO.Create<TestGame>(GameName)
                 .BindContent<BaseContent, SubContent>() as TypeO;
             typeO.Start();
 
             Assert.NotEmpty(typeO.Context.ContentBinding);
             Assert.NotNull(typeO.Context.ContentBinding[typeof(BaseContent)]);
+        }
+
+        [Fact]
+        public void LoggerTest()
+        {
+            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
+            typeO.Start();
+
+            Assert.NotNull(typeO.Context.Logger);
+            Assert.IsType<DefaultLogger>(typeO.Context.Logger);
+
+            typeO = TypeO.Create<TestGame>(GameName)
+                .SetLogger(LogLevel.None) as TypeO;
+            typeO.Start();
+
+            Assert.NotNull(typeO.Context.Logger);
+            Assert.IsType<DefaultLogger>(typeO.Context.Logger);
+            Assert.Equal(LogLevel.None, typeO.Context.Logger.LogLevel);
+
+            typeO = TypeO.Create<TestGame>(GameName)
+                .SetLogger<TestLogger>(LogLevel.None) as TypeO;
+            typeO.Start();
+
+            Assert.NotNull(typeO.Context.Logger);
+            Assert.IsType<TestLogger>(typeO.Context.Logger);
+            Assert.Equal(LogLevel.None, typeO.Context.Logger.LogLevel);
         }
     }
 }
