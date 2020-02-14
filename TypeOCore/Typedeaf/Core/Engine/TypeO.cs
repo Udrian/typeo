@@ -14,11 +14,11 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public class TypeO : ITypeO
         {
-            public static ITypeO Create<G>() where G : Game, new()
+            public static ITypeO Create<G>(string name) where G : Game, new()
             {
                 var typeO = new TypeO
                 {
-                    Context = new Context(new G())
+                    Context = new Context(new G(), name)
                 };
 
                 (typeO.Context.Game as IHasContext).SetContext(typeO.Context);

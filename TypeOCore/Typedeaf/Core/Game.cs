@@ -8,6 +8,8 @@ namespace TypeOEngine.Typedeaf.Core
         Context IHasContext.Context { get; set; }
         private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
+        public string Name { get { return Context.Name; } }
+
         protected Game() {}
 
         public abstract void Initialize();

@@ -9,7 +9,7 @@ namespace SpaceInvader
         [STAThread]
         public static void Main()
         {
-            TypeO.Create<SpaceInvaderGame>()
+            TypeO.Create<SpaceInvaderGame>("Space invader")
                 .LoadModule<DesktopModule>()
                 .LoadModule<SDLModule>()
                 .AddDefaultSDLServices()

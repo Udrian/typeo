@@ -13,6 +13,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public class Context
         {
+            public string Name { get; private set; }
             public Game Game { get; private set; }
             public DateTime LastTick { get; private set; }
             public List<Module> Modules { get; set; }
@@ -21,8 +22,9 @@ namespace TypeOEngine.Typedeaf.Core
             public Dictionary<Type, Type> ContentBinding { get; set; }
             public ILogger Logger { get; set; }
 
-            public Context(Game game) : base()
+            public Context(Game game, string name) : base()
             {
+                Name = name;
                 Game = game;
                 LastTick = DateTime.UtcNow;
                 Modules = new List<Module>();
