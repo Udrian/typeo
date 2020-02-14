@@ -48,11 +48,17 @@ namespace TypeOEngine.Typedeaf.Core
                         LogLevel = LogLevel.None
                     };
                 }
+                (Logger as IHasContext)?.SetContext(this);
+                Logger.Log($"\n\r\n\rGame started at: {DateTime.UtcNow.ToString()}");
+
+                Logger.Log($"Logger of type '{Logger.GetType().FullName}' loaded");
                 //Initialize Hardware
                 foreach (var hardware in Hardwares.Values)
                 {
-                    hardware.Initialize();
                     SetLogger(hardware);
+                    hardware.Initialize();
+
+                    Logger.Log($"Hardware of type '{hardware.GetType().FullName}' loaded");
                 }
 
                 //Create Services
@@ -66,7 +72,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                     service.Initialize();
 
-                    //Game.AddService(servicePair.Key, service);
+                    Logger.Log($"Service of type '{service.GetType().FullName}' loaded");
                 }
 
                 //Set modules Hardware and initialize
@@ -76,6 +82,8 @@ namespace TypeOEngine.Typedeaf.Core
                     SetServices(module);
                     SetLogger(module);
                     module.Initialize();
+
+                    Logger.Log($"Module of type '{module.GetType().FullName}' loaded");
                 }
 
                 //Initialize the game
@@ -83,6 +91,9 @@ namespace TypeOEngine.Typedeaf.Core
                 SetLogger(Game);
                 Game.Initialize();
 
+                Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");
+
+                Logger.Log($"Everything loaded successfully, spinning up game loop");
                 while (!ExitApplication)
                 {
                     var dt = (DateTime.UtcNow - LastTick).TotalSeconds;
@@ -129,9 +140,12 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                     if (!Hardwares.ContainsKey(property.PropertyType))
                     {
-                        throw new InvalidOperationException($"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                        var message = $"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'";
+                        Logger.Log(LogLevel.Error, message);
+                        throw new InvalidOperationException(message);
                     }
 
+                    Logger.Log($"Hardware '{Hardwares[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Hardwares[property.PropertyType]);
                 }
             }
@@ -148,9 +162,12 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                     if (!Services.ContainsKey(property.PropertyType))
                     {
-                        throw new InvalidOperationException($"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'");
+                        var message = $"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'";
+                        Logger.Log(LogLevel.Error, message);
+                        throw new InvalidOperationException(message);
                     }
 
+                    Logger.Log($"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Services[property.PropertyType]);
                 }
             }
