@@ -6,11 +6,11 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Entity2d : Entity
         {
-            public Vec2    Position { get; set; }
-            public Vec2    Scale    { get; set; }
-            public double  Rotation { get; set; }
-            public Vec2    Size     { get; set; }
-            public Vec2    Origin   { get; set; }
+            public virtual Vec2   Position { get; set; }
+            public virtual Vec2   Scale    { get; set; }
+            public virtual double Rotation { get; set; }
+            public virtual Vec2   Size     { get; set; }
+            public virtual Vec2   Origin   { get; set; }
 
             public new Entity2d Parent { get { return base.Parent as Entity2d; } set { base.Parent = value as Entity2d; } }
             

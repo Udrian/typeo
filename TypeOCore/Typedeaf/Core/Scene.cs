@@ -69,9 +69,12 @@ namespace TypeOEngine.Typedeaf.Core
                     CreateScene<S>();
                     init = true;
                 }
-                
-                CurrentScene = Scenes[typeof(S)];
-                if(init)
+                var fromScene = CurrentScene;
+                var toScene = Scenes[typeof(S)];
+                CurrentScene?.OnExit(toScene);
+                CurrentScene = toScene;
+                CurrentScene?.OnEnter(fromScene);
+                if (init)
                     CurrentScene.Initialize();
                 return Scenes[typeof(S)] as S;
             }
