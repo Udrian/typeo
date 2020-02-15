@@ -46,6 +46,7 @@ namespace TypeOEngine.Typedeaf.Core
                     {
                         (scene as IHasGame).Game = Game;
                     }
+                    Context.SetLogger(scene);
 
                     scene.Window = this;
                     scene.Canvas = CreateCanvas();
@@ -55,8 +56,8 @@ namespace TypeOEngine.Typedeaf.Core
                         Game = Game,
                         Scene = scene
                     };
-                    (scene.Entities as IHasTypeO).TypeO = TypeO;
-                    (TypeO as TypeO).SetServices(scene);
+                    (scene.Entities as IHasContext).Context = Context;
+                    Context.SetServices(scene);
                 }
             }
 

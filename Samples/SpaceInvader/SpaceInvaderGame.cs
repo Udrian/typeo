@@ -4,11 +4,14 @@ using System;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine;
 
 namespace SpaceInvader
 {
     public class SpaceInvaderGame : Game
     {
+        public ILogger Logger { get; set; }
         public IWindowService WindowService { get; set; }
         public IKeyboardInputService KeyboardInputService { get; set; }
 
@@ -18,6 +21,8 @@ namespace SpaceInvader
 
         public override void Initialize()
         {
+            Logger.Log(LogLevel.Info, "Testing");
+
             Random = new Random();
 
             KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_ESCAPE);

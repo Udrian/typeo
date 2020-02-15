@@ -55,23 +55,25 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         partial class SDLCanvas
         {
-            public override void DrawText(Font font, string text, Vec2 pos)
+            public override void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null)
             {
-                DrawText(font, text, pos, null);
+                DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source, entity);
 
             }
 
-            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source)
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdlFont = font as SDLFont;
                 //TODO: Error handling
+
+                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
 
                 if (color == null)
                     color = Color.White;

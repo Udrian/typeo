@@ -17,6 +17,10 @@ namespace TypeOEngine.Typedeaf.SDL
         public IKeyboardHardware KeyboardHardware { get; set; }
         public bool Pause { get; set; }
 
+        public SDLModule(TypeO typeO) : base(typeO)
+        {
+        }
+
         public override void Initialize()
         {
             TypeO.ReferenceModule<DesktopModule>();
@@ -74,7 +78,7 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 if (e.type == SDL2.SDL.SDL_EventType.SDL_QUIT)
                 {
-                    TypeO.Exit();
+                    TypeO.Context.Exit();
                 }
                 else if (e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP)
                 {

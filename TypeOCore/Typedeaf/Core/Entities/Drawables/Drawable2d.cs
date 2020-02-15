@@ -6,11 +6,15 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable2d : Drawable
         {
+            public Vec2     Position { get; set; }
+            public abstract Vec2 Size { get; protected set; }
+
             public new Entity2d Entity { get { return base.Entity as Entity2d; } set { base.Entity = value as Entity2d; } }
 
-            protected Drawable2d() : base() { }
-
-            public abstract Vec2 Size { get; protected set; }
+            protected Drawable2d() : base()
+            {
+                Position = Vec2.Zero;
+            }
         }
     }
 }

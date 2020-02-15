@@ -11,36 +11,39 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class EntityList : IHasTypeO, IHasGame, IHasScene
+        public class EntityList : IHasContext, IHasGame, IHasScene
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            private TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            Context IHasContext.Context { get; set; }
+            private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
             public Game Game { get; set; }
             public Scene Scene { get; set; }
+            public Entity Entity { get; set; }
 
             protected List<Entity> Entities;
             protected List<IIsUpdatable> Updatables;
+            protected List<IHasLogic> HasLogics;
             protected List<IHasDrawable> HasDrawables;
             protected List<IIsDrawable> IsDrawables;
+            protected List<IHasEntities> HasEntities;
 
             public EntityList()
             {
                 Entities = new List<Entity>();
                 Updatables = new List<IIsUpdatable>();
+                HasLogics = new List<IHasLogic>();
                 HasDrawables = new List<IHasDrawable>();
                 IsDrawables = new List<IIsDrawable>();
+                HasEntities = new List<IHasEntities>();
             }
 
-            public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None) where E : Entity2d, new()
+            public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
             {
                 var entity = CreateEntity<E>() as Entity2d;
 
-                entity.Position = position ?? Vec2.Zero;
-                entity.Scale    = scale    ?? Vec2.One;
+                entity.Position = position ?? entity.Position;
+                entity.Scale    = scale    ?? entity.Scale;
                 entity.Rotation = rotation;
-                entity.Origin   = origin   ?? Vec2.Zero;
-                entity.Color    = color    ?? Color.White;
-                entity.Flipped = flipped;
+                entity.Origin   = origin   ?? entity.Origin;
 
                 return entity as E;
             }
@@ -52,9 +55,17 @@ namespace TypeOEngine.Typedeaf.Core
 
             private E CreateEntity<E>() where E : Entity, new()
             {
-                var entity = new E();
+                var entity = new E
+                {
+                    Parent = Entity
+                };
 
-                (entity as IHasTypeO).TypeO = TypeO;
+                (entity as IHasData)?.CreateData();
+
+                if(entity is IHasContext)
+                {
+                    (entity as IHasContext).Context = Context;
+                }
                 if(entity is IHasGame)
                 {
                     (entity as IHasGame).Game = Game;
@@ -64,7 +75,8 @@ namespace TypeOEngine.Typedeaf.Core
                     (entity as IHasScene).Scene = Scene;
                 }
 
-                (TypeO as TypeO)?.SetServices(entity);
+                Context.SetServices(entity);
+                Context.SetLogger(entity);
 
                 if (entity is IIsUpdatable)
                 {
@@ -73,8 +85,17 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if (entity is IHasDrawable)
                 {
-                    (entity as IHasDrawable).CreateDrawable(entity);
-                    HasDrawables.Add(entity as IHasDrawable);
+                    var hasDrawableEntity = entity as IHasDrawable;
+
+                    hasDrawableEntity.CreateDrawable(entity);
+
+                    if (hasDrawableEntity.Drawable is IHasGame)
+                    {
+                        (hasDrawableEntity.Drawable as IHasGame).Game = Game;
+                    }
+
+                    hasDrawableEntity.Drawable.Initialize();
+                    HasDrawables.Add(hasDrawableEntity);
                 }
 
                 if (entity is IIsDrawable)
@@ -82,7 +103,40 @@ namespace TypeOEngine.Typedeaf.Core
                     IsDrawables.Add(entity as IIsDrawable);
                 }
 
-                (entity as IHasData)?.CreateData();
+                if(entity is IHasEntities)
+                {
+                    var hasEntitiesEntity = entity as IHasEntities;
+
+                    hasEntitiesEntity.Entities = new EntityList()
+                    {
+                        Game = Game,
+                        Scene = Scene,
+                        Entity = entity
+                    };
+                    (hasEntitiesEntity.Entities as IHasContext).Context = Context;
+
+                    HasEntities.Add(hasEntitiesEntity);
+                }
+
+                if (entity is IHasLogic)
+                {
+                    var hasLogicEntity = entity as IHasLogic;
+                    hasLogicEntity.CreateLogic(entity);
+                    Context.SetServices(hasLogicEntity.Logic);
+
+                    if (hasLogicEntity.Logic is IHasGame)
+                    {
+                        (hasLogicEntity.Logic as IHasGame).Game = (entity as IHasGame)?.Game;
+                    }
+                    if (hasLogicEntity.Logic is IHasScene)
+                    {
+                        (hasLogicEntity.Logic as IHasScene).Scene = Scene;
+                    }
+
+                    hasLogicEntity.Logic.Initialize();
+                    HasLogics.Add(hasLogicEntity);
+                }
+
                 entity.Initialize();
                 Entities.Add(entity);
 
@@ -100,18 +154,23 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
-                //Update all entities logics
-                //TODO: theese should really be put in the Updatables
-                foreach (var entity in Entities)
+                foreach(var entity in HasLogics)
                 {
-                    if (entity.WillBeDeleted == true) continue;
-                    if (entity is IIsUpdatable && (entity as IIsUpdatable)?.Pause == true) continue;
-                    foreach (var logic in entity.GetLogics())
+                    if ((entity as Entity)?.WillBeDeleted == true) continue;
+                    if (!entity.PauseLogic)
                     {
-                        logic.Update(dt);
+                        entity.Logic.Update(dt);
                     }
                 }
 
+                foreach(var entity in HasEntities)
+                {
+                    if ((entity as Entity)?.WillBeDeleted == true) continue;
+                    if ((entity as IIsUpdatable)?.Pause == true) continue;
+                    entity.Entities.Update(dt);
+                }
+
+                //Remove entities
                 for (int i = Entities.Count - 1; i >= 0; i--)
                 {
                     if (Entities[i].WillBeDeleted)
@@ -143,6 +202,15 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
+                        for (int j = 0; j < HasEntities.Count; j++)
+                        {
+                            if (HasEntities[j] == Entities[i])
+                            {
+                                HasEntities.RemoveAt(j);
+                                break;
+                            }
+                        }
+
                         Entities.RemoveAt(i);
                     }
                 }
@@ -164,6 +232,13 @@ namespace TypeOEngine.Typedeaf.Core
                     {
                         entity.Draw(canvas);
                     }
+                }
+
+                foreach (var entity in HasEntities)
+                {
+                    if ((entity as IIsDrawable)?.Hidden == true) continue;
+                    if ((entity as IHasDrawable)?.Hidden == true) continue;
+                    entity.Entities.Draw(canvas);
                 }
             }
 

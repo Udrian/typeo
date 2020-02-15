@@ -9,24 +9,35 @@ namespace TypeOEngine.Typedeaf.Core
         public class DrawableTexture : Drawable2d
         {
             public Texture Texture { get; set; }
+
+            public Vec2 Scale      { get; set; }
+            public double Rotation { get; set; }
+            public Color Color     { get; set; }
+            public Flipped Flipped { get; set; }
+
             public override Vec2 Size { get { return Texture.Size; } protected set { } }
 
-            public DrawableTexture() : base() { }
+            public DrawableTexture() : base()
+            {
+                Scale    = Vec2.One;
+                Rotation = 0;
+                Color    = Color.White;
+                Flipped  = Flipped.None;
+            }
 
             public override void Initialize() { }
 
             public override void Draw(Canvas canvas)
             {
                 if (Texture == null) return;
-                //TODO: Fix Drawing bounds and screen bounds
                 canvas.DrawImage(
                     Texture,
-                    Entity.Position,
-                    Entity.Scale,
-                    Entity.Rotation,
-                    Entity.Origin,
-                    Entity.Color,
-                    Entity.Flipped
+                    Position,
+                    scale:    Scale,
+                    rotation: Rotation,
+                    color:    Color,
+                    flipped:  Flipped,
+                    entity:   Entity
                 );
             }
         }

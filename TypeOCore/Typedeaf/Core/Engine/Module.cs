@@ -9,18 +9,17 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public abstract class Module : ITypeO, IHasTypeO
+        public abstract class Module : ITypeO
         {
-            TypeO IHasTypeO.TypeO { get; set; }
-            protected TypeO TypeO { get => (this as IHasTypeO).TypeO; set => (this as IHasTypeO).TypeO = value; }
+            protected TypeO TypeO { get; set; }
+
+            protected Module(TypeO typeO)
+            {
+                TypeO = typeO;
+            }
 
             public abstract void Initialize();
             public abstract void Cleanup();
-
-            public void Exit()
-            {
-                TypeO.Exit();
-            }
 
             public ITypeO AddService<I, S>()
                 where I : IService
@@ -36,7 +35,24 @@ namespace TypeOEngine.Typedeaf.Core
                 return TypeO.AddHardware<I, H>();
             }
 
-            public M LoadModule<M>() where M : Module, new()
+            public ITypeO BindContent<CFrom, CTo>()
+                where CFrom : Content
+                where CTo : Content, new()
+            {
+                return TypeO.BindContent<CFrom, CTo>();
+            }
+
+            public ITypeO SetLogger(LogLevel logLevel = LogLevel.None)
+            {
+                return TypeO.SetLogger(logLevel);
+            }
+
+            public ITypeO SetLogger<L>(LogLevel logLevel = LogLevel.None) where L : ILogger, new()
+            {
+                return TypeO.SetLogger<L>(logLevel);
+            }
+
+            public M LoadModule<M>() where M : Module
             {
                 return TypeO.LoadModule<M>();
             }
@@ -44,13 +60,6 @@ namespace TypeOEngine.Typedeaf.Core
             public void Start()
             {
                 TypeO.Start();
-            }
-
-            public ITypeO BindContent<CFrom, CTo>()
-                where CFrom : Content
-                where CTo : Content, new()
-            {
-                return TypeO.BindContent<CFrom, CTo>();
             }
         }
     }

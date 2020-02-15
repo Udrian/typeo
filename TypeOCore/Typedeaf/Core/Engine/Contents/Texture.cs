@@ -18,8 +18,8 @@ namespace TypeOEngine.Typedeaf.Core
     {
         partial class Canvas
         {
-            public abstract void DrawImage(Texture texture, Vec2 pos);
-            public abstract void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null);
+            public abstract void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null);
+            public abstract void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null);
         }
     }
 }

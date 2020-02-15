@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Entities;
 using SDL_Renderer = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -35,18 +36,20 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderClear(SDLRenderer);
             }
 
-            public override void DrawLine(Vec2 from, Vec2 size, Color color)
+            public override void DrawLine(Vec2 from, Vec2 size, Color color, Entity2d entity = null)
             {
+                from += entity?.DrawBounds.Pos ?? Vec2.Zero;
+
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawLine(SDLRenderer, (int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
             }
 
-            public override void DrawLineE(Vec2 from, Vec2 to, Color color)
+            public override void DrawLineE(Vec2 from, Vec2 to, Color color, Entity2d entity)
             {
-                DrawLine(from, to - from, color);
+                DrawLine(from, to - from, color, entity);
             }
 
-            public override void DrawLines(List<Vec2> points, Color color)
+            public override void DrawLines(List<Vec2> points, Color color, Entity2d entity = null)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
 
@@ -54,10 +57,12 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach (var point in points)
                 {
+                    var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
+
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
-                        x = (int)point.X,
-                        y = (int)point.Y
+                        x = (int)tpoint.X,
+                        y = (int)tpoint.Y
                     };
                     i++;
                 }
@@ -65,36 +70,40 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderDrawLines(SDLRenderer, sdlpoints, points.Count);
             }
 
-            public override void DrawPixel(Vec2 point, Color color)
+            public override void DrawPixel(Vec2 point, Color color, Entity2d entity = null)
             {
+                point += entity?.DrawBounds.Pos ?? Vec2.Zero;
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawPoint(SDLRenderer, (int)point.X, (int)point.Y);
             }
 
-            public override void DrawPixels(List<Vec2> points, Color color)
+            public override void DrawPixels(List<Vec2> points, Color color, Entity2d entity = null)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
                 foreach (var point in points)
                 {
+                    var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
-                        x = (int)point.X,
-                        y = (int)point.Y
+                        x = (int)tpoint.X,
+                        y = (int)tpoint.Y
                     };
                     i++;
                 }
                 SDL2.SDL.SDL_RenderDrawPoints(SDLRenderer, sdlpoints, points.Count);
             }
 
-            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color)
+            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, Entity2d entity = null)
             {
-                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color);
+                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color, entity);
             }
 
-            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color)
+            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, Entity2d entity = null)
             {
+                from += entity?.DrawBounds.Pos ?? Vec2.Zero;
+
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var rect = new SDL2.SDL.SDL_Rect
                 {
@@ -114,9 +123,9 @@ namespace TypeOEngine.Typedeaf.SDL
                 }
             }
 
-            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color)
+            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, Entity2d entity = null)
             {
-                DrawRectangle(from, to - from, filled, color);
+                DrawRectangle(from, to - from, filled, color, entity);
             }
 
             public override void Present()
