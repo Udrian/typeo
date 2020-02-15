@@ -42,7 +42,7 @@ namespace TypeOCoreTest.Common
             Assert.Equal(11, v.Y);
         }
 
-        [Fact]
+        /*[Fact]
         public void TestAddition()
         {
             throw new NotImplementedException();
@@ -112,6 +112,6 @@ namespace TypeOCoreTest.Common
         public void TestMin()
         {
             throw new NotImplementedException();
-        }
+        }*/
     }
 }
