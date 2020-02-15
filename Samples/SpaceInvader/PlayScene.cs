@@ -16,7 +16,6 @@ namespace SpaceInvader
         public Font LoadedFont { get; set; }
         public Player Player { get; set; }
 
-        public int    Score { get; set; } = 0;
         public double AlienSpawnTimer { get; set; } = 0;
         public double AlienSpawnTime { get; set; } = 5;
         public double AlienSpawnFrequencyTimer { get; set; } = 0;
@@ -25,6 +24,10 @@ namespace SpaceInvader
         public int    AlienSpawns { get; set; } = 0;
         public bool   AlienSpawning { get; set; } = false;
         public double AlienSpawnPhase { get; set; } = 0;
+
+        public double PlanetSpawnTimer { get; set; } = 0;
+        public double PlanetSpawnTime { get; set; } = 30;
+        public bool   PlanetSpawned { get; set; }
 
         public override void Initialize()
         {
@@ -39,6 +42,17 @@ namespace SpaceInvader
 
         public override void Update(double dt)
         {
+            if (!PlanetSpawned)
+            {
+                PlanetSpawnTimer += dt;
+                if (PlanetSpawnTimer >= PlanetSpawnTime)
+                {
+                    PlanetSpawnTimer = 0;
+                    PlanetSpawned = true;
+                    Entities.Create<Planet>();
+                }
+            }
+
             if (!AlienSpawning)
             {
                 AlienSpawnTimer += dt;
@@ -87,7 +101,7 @@ namespace SpaceInvader
 
             Entities.Draw(Canvas);
 
-            Canvas.DrawText(LoadedFont, $"Score: {Score}", new Vec2(15, 15), color: Color.Green);
+            Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, 15), color: Color.Green);
 
             Canvas.Present();
         }
@@ -108,7 +122,7 @@ namespace SpaceInvader
                         if (alien.EntityData.Health <= 0)
                         {
                             alien.Remove();
-                            Score++;
+                            Game.Score++;
                         }
                     }
                 }
@@ -117,7 +131,7 @@ namespace SpaceInvader
                     alien.Position.Y <= Player.Position.Y + Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Player.Position.Y)
                 {
                     alien.Remove();
-                    Score--;
+                    Game.Score--;
                 }
             }
         }

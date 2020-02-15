@@ -12,7 +12,7 @@ namespace SpaceInvader.Entities
 
         public void Draw(Canvas canvas)
         {
-            canvas.DrawLines(new List<Vec2> { new Vec2(10, 10), new Vec2(5, 5), new Vec2(25, 25) }, Color.Blue);
+            canvas.DrawLines(new List<Vec2> { new Vec2(10, 10), new Vec2(5, 5), new Vec2(25, 25) }, Color.Blue, this);
         }
 
         public override void Initialize() { }

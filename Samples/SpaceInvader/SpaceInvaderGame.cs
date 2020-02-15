@@ -19,6 +19,8 @@ namespace SpaceInvader
         public Window Window     { get; set; }
         public Random Random     { get; set; }
 
+        public int Score { get; set; } = 0;
+
         public override void Initialize()
         {
             Logger.Log(LogLevel.Info, "Testing");

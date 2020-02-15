@@ -24,14 +24,19 @@ namespace SpaceInvader.Entities
         public PlayerMoveLogic Logic { get; set; }
         public bool PauseLogic { get; set; }
 
+        public override Vec2 Size { get => Drawable.Texture.Size; set { } }
+
         public override void Initialize()
         {
-            Size = new Vec2(46, 29);
-
+            LoadContent();
             EntityData.Speed = 5;
 
+            Position = new Vec2(100, Game.Window.Size.Y * 0.8f);
+        }
+
+        public virtual void LoadContent()
+        {
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/ship.png");
-            Position = new Vec2(100, 400);
         }
     }
 }
