@@ -15,6 +15,8 @@ namespace TypeOEngine.Typedeaf.Core
         {
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
+            public ILogger Logger { get; set; }
+
             public Game Game { get; set; }
             public Scene Scene { get; set; }
             public Entity Entity { get; set; }
@@ -59,6 +61,8 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     Parent = Entity
                 };
+
+                Logger.Log($"Creating Entity of type '{typeof(E).FullName}'");
 
                 (entity as IHasData)?.CreateData();
 
@@ -114,6 +118,8 @@ namespace TypeOEngine.Typedeaf.Core
                         Entity = entity
                     };
                     (hasEntitiesEntity.Entities as IHasContext).Context = Context;
+                    Context.SetLogger(hasEntitiesEntity.Entities);
+                    Context.SetServices(hasEntitiesEntity.Entities);
 
                     HasEntities.Add(hasEntitiesEntity);
                 }

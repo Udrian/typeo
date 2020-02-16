@@ -40,6 +40,7 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 if (!Scenes.ContainsKey(typeof(S)))
                 {
+                    Logger.Log($"Creating Scene '{typeof(S).FullName}'");
                     var scene = new S();
                     Scenes.Add(scene.GetType(), scene);
                     if(scene is IHasGame)
@@ -49,14 +50,30 @@ namespace TypeOEngine.Typedeaf.Core
                     Context.SetLogger(scene);
 
                     scene.Window = this;
+                    if(scene.Window is IHasContext)
+                    {
+                        (scene.Window as IHasContext).Context = Context;
+                    }
+                    Context.SetLogger(scene.Window);
+
                     scene.Canvas = CreateCanvas();
+                    if(scene.Canvas is IHasContext)
+                    {
+                        (scene.Canvas as IHasContext).Context = Context;
+                    }
+                    Context.SetLogger(scene.Canvas);
+
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
+                    (scene.ContentLoader as IHasContext).Context = Context;
+                    Context.SetLogger(scene.ContentLoader);
+
                     scene.Entities = new EntityList()
                     {
                         Game = Game,
                         Scene = scene
                     };
                     (scene.Entities as IHasContext).Context = Context;
+                    Context.SetLogger(scene.Entities);
                     Context.SetServices(scene);
                 }
             }
@@ -69,6 +86,7 @@ namespace TypeOEngine.Typedeaf.Core
                     CreateScene<S>();
                     init = true;
                 }
+                Logger.Log($"Switching to Scene '{typeof(S).FullName}'");
                 var fromScene = CurrentScene;
                 var toScene = Scenes[typeof(S)];
                 CurrentScene?.OnExit(toScene);

@@ -35,9 +35,11 @@ namespace TypeOCoreTest.Common
             Assert.Equal(8, v.X);
             Assert.Equal(9, v.Y);
 
-            v = new Vec2();
-            v.X = 10;
-            v.Y = 11;
+            v = new Vec2
+            {
+                X = 10,
+                Y = 11
+            };
             Assert.Equal(10, v.X);
             Assert.Equal(11, v.Y);
         }

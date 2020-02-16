@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
@@ -25,12 +24,10 @@ namespace TypeOEngine.Typedeaf.Core
                 return typeO;
             }
 
-            private List<Type> ModuleReferences { get; set; }
             public Context Context { get; private set; }
 
             public TypeO() : base()
             {
-                ModuleReferences = new List<Type>();
             }
 
             public ITypeO AddService<I, S>()
@@ -69,11 +66,6 @@ namespace TypeOEngine.Typedeaf.Core
                 where CFrom : Content
                 where CTo : Content, new()
             {
-                if (!typeof(CTo).IsSubclassOf(typeof(CFrom)))
-                {
-                    throw new ArgumentException($"Content Binding from '{typeof(CFrom).Name}' must be of a base type to '{typeof(CTo).Name}'");
-                }
-
                 Context.ContentBinding.Add(typeof(CFrom), typeof(CTo));
 
                 return this;
@@ -107,30 +99,12 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Start()
             {
-                //Check if all referenced modules are loaded
-                foreach (var moduleReference in ModuleReferences)
-                {
-                    var found = false;
-                    foreach (var module in Context.Modules)
-                    {
-                        if (module.GetType() == moduleReference)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        throw new InvalidOperationException($"Referenced Module '{moduleReference.Name}' needs to be loaded");
-                    }
-                }
-
                 Context.Start();
             }
 
             public ITypeO ReferenceModule<M>() where M : Module
             {
-                ModuleReferences.Add(typeof(M));
+                Context.ModuleReferences.Add(typeof(M));
                 return this;
             }
         }

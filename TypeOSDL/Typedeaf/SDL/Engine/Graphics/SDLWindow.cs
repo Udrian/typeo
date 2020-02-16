@@ -1,7 +1,8 @@
-﻿using System;
-using TypeOEngine.Typedeaf.Core.Common;
+﻿using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Window = System.IntPtr;
@@ -17,12 +18,10 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
                 SDL_Window = SDL2.SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
-                if (SDL_Window == null)
+                if (SDL_Window == SDL_Window.Zero)
                 {
-                    //TODO: Error handling
-                    Console.WriteLine("SDL_CreateWindow  Error: " + SDL2.SDL.SDL_GetError());
+                    Logger.Log(LogLevel.Fatal, $"Error creating SDLWindow with error: {SDL2.SDL.SDL_GetError()}");
                     SDL2.SDL.SDL_Quit();
-                    //return (SDL_Window)0;
                 }
 
                 if (fullscreen)
