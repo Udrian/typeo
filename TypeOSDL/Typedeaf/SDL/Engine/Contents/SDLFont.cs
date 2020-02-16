@@ -70,8 +70,7 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 const double degreeToRadianConst = 57.2957795131;
 
-                var sdlFont = font as SDLFont;
-                if(sdlFont == null)
+                if (!(font is SDLFont sdlFont))
                 {
                     Logger.Log(LogLevel.Warning, "Font is not of type SDLFont");
                     return;

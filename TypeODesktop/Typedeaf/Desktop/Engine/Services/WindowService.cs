@@ -13,6 +13,7 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public class WindowService : Service, IHasGame, IWindowService
         {
+            public ILogger Logger { get; set; }
             public IWindowHardware WindowHardware { get; set; }
 
             public Game Game { get; set; }
@@ -21,9 +22,11 @@ namespace TypeOEngine.Typedeaf.Desktop
 
             public DesktopWindow CreateWindow()
             {
+                Logger.Log($"Createing Window");
                 var window = WindowHardware.CreateWindow();
                 window.Game = Game;
                 (window as IHasContext).SetContext(Context);
+                Context.SetLogger(window);
                 return window;
             }
 

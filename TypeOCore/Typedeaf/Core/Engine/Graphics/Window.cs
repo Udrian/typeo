@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Graphics
     {
-        public abstract partial class Window : IHasContext
+        public abstract partial class Window : IHasContext, IHasGame
         {
             Context IHasContext.Context { get; set; }
             protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
+            public ILogger Logger { get; set; }
             public Game Game { get; set; }
 
             public virtual string Title { get; set; }

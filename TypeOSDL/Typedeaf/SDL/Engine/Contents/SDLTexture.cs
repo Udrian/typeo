@@ -55,8 +55,7 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 const double degreeToRadianConst = 57.2957795131;
 
-                var sdltexture = texture as SDLTexture;
-                if (sdltexture == null)
+                if (!(texture is SDLTexture sdltexture))
                 {
                     Logger.Log(LogLevel.Warning, "Texture is not of type SDLTexture");
                     return;

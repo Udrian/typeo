@@ -219,6 +219,7 @@ namespace TypeOEngine.Typedeaf.Core
                         continue;
                     }
 
+                    Logger.Log($"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Logger);
                     break;
                 }
