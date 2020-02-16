@@ -120,16 +120,6 @@ namespace TypeOCoreTest
         }
 
         [Fact]
-        public void CreateGame()
-        {
-            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
-            Assert.NotNull(typeO);
-            Assert.NotNull(typeO.Context);
-            Assert.NotNull(typeO.Context.Game);
-            Assert.IsType<TestGame>(typeO.Context.Game);
-        }
-
-        [Fact]
         public void AddService()
         {
             var typeO = TypeO.Create<TestGameWithService>(GameName)

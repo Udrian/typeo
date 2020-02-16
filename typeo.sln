@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOSDLUnitTest", "Tests\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeODesktop", "TypeODesktop\TypeODesktop.csproj", "{43ED0436-BE0D-4AD2-B1BD-0C5970316323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeOCoreTest", "Tests\TypeOCoreTest\TypeOCoreTest.csproj", "{DF670F77-D4F6-46C3-B449-81EA6AE6860E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOCoreTest", "Tests\TypeOCoreTest\TypeOCoreTest.csproj", "{DF670F77-D4F6-46C3-B449-81EA6AE6860E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeODesktopTest", "Tests\TypeODesktopTest\TypeODesktopTest.csproj", "{B2765345-3ACC-4E62-BBD6-50910432F327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{DF670F77-D4F6-46C3-B449-81EA6AE6860E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF670F77-D4F6-46C3-B449-81EA6AE6860E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF670F77-D4F6-46C3-B449-81EA6AE6860E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2765345-3ACC-4E62-BBD6-50910432F327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2765345-3ACC-4E62-BBD6-50910432F327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2765345-3ACC-4E62-BBD6-50910432F327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2765345-3ACC-4E62-BBD6-50910432F327}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{B06015DF-228D-4963-9C57-3226D8F1EECE} = {34CC081F-0ACB-4DB1-927C-64C03ED8DE12}
 		{1D700D1C-A709-4DC9-94E8-D5B1944F84B4} = {664A8562-7D18-46A0-A903-74D5AF034E7B}
 		{DF670F77-D4F6-46C3-B449-81EA6AE6860E} = {664A8562-7D18-46A0-A903-74D5AF034E7B}
+		{B2765345-3ACC-4E62-BBD6-50910432F327} = {664A8562-7D18-46A0-A903-74D5AF034E7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A958F7F-EB98-4FCA-A7FE-0DB251A3D741}
