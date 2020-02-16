@@ -49,8 +49,23 @@ namespace TypeOEngine.Typedeaf.Core
                     Context.SetLogger(scene);
 
                     scene.Window = this;
+                    if(scene.Window is IHasContext)
+                    {
+                        (scene.Window as IHasContext).Context = Context;
+                    }
+                    Context.SetLogger(scene.Window);
+
                     scene.Canvas = CreateCanvas();
+                    if(scene.Canvas is IHasContext)
+                    {
+                        (scene.Canvas as IHasContext).Context = Context;
+                    }
+                    Context.SetLogger(scene.Canvas);
+
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
+                    (scene.ContentLoader as IHasContext).Context = Context;
+                    Context.SetLogger(scene.ContentLoader);
+
                     scene.Entities = new EntityList()
                     {
                         Game = Game,

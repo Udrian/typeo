@@ -5,6 +5,8 @@ using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -12,6 +14,8 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLFont : Font
         {
+            public ILogger Logger { get; set; }
+
             public SDLCanvas Canvas { get; private set; }
             public SDL_Font SDL_Font { get; private set; }
 
@@ -30,14 +34,10 @@ namespace TypeOEngine.Typedeaf.SDL
 
                 SDL_Font = SDL_ttf.TTF_OpenFont(FilePath, FontSize);
                 FontSize = FontSize;
-                //TODO: Error handling
-                /*if (SDLFont == null)
+                if (SDL_Font == SDL_Font.Zero)
                 {
-                    Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
-                    return (SDL_Texture)0;
+                    Logger.Log(LogLevel.Error, $"Error loading SDLFont '{path}' with error : {SDL2.SDL.SDL_GetError()}");
                 }
-
-                return SDLFont;*/
             }
 
             public override int FontSize { 
@@ -71,7 +71,11 @@ namespace TypeOEngine.Typedeaf.SDL
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdlFont = font as SDLFont;
-                //TODO: Error handling
+                if(sdlFont == null)
+                {
+                    Logger.Log(LogLevel.Warning, "Font is not of type SDLFont");
+                    return;
+                }
 
                 pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
 

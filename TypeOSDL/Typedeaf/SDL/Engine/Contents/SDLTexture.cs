@@ -1,6 +1,8 @@
 ﻿using SDL2;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
@@ -12,6 +14,7 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLTexture : Texture
         {
+            public ILogger Logger { get; set; }
             public SDL_Image SDL_Image { get; set; }
 
             public SDLTexture() : base() { }
@@ -22,16 +25,13 @@ namespace TypeOEngine.Typedeaf.SDL
                 FilePath = path;
 
                 SDL_Image = SDL_image.IMG_LoadTexture(sdlCanvas.SDLRenderer, FilePath);
-                SDL2.SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
-                Size = new Vec2(w, h);
-                //TODO: Error handling
-                /*if (tex == null)
+                if (SDL_Image == SDL_Image.Zero)
                 {
-                    Console.WriteLine("IMG_LoadTexture Error: " + SDL.SDL_GetError());
-                    return (SDL_Texture)0;
+                    Logger.Log(LogLevel.Error, $"Error loading SDLTexture '{path}' with error : {SDL2.SDL.SDL_GetError()}");
                 }
 
-                return tex;*/
+                SDL2.SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
+                Size = new Vec2(w, h);
             }
         }
     }
@@ -56,7 +56,11 @@ namespace TypeOEngine.Typedeaf.SDL
                 const double degreeToRadianConst = 57.2957795131;
 
                 var sdltexture = texture as SDLTexture;
-                //TODO: Error handling
+                if (sdltexture == null)
+                {
+                    Logger.Log(LogLevel.Warning, "Texture is not of type SDLTexture");
+                    return;
+                }
 
                 pos      += entity?.DrawBounds.Pos ?? Vec2.Zero;
                 scale    *= entity?.Scale          ?? Vec2.One;

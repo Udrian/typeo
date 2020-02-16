@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using SDL_Renderer = System.IntPtr;
 
@@ -11,6 +12,7 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public partial class SDLCanvas : Canvas
         {
+            public ILogger Logger { get; set; }
             public SDL_Renderer SDLRenderer { get; private set; }
 
             public override void Initialize()
@@ -20,12 +22,11 @@ namespace TypeOEngine.Typedeaf.SDL
                     var sdlWindow = (Window as SDLWindow).SDL_Window;
 
                     SDLRenderer = SDL2.SDL.SDL_CreateRenderer(sdlWindow, -1, SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
-                    if (SDLRenderer == null)
+                    if (SDLRenderer == SDL_Renderer.Zero)
                     {
+                        Logger.Log(LogLevel.Fatal, $"Error creating SDLRenderer with error: {SDL2.SDL.SDL_GetError()}");
                         SDL2.SDL.SDL_DestroyWindow(sdlWindow);
-                        Console.WriteLine("SDL_CreateRenderer  Error: " + SDL2.SDL.SDL_GetError());
                         SDL2.SDL.SDL_Quit();
-                        //TODO: Error handling!
                     }
                 }
             }
