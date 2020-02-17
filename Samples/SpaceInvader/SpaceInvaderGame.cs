@@ -6,18 +6,20 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader
 {
-    public class SpaceInvaderGame : Game
+    public class SpaceInvaderGame : Game, IHasScenes
     {
         public ILogger Logger { get; set; }
         public IWindowService WindowService { get; set; }
         public IKeyboardInputService KeyboardInputService { get; set; }
 
-        public Vec2   ScreenSize { get; set; } = new Vec2(640, 480);
-        public Window Window     { get; set; }
-        public Random Random     { get; set; }
+        public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
+        public Random Random { get; set; }
+        public Window Window { get; set; }
+        public SceneList Scenes { get; set; }
 
         public int Score { get; set; } = 0;
 
@@ -33,17 +35,20 @@ namespace SpaceInvader
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
 
             Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
-            Window.SetScene<PlayScene>();
+            Scenes.Window = Window;
+            Scenes.Canvas = WindowService.CreateCanvas(Window);
+            Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
+            Scenes.SetScene<PlayScene>();
         }
 
         public override void Draw()
         {
-            Window.Draw();
+            Scenes.Draw();
         }
 
         public override void Update(double dt)
         {
-            Window.Update(dt);
+            Scenes.Update(dt);
         }
     }
 }

@@ -2,6 +2,9 @@
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -19,6 +22,20 @@ namespace TypeOEngine.Typedeaf.SDL
             public SDLWindow CreateWindow()
             {
                 return new SDLWindow();
+            }
+
+            public Canvas CreateCanvas(Window desktopWindow)
+            {
+                var canvas = new SDLCanvas
+                {
+                    Window = desktopWindow
+                };
+                return canvas;
+            }
+
+            public ContentLoader CreateContentLoader(Canvas canvas)
+            {
+                return new SDLContentLoader((SDLCanvas)canvas, Context.ContentBinding);
             }
         }
     }

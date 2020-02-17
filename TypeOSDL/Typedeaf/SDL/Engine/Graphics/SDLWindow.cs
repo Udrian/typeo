@@ -1,9 +1,7 @@
 ﻿using System;
 using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
-using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Window = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -17,12 +15,12 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
                 SDL_Window = SDL2.SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
-                if (SDL_Window == null)
+                if (SDL_Window == SDL_Window.Zero)
                 {
-                    //TODO: Error handling
-                    Console.WriteLine("SDL_CreateWindow  Error: " + SDL2.SDL.SDL_GetError());
+                    var message = $"Error creating SDLWindow with error: {SDL2.SDL.SDL_GetError()}";
+                    Logger.Log(LogLevel.Fatal, message);
                     SDL2.SDL.SDL_Quit();
-                    //return (SDL_Window)0;
+                    throw new InvalidOperationException(message);
                 }
 
                 if (fullscreen)
@@ -89,28 +87,6 @@ namespace TypeOEngine.Typedeaf.SDL
                     if (SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
-            }
-
-            public override Canvas CreateCanvas()
-            {
-                var canvas = new SDLCanvas
-                {
-                    Window = this
-                };
-                canvas.Initialize();
-                return canvas;
-            }
-
-            public override Canvas CreateCanvas(Rectangle viewport)
-            {
-                var canvas = CreateCanvas();
-                canvas.Viewport = viewport;
-                return canvas;
-            }
-
-            public override ContentLoader CreateContentLoader(Canvas canvas)
-            {
-                return new SDLContentLoader((SDLCanvas)canvas, Context.ContentBinding);
             }
         }
     }

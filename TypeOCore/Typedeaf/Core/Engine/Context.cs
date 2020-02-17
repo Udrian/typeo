@@ -17,6 +17,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Game Game { get; private set; }
             public DateTime LastTick { get; private set; }
             public List<Module> Modules { get; set; }
+            public List<Type> ModuleReferences { get; set; }
             public Dictionary<Type, Hardware> Hardwares { get; set; }
             public Dictionary<Type, Service> Services { get; set; }
             public Dictionary<Type, Type> ContentBinding { get; set; }
@@ -28,6 +29,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Game = game;
                 LastTick = DateTime.UtcNow;
                 Modules = new List<Module>();
+                ModuleReferences = new List<Type>();
                 Hardwares = new Dictionary<Type, Hardware>();
                 Services = new Dictionary<Type, Service>();
                 ContentBinding = new Dictionary<Type, Type>();
@@ -41,7 +43,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Start()
             {
-                if(Logger is null)
+                if(Logger == null)
                 {
                     Logger = new DefaultLogger
                     {
@@ -50,6 +52,26 @@ namespace TypeOEngine.Typedeaf.Core
                 }
                 (Logger as IHasContext)?.SetContext(this);
                 Logger.Log($"\n\r\n\rGame started at: {DateTime.UtcNow.ToString()}");
+
+                //Check if all referenced modules are loaded
+                foreach (var moduleReference in ModuleReferences)
+                {
+                    var found = false;
+                    foreach (var module in Modules)
+                    {
+                        if (module.GetType() == moduleReference)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        var message = $"Referenced Module '{moduleReference.Name}' needs to be loaded";
+                        Logger.Log(LogLevel.Fatal, message);
+                        throw new InvalidOperationException(message);
+                    }
+                }
 
                 Logger.Log($"Logger of type '{Logger.GetType().FullName}' loaded");
                 //Initialize Hardware
@@ -86,10 +108,39 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log($"Module of type '{module.GetType().FullName}' loaded");
                 }
 
+                //Setup content binding
+                foreach(var binding in ContentBinding)
+                {
+                    var bindingTo = binding.Value;
+                    var bindingFrom = binding.Key;
+
+                    if (!bindingTo.IsSubclassOf(bindingFrom))
+                    {
+                        var message = $"Content Binding from '{bindingFrom.Name}' must be of a base type to '{bindingTo.Name}'";
+                        Logger.Log(LogLevel.Fatal, message);
+                        throw new ArgumentException(message);
+                    }
+                }
+
                 //Initialize the game
                 SetServices(Game);
                 SetLogger(Game);
+                if(Game is IHasScenes)
+                {
+                    var scenes = new SceneList();
+                    (scenes as IHasContext).SetContext(this);
+                    (scenes as IHasGame).Game = Game;
+                    SetLogger(scenes);
+                    (Game as IHasScenes).Scenes = scenes;
+                }
                 Game.Initialize();
+
+                if ((Game as IHasScenes)?.Scenes.Window == null)
+                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if ((Game as IHasScenes)?.Scenes.Canvas == null)
+                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if ((Game as IHasScenes)?.Scenes.ContentLoader == null)
+                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Game.GetType().FullName}'");
 
                 Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");
 
@@ -141,7 +192,7 @@ namespace TypeOEngine.Typedeaf.Core
                     if (!Hardwares.ContainsKey(property.PropertyType))
                     {
                         var message = $"Hardware type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'";
-                        Logger.Log(LogLevel.Error, message);
+                        Logger.Log(LogLevel.Fatal, message);
                         throw new InvalidOperationException(message);
                     }
 
@@ -163,7 +214,7 @@ namespace TypeOEngine.Typedeaf.Core
                     if (!Services.ContainsKey(property.PropertyType))
                     {
                         var message = $"Service type '{property.PropertyType.Name}' is not loaded for '{obj.GetType().Name}'";
-                        Logger.Log(LogLevel.Error, message);
+                        Logger.Log(LogLevel.Fatal, message);
                         throw new InvalidOperationException(message);
                     }
 
@@ -183,6 +234,7 @@ namespace TypeOEngine.Typedeaf.Core
                         continue;
                     }
 
+                    Logger.Log($"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Logger);
                     break;
                 }

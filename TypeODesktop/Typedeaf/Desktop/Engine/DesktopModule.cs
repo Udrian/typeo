@@ -5,10 +5,12 @@ namespace TypeOEngine.Typedeaf.SDL
 {
     public partial class DesktopModule : Module
     {
+        public bool SaveLogsToDisk { get; private set; }
         public string LogPath { get; private set; }
 
         public DesktopModule(TypeO typeO) : base(typeO)
         {
+            SaveLogsToDisk = true;
             LogPath = null;
         }
 
@@ -20,7 +22,7 @@ namespace TypeOEngine.Typedeaf.SDL
         {
             if(TypeO.Context.Logger is DefaultLogger)
             {
-                (TypeO.Context.Logger as DefaultLogger).LogToDisk = true;
+                (TypeO.Context.Logger as DefaultLogger).LogToDisk = SaveLogsToDisk;
                 if(!string.IsNullOrEmpty(LogPath))
                 {
                     (TypeO.Context.Logger as DefaultLogger).LogPath = LogPath;
@@ -32,6 +34,12 @@ namespace TypeOEngine.Typedeaf.SDL
         public ITypeO SetDefaultLoggerPath(string logPath)
         {
             LogPath = logPath;
+            return TypeO;
+        }
+
+        public ITypeO SetDefaultLogToDisk(bool saveLogsToDisk)
+        {
+            SaveLogsToDisk = saveLogsToDisk;
             return TypeO;
         }
     }

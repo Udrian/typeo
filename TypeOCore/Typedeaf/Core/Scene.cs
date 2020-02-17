@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using TypeOEngine.Typedeaf.Core.Engine;
+﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -27,57 +23,5 @@ namespace TypeOEngine.Typedeaf.Core
 
         public abstract void OnExit(Scene to);
         public abstract void OnEnter(Scene from);
-    }
-
-    namespace Engine.Graphics
-    {
-        partial class Window
-        {
-            private Dictionary<Type, Scene> Scenes { get; set; }
-            public Scene CurrentScene { get; private set; }
-
-            public void CreateScene<S>() where S : Scene, new()
-            {
-                if (!Scenes.ContainsKey(typeof(S)))
-                {
-                    var scene = new S();
-                    Scenes.Add(scene.GetType(), scene);
-                    if(scene is IHasGame)
-                    {
-                        (scene as IHasGame).Game = Game;
-                    }
-                    Context.SetLogger(scene);
-
-                    scene.Window = this;
-                    scene.Canvas = CreateCanvas();
-                    scene.ContentLoader = CreateContentLoader(scene.Canvas);
-                    scene.Entities = new EntityList()
-                    {
-                        Game = Game,
-                        Scene = scene
-                    };
-                    (scene.Entities as IHasContext).Context = Context;
-                    Context.SetServices(scene);
-                }
-            }
-
-            public S SetScene<S>() where S : Scene, new()
-            {
-                var init = false;
-                if (!Scenes.ContainsKey(typeof(S)))
-                {
-                    CreateScene<S>();
-                    init = true;
-                }
-                var fromScene = CurrentScene;
-                var toScene = Scenes[typeof(S)];
-                CurrentScene?.OnExit(toScene);
-                CurrentScene = toScene;
-                CurrentScene?.OnEnter(fromScene);
-                if (init)
-                    CurrentScene.Initialize();
-                return Scenes[typeof(S)] as S;
-            }
-        }
     }
 }
