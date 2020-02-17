@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
@@ -24,9 +25,11 @@ namespace TypeOEngine.Typedeaf.SDL
                     SDLRenderer = SDL2.SDL.SDL_CreateRenderer(sdlWindow, -1, SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
                     if (SDLRenderer == SDL_Renderer.Zero)
                     {
-                        Logger.Log(LogLevel.Fatal, $"Error creating SDLRenderer with error: {SDL2.SDL.SDL_GetError()}");
+                        var message = $"Error creating SDLRenderer with error: {SDL2.SDL.SDL_GetError()}";
+                        Logger.Log(LogLevel.Fatal, message);
                         SDL2.SDL.SDL_DestroyWindow(sdlWindow);
                         SDL2.SDL.SDL_Quit();
+                        throw new InvalidOperationException(message);
                     }
                 }
             }

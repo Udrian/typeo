@@ -1,4 +1,5 @@
-﻿using TypeOEngine.Typedeaf.Core.Common;
+﻿using System;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
@@ -20,8 +21,10 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL_Window = SDL2.SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
                 if (SDL_Window == SDL_Window.Zero)
                 {
-                    Logger.Log(LogLevel.Fatal, $"Error creating SDLWindow with error: {SDL2.SDL.SDL_GetError()}");
+                    var message = $"Error creating SDLWindow with error: {SDL2.SDL.SDL_GetError()}";
+                    Logger.Log(LogLevel.Fatal, message);
                     SDL2.SDL.SDL_Quit();
+                    throw new InvalidOperationException(message);
                 }
 
                 if (fullscreen)
@@ -96,7 +99,6 @@ namespace TypeOEngine.Typedeaf.SDL
                 {
                     Window = this
                 };
-                canvas.Initialize();
                 return canvas;
             }
 

@@ -62,6 +62,7 @@ namespace TypeOEngine.Typedeaf.Core
                         (scene.Canvas as IHasContext).Context = Context;
                     }
                     Context.SetLogger(scene.Canvas);
+                    scene.Canvas.Initialize();
 
                     scene.ContentLoader = CreateContentLoader(scene.Canvas);
                     (scene.ContentLoader as IHasContext).Context = Context;
