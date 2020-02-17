@@ -49,7 +49,7 @@ namespace SpaceInvader.Scenes
             }
             if(AlienSpawns == 0 && Entities.List<AlienGround>().ToList().Count() == 0)
             {
-                Game.Window.SetScene<PlayScene>();
+                Game.Scenes.SetScene<PlayScene>();
             }
 
             if (KeyboardInputService.IsPressed("Shoot"))
