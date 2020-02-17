@@ -11,11 +11,12 @@ namespace SpaceInvader
         {
             TypeO.Create<SpaceInvaderGame>("Space invader")
                 .LoadModule<DesktopModule>()
+                .SetDefaultLogToDisk(false)
                 .LoadModule<SDLModule>()
                 .AddDefaultSDLServices()
                 .AddDefaultSDLHardware()
                 .AddDefaultSDLContentBinding()
-                .SetLogger(LogLevel.Debug)
+                .SetLogger(LogLevel.Info)
                 .Start();
         }
     }

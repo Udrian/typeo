@@ -28,7 +28,7 @@ namespace TypeOEngine.Typedeaf.Core
             protected List<IIsDrawable> IsDrawables;
             protected List<IHasEntities> HasEntities;
 
-            public EntityList()
+            internal EntityList()
             {
                 Entities = new List<Entity>();
                 Updatables = new List<IIsUpdatable>();
@@ -62,7 +62,7 @@ namespace TypeOEngine.Typedeaf.Core
                     Parent = Entity
                 };
 
-                Logger.Log($"Creating Entity of type '{typeof(E).FullName}'");
+                Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
 
                 (entity as IHasData)?.CreateData();
 

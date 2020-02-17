@@ -6,6 +6,8 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {
@@ -25,8 +27,9 @@ namespace TypeOEngine.Typedeaf.Desktop
                 Logger.Log($"Createing Window");
                 var window = WindowHardware.CreateWindow();
                 window.Game = Game;
-                (window as IHasContext).SetContext(Context);
+                (window as IHasContext)?.SetContext(Context);
                 Context.SetLogger(window);
+
                 return window;
             }
 
@@ -37,6 +40,34 @@ namespace TypeOEngine.Typedeaf.Desktop
                 window.Initialize(title, position, size, fullscreen, borderless);
 
                 return window;
+            }
+
+            public Canvas CreateCanvas(Window window)
+            {
+                var canvas = WindowHardware.CreateCanvas(window);
+
+                (canvas as IHasContext)?.SetContext(Context);
+                Context.SetLogger(canvas);
+                canvas.Initialize();
+
+                return canvas;
+            }
+
+            public Canvas CreateCanvas(Window window, Rectangle viewport)
+            {
+                var canvas = CreateCanvas(window);
+                canvas.Viewport = viewport;
+                return canvas;
+            }
+
+            public ContentLoader CreateContentLoader(Canvas canvas)
+            {
+                var contentLoader = WindowHardware.CreateContentLoader(canvas);
+
+                (contentLoader as IHasContext)?.SetContext(Context);
+                Context.SetLogger(contentLoader);
+
+                return contentLoader;
             }
         }
     }

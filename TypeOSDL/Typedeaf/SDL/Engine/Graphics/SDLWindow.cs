@@ -1,11 +1,7 @@
 ﻿using System;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
-using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Window = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -91,27 +87,6 @@ namespace TypeOEngine.Typedeaf.SDL
                     if (SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
                 }
-            }
-
-            public override Canvas CreateCanvas()
-            {
-                var canvas = new SDLCanvas
-                {
-                    Window = this
-                };
-                return canvas;
-            }
-
-            public override Canvas CreateCanvas(Rectangle viewport)
-            {
-                var canvas = CreateCanvas();
-                canvas.Viewport = viewport;
-                return canvas;
-            }
-
-            public override ContentLoader CreateContentLoader(Canvas canvas)
-            {
-                return new SDLContentLoader((SDLCanvas)canvas, Context.ContentBinding);
             }
         }
     }

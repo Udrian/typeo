@@ -114,21 +114,6 @@ namespace TypeODesktopTest
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
             }
-
-            public override Canvas CreateCanvas()
-            {
-                return new TestCanvas();
-            }
-
-            public override Canvas CreateCanvas(Rectangle viewport)
-            {
-                return new TestCanvas();
-            }
-
-            public override ContentLoader CreateContentLoader(Canvas canvas)
-            {
-                return new TestContentLoader(canvas, null);
-            }
         }
 
         public class TestWindowHardware : Hardware, IWindowHardware
@@ -140,6 +125,16 @@ namespace TypeODesktopTest
             public DesktopWindow CreateWindow()
             {
                 return new TestWindow();
+            }
+
+            public Canvas CreateCanvas(Window desktopWindow)
+            {
+                return new TestCanvas();
+            }
+
+            public ContentLoader CreateContentLoader(Canvas canvas)
+            {
+                return new TestContentLoader(canvas, null);
             }
         }
 
@@ -160,6 +155,21 @@ namespace TypeODesktopTest
             {
                 return WindowHardware.CreateWindow();
             }
+
+            public Canvas CreateCanvas(Window window)
+            {
+                return WindowHardware.CreateCanvas(window);
+            }
+
+            public Canvas CreateCanvas(Window window, Rectangle viewport)
+            {
+                return WindowHardware.CreateCanvas(window);
+            }
+
+            public ContentLoader CreateContentLoader(Canvas canvas)
+            {
+                return WindowHardware.CreateContentLoader(canvas);
+            }
         }
 
         [Fact]
@@ -174,18 +184,18 @@ namespace TypeODesktopTest
             Assert.NotNull(testGame.WindowService);
             Assert.IsType<TestWindowService>(testGame.WindowService);
 
-            Assert.NotNull(testGame.WindowService.WindowHardware);
-            Assert.IsType<TestWindowHardware>(testGame.WindowService.WindowHardware);
+            Assert.NotNull((testGame.WindowService as TestWindowService)?.WindowHardware);
+            Assert.IsType<TestWindowHardware>((testGame.WindowService as TestWindowService)?.WindowHardware);
 
             var window = testGame.WindowService.CreateWindow();
             Assert.NotNull(window);
             Assert.IsType<TestWindow>(window);
 
-            var canvas = window.CreateCanvas();
+            var canvas = testGame.WindowService.CreateCanvas(window);
             Assert.NotNull(canvas);
             Assert.IsType<TestCanvas>(canvas);
 
-            var contentLoader = window.CreateContentLoader(canvas);
+            var contentLoader = testGame.WindowService.CreateContentLoader(canvas);
             Assert.NotNull(contentLoader);
             Assert.IsType<TestContentLoader>(contentLoader);
         }

@@ -125,7 +125,22 @@ namespace TypeOEngine.Typedeaf.Core
                 //Initialize the game
                 SetServices(Game);
                 SetLogger(Game);
+                if(Game is IHasScenes)
+                {
+                    var scenes = new SceneList();
+                    (scenes as IHasContext).SetContext(this);
+                    (scenes as IHasGame).Game = Game;
+                    SetLogger(scenes);
+                    (Game as IHasScenes).Scenes = scenes;
+                }
                 Game.Initialize();
+
+                if ((Game as IHasScenes)?.Scenes.Window == null)
+                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if ((Game as IHasScenes)?.Scenes.Canvas == null)
+                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if ((Game as IHasScenes)?.Scenes.ContentLoader == null)
+                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Game.GetType().FullName}'");
 
                 Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");
 
