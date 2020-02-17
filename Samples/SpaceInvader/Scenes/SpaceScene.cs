@@ -6,9 +6,9 @@ using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Common;
 
-namespace SpaceInvader
+namespace SpaceInvader.Scenes
 {
-    public class PlayScene : Scene, IHasGame<SpaceInvaderGame>
+    public class SpaceScene : Scene, IHasGame<SpaceInvaderGame>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 

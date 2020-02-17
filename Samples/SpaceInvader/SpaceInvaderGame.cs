@@ -7,6 +7,7 @@ using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Interfaces;
+using SpaceInvader.Scenes;
 
 namespace SpaceInvader
 {
@@ -38,7 +39,7 @@ namespace SpaceInvader
             Scenes.Window = Window;
             Scenes.Canvas = WindowService.CreateCanvas(Window);
             Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
-            Scenes.SetScene<PlayScene>();
+            Scenes.SetScene<SpaceScene>();
         }
 
         public override void Draw()
