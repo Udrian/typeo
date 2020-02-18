@@ -124,14 +124,6 @@ namespace TypeOEngine.Typedeaf.Core
                 InitializeObject(Game);
                 Game.Initialize();
 
-                //TODO: make Initialize into a interface and move code belove to InitializeObject after Initialize
-                if ((Game as IHasScenes)?.Scenes.Window == null)
-                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
-                if ((Game as IHasScenes)?.Scenes.Canvas == null)
-                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Game.GetType().FullName}'");
-                if ((Game as IHasScenes)?.Scenes.ContentLoader == null)
-                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Game.GetType().FullName}'");
-
                 Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");
 
                 Logger.Log($"Everything loaded successfully, spinning up game loop");
@@ -212,14 +204,6 @@ namespace TypeOEngine.Typedeaf.Core
                         (obj as IHasScene).Scene = (from as IHasScene)?.Scene;
                     }
                     Logger.Log(LogLevel.Debug, $"Injecting Scene of type '{(obj as IHasScene).Scene?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
-                }
-
-                if (obj is IHasScenes)
-                {
-                    Logger.Log(LogLevel.Debug, $"Creating SceneList in {obj.GetType().FullName}");
-                    var scenes = new SceneList();
-                    InitializeObject(scenes, obj);
-                    (obj as IHasScenes).Scenes = scenes;
                 }
 
                 if (obj is IHasDrawable)

@@ -7,6 +7,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     public abstract partial class Scene : IHasEntities
     {
+        public SceneList Scenes { get; set; }
         public Window Window { get; set; }
         public Canvas Canvas { get; set; }
         public ContentLoader ContentLoader { get; set; }

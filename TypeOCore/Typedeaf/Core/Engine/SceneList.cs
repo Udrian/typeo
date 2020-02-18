@@ -20,7 +20,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
         public Canvas Canvas { get; set; }
         public ContentLoader ContentLoader { get; set; }
 
-        public SceneList()
+        internal SceneList()
         {
             Scenes = new Dictionary<Type, Scene>();
         }
@@ -34,6 +34,14 @@ namespace TypeOEngine.Typedeaf.Core.Engine
                 Context.InitializeObject(scene);
                 Scenes.Add(scene.GetType(), scene);
 
+                if (Window == null)
+                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if (Canvas == null)
+                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                if (ContentLoader == null)
+                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+
+                scene.Scenes = this;
                 scene.Window = Window;
                 scene.Canvas = Canvas;
                 scene.ContentLoader = ContentLoader;
@@ -56,6 +64,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             CurrentScene?.OnEnter(fromScene);
             if (init)
                 CurrentScene.Initialize();
+
             return Scenes[typeof(S)] as S;
         }
 

@@ -12,6 +12,13 @@ namespace TypeOEngine.Typedeaf.Core
 
         protected Game() {}
 
+        public SceneList CreateScenes()
+        {
+            var scenes = new SceneList();
+            Context.InitializeObject(scenes);
+            return scenes;
+        }
+
         public abstract void Initialize();
         public abstract void Update(double dt);
         public abstract void Draw();

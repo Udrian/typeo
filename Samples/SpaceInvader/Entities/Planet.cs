@@ -37,7 +37,7 @@ namespace SpaceInvader.Entities
             {
                 Remove();
                 Scene.PlanetSpawned = false;
-                Game.Scenes.SetScene<PlanetScene>();
+                Scene.Scenes.SetScene<PlanetScene>();
             }
 
             if (Position.Y >= Scene.Window.Size.Y)

@@ -1,17 +1,15 @@
 using SDL2;
 using TypeOEngine.Typedeaf.Core;
 using System;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 using SpaceInvader.Scenes;
 
 namespace SpaceInvader
 {
-    public class SpaceInvaderGame : Game, IHasScenes
+    public class SpaceInvaderGame : Game
     {
         public ILogger Logger { get; set; }
         public IWindowService WindowService { get; set; }
@@ -33,6 +31,8 @@ namespace SpaceInvader
             KeyboardInputService.SetKeyAlias("Left", SDL.SDL_Keycode.SDLK_LEFT);
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
+
+            Scenes = CreateScenes();
 
             Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize); ;
             Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);

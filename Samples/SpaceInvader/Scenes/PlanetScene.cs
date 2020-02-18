@@ -16,7 +16,6 @@ namespace SpaceInvader.Scenes
         public SpaceInvaderGame Game { get; set; }
         public PlayerGround Player { get; set; }
 
-
         public int AlienSpawns { get; set; } = 100;
         public double AlienSpawnTimer { get; set; } = 0;
         public double AlienSpawnTime { get; set; } = 0.25;
@@ -49,7 +48,7 @@ namespace SpaceInvader.Scenes
             }
             if(AlienSpawns == 0 && Entities.List<AlienGround>().ToList().Count() == 0)
             {
-                Game.Scenes.SetScene<SpaceScene>();
+                Scenes.SetScene<SpaceScene>();
             }
 
             if (KeyboardInputService.IsPressed("Shoot"))
