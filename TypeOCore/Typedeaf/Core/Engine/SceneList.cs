@@ -31,25 +31,12 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             {
                 Logger.Log($"Creating Scene '{typeof(S).FullName}'");
                 var scene = new S();
+                Context.InitializeObject(scene);
                 Scenes.Add(scene.GetType(), scene);
-                if (scene is IHasGame)
-                {
-                    (scene as IHasGame).Game = Game;
-                }
-                Context.SetLogger(scene);
 
                 scene.Window = Window;
                 scene.Canvas = Canvas;
                 scene.ContentLoader = ContentLoader;
-
-                scene.Entities = new EntityList()
-                {
-                    Game = Game,
-                    Scene = scene
-                };
-                (scene.Entities as IHasContext).Context = Context;
-                Context.SetLogger(scene.Entities);
-                Context.SetServices(scene);
             }
         }
 

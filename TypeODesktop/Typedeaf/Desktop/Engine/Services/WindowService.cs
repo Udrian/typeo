@@ -24,11 +24,9 @@ namespace TypeOEngine.Typedeaf.Desktop
 
             public DesktopWindow CreateWindow()
             {
-                Logger.Log($"Createing Window");
                 var window = WindowHardware.CreateWindow();
-                window.Game = Game;
-                (window as IHasContext)?.SetContext(Context);
-                Context.SetLogger(window);
+                Logger.Log($"Creating Window of type '{window.GetType().FullName}'");
+                Context.InitializeObject(window);
 
                 return window;
             }
@@ -45,9 +43,8 @@ namespace TypeOEngine.Typedeaf.Desktop
             public Canvas CreateCanvas(Window window)
             {
                 var canvas = WindowHardware.CreateCanvas(window);
-
-                (canvas as IHasContext)?.SetContext(Context);
-                Context.SetLogger(canvas);
+                Logger.Log($"Creating Canvas of type '{canvas.GetType().FullName}'");
+                Context.InitializeObject(canvas);
                 canvas.Initialize();
 
                 return canvas;
@@ -63,9 +60,8 @@ namespace TypeOEngine.Typedeaf.Desktop
             public ContentLoader CreateContentLoader(Canvas canvas)
             {
                 var contentLoader = WindowHardware.CreateContentLoader(canvas);
-
-                (contentLoader as IHasContext)?.SetContext(Context);
-                Context.SetLogger(contentLoader);
+                Logger.Log($"Creating ContentLoader of type '{canvas.GetType().FullName}'");
+                Context.InitializeObject(contentLoader);
 
                 return contentLoader;
             }

@@ -1,8 +1,4 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Interfaces;
-
-namespace TypeOEngine.Typedeaf.Core
+﻿namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Interfaces
     {
@@ -11,7 +7,7 @@ namespace TypeOEngine.Typedeaf.Core
             public bool PauseLogic { get; set; }
             public Logic Logic { get; set; }
 
-            public void CreateLogic(Entity entity);
+            public void CreateLogic();
         }
 
         public interface IHasLogic<L> : IHasLogic where L : Logic, new()
@@ -19,19 +15,9 @@ namespace TypeOEngine.Typedeaf.Core
             Logic IHasLogic.Logic { get { return Logic; } set { Logic = value as L; } }
             public new L Logic { get; set; }
 
-            void IHasLogic.CreateLogic(Entity entity)
+            void IHasLogic.CreateLogic()
             {
                 Logic = new L();
-
-                if (Logic is IHasEntity)
-                {
-                    (Logic as IHasEntity).Entity = entity;
-                }
-
-                if (Logic is IHasData)
-                {
-                    (Logic as IHasData).EntityData = (entity as IHasData)?.EntityData;
-                }
             }
         }
     }

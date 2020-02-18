@@ -5,6 +5,8 @@ using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -50,7 +52,9 @@ namespace TypeOEngine.Typedeaf.Core
                         LogLevel = LogLevel.None
                     };
                 }
+                //We need to set Context here before so that the logger works in InitializeObject
                 (Logger as IHasContext)?.SetContext(this);
+                InitializeObject(Logger);
                 Logger.Log($"\n\r\n\rGame started at: {DateTime.UtcNow.ToString()}");
 
                 //Check if all referenced modules are loaded
@@ -77,7 +81,7 @@ namespace TypeOEngine.Typedeaf.Core
                 //Initialize Hardware
                 foreach (var hardware in Hardwares.Values)
                 {
-                    SetLogger(hardware);
+                    InitializeObject(hardware);
                     hardware.Initialize();
 
                     Logger.Log($"Hardware of type '{hardware.GetType().FullName}' loaded");
@@ -87,11 +91,7 @@ namespace TypeOEngine.Typedeaf.Core
                 foreach (var servicePair in Services)
                 {
                     var service = servicePair.Value;
-                    //Add Hardware to service using reflection on the Service properties
-                    SetHardwares(service);
-                    SetServices(service);
-                    SetLogger(service);
-
+                    InitializeObject(service);
                     service.Initialize();
 
                     Logger.Log($"Service of type '{service.GetType().FullName}' loaded");
@@ -100,9 +100,7 @@ namespace TypeOEngine.Typedeaf.Core
                 //Set modules Hardware and initialize
                 foreach (var module in Modules)
                 {
-                    SetHardwares(module);
-                    SetServices(module);
-                    SetLogger(module);
+                    InitializeObject(module);
                     module.Initialize();
 
                     Logger.Log($"Module of type '{module.GetType().FullName}' loaded");
@@ -123,18 +121,10 @@ namespace TypeOEngine.Typedeaf.Core
                 }
 
                 //Initialize the game
-                SetServices(Game);
-                SetLogger(Game);
-                if(Game is IHasScenes)
-                {
-                    var scenes = new SceneList();
-                    (scenes as IHasContext).SetContext(this);
-                    (scenes as IHasGame).Game = Game;
-                    SetLogger(scenes);
-                    (Game as IHasScenes).Scenes = scenes;
-                }
+                InitializeObject(Game);
                 Game.Initialize();
 
+                //TODO: make Initialize into a interface and move code belove to InitializeObject after Initialize
                 if ((Game as IHasScenes)?.Scenes.Window == null)
                     Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
                 if ((Game as IHasScenes)?.Scenes.Canvas == null)
@@ -179,6 +169,96 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
+            public void InitializeObject(object obj, object from = null)
+            {
+                Logger.Log($"Initializing obj '{obj.GetType().FullName}'" + (from != null ? $" from '{from.GetType().FullName}'" : ""));
+
+                (obj as IHasContext)?.SetContext(this);
+                SetHardwares(obj);
+                SetServices(obj);
+                SetLogger(obj);
+
+                if(obj is IHasGame)
+                {
+                    Logger.Log(LogLevel.Debug, $"Injecting Game of type '{Game.GetType().FullName}' into {obj.GetType().FullName}");
+                    (obj as IHasGame).Game = Game;
+                }
+
+                if((obj is IHasData))
+                {
+                    var hasData = (obj as IHasData);
+
+                    if(obj is Logic && from is IHasData)
+                    {
+                        (obj as IHasData).EntityData = (from as IHasData).EntityData;
+                        Logger.Log(LogLevel.Debug, $"Injecting EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                    }
+                    else
+                    {
+                        hasData.CreateData();
+                        Logger.Log(LogLevel.Debug, $"Creating EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' into {obj.GetType().FullName}");
+                        hasData.EntityData.Initialize();
+                    }
+                }
+
+                if (obj is IHasScene)
+                {
+                    if (from is Scene)
+                    {
+                        (obj as IHasScene).Scene = from as Scene;
+                    }
+                    else
+                    {
+                        (obj as IHasScene).Scene = (from as IHasScene)?.Scene;
+                    }
+                    Logger.Log(LogLevel.Debug, $"Injecting Scene of type '{(obj as IHasScene).Scene?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                }
+
+                if (obj is IHasScenes)
+                {
+                    Logger.Log(LogLevel.Debug, $"Creating SceneList in {obj.GetType().FullName}");
+                    var scenes = new SceneList();
+                    InitializeObject(scenes, obj);
+                    (obj as IHasScenes).Scenes = scenes;
+                }
+
+                if (obj is IHasDrawable)
+                {
+                    var hasDrawable = obj as IHasDrawable;
+
+                    hasDrawable.CreateDrawable(obj as Entity);
+                    Logger.Log(LogLevel.Debug, $"Creating Drawable of type '{hasDrawable.Drawable?.GetType().FullName}' into {obj.GetType().FullName}");
+                    InitializeObject(hasDrawable.Drawable, obj);
+
+                    hasDrawable.Drawable.Initialize();
+                }
+
+                if (obj is IHasEntity)
+                {
+                    (obj as IHasEntity).Entity = from as Entity;
+                    Logger.Log(LogLevel.Debug, $"Injecting Entity of type '{(obj as IHasEntity).Entity?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                }
+
+                if (obj is IHasEntities)
+                {
+                    var hasEntities = obj as IHasEntities;
+
+                    hasEntities.Entities = new EntityList();
+                    Logger.Log(LogLevel.Debug, $"Creating EntityList in {obj.GetType().FullName}");
+                    InitializeObject(hasEntities.Entities, obj);
+                }
+
+                if (obj is IHasLogic)
+                {
+                    var hasLogic = obj as IHasLogic;
+                    hasLogic.CreateLogic();
+                    Logger.Log(LogLevel.Debug, $"Creating Logic of type '{hasLogic.Logic.GetType().FullName}' into {obj.GetType().FullName}");
+                    InitializeObject(hasLogic.Logic, obj);
+
+                    hasLogic.Logic.Initialize();
+                }
+            }
+
             private void SetHardwares(object obj)
             {
                 var type = obj.GetType();
@@ -201,7 +281,7 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
-            public void SetServices(object obj)
+            private void SetServices(object obj)
             {
                 var type = obj.GetType();
                 var properties = type.GetProperties();
@@ -223,7 +303,7 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
-            public void SetLogger(object obj)
+            private void SetLogger(object obj)
             {
                 var type = obj.GetType();
                 var properties = type.GetProperties();

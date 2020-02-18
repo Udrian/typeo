@@ -18,8 +18,6 @@ namespace TypeOEngine.Typedeaf.Core
             void IHasData.CreateData()
             {
                 EntityData = (D)Activator.CreateInstance(typeof(D));
-
-                EntityData.Initialize();
             }
         }
     }

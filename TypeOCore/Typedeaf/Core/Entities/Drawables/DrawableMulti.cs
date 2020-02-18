@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public class DrawableMulti : Drawable
+        public class DrawableMulti : Drawable, IHasContext
         {
+            Context IHasContext.Context { get; set; }
+            private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
+
             protected List<Drawable> Drawables { get; set; }
 
             public DrawableMulti() : base() { }
@@ -32,11 +36,7 @@ namespace TypeOEngine.Typedeaf.Core
                     Entity = Entity
                 };
 
-                if (drawable is IHasGame)
-                {
-                    (drawable as IHasGame).Game = (Entity as IHasGame)?.Game;
-                }
-
+                Context.InitializeObject(drawable, Entity);
                 drawable.Initialize();
 
                 Drawables.Add(drawable);

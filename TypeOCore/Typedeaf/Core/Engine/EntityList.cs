@@ -63,24 +63,8 @@ namespace TypeOEngine.Typedeaf.Core
                 };
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
-
-                (entity as IHasData)?.CreateData();
-
-                if(entity is IHasContext)
-                {
-                    (entity as IHasContext).Context = Context;
-                }
-                if(entity is IHasGame)
-                {
-                    (entity as IHasGame).Game = Game;
-                }
-                if(entity is IHasScene)
-                {
-                    (entity as IHasScene).Scene = Scene;
-                }
-
-                Context.SetServices(entity);
-                Context.SetLogger(entity);
+                Context.InitializeObject(entity, this);
+                entity.Initialize();
 
                 if (entity is IIsUpdatable)
                 {
@@ -89,17 +73,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if (entity is IHasDrawable)
                 {
-                    var hasDrawableEntity = entity as IHasDrawable;
-
-                    hasDrawableEntity.CreateDrawable(entity);
-
-                    if (hasDrawableEntity.Drawable is IHasGame)
-                    {
-                        (hasDrawableEntity.Drawable as IHasGame).Game = Game;
-                    }
-
-                    hasDrawableEntity.Drawable.Initialize();
-                    HasDrawables.Add(hasDrawableEntity);
+                    HasDrawables.Add(entity as IHasDrawable);
                 }
 
                 if (entity is IIsDrawable)
@@ -109,41 +83,14 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if(entity is IHasEntities)
                 {
-                    var hasEntitiesEntity = entity as IHasEntities;
-
-                    hasEntitiesEntity.Entities = new EntityList()
-                    {
-                        Game = Game,
-                        Scene = Scene,
-                        Entity = entity
-                    };
-                    (hasEntitiesEntity.Entities as IHasContext).Context = Context;
-                    Context.SetLogger(hasEntitiesEntity.Entities);
-                    Context.SetServices(hasEntitiesEntity.Entities);
-
-                    HasEntities.Add(hasEntitiesEntity);
+                    HasEntities.Add(entity as IHasEntities);
                 }
 
                 if (entity is IHasLogic)
                 {
-                    var hasLogicEntity = entity as IHasLogic;
-                    hasLogicEntity.CreateLogic(entity);
-                    Context.SetServices(hasLogicEntity.Logic);
-
-                    if (hasLogicEntity.Logic is IHasGame)
-                    {
-                        (hasLogicEntity.Logic as IHasGame).Game = (entity as IHasGame)?.Game;
-                    }
-                    if (hasLogicEntity.Logic is IHasScene)
-                    {
-                        (hasLogicEntity.Logic as IHasScene).Scene = Scene;
-                    }
-
-                    hasLogicEntity.Logic.Initialize();
-                    HasLogics.Add(hasLogicEntity);
+                    HasLogics.Add(entity as IHasLogic);
                 }
 
-                entity.Initialize();
                 Entities.Add(entity);
 
                 return entity;

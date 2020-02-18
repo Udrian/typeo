@@ -44,8 +44,7 @@ namespace TypeOEngine.Typedeaf.Core
                     content = Activator.CreateInstance(typeof(C)) as Content;
                 }
 
-                Context.SetServices(content);
-                Context.SetLogger(content);
+                Context.InitializeObject(content);
 
                 content.Load(path, this);
                 return content as C;

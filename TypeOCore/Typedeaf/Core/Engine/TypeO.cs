@@ -5,7 +5,6 @@ using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -20,7 +19,6 @@ namespace TypeOEngine.Typedeaf.Core
                     Context = new Context(new G(), name)
                 };
 
-                (typeO.Context.Game as IHasContext).SetContext(typeO.Context);
                 return typeO;
             }
 
@@ -36,11 +34,6 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 //Instantiate the Service
                 var service = new S();
-                (service as IHasContext).SetContext(Context);
-                if(service is IHasGame)
-                {
-                    (service as IHasGame).Game = Context.Game;
-                }
 
                 Context.Services.Add(typeof(I), service);
                 return this;
@@ -52,11 +45,6 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 //Instantiate the Hardware
                 var hardware = new H();
-                (hardware as IHasContext).SetContext(Context);
-                if (hardware is IHasGame)
-                {
-                    (hardware as IHasGame).Game = Context.Game;
-                }
 
                 Context.Hardwares.Add(typeof(I), hardware);
                 return this;
@@ -88,24 +76,20 @@ namespace TypeOEngine.Typedeaf.Core
             public M LoadModule<M>() where M : Module
             {
                 var module = (M)Activator.CreateInstance(typeof(M), this);
-                if (module is IHasGame)
-                {
-                    (module as IHasGame).Game = Context.Game;
-                }
 
                 Context.Modules.Add(module);
                 return module;
-            }
-
-            public void Start()
-            {
-                Context.Start();
             }
 
             public ITypeO ReferenceModule<M>() where M : Module
             {
                 Context.ModuleReferences.Add(typeof(M));
                 return this;
+            }
+
+            public void Start()
+            {
+                Context.Start();
             }
         }
     }

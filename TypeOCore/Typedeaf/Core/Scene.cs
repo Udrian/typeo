@@ -1,10 +1,11 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract partial class Scene
+    public abstract partial class Scene : IHasEntities
     {
         public Window Window { get; set; }
         public Canvas Canvas { get; set; }
