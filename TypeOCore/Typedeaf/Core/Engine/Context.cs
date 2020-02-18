@@ -163,7 +163,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void InitializeObject(object obj, object from = null)
             {
-                Logger.Log($"Initializing obj '{obj.GetType().FullName}'" + (from != null ? $" from '{from.GetType().FullName}'" : ""));
+                Logger.Log(LogLevel.Debug, $"Initializing obj '{obj.GetType().FullName}'" + (from != null ? $" from '{from.GetType().FullName}'" : ""));
 
                 (obj as IHasContext)?.SetContext(this);
                 SetHardwares(obj);
@@ -260,7 +260,7 @@ namespace TypeOEngine.Typedeaf.Core
                         throw new InvalidOperationException(message);
                     }
 
-                    Logger.Log($"Hardware '{Hardwares[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Debug, $"Hardware '{Hardwares[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Hardwares[property.PropertyType]);
                 }
             }
@@ -282,7 +282,7 @@ namespace TypeOEngine.Typedeaf.Core
                         throw new InvalidOperationException(message);
                     }
 
-                    Logger.Log($"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Debug, $"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Services[property.PropertyType]);
                 }
             }
@@ -298,7 +298,7 @@ namespace TypeOEngine.Typedeaf.Core
                         continue;
                     }
 
-                    Logger.Log($"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Debug, $"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Logger);
                     break;
                 }
