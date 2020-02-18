@@ -5,7 +5,7 @@ using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract partial class Scene : IHasEntities
+    public abstract class Scene : IHasEntities
     {
         public SceneList Scenes { get; set; }
         public Window Window { get; set; }

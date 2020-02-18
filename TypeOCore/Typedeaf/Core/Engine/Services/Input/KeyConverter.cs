@@ -4,7 +4,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Services.Input
     {
-        public partial class KeyConverter
+        public class KeyConverter
         {
             public KeyConverter()
             {

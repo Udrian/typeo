@@ -7,7 +7,7 @@ namespace TypeOEngine.Typedeaf.SDL
 {
     namespace Engine.Contents
     {
-        public partial class SDLContentLoader : ContentLoader
+        public class SDLContentLoader : ContentLoader
         {
             public new SDLCanvas Canvas { get; set; }
 

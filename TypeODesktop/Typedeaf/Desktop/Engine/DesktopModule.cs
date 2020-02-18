@@ -3,7 +3,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    public partial class DesktopModule : Module
+    public class DesktopModule : Module
     {
         public bool SaveLogsToDisk { get; private set; }
         public string LogPath { get; private set; }

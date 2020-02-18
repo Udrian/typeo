@@ -1,17 +1,22 @@
-﻿using System;
+﻿using SDL2;
+using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Renderer = System.IntPtr;
+using SDL_Font = System.IntPtr;
+using SDL_Image = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
     namespace Engine.Graphics
     {
-        public partial class SDLCanvas : Canvas
+        public class SDLCanvas : Canvas
         {
             public ILogger Logger { get; set; }
             public SDL_Renderer SDLRenderer { get; private set; }
@@ -152,6 +157,151 @@ namespace TypeOEngine.Typedeaf.SDL
                         h = (int)value.Size.Y
                     };
                     SDL2.SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
+                }
+            }
+
+            public override void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null)
+            {
+                DrawText(font, text, pos, null, entity: entity);
+            }
+
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            {
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source, entity);
+
+            }
+
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
+            {
+                const double degreeToRadianConst = 57.2957795131;
+
+                if (!(font is SDLFont sdlFont))
+                {
+                    Logger.Log(LogLevel.Warning, "Font is not of type SDLFont");
+                    return;
+                }
+
+                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
+
+                if (color == null)
+                    color = Color.White;
+                var sdlColor = new SDL2.SDL.SDL_Color
+                {
+                    r = (byte)color.R,
+                    g = (byte)color.G,
+                    b = (byte)color.B,
+                    a = (byte)color.A
+                };
+                var fontSur = SDL_ttf.TTF_RenderText_Solid(sdlFont.SDL_Font, text, sdlColor);
+                var fontTex = SDL2.SDL.SDL_CreateTextureFromSurface(this.SDLRenderer, fontSur);
+
+                SDL2.SDL.SDL_QueryTexture(fontTex, out _, out _, out int w, out int h);
+                var fontSize = new Vec2(w, h);
+                var drect = new SDL2.SDL.SDL_Rect
+                {
+                    x = (int)(pos.X - origin.X),
+                    y = (int)(pos.Y - origin.Y),
+                    w = (int)(fontSize.X * scale.X),
+                    h = (int)(fontSize.Y * scale.Y)
+                };
+
+                var sdlPoint = new SDL2.SDL.SDL_Point
+                {
+                    x = (int)origin.X,
+                    y = (int)origin.Y
+                };
+
+                var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
+                if (flipped == Flipped.Horizontal)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+                else if (flipped == Flipped.Vertical)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+                else if (flipped == Flipped.Both)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+
+                if (source == null)
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (SDL_Font)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                else
+                {
+                    SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
+                    {
+                        x = (int)source.Pos.X,
+                        y = (int)source.Pos.Y,
+                        w = (int)source.Size.X,
+                        h = (int)source.Size.Y
+                    };
+
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                }
+            }
+
+            public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
+            {
+                DrawImage(texture, pos, null, entity: entity);
+            }
+
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            {
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
+
+            }
+
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
+            {
+                const double degreeToRadianConst = 57.2957795131;
+
+                if (!(texture is SDLTexture sdltexture))
+                {
+                    Logger.Log(LogLevel.Warning, "Texture is not of type SDLTexture");
+                    return;
+                }
+
+                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                scale *= entity?.Scale ?? Vec2.One;
+                rotation += entity?.Rotation ?? 0;
+                origin += entity?.Origin ?? Vec2.Zero;
+                //TODO: Blend color and flip entity
+
+                var drect = new SDL2.SDL.SDL_Rect
+                {
+                    x = (int)(pos.X - origin.X),
+                    y = (int)(pos.Y - origin.Y),
+                    w = (int)(texture.Size.X * scale.X),
+                    h = (int)(texture.Size.Y * scale.Y)
+                };
+
+                var sdlPoint = new SDL2.SDL.SDL_Point
+                {
+                    x = (int)origin.X,
+                    y = (int)origin.Y
+                };
+
+                if (color == null)
+                    color = Color.White;
+                SDL2.SDL.SDL_SetTextureColorMod(sdltexture.SDL_Image, (byte)color.R, (byte)color.G, (byte)color.B);
+                SDL2.SDL.SDL_SetTextureAlphaMod(sdltexture.SDL_Image, (byte)color.A);
+
+                var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
+                if (flipped == Flipped.Horizontal)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+                else if (flipped == Flipped.Vertical)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+                else if (flipped == Flipped.Both)
+                    sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+
+                if (source == null)
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (SDL_Image)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                else
+                {
+                    SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
+                    {
+                        x = (int)source.Pos.X,
+                        y = (int)source.Pos.Y,
+                        w = (int)source.Size.X,
+                        h = (int)source.Size.Y
+                    };
+
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
             }
         }

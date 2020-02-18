@@ -3,7 +3,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract partial class Game : IHasContext
+    public abstract class Game : IHasContext
     {
         Context IHasContext.Context { get; set; }
         private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
