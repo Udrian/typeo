@@ -31,7 +31,7 @@ namespace SpaceInvader.Entities
             EntityData.Speed = 250;
             EntityData.Health = 2;
 
-            Position = new Vec2(Game.Random.Next((int)Game.Window.Size.X) - Size.X, -Size.Y);
+            Position = new Vec2(Game.Random.Next((int)Scene.Window.Size.X) - Size.X, -Size.Y);
         }
 
         public void Update(double dt)
@@ -39,7 +39,7 @@ namespace SpaceInvader.Entities
             Position.Y += EntityData.Speed * dt;
 
 
-            if (Position.Y >= Game.Window.Size.Y)
+            if (Position.Y >= Scene.Window.Size.Y)
             {
                 Remove();
             }

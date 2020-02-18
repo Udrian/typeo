@@ -10,9 +10,8 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Alien : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<DownwardSwayLogic>, IHasScene
+    public class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<DownwardSwayLogic>, IHasScene
     {
-        public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
         public bool Pause { get; set; }
         public bool Hidden { get; set; }
@@ -26,9 +25,8 @@ namespace SpaceInvader.Entities
         {
             Size = new Vec2(58, 57);
 
-
             EntityData.SinTime = 0;
-            EntityData.Amplitude = (Game.Window.Size.X / 2) * 0.8;
+            EntityData.Amplitude = (Scene.Window.Size.X / 2) * 0.8;
             EntityData.Frequency = 1;
             EntityData.Phase = 0;
 
@@ -37,7 +35,7 @@ namespace SpaceInvader.Entities
 
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/alien.png");
 
-            Position = new Vec2(Game.Window.Size.X/2, -50);
+            Position = new Vec2(Scene.Window.Size.X/2, -50);
         }
     }
 }

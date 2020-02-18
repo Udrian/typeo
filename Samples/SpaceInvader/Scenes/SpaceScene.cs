@@ -142,6 +142,10 @@ namespace SpaceInvader.Scenes
 
         public override void OnExit(Scene to)
         {
+            foreach (var bullet in Entities.List<Bullet>())
+            {
+                bullet.Remove();
+            }
         }
     }
 }

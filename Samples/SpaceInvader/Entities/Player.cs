@@ -10,11 +10,9 @@ using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Entities
 {
-    public class Player : Entity2d, IHasGame<SpaceInvaderGame>, IHasDrawable<DrawableTexture>, IHasData<PlayerData>, IHasLogic<PlayerMoveLogic>, IHasScene
+    public class Player : Entity2d, IHasDrawable<DrawableTexture>, IHasData<PlayerData>, IHasLogic<PlayerMoveLogic>, IHasScene
     {
-        public SpaceInvaderGame Game { get; set; }
         public DrawableTexture Drawable { get; set; }
-
         public PlayerData EntityData { get; set; }
 
         public bool Pause { get; set; }
@@ -31,7 +29,7 @@ namespace SpaceInvader.Entities
             LoadContent();
             EntityData.Speed = 5;
 
-            Position = new Vec2(100, Game.Window.Size.Y * 0.8f);
+            Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
         }
 
         public virtual void LoadContent()

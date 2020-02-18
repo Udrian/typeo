@@ -19,7 +19,6 @@ namespace SpaceInvader
 
         public Vec2 ScreenSize { get; set; } = new Vec2(640, 480);
         public Random Random { get; set; }
-        public Window Window { get; set; }
         public SceneList Scenes { get; set; }
 
         public int Score { get; set; } = 0;
@@ -35,9 +34,8 @@ namespace SpaceInvader
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
 
-            Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
-            Scenes.Window = Window;
-            Scenes.Canvas = WindowService.CreateCanvas(Window);
+            Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize); ;
+            Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);
             Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
             Scenes.SetScene<SpaceScene>();
         }

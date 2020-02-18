@@ -24,7 +24,7 @@ namespace SpaceInvader.Entities
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/planet.png");
             Size = Drawable.Texture.Size;
 
-            Position = new Vec2(Game.Random.Next((int)(Game.Window.Size.X - Size.X)), -Size.Y);
+            Position = new Vec2(Game.Random.Next((int)(Scene.Window.Size.X - Size.X)), -Size.Y);
             EntityData.Speed = 50;
         }
 
@@ -40,7 +40,7 @@ namespace SpaceInvader.Entities
                 Game.Scenes.SetScene<PlanetScene>();
             }
 
-            if (Position.Y >= Game.Window.Size.Y)
+            if (Position.Y >= Scene.Window.Size.Y)
             {
                 Remove();
                 Scene.PlanetSpawned = false;

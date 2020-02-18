@@ -7,12 +7,13 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Logics
 {
-    public class PlayerMoveLogic : Logic, IHasEntity<Entity2d>, IHasData<IMovementData>, IHasGame<SpaceInvaderGame>
+    public class PlayerMoveLogic : Logic, IHasEntity<Entity2d>, IHasData<IMovementData>, IHasScene
     {
-        public Entity2d Entity { get; set; }
         public IKeyboardInputService KeyboardInputService { get; set; }
+
+        public Entity2d Entity { get; set; }
         public IMovementData EntityData { get; set; }
-        public SpaceInvaderGame Game { get; set; }
+        public Scene Scene { get; set; }
 
         public override void Initialize()
         {
@@ -24,7 +25,7 @@ namespace SpaceInvader.Logics
             {
                 Entity.Position.X -= EntityData.Speed;
             }
-            if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Game.Window.Size.X)
+            if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
             {
                 Entity.Position.X += EntityData.Speed;
             }

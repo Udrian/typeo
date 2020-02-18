@@ -5,10 +5,11 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Data;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core;
 
 namespace SpaceInvader.Entities
 {
-    public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>
+    public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         private List<Vec2> Stars { get; set; }
@@ -16,6 +17,7 @@ namespace SpaceInvader.Entities
         public bool Hidden { get; set; }
 
         public SpaceData EntityData { get; set; }
+        public Scene Scene { get; set; }
 
         public override void Initialize()
         {
@@ -25,7 +27,7 @@ namespace SpaceInvader.Entities
             Stars = new List<Vec2>();
             for (int i = 0; i < EntityData.NumberOfStars; i++)
             {
-                Stars.Add(new Vec2(Game.Random.Next((int)Game.Window.Size.X), Game.Random.Next(-(int)Game.Window.Size.Y, (int)Game.Window.Size.Y)));
+                Stars.Add(new Vec2(Game.Random.Next((int)Scene.Window.Size.X), Game.Random.Next(-(int)Scene.Window.Size.Y, (int)Scene.Window.Size.Y)));
             }
         }
 
@@ -51,8 +53,8 @@ namespace SpaceInvader.Entities
             {
                 var star = Stars[i];
                 star.Y += EntityData.Speed * dt;
-                if (star.Y > Game.Window.Size.Y)
-                    star = new Vec2(Game.Random.Next((int)Game.Window.Size.X), Game.Random.Next(-(int)Game.Window.Size.Y, 0));
+                if (star.Y > Scene.Window.Size.Y)
+                    star = new Vec2(Game.Random.Next((int)Scene.Window.Size.X), Game.Random.Next(-(int)Scene.Window.Size.Y, 0));
                 
                 Stars[i] = star;
             }
