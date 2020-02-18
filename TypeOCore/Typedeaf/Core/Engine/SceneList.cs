@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core.Engine
 {
-    public class SceneList : IHasContext, IHasGame
+    public class SceneList : IHasContext
     {
         Context IHasContext.Context { get; set; }
         protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
         public ILogger Logger { get; set; }
-        public Game Game { get; set; }
 
         private Dictionary<Type, Scene> Scenes { get; set; }
         public Scene CurrentScene { get; private set; }
@@ -35,11 +33,11 @@ namespace TypeOEngine.Typedeaf.Core.Engine
                 Scenes.Add(scene.GetType(), scene);
 
                 if (Window == null)
-                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
                 if (Canvas == null)
-                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
                 if (ContentLoader == null)
-                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Game.GetType().FullName}'");
+                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
 
                 scene.Scenes = this;
                 scene.Window = Window;

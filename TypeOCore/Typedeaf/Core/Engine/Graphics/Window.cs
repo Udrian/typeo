@@ -1,16 +1,14 @@
 ﻿using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine.Graphics
     {
-        public abstract class Window : IHasContext, IHasGame
+        public abstract class Window : IHasContext
         {
             Context IHasContext.Context { get; set; }
             protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
-            public Game Game { get; set; }
             public ILogger Logger { get; set; }
 
             public virtual string Title { get; set; }

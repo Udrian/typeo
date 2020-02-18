@@ -11,13 +11,12 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class EntityList : IHasContext, IHasGame, IHasScene
+        public class EntityList : IHasContext, IHasScene
         {
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
             public ILogger Logger { get; set; }
 
-            public Game Game { get; set; }
             public Scene Scene { get; set; }
             public Entity Entity { get; set; }
 
