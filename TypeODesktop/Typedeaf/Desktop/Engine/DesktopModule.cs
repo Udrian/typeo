@@ -8,7 +8,7 @@ namespace TypeOEngine.Typedeaf.SDL
         public bool SaveLogsToDisk { get; private set; }
         public string LogPath { get; private set; }
 
-        public DesktopModule(TypeO typeO) : base(typeO)
+        public DesktopModule() : base()
         {
             SaveLogsToDisk = true;
             LogPath = null;

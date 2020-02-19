@@ -25,7 +25,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Dictionary<Type, Type> ContentBinding { get; set; }
             public ILogger Logger { get; set; }
 
-            public Context(Game game, string name) : base()
+            internal Context(Game game, string name) : base()
             {
                 Name = name;
                 Game = game;

@@ -24,7 +24,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public Context Context { get; private set; }
 
-            public TypeO() : base()
+            internal TypeO() : base()
             {
             }
 
@@ -61,7 +61,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             public ITypeO SetLogger(LogLevel logLevel = LogLevel.None)
             {
-                return SetLogger<DefaultLogger>(logLevel);
+                Context.Logger = new DefaultLogger()
+                {
+                    LogLevel = logLevel
+                };
+                return this;
             }
 
             public ITypeO SetLogger<L>(LogLevel logLevel = LogLevel.None) where L : ILogger, new()
@@ -73,15 +77,18 @@ namespace TypeOEngine.Typedeaf.Core
                 return this;
             }
 
-            public M LoadModule<M>() where M : Module
+            public M LoadModule<M>() where M : Module, new()
             {
-                var module = (M)Activator.CreateInstance(typeof(M), this);
+                var module = new M()
+                {
+                    TypeO = this
+                };
 
                 Context.Modules.Add(module);
                 return module;
             }
 
-            public ITypeO ReferenceModule<M>() where M : Module
+            public ITypeO ReferenceModule<M>() where M : Module, new()
             {
                 Context.ModuleReferences.Add(typeof(M));
                 return this;

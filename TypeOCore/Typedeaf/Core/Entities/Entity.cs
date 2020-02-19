@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Entity Parent { get; set; }
 
-            protected Entity() { }
+            public Entity() { }
 
             public abstract void Initialize();
 

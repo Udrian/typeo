@@ -17,10 +17,6 @@ namespace TypeOEngine.Typedeaf.SDL
         public IKeyboardHardware KeyboardHardware { get; set; }
         public bool Pause { get; set; }
 
-        public SDLModule(TypeO typeO) : base(typeO)
-        {
-        }
-
         public override void Initialize()
         {
             TypeO.ReferenceModule<DesktopModule>();

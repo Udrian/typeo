@@ -97,10 +97,6 @@ namespace TypeOCoreTest
             public ITestService TestService { get; set; }
             public ITestHardware TestHardware { get; set; }
 
-            public TestModule(TypeO typeO) : base(typeO)
-            {
-            }
-
             public override void Initialize()
             {
             }

@@ -11,11 +11,10 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Module : ITypeO
         {
-            protected TypeO TypeO { get; set; }
+            public TypeO TypeO { get; set; }
 
-            protected Module(TypeO typeO)
+            protected Module()
             {
-                TypeO = typeO;
             }
 
             public abstract void Initialize();
@@ -52,7 +51,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return TypeO.SetLogger<L>(logLevel);
             }
 
-            public M LoadModule<M>() where M : Module
+            public M LoadModule<M>() where M : Module, new()
             {
                 return TypeO.LoadModule<M>();
             }
