@@ -33,7 +33,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
         {
             if (!Scenes.ContainsKey(typeof(S)))
             {
-                Logger.Log($"Creating Scene '{typeof(S).FullName}'");
+                Logger.Log(LogLevel.Debug, $"Creating Scene '{typeof(S).FullName}'");
                 var scene = new S();
                 Context.InitializeObject(scene);
                 Scenes.Add(scene.GetType(), scene);
@@ -60,7 +60,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
                 CreateScene<S>();
                 init = true;
             }
-            Logger.Log($"Switching to Scene '{typeof(S).FullName}'");
+            Logger.Log(LogLevel.Debug, $"Switching to Scene '{typeof(S).FullName}'");
             var fromScene = CurrentScene;
             var toScene = Scenes[typeof(S)];
             CurrentScene?.OnExit(toScene);

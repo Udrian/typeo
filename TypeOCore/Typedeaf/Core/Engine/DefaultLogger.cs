@@ -41,6 +41,9 @@ namespace TypeOEngine.Typedeaf.Core
                 string levelMessage = "";
                 switch (level)
                 {
+                    case LogLevel.Ludacris:
+                        levelMessage = "LDCR";
+                        break;
                     case LogLevel.Debug:
                         levelMessage = "DBUG";
                         break;

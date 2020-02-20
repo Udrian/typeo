@@ -29,7 +29,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Content content;
                 if (ContentBinding.ContainsKey(typeof(C)))
                 {
-                    Logger.Log($"Loading content path '{path}' of type '{typeof(C).FullName}' bound to type '{ContentBinding[typeof(C)].FullName}'");
+                    Logger.Log(LogLevel.Debug, $"Loading content path '{path}' of type '{typeof(C).FullName}' bound to type '{ContentBinding[typeof(C)].FullName}'");
                     content = Activator.CreateInstance(ContentBinding[typeof(C)]) as Content;
                 }
                 else
@@ -40,7 +40,7 @@ namespace TypeOEngine.Typedeaf.Core
                         Logger.Log(LogLevel.Fatal, message);
                         throw new Exception(message);
                     }
-                    Logger.Log($"Loading content path '{path}' of type '{typeof(C).FullName}'");
+                    Logger.Log(LogLevel.Debug, $"Loading content path '{path}' of type '{typeof(C).FullName}'");
                     content = Activator.CreateInstance(typeof(C)) as Content;
                 }
 

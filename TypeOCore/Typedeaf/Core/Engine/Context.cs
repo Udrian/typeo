@@ -194,7 +194,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 if(obj is IHasGame)
                 {
-                    Logger.Log(LogLevel.Debug, $"Injecting Game of type '{Game.GetType().FullName}' into {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Injecting Game of type '{Game.GetType().FullName}' into {obj.GetType().FullName}");
                     (obj as IHasGame).Game = Game;
                 }
 
@@ -205,12 +205,12 @@ namespace TypeOEngine.Typedeaf.Core
                     if(obj is Logic && from is IHasData)
                     {
                         (obj as IHasData).EntityData = (from as IHasData).EntityData;
-                        Logger.Log(LogLevel.Debug, $"Injecting EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                        Logger.Log(LogLevel.Ludacris, $"Injecting EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
                     }
                     else
                     {
                         hasData.CreateData();
-                        Logger.Log(LogLevel.Debug, $"Creating EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' into {obj.GetType().FullName}");
+                        Logger.Log(LogLevel.Ludacris, $"Creating EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' into {obj.GetType().FullName}");
                         hasData.EntityData.Initialize();
                     }
                 }
@@ -225,7 +225,7 @@ namespace TypeOEngine.Typedeaf.Core
                     {
                         (obj as IHasScene).Scene = (from as IHasScene)?.Scene;
                     }
-                    Logger.Log(LogLevel.Debug, $"Injecting Scene of type '{(obj as IHasScene).Scene?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Injecting Scene of type '{(obj as IHasScene).Scene?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
                 }
 
                 if (obj is IHasDrawable)
@@ -233,7 +233,7 @@ namespace TypeOEngine.Typedeaf.Core
                     var hasDrawable = obj as IHasDrawable;
 
                     hasDrawable.CreateDrawable(obj as Entity);
-                    Logger.Log(LogLevel.Debug, $"Creating Drawable of type '{hasDrawable.Drawable?.GetType().FullName}' into {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{hasDrawable.Drawable?.GetType().FullName}' into {obj.GetType().FullName}");
                     InitializeObject(hasDrawable.Drawable, obj);
 
                     hasDrawable.Drawable.Initialize();
@@ -242,7 +242,7 @@ namespace TypeOEngine.Typedeaf.Core
                 if (obj is IHasEntity)
                 {
                     (obj as IHasEntity).Entity = from as Entity;
-                    Logger.Log(LogLevel.Debug, $"Injecting Entity of type '{(obj as IHasEntity).Entity?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Injecting Entity of type '{(obj as IHasEntity).Entity?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
                 }
 
                 if (obj is IHasEntities)
@@ -250,7 +250,7 @@ namespace TypeOEngine.Typedeaf.Core
                     var hasEntities = obj as IHasEntities;
 
                     hasEntities.Entities = new EntityList();
-                    Logger.Log(LogLevel.Debug, $"Creating EntityList in {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Creating EntityList in {obj.GetType().FullName}");
                     InitializeObject(hasEntities.Entities, obj);
                 }
 
@@ -258,7 +258,7 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     var hasLogic = obj as IHasLogic;
                     hasLogic.CreateLogic();
-                    Logger.Log(LogLevel.Debug, $"Creating Logic of type '{hasLogic.Logic.GetType().FullName}' into {obj.GetType().FullName}");
+                    Logger.Log(LogLevel.Ludacris, $"Creating Logic of type '{hasLogic.Logic.GetType().FullName}' into {obj.GetType().FullName}");
                     InitializeObject(hasLogic.Logic, obj);
 
                     hasLogic.Logic.Initialize();
@@ -282,7 +282,7 @@ namespace TypeOEngine.Typedeaf.Core
                         throw new InvalidOperationException(message);
                     }
 
-                    Logger.Log(LogLevel.Debug, $"Hardware '{Hardwares[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Ludacris, $"Hardware '{Hardwares[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Hardwares[property.PropertyType]);
                 }
             }
@@ -304,7 +304,7 @@ namespace TypeOEngine.Typedeaf.Core
                         throw new InvalidOperationException(message);
                     }
 
-                    Logger.Log(LogLevel.Debug, $"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Ludacris, $"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Services[property.PropertyType]);
                 }
             }
@@ -320,7 +320,7 @@ namespace TypeOEngine.Typedeaf.Core
                         continue;
                     }
 
-                    Logger.Log(LogLevel.Debug, $"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
+                    Logger.Log(LogLevel.Ludacris, $"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Logger);
                     break;
                 }

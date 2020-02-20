@@ -34,7 +34,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void Cleanup()
             {
-                Logger.Log($"Unloading Texture with path: '{FilePath}'");
+                Logger.Log(LogLevel.Debug, $"Unloading Texture with path: '{FilePath}'");
                 SDL2.SDL.SDL_DestroyTexture(SDL_Image);
             }
         }
