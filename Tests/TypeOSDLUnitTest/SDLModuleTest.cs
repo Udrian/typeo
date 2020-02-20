@@ -1,10 +1,11 @@
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL;
+using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 using Xunit;
@@ -19,11 +20,15 @@ namespace Test
         {
             public ILogger Logger { get; set; }
             public IWindowService WindowService { get; set; }
-            public Window Window { get; set; }
+            public IKeyboardInputService KeyboardInputService { get; set; }
+            public SceneList Scenes { get; set; }
 
             public override void Initialize()
             {
-                Window = WindowService.CreateWindow("test", new Vec2(100, 100), new Vec2(100, 100));
+                Scenes = CreateScenes();
+                Scenes.Window = WindowService.CreateWindow("test", new Vec2(100, 100), new Vec2(100, 100));
+                Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);
+                Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
             }
 
             public override void Update(double dt)
@@ -41,6 +46,33 @@ namespace Test
         }
 
         public class TestScene1 : Scene
+        {
+            public ILogger Logger { get; set; }
+            public IWindowService WindowService { get; set; }
+            public IKeyboardInputService KeyboardInputService { get; set; }
+
+            public override void Draw()
+            {
+            }
+
+            public override void Initialize()
+            {
+            }
+
+            public override void OnEnter(Scene from)
+            {
+            }
+
+            public override void OnExit(Scene to)
+            {
+            }
+
+            public override void Update(double dt)
+            {
+            }
+        }
+
+        public class TestScene2 : Scene
         {
             public override void Draw()
             {
@@ -74,7 +106,7 @@ namespace Test
         }
 
         
-        /*[Fact]
+        [Fact]
         public void LoadDefaults()
         {
             var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
@@ -95,14 +127,26 @@ namespace Test
             Assert.IsType<DefaultLogger>(testGame.Logger);
 
             Assert.NotNull(testGame.WindowService);
-            Assert.NotNull(testGame.WindowService.WindowHardware);
-            Assert.IsType<SDLWindowHardware>(testGame.WindowService.WindowHardware);
+            Assert.NotNull((testGame.WindowService as WindowService).WindowHardware);
+            Assert.IsType<SDLWindowHardware>((testGame.WindowService as WindowService).WindowHardware);
 
-            Assert.NotNull(testGame.Window);
-            Assert.IsType<SDLWindow>(testGame.Window);
-        }*/
+            Assert.NotNull(testGame.KeyboardInputService);
+            Assert.NotNull((testGame.KeyboardInputService as KeyboardInputService).KeyboardHardware);
+            Assert.IsType<SDLKeyboardHardware>((testGame.KeyboardInputService as KeyboardInputService).KeyboardHardware);
 
-        /*[Fact]
+            Assert.NotNull(testGame.Scenes);
+
+            Assert.NotNull(testGame.Scenes.Window);
+            Assert.IsType<SDLWindow>(testGame.Scenes.Window);
+
+            Assert.NotNull(testGame.Scenes.Canvas);
+            Assert.IsType<SDLCanvas>(testGame.Scenes.Canvas);
+
+            Assert.NotNull(testGame.Scenes.ContentLoader);
+            Assert.IsType<SDLContentLoader>(testGame.Scenes.ContentLoader);
+        }
+
+        [Fact]
         public void SwitchScene()
         {
             var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
@@ -114,10 +158,38 @@ namespace Test
                 .Start();
 
             var testGame = (typeO.Context.Game as TestGame);
-            testGame.Window.SetScene<TestScene1>();
+            testGame.Scenes.SetScene<TestScene1>();
 
-            Assert.NotNull(testGame.Window.CurrentScene);
-            Assert.IsType<TestScene1>(testGame.Window.CurrentScene);
-        }*/
+            Assert.NotNull(testGame.Scenes.CurrentScene);
+            Assert.IsType<TestScene1>(testGame.Scenes.CurrentScene);
+
+            var testScene = testGame.Scenes.CurrentScene as TestScene1;
+
+            Assert.NotNull(testScene.Logger);
+            Assert.IsType<DefaultLogger>(testScene.Logger);
+
+            Assert.NotNull(testScene.WindowService);
+            Assert.NotNull((testScene.WindowService as WindowService).WindowHardware);
+            Assert.IsType<SDLWindowHardware>((testScene.WindowService as WindowService).WindowHardware);
+
+            Assert.NotNull(testScene.KeyboardInputService);
+            Assert.NotNull((testScene.KeyboardInputService as KeyboardInputService).KeyboardHardware);
+            Assert.IsType<SDLKeyboardHardware>((testScene.KeyboardInputService as KeyboardInputService).KeyboardHardware);
+
+            Assert.NotNull(testScene.Scenes);
+
+            Assert.NotNull(testScene.Scenes.Window);
+            Assert.IsType<SDLWindow>(testScene.Scenes.Window);
+
+            Assert.NotNull(testScene.Scenes.Canvas);
+            Assert.IsType<SDLCanvas>(testScene.Scenes.Canvas);
+
+            Assert.NotNull(testScene.Scenes.ContentLoader);
+            Assert.IsType<SDLContentLoader>(testScene.Scenes.ContentLoader);
+
+            testGame.Scenes.SetScene<TestScene2>();
+            Assert.NotNull(testGame.Scenes.CurrentScene);
+            Assert.IsType<TestScene2>(testGame.Scenes.CurrentScene);
+        }
     }
 }
