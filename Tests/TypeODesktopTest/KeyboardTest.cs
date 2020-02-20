@@ -29,6 +29,10 @@ namespace TypeODesktopTest
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public class TestKeyboardHardware : Hardware, IKeyboardHardware
@@ -39,22 +43,26 @@ namespace TypeODesktopTest
 
             public bool CurrentKeyDownEvent(object key)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public bool CurrentKeyUpEvent(object key)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public bool OldKeyDownEvent(object key)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public bool OldKeyUpEvent(object key)
             {
-                throw new NotImplementedException();
+                return false;
+            }
+
+            public override void Cleanup()
+            {
             }
         }
 
@@ -62,28 +70,31 @@ namespace TypeODesktopTest
         {
             public IKeyboardHardware KeyboardHardware { get; set; }
 
+            public override void Cleanup()
+            {
+            }
+
             public override void Initialize()
             {
             }
 
             public bool IsDown(object input)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public bool IsPressed(object input)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public bool IsReleased(object input)
             {
-                throw new NotImplementedException();
+                return false;
             }
 
             public void SetKeyAlias(object input, object key)
             {
-                throw new NotImplementedException();
             }
         }
 

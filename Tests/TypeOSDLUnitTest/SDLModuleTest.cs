@@ -34,6 +34,10 @@ namespace Test
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public class TestScene1 : Scene

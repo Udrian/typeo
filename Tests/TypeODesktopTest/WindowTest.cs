@@ -35,6 +35,10 @@ namespace TypeODesktopTest
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public class TestCanvas : Canvas
@@ -114,6 +118,10 @@ namespace TypeODesktopTest
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
             }
+
+            public override void Initialize()
+            {
+            }
         }
 
         public class TestWindowHardware : Hardware, IWindowHardware
@@ -135,6 +143,10 @@ namespace TypeODesktopTest
             public ContentLoader CreateContentLoader(Canvas canvas)
             {
                 return new TestContentLoader(canvas, null);
+            }
+
+            public override void Cleanup()
+            {
             }
         }
 
@@ -169,6 +181,10 @@ namespace TypeODesktopTest
             public ContentLoader CreateContentLoader(Canvas canvas)
             {
                 return WindowHardware.CreateContentLoader(canvas);
+            }
+
+            public override void Cleanup()
+            {
             }
         }
 

@@ -22,19 +22,25 @@ namespace TypeOEngine.Typedeaf.Desktop
 
             public override void Initialize() { }
 
-            public DesktopWindow CreateWindow()
+            private DesktopWindow InstantiateWindow()
             {
                 var window = WindowHardware.CreateWindow();
                 Logger.Log($"Creating Window of type '{window.GetType().FullName}'");
                 Context.InitializeObject(window);
+                return window;
+            }
+
+            public DesktopWindow CreateWindow()
+            {
+                var window = InstantiateWindow();
+                window.Initialize();
 
                 return window;
             }
 
             public DesktopWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
-                var window = CreateWindow();
-
+                var window = InstantiateWindow();
                 window.Initialize(title, position, size, fullscreen, borderless);
 
                 return window;

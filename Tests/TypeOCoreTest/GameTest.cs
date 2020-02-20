@@ -22,6 +22,10 @@ namespace TypeOCoreTest
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         [Fact]

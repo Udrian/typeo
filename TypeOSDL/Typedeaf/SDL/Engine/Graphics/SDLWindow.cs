@@ -12,6 +12,11 @@ namespace TypeOEngine.Typedeaf.SDL
         {
             public SDL_Window SDL_Window { get; private set; }
 
+            public override void Initialize()
+            {
+                Initialize("", Vec2.Zero, Vec2.Zero);
+            }
+
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
                 SDL_Window = SDL2.SDL.SDL_CreateWindow(title, (int)position.X, (int)position.Y, (int)size.X, (int)size.Y, SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);

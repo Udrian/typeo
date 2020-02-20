@@ -15,11 +15,6 @@ namespace TypeOEngine.Typedeaf.Desktop
             {
             }
 
-            public override void Initialize()
-            {
-                Initialize("", Vec2.Zero, Vec2.Zero);
-            }
-
             public abstract void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false);
         }
     }
