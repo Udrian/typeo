@@ -8,7 +8,7 @@ namespace TypeOEngine.Typedeaf.SDL
         public bool SaveLogsToDisk { get; private set; }
         public string LogPath { get; private set; }
 
-        public DesktopModule() : base()
+        public DesktopModule() : base(new Version(0, 1, 0))
         {
             SaveLogsToDisk = true;
             LogPath = null;
@@ -20,7 +20,9 @@ namespace TypeOEngine.Typedeaf.SDL
 
         public override void Initialize()
         {
-            if(TypeO.Context.Logger is DefaultLogger)
+            TypeO.RequireTypeO(new Version(0, 1, 0));
+
+            if (TypeO.Context.Logger is DefaultLogger)
             {
                 (TypeO.Context.Logger as DefaultLogger).LogToDisk = SaveLogsToDisk;
                 if(!string.IsNullOrEmpty(LogPath))

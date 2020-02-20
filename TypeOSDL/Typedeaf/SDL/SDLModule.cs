@@ -19,9 +19,14 @@ namespace TypeOEngine.Typedeaf.SDL
         public ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
+        public SDLModule() : base(new Core.Engine.Version(0, 1, 0))
+        {
+        }
+
         public override void Initialize()
         {
-            TypeO.ReferenceModule<DesktopModule>();
+            TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 0));
+            TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 0));
 
             //Initial SDL
             SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");

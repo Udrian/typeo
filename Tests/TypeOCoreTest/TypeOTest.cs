@@ -118,6 +118,10 @@ namespace TypeOCoreTest
 
         public class TestModule : Module
         {
+            public TestModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 0))
+            {
+            }
+
             public ITestService TestService { get; set; }
             public ITestHardware TestHardware { get; set; }
 
@@ -127,6 +131,22 @@ namespace TypeOCoreTest
 
             public override void Cleanup()
             {
+            }
+        }
+
+        public class TestRefModule : Module
+        {
+            public TestRefModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 1))
+            {
+            }
+
+            public override void Cleanup()
+            {
+            }
+
+            public override void Initialize()
+            {
+                TypeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(2, 2, 2));
             }
         }
 
@@ -195,7 +215,16 @@ namespace TypeOCoreTest
             Assert.NotNull(module.TestHardware);
 
             typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
-            typeO.ReferenceModule<TestModule>();
+            typeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 0, 0));
+            Assert.Throws<InvalidOperationException>(() => typeO.Start());
+
+            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
+            typeO.LoadModule<TestRefModule>();
+            Assert.Throws<InvalidOperationException>(() => typeO.Start());
+
+            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
+            typeO.LoadModule<TestRefModule>();
+            typeO.LoadModule<TestModule>();
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
         }
 

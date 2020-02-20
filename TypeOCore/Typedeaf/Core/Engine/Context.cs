@@ -17,23 +17,27 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public string Name { get; private set; }
             public Game Game { get; private set; }
+            public TypeO TypeO { get; private set; }
             public TimeSpan TimeSinceStart { get; private set; }
             public DateTime StartTime { get; private set; }
             public DateTime LastTick { get; private set; }
             public List<Module> Modules { get; set; }
-            public List<Type> ModuleReferences { get; set; }
+            public List<Tuple<Type, Version>> ModuleRequirements { get; set; }
+            public Version RequiredTypeOVersion { get; set; }
             public Dictionary<Type, Hardware> Hardwares { get; set; }
             public Dictionary<Type, Service> Services { get; set; }
             public Dictionary<Type, Type> ContentBinding { get; set; }
             public ILogger Logger { get; set; }
 
-            internal Context(Game game, string name) : base()
+            internal Context(Game game, TypeO typeO, string name) : base()
             {
                 Name = name;
                 Game = game;
+                TypeO = typeO;
                 LastTick = DateTime.UtcNow;
                 Modules = new List<Module>();
-                ModuleReferences = new List<Type>();
+                ModuleRequirements = new List<Tuple<Type, Version>>();
+                RequiredTypeOVersion = new Version(0, 0, 0);
                 Hardwares = new Dictionary<Type, Hardware>();
                 Services = new Dictionary<Type, Service>();
                 ContentBinding = new Dictionary<Type, Type>();
@@ -60,28 +64,8 @@ namespace TypeOEngine.Typedeaf.Core
                 (Logger as IHasContext)?.SetContext(this);
                 InitializeObject(Logger);
                 Logger.Log($"Game started at: {StartTime.ToString()}");
-
-                //Check if all referenced modules are loaded
-                foreach (var moduleReference in ModuleReferences)
-                {
-                    var found = false;
-                    foreach (var module in Modules)
-                    {
-                        if (module.GetType() == moduleReference)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        var message = $"Referenced Module '{moduleReference.Name}' needs to be loaded";
-                        Logger.Log(LogLevel.Fatal, message);
-                        throw new InvalidOperationException(message);
-                    }
-                }
-
                 Logger.Log($"Logger of type '{Logger.GetType().FullName}' loaded");
+                
                 //Initialize Hardware
                 foreach (var hardware in Hardwares.Values)
                 {
@@ -121,6 +105,33 @@ namespace TypeOEngine.Typedeaf.Core
                         var message = $"Content Binding from '{bindingFrom.Name}' must be of a base type to '{bindingTo.Name}'";
                         Logger.Log(LogLevel.Fatal, message);
                         throw new ArgumentException(message);
+                    }
+                }
+
+                if (!TypeO.Version.Eligable(RequiredTypeOVersion))
+                {
+                    var message = $"TypeOCore required at atleast version '{RequiredTypeOVersion}'";
+                    Logger.Log(LogLevel.Fatal, message);
+                    throw new InvalidOperationException(message);
+                }
+
+                //Check if all referenced modules are loaded
+                foreach (var moduleReference in ModuleRequirements)
+                {
+                    var found = false;
+                    foreach (var module in Modules)
+                    {
+                        if (module.GetType() == moduleReference.Item1 && module.Version.Eligable(moduleReference.Item2))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        var message = $"Required Module '{moduleReference.Item1.FullName}' at atleast version '{moduleReference.Item2}' needs to be loaded";
+                        Logger.Log(LogLevel.Fatal, message);
+                        throw new InvalidOperationException(message);
                     }
                 }
 

@@ -14,18 +14,18 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public static ITypeO Create<G>(string name) where G : Game, new()
             {
-                var typeO = new TypeO
-                {
-                    Context = new Context(new G(), name)
-                };
+                var typeO = new TypeO();
+                typeO.Context = new Context(new G(), typeO, name);
 
                 return typeO;
             }
 
             public Context Context { get; private set; }
+            public Version Version { get; private set; }
 
             internal TypeO() : base()
             {
+                Version = new Version(0, 1, 0);
             }
 
             public ITypeO AddService<I, S>()
@@ -88,9 +88,16 @@ namespace TypeOEngine.Typedeaf.Core
                 return module;
             }
 
-            public ITypeO ReferenceModule<M>() where M : Module, new()
+            public ITypeO RequireModule<M>(Version version) where M : Module, new()
             {
-                Context.ModuleReferences.Add(typeof(M));
+                Context.ModuleRequirements.Add(new Tuple<Type, Version>(typeof(M), version));
+                return this;
+            }
+
+            public ITypeO RequireTypeO(Version version)
+            {
+                if (!Context.RequiredTypeOVersion.Eligable(version))
+                    Context.RequiredTypeOVersion = version;
                 return this;
             }
 

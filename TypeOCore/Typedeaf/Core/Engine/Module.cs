@@ -12,9 +12,11 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract class Module : ITypeO
         {
             public TypeO TypeO { get; set; }
+            public Version Version { get; private set; }
 
-            protected Module()
+            protected Module(Version version)
             {
+                Version = version;
             }
 
             public abstract void Initialize();
