@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SDL2-CS.NetCore" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
     <ProjectReference Include="..\..\TypeOSDL\TypeOSDL.csproj" />
   </ItemGroup>
