@@ -129,7 +129,7 @@ namespace SpaceInvader.Scenes
                     Player.EntityData.Health--;
                     if(Player.EntityData.Health <= 0)
                     {
-                        Game.Exit();
+                        Scenes.SetScene<ScoreScene>();
                     }
                 }
             }
