@@ -163,6 +163,8 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
+                        Logger.Log(LogLevel.Debug, $"Removing Entity of type '{Entities[i].GetType().FullName}'");
+                        Entities[i].Cleanup();
                         Entities.RemoveAt(i);
                     }
                 }

@@ -23,6 +23,12 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             Scenes = new Dictionary<Type, Scene>();
         }
 
+        public void Cleanup()
+        {
+            Window?.Cleanup();
+            Canvas?.Cleanup();
+        }
+
         public void CreateScene<S>() where S : Scene, new()
         {
             if (!Scenes.ContainsKey(typeof(S)))

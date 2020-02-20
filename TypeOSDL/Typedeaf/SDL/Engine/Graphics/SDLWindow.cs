@@ -34,6 +34,11 @@ namespace TypeOEngine.Typedeaf.SDL
                     Borderless = borderless;
             }
 
+            public override void Cleanup()
+            {
+                SDL2.SDL.SDL_DestroyWindow(SDL_Window);
+            }
+
             public override string Title {
                 get {
                     if (SDL_Window == null)

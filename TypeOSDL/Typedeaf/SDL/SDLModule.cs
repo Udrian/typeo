@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
@@ -15,6 +16,7 @@ namespace TypeOEngine.Typedeaf.SDL
     public class SDLModule : Module, IIsUpdatable
     {
         public IKeyboardHardware KeyboardHardware { get; set; }
+        public ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
         public override void Initialize()
@@ -25,23 +27,33 @@ namespace TypeOEngine.Typedeaf.SDL
             SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
             if (SDL2.SDL.SDL_Init(SDL2.SDL.SDL_INIT_VIDEO) != 0)
             {
-                Console.WriteLine("SDL_Init Error: " + SDL2.SDL.SDL_GetError());
-                return;
+                var message = $"SDL_Init Error: {SDL2.SDL.SDL_GetError()}";
+                Logger.Log(LogLevel.Fatal, message);
+                TypeO.Context.Exit();
+                throw new ApplicationException(message);
             }
 
             if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG) == 0)
             {
-                Console.WriteLine("SDL_Init Error: " + SDL2.SDL.SDL_GetError());
-                return;
+                var message = $"IMG_Init Error: {SDL2.SDL.SDL_GetError()}";
+                Logger.Log(LogLevel.Fatal, message);
+                TypeO.Context.Exit();
+                throw new ApplicationException(message);
             }
 
-            SDL_ttf.TTF_Init();
+            if(SDL_ttf.TTF_Init() != 0)
+            {
+                var message = $"TTF_Init Error: {SDL2.SDL.SDL_GetError()}";
+                Logger.Log(LogLevel.Fatal, message);
+                TypeO.Context.Exit();
+                throw new ApplicationException(message);
+            }
         }
 
         public override void Cleanup()
         {
-            //SDL.SDL_DestroyRenderer(ren);
-            //SDL.SDL_DestroyWindow(win);
+            SDL_ttf.TTF_Quit();
+            SDL_image.IMG_Quit();
             SDL2.SDL.SDL_Quit();
         }
 

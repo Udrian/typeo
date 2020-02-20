@@ -59,5 +59,9 @@ namespace SpaceInvader.Entities
                 Stars[i] = star;
             }
         }
+
+        public override void Cleanup()
+        {
+        }
     }
 }

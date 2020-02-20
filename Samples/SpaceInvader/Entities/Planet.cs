@@ -28,6 +28,11 @@ namespace SpaceInvader.Entities
             EntityData.Speed = 50;
         }
 
+        public override void Cleanup()
+        {
+            Drawable.Cleanup();
+        }
+
         public void Update(double dt)
         {
             Position.Y += EntityData.Speed * dt;

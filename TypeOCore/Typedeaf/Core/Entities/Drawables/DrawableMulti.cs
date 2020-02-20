@@ -43,6 +43,10 @@ namespace TypeOEngine.Typedeaf.Core
 
                 return drawable;
             }
+
+            public override void Cleanup()
+            {
+            }
         }
     }
 }

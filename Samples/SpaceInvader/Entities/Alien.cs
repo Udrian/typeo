@@ -37,5 +37,10 @@ namespace SpaceInvader.Entities
 
             Position = new Vec2(Scene.Window.Size.X/2, -50);
         }
+
+        public override void Cleanup()
+        {
+            Drawable.Cleanup();
+        }
     }
 }

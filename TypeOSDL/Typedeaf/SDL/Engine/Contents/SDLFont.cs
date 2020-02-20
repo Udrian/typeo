@@ -38,6 +38,11 @@ namespace TypeOEngine.Typedeaf.SDL
                 }
             }
 
+            public override void Cleanup()
+            {
+                SDL_ttf.TTF_CloseFont(SDL_Font);
+            }
+
             public override int FontSize { 
                 get => base.FontSize;
                 set {

@@ -40,6 +40,11 @@ namespace TypeOEngine.Typedeaf.Core
                     entity:   Entity
                 );
             }
+
+            public override void Cleanup()
+            {
+                Texture?.Cleanup();
+            }
         }
     }
 }

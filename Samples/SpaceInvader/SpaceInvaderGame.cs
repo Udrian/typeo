@@ -52,6 +52,7 @@ namespace SpaceInvader
 
         public override void Cleanup()
         {
+            Scenes.Cleanup();
         }
     }
 }

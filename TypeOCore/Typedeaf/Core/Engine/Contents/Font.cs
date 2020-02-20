@@ -6,9 +6,10 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Font : Content
         {
+            public virtual int FontSize { get; set; }
+
             protected Font() { }
 
-            public virtual int FontSize { get; set; }
             public abstract Vec2 MeasureString(string text);
         }
     }

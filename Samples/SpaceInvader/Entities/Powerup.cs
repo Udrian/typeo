@@ -16,5 +16,7 @@ namespace SpaceInvader.Entities
         }
 
         public override void Initialize() { }
+
+        public override void Cleanup() { }
     }
 }

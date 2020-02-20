@@ -32,6 +32,11 @@ namespace SpaceInvader.Entities
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
         }
 
+        public override void Cleanup()
+        {
+            Drawable.Cleanup();
+        }
+
         public virtual void LoadContent()
         {
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/ship.png");

@@ -15,6 +15,7 @@ namespace TypeOEngine.Typedeaf.Core
             protected Canvas() {}
 
             public abstract void Initialize();
+            public abstract void Cleanup();
 
             public abstract void Clear(Color clearColor);
             public abstract void DrawLine (Vec2 from, Vec2 size, Color color, Entity2d entity = null);

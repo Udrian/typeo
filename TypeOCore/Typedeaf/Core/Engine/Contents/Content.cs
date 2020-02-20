@@ -6,6 +6,7 @@
         {
             public string FilePath { get; protected set; }
             public abstract void Load(string path, ContentLoader contentLoader);
+            public abstract void Cleanup();
         }
     }
 }

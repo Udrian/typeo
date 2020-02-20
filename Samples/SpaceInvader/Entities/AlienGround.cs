@@ -34,6 +34,11 @@ namespace SpaceInvader.Entities
             Position = new Vec2(Game.Random.Next((int)Scene.Window.Size.X) - Size.X, -Size.Y);
         }
 
+        public override void Cleanup()
+        {
+            Drawable.Cleanup();
+        }
+
         public void Update(double dt)
         {
             Position.Y += EntityData.Speed * dt;

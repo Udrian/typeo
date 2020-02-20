@@ -31,6 +31,12 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_QueryTexture(SDL_Image, out _, out _, out int w, out int h);
                 Size = new Vec2(w, h);
             }
+
+            public override void Cleanup()
+            {
+                Logger.Log($"Unloading Texture with path: '{FilePath}'");
+                SDL2.SDL.SDL_DestroyTexture(SDL_Image);
+            }
         }
     }
 }

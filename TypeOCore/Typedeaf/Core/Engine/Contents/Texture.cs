@@ -6,9 +6,9 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Texture : Content
         {
-            protected Texture() { }
-
             public Vec2 Size { get; protected set; }
+
+            protected Texture() { }
         }
     }
 }

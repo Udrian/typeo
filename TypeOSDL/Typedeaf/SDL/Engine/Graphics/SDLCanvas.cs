@@ -32,11 +32,17 @@ namespace TypeOEngine.Typedeaf.SDL
                     {
                         var message = $"Error creating SDLRenderer with error: {SDL2.SDL.SDL_GetError()}";
                         Logger.Log(LogLevel.Fatal, message);
+                        //TODO: Maybe call Game.Exit() instead
                         SDL2.SDL.SDL_DestroyWindow(sdlWindow);
                         SDL2.SDL.SDL_Quit();
                         throw new InvalidOperationException(message);
                     }
                 }
+            }
+
+            public override void Cleanup()
+            {
+                SDL2.SDL.SDL_DestroyRenderer(SDLRenderer);
             }
 
             public override void Clear(Color clearColor)
@@ -233,6 +239,9 @@ namespace TypeOEngine.Typedeaf.SDL
 
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
+
+                SDL2.SDL.SDL_DestroyTexture(fontTex);
+                SDL2.SDL.SDL_FreeSurface(fontSur);
             }
 
             public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)

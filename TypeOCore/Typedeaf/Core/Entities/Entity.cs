@@ -9,6 +9,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Entity() { }
 
             public abstract void Initialize();
+            public abstract void Cleanup();
 
             public void Remove()
             {

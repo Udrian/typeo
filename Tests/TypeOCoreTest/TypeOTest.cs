@@ -107,6 +107,10 @@ namespace TypeOCoreTest
 
         public class SubContent : BaseContent
         {
+            public override void Cleanup()
+            {
+            }
+
             public override void Load(string path, ContentLoader contentLoader)
             {
             }

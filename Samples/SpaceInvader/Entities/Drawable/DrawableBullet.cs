@@ -17,5 +17,9 @@ namespace SpaceInvader.Entities.Drawable
         {
             canvas.DrawRectangle(Position, Size, true, Color.CapeHoney, Entity);
         }
+
+        public override void Cleanup()
+        {
+        }
     }
 }

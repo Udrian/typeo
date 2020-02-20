@@ -28,5 +28,9 @@ namespace SpaceInvader.Entities
             if (Position.Y <= -Drawable.Size.Y)
                 Remove();
         }
+
+        public override void Cleanup()
+        {
+        }
     }
 }

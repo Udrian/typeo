@@ -11,6 +11,7 @@ namespace TypeOEngine.Typedeaf.Core
             protected Drawable() { }
 
             public abstract void Initialize();
+            public abstract void Cleanup();
             public abstract void Draw(Canvas canvas);
         }
     }

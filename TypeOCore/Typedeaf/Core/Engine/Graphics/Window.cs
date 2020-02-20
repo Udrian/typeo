@@ -19,6 +19,7 @@ namespace TypeOEngine.Typedeaf.Core
             }
 
             public abstract void Initialize();
+            public abstract void Cleanup();
         }
     }
 }

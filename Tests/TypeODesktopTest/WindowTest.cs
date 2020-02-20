@@ -104,6 +104,10 @@ namespace TypeODesktopTest
             public override void Present()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public class TestContentLoader : ContentLoader
@@ -115,6 +119,10 @@ namespace TypeODesktopTest
 
         public class TestWindow : DesktopWindow
         {
+            public override void Cleanup()
+            {
+            }
+
             public override void Initialize(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
             {
             }
