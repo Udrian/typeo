@@ -86,11 +86,6 @@ namespace SpaceInvader.Scenes
             {
                 Game.Exit();
             }
-            if (KeyboardInputService.IsPressed("Shoot"))
-            {
-                Entities.Create<Bullet>(new Vec2(Player.Position.X, Player.Position.Y + 19));
-                Entities.Create<Bullet>(new Vec2(Player.Position.X + 36, Player.Position.Y + 19));
-            }
 
             EntityUpdate(dt);
         }
@@ -131,7 +126,11 @@ namespace SpaceInvader.Scenes
                     alien.Position.Y <= Player.Position.Y + Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Player.Position.Y)
                 {
                     alien.Remove();
-                    Game.Score--;
+                    Player.EntityData.Health--;
+                    if(Player.EntityData.Health <= 0)
+                    {
+                        Game.Exit();
+                    }
                 }
             }
         }

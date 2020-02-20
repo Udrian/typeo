@@ -63,11 +63,11 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             Logger.Log(LogLevel.Debug, $"Switching to Scene '{typeof(S).FullName}'");
             var fromScene = CurrentScene;
             var toScene = Scenes[typeof(S)];
-            CurrentScene?.OnExit(toScene);
             CurrentScene = toScene;
-            CurrentScene?.OnEnter(fromScene);
             if (init)
                 CurrentScene.Initialize();
+            fromScene?.OnExit(toScene);
+            toScene?.OnEnter(fromScene);
 
             return Scenes[typeof(S)] as S;
         }

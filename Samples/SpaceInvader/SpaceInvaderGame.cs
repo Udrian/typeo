@@ -23,7 +23,7 @@ namespace SpaceInvader
 
         public override void Initialize()
         {
-            Logger.Log(LogLevel.Info, "Testing");
+            Logger.Log("Starting up the Game!");
 
             Random = new Random();
 
