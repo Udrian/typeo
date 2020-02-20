@@ -44,6 +44,10 @@ namespace TypeOEngine.Typedeaf.Desktop
 
                 return KeyboardHardware.CurrentKeyUpEvent(KeyConverter.GetKey(input)) && KeyboardHardware.OldKeyDownEvent(KeyConverter.GetKey(input));
             }
+
+            public override void Cleanup()
+            {
+            }
         }
     }
 }

@@ -37,6 +37,10 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 return new SDLContentLoader((SDLCanvas)canvas, Context.ContentBinding);
             }
+
+            public override void Cleanup()
+            {
+            }
         }
     }
 }

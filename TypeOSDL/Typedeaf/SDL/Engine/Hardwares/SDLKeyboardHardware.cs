@@ -69,6 +69,10 @@ namespace TypeOEngine.Typedeaf.SDL
                 if (!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
                 return !OldState[(SDL2.SDL.SDL_Keycode)key];
             }
+
+            public override void Cleanup()
+            {
+            }
         }
     }
 }

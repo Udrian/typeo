@@ -49,5 +49,9 @@ namespace SpaceInvader
         {
             Scenes.Update(dt);
         }
+
+        public override void Cleanup()
+        {
+        }
     }
 }

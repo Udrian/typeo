@@ -65,6 +65,10 @@ namespace TypeOEngine.Typedeaf.Desktop
 
                 return contentLoader;
             }
+
+            public override void Cleanup()
+            {
+            }
         }
     }
 }

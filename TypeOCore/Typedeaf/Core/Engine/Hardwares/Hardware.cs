@@ -12,6 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
             protected Hardware() { }
 
             public abstract void Initialize();
+            public abstract void Cleanup();
         }
     }
 }

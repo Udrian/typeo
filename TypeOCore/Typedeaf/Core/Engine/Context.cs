@@ -162,6 +162,18 @@ namespace TypeOEngine.Typedeaf.Core
                 Logger.Log("Exiting game, initiating cleanup");
 
                 //Cleanup
+                Game.Cleanup();
+
+                foreach(var service in Services)
+                {
+                    service.Value.Cleanup();
+                }
+
+                foreach(var hardware in Hardwares)
+                {
+                    hardware.Value.Cleanup();
+                }
+
                 foreach (var module in Modules)
                 {
                     module.Cleanup();

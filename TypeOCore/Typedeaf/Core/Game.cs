@@ -22,6 +22,7 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract void Initialize();
         public abstract void Update(double dt);
         public abstract void Draw();
+        public abstract void Cleanup();
         public void Exit() { Context.Exit(); }
     }
 }

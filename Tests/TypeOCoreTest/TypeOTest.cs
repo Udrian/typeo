@@ -29,6 +29,10 @@ namespace TypeOCoreTest
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public class TestGameWithService : Game
@@ -47,6 +51,10 @@ namespace TypeOCoreTest
             public override void Draw()
             {
             }
+
+            public override void Cleanup()
+            {
+            }
         }
 
         public interface ITestService : IService
@@ -55,6 +63,10 @@ namespace TypeOCoreTest
         }
         public class TestService : Service, ITestService
         {
+            public override void Cleanup()
+            {
+            }
+
             public override void Initialize()
             {
             }
@@ -63,6 +75,10 @@ namespace TypeOCoreTest
         public class TestServiceWithHardware : Service, ITestService
         {
             public ITestHardware TestHardware { get; set; }
+
+            public override void Cleanup()
+            {
+            }
 
             public override void Initialize()
             {
@@ -75,6 +91,10 @@ namespace TypeOCoreTest
         }
         public class TestHardware : Hardware, ITestHardware
         {
+            public override void Cleanup()
+            {
+            }
+
             public override void Initialize()
             {
             }
