@@ -17,6 +17,8 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public string Name { get; private set; }
             public Game Game { get; private set; }
+            public TimeSpan TimeSinceStart { get; private set; }
+            public DateTime StartTime { get; private set; }
             public DateTime LastTick { get; private set; }
             public List<Module> Modules { get; set; }
             public List<Type> ModuleReferences { get; set; }
@@ -45,7 +47,9 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Start()
             {
-                if(Logger == null)
+                StartTime = DateTime.UtcNow;
+
+                if (Logger == null)
                 {
                     Logger = new DefaultLogger
                     {
@@ -55,7 +59,7 @@ namespace TypeOEngine.Typedeaf.Core
                 //We need to set Context here before so that the logger works in InitializeObject
                 (Logger as IHasContext)?.SetContext(this);
                 InitializeObject(Logger);
-                Logger.Log($"\n\r\n\rGame started at: {DateTime.UtcNow.ToString()}");
+                Logger.Log($"Game started at: {StartTime.ToString()}");
 
                 //Check if all referenced modules are loaded
                 foreach (var moduleReference in ModuleReferences)
@@ -129,8 +133,10 @@ namespace TypeOEngine.Typedeaf.Core
                 Logger.Log($"Everything loaded successfully, spinning up game loop");
                 while (!ExitApplication)
                 {
-                    var dt = (DateTime.UtcNow - LastTick).TotalSeconds;
-                    LastTick = DateTime.UtcNow;
+                    var now = DateTime.UtcNow;
+                    TimeSinceStart = (now - StartTime);
+                    var dt = (now - LastTick).TotalSeconds;
+                    LastTick = now;
 
                     foreach (var module in Modules)
                     {
@@ -153,12 +159,16 @@ namespace TypeOEngine.Typedeaf.Core
                     Game.Update(dt);
                     Game.Draw();
                 }
+                Logger.Log("Exiting game, initiating cleanup");
 
                 //Cleanup
                 foreach (var module in Modules)
                 {
                     module.Cleanup();
                 }
+
+                Logger.Log("Bye bye\n\r\n\r");
+                Logger?.Cleanup();
             }
 
             public void InitializeObject(object obj, object from = null)

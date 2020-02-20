@@ -110,6 +110,10 @@ namespace TypeOCoreTest
         {
             public LogLevel LogLevel { get; set; }
 
+            public void Cleanup()
+            {
+            }
+
             public void Log(LogLevel level, string log)
             {
             }

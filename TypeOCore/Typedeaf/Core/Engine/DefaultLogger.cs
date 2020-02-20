@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -10,36 +12,27 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public class DefaultLogger : ILogger, IHasContext
         {
+            private static Mutex FileAccessMutex = new Mutex();
+
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
-            private bool _logToDisk;
-            public bool LogToDisk {
-                get {
-                    return _logToDisk;
-                }
-                set {
-                    _logToDisk = value;
-                    if (_logToDisk)
-                    {
-                        foreach (var log in Logs)
-                        {
-                            WriteToDisk(log);
-                        }
-                    }
-                }
-            }
+            public bool LogToDisk { get; set; }
             public string LogPath { get; set; }
             public LogLevel LogLevel { get; set; }
 
             private List<string> Logs { get; set; }
+
+            private DateTime LastTick { get; set; }
+            private double TimeToLog { get; set; } = 0;
+            private double TimerToLog { get; set; } = 1;
 
             public DefaultLogger()
             {
                 Logs = new List<string>();
             }
 
-            public void Log(LogLevel level, string log)
+            public async void Log(LogLevel level, string log)
             {
                 if (LogLevel == LogLevel.None) return;
                 if (LogLevel > level) return;
@@ -73,29 +66,64 @@ namespace TypeOEngine.Typedeaf.Core
                 var logMessage = $"{Context.Name} - {levelMessage}: {log}";
                 Debug.WriteLine(logMessage);
                 Console.WriteLine(logMessage);
+
+                FileAccessMutex.WaitOne();
                 Logs.Add(logMessage);
+                FileAccessMutex.ReleaseMutex();
 
                 Console.ForegroundColor = defaultColor;
 
                 if (LogToDisk)
                 {
-                    WriteToDisk(logMessage);
+                    var now = DateTime.UtcNow;
+                    TimeToLog += (now - LastTick).TotalSeconds;
+                    LastTick = now;
+                    if(TimeToLog >= TimerToLog)
+                    {
+                        TimeToLog = 0;
+                        await WriteLogsToDisk();
+                    }
                 }
             }
 
-            private async void WriteToDisk(string logMessage)
+            private async Task WriteLogsToDisk()
             {
-                var dirPath = string.IsNullOrEmpty(LogPath) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", Context.Name, "Logs") : LogPath;
-                var filePath = $"{DateTime.UtcNow.ToShortDateString()}.log".Replace("/", "-");
-                var logPath = Path.Combine(dirPath, filePath);
-
-                if (!Directory.Exists(dirPath))
+                await Task.Run(() =>
                 {
-                    Directory.CreateDirectory(dirPath);
-                }
+                    FileAccessMutex.WaitOne();
+                    try
+                    {
+                        var dirPath = string.IsNullOrEmpty(LogPath) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", Context.Name, "Logs") : LogPath;
+                        var filePath = $"{DateTime.UtcNow.ToShortDateString()}.log".Replace("/", "-");
+                        var logPath = Path.Combine(dirPath, filePath);
 
-                using var logFile = File.AppendText(logPath);
-                await logFile.WriteLineAsync(logMessage);
+                        if (!Directory.Exists(dirPath))
+                        {
+                            Directory.CreateDirectory(dirPath);
+                        }
+
+                        using (var logFile = File.AppendText(logPath))
+                        {
+                            foreach (var logMessage in Logs)
+                            {
+                                logFile.WriteLine(logMessage);
+                            }
+                        }
+
+                        Logs.Clear();
+                    }
+                    catch (Exception e)
+                    {
+                        FileAccessMutex.ReleaseMutex();
+                        throw e;
+                    }
+                    FileAccessMutex.ReleaseMutex();
+                });
+            }
+
+            public void Cleanup()
+            {
+                _ = WriteLogsToDisk();
             }
         }
     }

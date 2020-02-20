@@ -11,6 +11,8 @@
             {
                 Log(LogLevel.Info, log);
             }
+
+            public void Cleanup();
         }
     }
 }
