@@ -1,31 +1,21 @@
 ﻿using SpaceInvader.Entities;
+using SpaceInvader.Entities.Data.Scenes;
 using SpaceInvader.Scenes;
 using System;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Logics.Scenes
 {
-    public class SpaceSceneLogic : Logic, IHasScene<SpaceScene>, IHasGame<SpaceInvaderGame>
+    public class SpaceSceneLogic : Logic, IHasScene<SpaceScene>, IHasGame<SpaceInvaderGame>, IHasData<SpaceSceneData>
     {
         public ILogger Logger { get; set; }
         public SpaceScene Scene { get; set; }
         public SpaceInvaderGame Game { get; set; }
-
-        public double AlienSpawnTimer { get; set; } = 0;
-        public double AlienSpawnTime { get; set; } = 5;
-        public double AlienSpawnFrequencyTimer { get; set; } = 0;
-        public double AlienSpawnFrequencyTime { get; set; } = 0.25;
-        public int AlienSpawnAmount { get; set; } = 4;
-        public int AlienSpawns { get; set; } = 0;
-        public bool AlienSpawning { get; set; } = false;
-        public double AlienSpawnPhase { get; set; } = 0;
-
-        public double PlanetSpawnTimer { get; set; } = 0;
-        public double PlanetSpawnTime { get; set; } = 30;
-        public bool PlanetSpawned { get; set; }
+        public SpaceSceneData EntityData { get; set; }
 
         public override void Initialize()
         {
@@ -37,42 +27,42 @@ namespace SpaceInvader.Logics.Scenes
 
         public override void Update(double dt)
         {
-            if (!PlanetSpawned)
+            if (!EntityData.PlanetSpawned)
             {
-                PlanetSpawnTimer += dt;
-                if (PlanetSpawnTimer >= PlanetSpawnTime)
+                EntityData.PlanetSpawnTimer += dt;
+                if (EntityData.PlanetSpawnTimer >= EntityData.PlanetSpawnTime)
                 {
-                    PlanetSpawnTimer = 0;
-                    PlanetSpawned = true;
+                    EntityData.PlanetSpawnTimer = 0;
+                    EntityData.PlanetSpawned = true;
                     Scene.Entities.Create<Planet>();
                 }
             }
 
-            if (!AlienSpawning)
+            if (!EntityData.AlienSpawning)
             {
-                AlienSpawnTimer += dt;
-                if (AlienSpawnTimer >= AlienSpawnTime)
+                EntityData.AlienSpawnTimer += dt;
+                if (EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
                 {
-                    AlienSpawnTimer -= AlienSpawnTime;
-                    AlienSpawning = true;
-                    AlienSpawnPhase = Game.Random.NextDouble() * Math.PI * 3;
+                    EntityData.AlienSpawnTimer -= EntityData.AlienSpawnTime;
+                    EntityData.AlienSpawning = true;
+                    EntityData.AlienSpawnPhase = Game.Random.NextDouble() * Math.PI * 3;
                 }
             }
             else
             {
-                AlienSpawnFrequencyTimer += dt;
-                if (AlienSpawnFrequencyTimer >= AlienSpawnFrequencyTime)
+                EntityData.AlienSpawnFrequencyTimer += dt;
+                if (EntityData.AlienSpawnFrequencyTimer >= EntityData.AlienSpawnFrequencyTime)
                 {
-                    AlienSpawnFrequencyTimer -= AlienSpawnFrequencyTime;
+                    EntityData.AlienSpawnFrequencyTimer -= EntityData.AlienSpawnFrequencyTime;
                     var alien = Scene.Entities.Create<Alien>();
-                    alien.EntityData.Phase = AlienSpawnPhase;
+                    alien.EntityData.Phase = EntityData.AlienSpawnPhase;
 
-                    AlienSpawns++;
-                    if (AlienSpawns >= AlienSpawnAmount)
+                    EntityData.AlienSpawns++;
+                    if (EntityData.AlienSpawns >= EntityData.AlienSpawnAmount)
                     {
-                        AlienSpawning = false;
-                        AlienSpawnFrequencyTimer = 0;
-                        AlienSpawns = 0;
+                        EntityData.AlienSpawning = false;
+                        EntityData.AlienSpawnFrequencyTimer = 0;
+                        EntityData.AlienSpawns = 0;
                     }
                 }
             }

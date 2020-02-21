@@ -56,7 +56,7 @@ namespace SpaceInvader.Scenes
 
         public override void OnExit(Scene to)
         {
-            Logic.AlienSpawns = 100;
+            Logic.EntityData.AlienSpawns = 100;
             foreach (var bullet in Entities.List<Bullet>())
             {
                 bullet.Remove();

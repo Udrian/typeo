@@ -41,14 +41,14 @@ namespace SpaceInvader.Entities
                 Position.Y <= Scene.Player.Position.Y + Scene.Player.Size.Y && (Position.Y + Size.Y) >= Scene.Player.Position.Y)
             {
                 Remove();
-                Scene.SpaceSceneLogic.PlanetSpawned = false;
+                Scene.SpaceSceneLogic.EntityData.PlanetSpawned = false;
                 Scene.Scenes.SetScene<PlanetScene>();
             }
 
             if (Position.Y >= Scene.Window.Size.Y)
             {
                 Remove();
-                Scene.SpaceSceneLogic.PlanetSpawned = false;
+                Scene.SpaceSceneLogic.EntityData.PlanetSpawned = false;
             }
         }
     }
