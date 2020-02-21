@@ -46,6 +46,10 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override void Cleanup()
             {
+                foreach(var drawable in Drawables)
+                {
+                    drawable.Cleanup();
+                }
             }
         }
     }

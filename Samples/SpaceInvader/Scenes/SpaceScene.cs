@@ -1,4 +1,3 @@
-using System;
 using TypeOEngine.Typedeaf.Core;
 using SpaceInvader.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
@@ -10,14 +9,15 @@ using SpaceInvader.Logics.Scenes;
 
 namespace SpaceInvader.Scenes
 {
-    public class SpaceScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<SpaceSceneLogic>
+    public class SpaceScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<LogicMulti>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
         public SpaceInvaderGame Game { get; set; }
         public Font LoadedFont { get; set; }
         public Player Player { get; set; }
-        public SpaceSceneLogic Logic { get; set; }
+        public LogicMulti Logic { get; set; }
+        public SpaceSceneLogic SpaceSceneLogic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override void Initialize()
@@ -29,6 +29,8 @@ namespace SpaceInvader.Scenes
 
             Player = Entities.Create<Player>();
             Entities.Create<Powerup>();
+
+            SpaceSceneLogic = Logic.CreateLogic<SpaceSceneLogic>();
         }
 
         public override void Update(double dt)

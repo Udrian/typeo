@@ -11,7 +11,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 
 namespace SpaceInvader.Entities
 {
-    public class Player : Entity2d, IHasDrawable<DrawableTexture>, IIsDrawable, IHasData<PlayerData>, IHasLogic<PlayerMoveLogic>, IHasScene
+    public class Player : Entity2d, IHasDrawable<DrawableTexture>, IIsDrawable, IHasData<PlayerData>, IHasLogic<LogicMulti>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         private Texture HealthTexture { get; set; }
@@ -21,7 +21,7 @@ namespace SpaceInvader.Entities
         public bool Hidden { get; set; }
 
         public Scene Scene { get; set; }
-        public PlayerMoveLogic Logic { get; set; }
+        public LogicMulti Logic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override Vec2 Size { get => Drawable.Texture.Size; set { } }
@@ -34,6 +34,8 @@ namespace SpaceInvader.Entities
             EntityData.Health = 3;
 
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
+
+            Logic.CreateLogic<PlayerMoveLogic>();
         }
 
         public override void Cleanup()

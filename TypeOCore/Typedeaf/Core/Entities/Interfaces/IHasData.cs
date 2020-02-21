@@ -17,7 +17,8 @@ namespace TypeOEngine.Typedeaf.Core
 
             void IHasData.CreateData()
             {
-                EntityData = (D)Activator.CreateInstance(typeof(D));
+                if(!typeof(D).IsAbstract)
+                    EntityData = (D)Activator.CreateInstance(typeof(D));
             }
         }
     }

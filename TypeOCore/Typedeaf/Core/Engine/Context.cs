@@ -221,8 +221,15 @@ namespace TypeOEngine.Typedeaf.Core
                     else
                     {
                         hasData.CreateData();
-                        Logger.Log(LogLevel.Ludacris, $"Creating EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' into {obj.GetType().FullName}");
-                        hasData.EntityData.Initialize();
+                        if (hasData.EntityData != null)
+                        {
+                            Logger.Log(LogLevel.Ludacris, $"Creating EntityData of type '{(obj as IHasData).EntityData.GetType().FullName}' into {obj.GetType().FullName}");
+                            hasData.EntityData.Initialize();
+                        }
+                        else
+                        {
+                            Logger.Log(LogLevel.Ludacris, $"EntityData creation skipped on {obj.GetType().FullName}");
+                        }
                     }
                 }
 
