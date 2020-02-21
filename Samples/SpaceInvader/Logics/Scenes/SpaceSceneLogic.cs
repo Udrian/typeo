@@ -76,11 +76,7 @@ namespace SpaceInvader.Logics.Scenes
                     }
                 }
             }
-            EntityUpdate(dt);
-        }
 
-        private void EntityUpdate(double dt)
-        {
             foreach (var alien in Scene.Entities.List<Alien>())
             {
                 if (alien.WillBeDeleted) continue;
@@ -96,6 +92,7 @@ namespace SpaceInvader.Logics.Scenes
                         {
                             alien.Remove();
                             Game.Score++;
+                            break;
                         }
                     }
                 }

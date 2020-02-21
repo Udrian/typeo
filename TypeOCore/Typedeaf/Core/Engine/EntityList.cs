@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
@@ -26,6 +27,7 @@ namespace TypeOEngine.Typedeaf.Core
             protected List<IHasDrawable> HasDrawables;
             protected List<IIsDrawable> IsDrawables;
             protected List<IHasEntities> HasEntities;
+            protected Dictionary<Type, IEnumerable<Entity>> EntityLists;
 
             internal EntityList()
             {
@@ -35,6 +37,7 @@ namespace TypeOEngine.Typedeaf.Core
                 HasDrawables = new List<IHasDrawable>();
                 IsDrawables = new List<IIsDrawable>();
                 HasEntities = new List<IHasEntities>();
+                EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
             }
 
             public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
@@ -88,6 +91,12 @@ namespace TypeOEngine.Typedeaf.Core
                 if (entity is IHasLogic)
                 {
                     HasLogics.Add(entity as IHasLogic);
+                }
+
+                var eType = typeof(E);
+                if (EntityLists.ContainsKey(eType))
+                {
+                    EntityLists[eType] = Entities.Where(e => e is E).Cast<E>().ToList();
                 }
 
                 Entities.Add(entity);
@@ -163,6 +172,12 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
+                        var iType = Entities[i].GetType();
+                        if (EntityLists.ContainsKey(iType))
+                        {
+                            EntityLists.Remove(iType);
+                        }
+
                         Logger.Log(LogLevel.Debug, $"Removing Entity of type '{Entities[i].GetType().FullName}'");
                         Entities[i].Cleanup();
                         Entities.RemoveAt(i);
@@ -196,11 +211,15 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
-            public IEnumerable<E> List<E>() where E : Entity
+            public List<E> List<E>() where E : Entity
             {
-                //TODO: but to dictonary with type 
+                var eType = typeof(E);
+                if (!EntityLists.ContainsKey(eType))
+                {
+                    EntityLists.Add(eType, Entities.Where(e => e is E).Cast<E>().ToList());
+                }
 
-                return Entities.Where(e => e is E).Cast<E>();
+                return EntityLists[eType] as List<E>;
             }
         }
     }

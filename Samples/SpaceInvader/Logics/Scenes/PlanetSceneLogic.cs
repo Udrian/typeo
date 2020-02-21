@@ -1,6 +1,5 @@
 ﻿using SpaceInvader.Entities;
 using SpaceInvader.Scenes;
-using System.Linq;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -38,7 +37,7 @@ namespace SpaceInvader.Logics.Scenes
                     AlienSpawns--;
                 }
             }
-            if (AlienSpawns == 0 && Scene.Entities.List<AlienGround>().ToList().Count() == 0)
+            if (AlienSpawns == 0 && Scene.Entities.List<AlienGround>().Count == 0)
             {
                 Scene.Scenes.SetScene<SpaceScene>();
             }
