@@ -1,24 +1,23 @@
 ﻿using SpaceInvader.Entities;
-using System.Linq;
+using SpaceInvader.Logics.Scenes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
-    public class PlanetScene : Scene, IHasGame<SpaceInvaderGame>
+    public class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSceneLogic>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public SpaceInvaderGame Game { get; set; }
         public PlayerGround Player { get; set; }
-
-        public int AlienSpawns { get; set; } = 100;
-        public double AlienSpawnTimer { get; set; } = 0;
-        public double AlienSpawnTime { get; set; } = 0.25;
+        public PlanetSceneLogic Logic { get; set; }
+        public bool PauseLogic { get; set; }
 
         public override void Initialize()
         {
@@ -36,49 +35,7 @@ namespace SpaceInvader.Scenes
                 Game.Exit();
             }
 
-            if (AlienSpawns > 0)
-            {
-                AlienSpawnTimer += dt;
-                if (AlienSpawnTimer >= AlienSpawnTime)
-                {
-                    AlienSpawnTimer -= AlienSpawnTime;
-                    Entities.Create<AlienGround>();
-                    AlienSpawns--;
-                }
-            }
-            if(AlienSpawns == 0 && Entities.List<AlienGround>().ToList().Count() == 0)
-            {
-                Scenes.SetScene<SpaceScene>();
-            }
-
-            foreach (var alien in Entities.List<AlienGround>())
-            {
-                foreach (var bullet in Entities.List<Bullet>())
-                {
-                    if (alien.Position.X <= bullet.Position.X && (alien.Position.X + alien.Size.X) >= bullet.Position.X &&
-                        alien.Position.Y <= bullet.Position.Y && (alien.Position.Y + alien.Size.Y) >= bullet.Position.Y)
-                    {
-                        bullet.Remove();
-                        alien.EntityData.Health--;
-                        if (alien.EntityData.Health <= 0)
-                        {
-                            alien.Remove();
-                            Game.Score++;
-                        }
-                    }
-                }
-
-                if (alien.Position.X <= Player.Position.X + Player.Size.X && (alien.Position.X + alien.Size.X) >= Player.Position.X &&
-                    alien.Position.Y <= Player.Position.Y + Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Player.Position.Y)
-                {
-                    alien.Remove();
-                    Player.EntityData.Health--;
-                    if (Player.EntityData.Health <= 0)
-                    {
-                        Scenes.SetScene<SpaceScene>();
-                    }
-                }
-            }
+            Logic.Update(dt);
         }
 
         public override void Draw()
@@ -99,7 +56,7 @@ namespace SpaceInvader.Scenes
 
         public override void OnExit(Scene to)
         {
-            AlienSpawns = 100;
+            Logic.AlienSpawns = 100;
             foreach (var bullet in Entities.List<Bullet>())
             {
                 bullet.Remove();
