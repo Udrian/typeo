@@ -22,21 +22,23 @@ namespace TypeOEngine.Typedeaf.Core
             public Entity Entity { get; set; }
 
             protected List<Entity> Entities;
-            protected List<IIsUpdatable> Updatables;
-            protected List<IHasLogic> HasLogics;
-            protected List<IHasDrawable> HasDrawables;
-            protected List<IIsDrawable> IsDrawables;
+            protected List<Entity> EntitiesToAdd;
+
+            protected List<Entity> Updatables;
+            protected List<Entity> Drawables;
             protected List<IHasEntities> HasEntities;
+
             protected Dictionary<Type, IEnumerable<Entity>> EntityLists;
 
             internal EntityList()
             {
                 Entities = new List<Entity>();
-                Updatables = new List<IIsUpdatable>();
-                HasLogics = new List<IHasLogic>();
-                HasDrawables = new List<IHasDrawable>();
-                IsDrawables = new List<IIsDrawable>();
+                EntitiesToAdd = new List<Entity>();
+
+                Updatables = new List<Entity>();
+                Drawables = new List<Entity>();
                 HasEntities = new List<IHasEntities>();
+
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
             }
 
@@ -68,59 +70,56 @@ namespace TypeOEngine.Typedeaf.Core
                 Context.InitializeObject(entity, this);
                 entity.Initialize();
 
-                if (entity is IIsUpdatable)
-                {
-                    Updatables.Add(entity as IIsUpdatable);
-                }
-
-                if (entity is IHasDrawable)
-                {
-                    HasDrawables.Add(entity as IHasDrawable);
-                }
-
-                if (entity is IIsDrawable)
-                {
-                    IsDrawables.Add(entity as IIsDrawable);
-                }
-
-                if(entity is IHasEntities)
-                {
-                    HasEntities.Add(entity as IHasEntities);
-                }
-
-                if (entity is IHasLogic)
-                {
-                    HasLogics.Add(entity as IHasLogic);
-                }
-
                 var eType = typeof(E);
                 if (EntityLists.ContainsKey(eType))
                 {
                     EntityLists[eType] = Entities.Where(e => e is E).Cast<E>().ToList();
                 }
 
-                Entities.Add(entity);
+                EntitiesToAdd.Add(entity);
 
                 return entity;
+            }
+
+            private void AddEntity(Entity entity)
+            {
+                if (entity is IIsUpdatable || entity is IHasLogic)
+                {
+                    Updatables.Add(entity);
+                }
+
+                if (entity is IHasDrawable || entity is IIsDrawable)
+                {
+                    Drawables.Add(entity);
+                }
+
+                if (entity is IHasEntities hasEntities)
+                {
+                    HasEntities.Add(hasEntities);
+                }
+
+                Entities.Add(entity);
             }
 
             public void Update(double dt)
             {
                 foreach(var entity in Updatables)
                 {
-                    if ((entity as Entity)?.WillBeDeleted == true) continue;
-                    if (!entity.Pause)
-                    {
-                        entity.Update(dt);
-                    }
-                }
+                    if (entity.WillBeDeleted) continue;
 
-                foreach(var entity in HasLogics)
-                {
-                    if ((entity as Entity)?.WillBeDeleted == true) continue;
-                    if (!entity.PauseLogic)
+                    if (entity is IIsUpdatable isUpdatable)
                     {
-                        entity.Logic.Update(dt);
+                        if (!isUpdatable.Pause)
+                        {
+                            isUpdatable.Update(dt);
+                        }
+                    }
+                    else if (entity is IHasLogic hasLogic)
+                    {
+                        if (!hasLogic.PauseLogic)
+                        {
+                            hasLogic.Logic.Update(dt);
+                        }
                     }
                 }
 
@@ -130,6 +129,13 @@ namespace TypeOEngine.Typedeaf.Core
                     if ((entity as IIsUpdatable)?.Pause == true) continue;
                     entity.Entities.Update(dt);
                 }
+
+                //Add entities
+                foreach(var entity in EntitiesToAdd)
+                {
+                    AddEntity(entity);
+                }
+                EntitiesToAdd.Clear();
 
                 //Remove entities
                 for (int i = Entities.Count - 1; i >= 0; i--)
@@ -145,20 +151,11 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
-                        for (int j = 0; j < HasDrawables.Count; j++)
+                        for (int j = 0; j < Drawables.Count; j++)
                         {
-                            if (HasDrawables[j] == Entities[i])
+                            if (Drawables[j] == Entities[i])
                             {
-                                HasDrawables.RemoveAt(j);
-                                break;
-                            }
-                        }
-
-                        for (int j = 0; j < IsDrawables.Count; j++)
-                        {
-                            if (IsDrawables[j] == Entities[i])
-                            {
-                                IsDrawables.RemoveAt(j);
+                                Drawables.RemoveAt(j);
                                 break;
                             }
                         }
@@ -187,24 +184,29 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Draw(Canvas canvas)
             {
-                foreach (var entity in HasDrawables)
+                foreach (var entity in Drawables)
                 {
-                    if (!entity.Hidden)
-                    {
-                        entity.Drawable.Draw(canvas);
-                    }
-                }
+                    if (entity.WillBeDeleted) continue;
 
-                foreach (var entity in IsDrawables)
-                {
-                    if (!entity.Hidden)
+                    if (entity is IHasDrawable hasDrawable)
                     {
-                        entity.Draw(canvas);
+                        if (!hasDrawable.Hidden)
+                        {
+                            hasDrawable.Drawable.Draw(canvas);
+                        }
+                    }
+                    else if (entity is IIsDrawable isDrawable)
+                    {
+                        if (!isDrawable.Hidden)
+                        {
+                            isDrawable.Draw(canvas);
+                        }
                     }
                 }
 
                 foreach (var entity in HasEntities)
                 {
+                    if ((entity as Entity)?.WillBeDeleted == true) continue;
                     if ((entity as IIsDrawable)?.Hidden == true) continue;
                     if ((entity as IHasDrawable)?.Hidden == true) continue;
                     entity.Entities.Draw(canvas);
