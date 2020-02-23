@@ -4,6 +4,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Entity
         {
+            public string ID { get; set; }
             public Entity Parent { get; set; }
 
             public Entity() { }

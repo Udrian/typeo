@@ -21,14 +21,15 @@ namespace TypeOEngine.Typedeaf.Core
             public Scene Scene { get; set; }
             public Entity Entity { get; set; }
 
-            protected List<Entity> Entities;
-            protected List<Entity> EntitiesToAdd;
+            private List<Entity> Entities;
+            private List<Entity> EntitiesToAdd;
 
-            protected List<Entity> Updatables;
-            protected List<Entity> Drawables;
-            protected List<IHasEntities> HasEntities;
+            private List<Entity> Updatables;
+            private List<Entity> Drawables;
+            private List<IHasEntities> HasEntities;
 
-            protected Dictionary<Type, IEnumerable<Entity>> EntityLists;
+            private Dictionary<Type, IEnumerable<Entity>> EntityLists;
+            private Dictionary<string, Entity> EntityIDs;
 
             internal EntityList()
             {
@@ -40,6 +41,7 @@ namespace TypeOEngine.Typedeaf.Core
                 HasEntities = new List<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
+                EntityIDs = new Dictionary<string, Entity>();
             }
 
             public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
@@ -76,6 +78,11 @@ namespace TypeOEngine.Typedeaf.Core
                     EntityLists[eType] = Entities.Where(e => e is E).Cast<E>().ToList();
                 }
 
+                if (string.IsNullOrEmpty(entity.ID))
+                {
+                    entity.ID = Guid.NewGuid().ToString();
+                }
+                EntityIDs.Add(entity.ID, entity);
                 EntitiesToAdd.Add(entity);
 
                 return entity;
@@ -83,6 +90,8 @@ namespace TypeOEngine.Typedeaf.Core
 
             private void AddEntity(Entity entity)
             {
+                Logger.Log(LogLevel.Debug, $"Entity of type '{entity.GetType().FullName}' added");
+
                 if (entity is IIsUpdatable || entity is IHasLogic)
                 {
                     Updatables.Add(entity);
@@ -222,6 +231,16 @@ namespace TypeOEngine.Typedeaf.Core
                 }
 
                 return EntityLists[eType] as List<E>;
+            }
+
+            public E GetEntityByID<E>(string id) where E : Entity
+            {
+                if (!EntityIDs.ContainsKey(id))
+                    return null;
+                var entity = EntityIDs[id] as E;
+                if (entity == null)
+                    Logger.Log(LogLevel.Warning, $"Entity with id '{id}' is not of type '{typeof(E).FullName}'");
+                return entity;
             }
         }
     }
