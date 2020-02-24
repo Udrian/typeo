@@ -80,93 +80,93 @@ namespace TypeOEngine.Typedeaf.Core
                 var t = InverseLerp(iMin, iMax, value);
                 return Lerp(oMin, oMax, t.Value);
             }
-        }
 
-        public class TMathValue<TValue>
-        {
-            public TValue Value { get; private set; }
-
-            internal TMathValue(TValue value)
+            public class TMathValue<TValue>
             {
-                Value = value;
-            }
+                public TValue Value { get; private set; }
 
-            public TMathValue<TValue> Add(TValue bInput)
-            {
-                return TMath.Add(Value, bInput);
-            }
+                internal TMathValue(TValue value)
+                {
+                    Value = value;
+                }
 
-            public TMathValue<TValue> Subtract(TValue bInput)
-            {
-                return TMath.Subtract(Value, bInput);
-            }
+                public TMathValue<TValue> Add(TValue bInput)
+                {
+                    return TMath.Add(Value, bInput);
+                }
 
-            public TMathValue<TValue> Multiply(TValue bInput)
-            {
-                return TMath.Multiply(Value, bInput);
-            }
+                public TMathValue<TValue> Subtract(TValue bInput)
+                {
+                    return TMath.Subtract(Value, bInput);
+                }
 
-            public TMathValue<TValue> Divide(TValue bInput)
-            {
-                return TMath.Divide(Value, bInput);
-            }
+                public TMathValue<TValue> Multiply(TValue bInput)
+                {
+                    return TMath.Multiply(Value, bInput);
+                }
 
-            public TMathValue<TValue> Max(TValue bInput)
-            {
-                return TMath.Max(Value, bInput);
-            }
+                public TMathValue<TValue> Divide(TValue bInput)
+                {
+                    return TMath.Divide(Value, bInput);
+                }
 
-            public TMathValue<TValue> Min(TValue bInput)
-            {
-                return TMath.Min(Value, bInput);
-            }
+                public TMathValue<TValue> Max(TValue bInput)
+                {
+                    return TMath.Max(Value, bInput);
+                }
 
-            public TMathValue<TValue> Lerp<T>(TValue bInput, T tInput)
-            {
-                return TMath.Lerp(Value, bInput, tInput);
-            }
+                public TMathValue<TValue> Min(TValue bInput)
+                {
+                    return TMath.Min(Value, bInput);
+                }
 
-            public TMathValue<TValue> InverseLerp(TValue aInput, TValue bInput)
-            {
-                return TMath.InverseLerp(aInput, bInput, Value);
-            }
+                public TMathValue<TValue> Lerp<T>(TValue bInput, T tInput)
+                {
+                    return TMath.Lerp(Value, bInput, tInput);
+                }
 
-            public TMathValue<T> InverseLerp<T>(TValue aInput, TValue bInput)
-            {
-                dynamic a = aInput;
-                dynamic b = bInput;
-                dynamic v = Value;
+                public TMathValue<TValue> InverseLerp(TValue aInput, TValue bInput)
+                {
+                    return TMath.InverseLerp(aInput, bInput, Value);
+                }
 
-                return new TMathValue<T>((v - a) / (b - a));
-            }
+                public TMathValue<T> InverseLerp<T>(TValue aInput, TValue bInput)
+                {
+                    dynamic a = aInput;
+                    dynamic b = bInput;
+                    dynamic v = Value;
 
-            public TMathValue<TOutput> Remap<TOutput>(TValue iMin, TValue iMax, TOutput oMin, TOutput oMax)
-            {
-                return TMath.Remap(iMin, iMax, oMin, oMax, Value);
-            }
+                    return new TMathValue<T>((v - a) / (b - a));
+                }
 
-            //TMathValue
-            public TMathValue<TValue> UpperClamp(TValue clampTo)
-            {
-                dynamic a = Value;
-                dynamic b = clampTo;
-                Value = a < b ? a : b;
-                return this;
-            }
+                public TMathValue<TOutput> Remap<TOutput>(TValue iMin, TValue iMax, TOutput oMin, TOutput oMax)
+                {
+                    return TMath.Remap(iMin, iMax, oMin, oMax, Value);
+                }
 
-            public TMathValue<TValue> LowerClamp(TValue clampTo)
-            {
-                dynamic a = Value;
-                dynamic b = clampTo;
-                Value = a > b ? a : b;
-                return this;
-            }
+                //TMathValue
+                public TMathValue<TValue> UpperClamp(TValue clampTo)
+                {
+                    dynamic a = Value;
+                    dynamic b = clampTo;
+                    Value = a < b ? a : b;
+                    return this;
+                }
 
-            public TMathValue<TValue> Abs()
-            {
-                dynamic v = Value;
-                Value = Math.Abs(v);
-                return this;
+                public TMathValue<TValue> LowerClamp(TValue clampTo)
+                {
+                    dynamic a = Value;
+                    dynamic b = clampTo;
+                    Value = a > b ? a : b;
+                    return this;
+                }
+
+                public TMathValue<TValue> Abs()
+                {
+                    dynamic v = Value;
+                    Value = Math.Abs(v);
+                    return this;
+                }
             }
         }
     }
