@@ -9,8 +9,8 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using SDL_Renderer = System.IntPtr;
-using SDL_Font = System.IntPtr;
-using SDL_Image = System.IntPtr;
+using SDL_Surface = System.IntPtr;
+using SDL_Texture = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -174,7 +174,6 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
                 InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source, entity);
-
             }
 
             private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
@@ -226,7 +225,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if (source == null)
-                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (SDL_Font)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
@@ -240,8 +239,8 @@ namespace TypeOEngine.Typedeaf.SDL
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
 
-                SDL2.SDL.SDL_DestroyTexture(fontTex);
                 SDL2.SDL.SDL_FreeSurface(fontSur);
+                SDL2.SDL.SDL_DestroyTexture(fontTex);
             }
 
             public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
@@ -252,7 +251,6 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
                 InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
-
             }
 
             private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
@@ -299,7 +297,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if (source == null)
-                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (SDL_Image)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect

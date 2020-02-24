@@ -114,11 +114,11 @@ namespace TypeOEngine.Typedeaf.SDL
                         return false;
                     }
                     SDL2.SDL.SDL_GetWindowDisplayMode(SDL_Window, out SDL2.SDL.SDL_DisplayMode mode);
-                    return mode.format == (uint)SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP;
+                    return mode.format == (uint)SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS;
                 }
                 set {
                     if (SDL_Window != null)
-                        SDL2.SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP : 0));
+                        SDL2.SDL.SDL_SetWindowBordered(SDL_Window, value ? SDL2.SDL.SDL_bool.SDL_FALSE : SDL2.SDL.SDL_bool.SDL_TRUE);
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Borderless of Window because Window is not initialized");
                 }

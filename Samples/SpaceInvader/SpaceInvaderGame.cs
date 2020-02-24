@@ -34,7 +34,7 @@ namespace SpaceInvader
 
             Scenes = CreateScenes();
 
-            Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize); ;
+            Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
             Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);
             Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
             Scenes.SetScene<SpaceScene>();
