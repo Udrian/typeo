@@ -53,6 +53,14 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 StartTime = DateTime.UtcNow;
 
+                foreach (var module in Modules)
+                {
+                    if (module.WillLoadExtensions)
+                    {
+                        module.LoadExtensions();
+                    }
+                }
+
                 if (Logger == null)
                 {
                     Logger = new DefaultLogger

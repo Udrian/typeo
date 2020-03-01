@@ -17,7 +17,7 @@ namespace TypeOEngine.Typedeaf.Core
             public ITypeO BindContent<CFrom, CTo>() where CFrom : Content where CTo : Content, new();
             public ITypeO SetLogger(LogLevel logLevel = LogLevel.None);
             public ITypeO SetLogger<L>(LogLevel logLevel = LogLevel.None) where L : ILogger, new();
-            public M LoadModule<M>() where M : Module, new();
+            public ITypeO LoadModule<M>(ModuleOption option = null, bool loadExtensions = true) where M : Module, new();
         }
     }
 }

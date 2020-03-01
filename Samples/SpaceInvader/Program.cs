@@ -1,6 +1,7 @@
 using System;
-using TypeOEngine.Typedeaf.SDL;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Desktop;
+using TypeOEngine.Typedeaf.SDL;
 
 namespace SpaceInvader
 {
@@ -10,12 +11,8 @@ namespace SpaceInvader
         public static void Main()
         {
             TypeO.Create<SpaceInvaderGame>("Space invader")
-                .LoadModule<DesktopModule>()
-                .SetDefaultLogToDisk(false)
+                .LoadModule<DesktopModule>(new DesktopModuleOption() { SaveLogsToDisk = false })
                 .LoadModule<SDLModule>()
-                .AddDefaultSDLServices()
-                .AddDefaultSDLHardware()
-                .AddDefaultSDLContentBinding()
                 .SetLogger(LogLevel.Info)
                 .Start();
         }

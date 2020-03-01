@@ -1,7 +1,9 @@
+using System.Linq;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL;
@@ -98,8 +100,9 @@ namespace Test
         [Fact]
         public void LoadSDLModule()
         {
-            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
-            var module = typeO.LoadModule<SDLModule>();
+            var typeO = TypeO.Create<TestGame>(GameName)
+                             .LoadModule<SDLModule>() as TypeO;
+            var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(SDLModule)) as SDLModule;
             Assert.NotNull(module);
             Assert.IsType<SDLModule>(module);
             Assert.NotEmpty(typeO.Context.Modules);
@@ -112,9 +115,6 @@ namespace Test
             var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
             typeO.LoadModule<DesktopModule>()
                 .LoadModule<SDLModule>()
-                .AddDefaultSDLContentBinding()
-                .AddDefaultSDLHardware()
-                .AddDefaultSDLServices()
                 .Start();
 
             Assert.NotEmpty(typeO.Context.ContentBinding);
@@ -152,9 +152,6 @@ namespace Test
             var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
             typeO.LoadModule<DesktopModule>()
                 .LoadModule<SDLModule>()
-                .AddDefaultSDLContentBinding()
-                .AddDefaultSDLHardware()
-                .AddDefaultSDLServices()
                 .Start();
 
             var testGame = (typeO.Context.Game as TestGame);

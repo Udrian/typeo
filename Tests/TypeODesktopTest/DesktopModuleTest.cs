@@ -1,6 +1,7 @@
-﻿using TypeOEngine.Typedeaf.Core;
+﻿using System.Linq;
+using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.SDL;
+using TypeOEngine.Typedeaf.Desktop;
 using Xunit;
 
 namespace TypeODesktopTest
@@ -32,8 +33,9 @@ namespace TypeODesktopTest
         [Fact]
         public void LoadDesktopModule()
         {
-            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
-            var module = typeO.LoadModule<DesktopModule>();
+            var typeO = TypeO.Create<TestGame>(GameName) 
+                             .LoadModule<DesktopModule>() as TypeO;
+            var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(DesktopModule)) as DesktopModule;
             Assert.NotNull(module);
             Assert.IsType<DesktopModule>(module);
             Assert.NotEmpty(typeO.Context.Modules);
@@ -42,9 +44,9 @@ namespace TypeODesktopTest
         [Fact]
         public void TestDefaultLogger()
         {
-            var typeO = TypeO.Create<TestGame>(GameName) as TypeO;
-            typeO.LoadModule<DesktopModule>()
-                .SetDefaultLoggerPath("test");
+            var typeO = TypeO.Create<TestGame>(GameName)
+                             .LoadModule<DesktopModule>(new DesktopModuleOption() { LogPath = "test" }) as TypeO;
+            var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(DesktopModule)) as DesktopModule;
             typeO.Start();
 
             Assert.NotNull(typeO.Context.Logger);

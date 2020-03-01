@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
@@ -116,7 +117,9 @@ namespace TypeOCoreTest
             }
         }
 
-        public class TestModule : Module
+        public class TestModuleOption : ModuleOption {}
+
+        public class TestModule : Module<TestModuleOption>
         {
             public TestModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 0))
             {
@@ -132,9 +135,13 @@ namespace TypeOCoreTest
             public override void Cleanup()
             {
             }
+
+            public override void LoadExtensions()
+            {
+            }
         }
 
-        public class TestRefModule : Module
+        public class TestRefModule : Module<TestModuleOption>
         {
             public TestRefModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 1))
             {
@@ -147,6 +154,10 @@ namespace TypeOCoreTest
             public override void Initialize()
             {
                 TypeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(2, 2, 2));
+            }
+
+            public override void LoadExtensions()
+            {
             }
         }
 
@@ -197,15 +208,16 @@ namespace TypeOCoreTest
         [Fact]
         public void AddModule()
         {
-            var typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
-            var module = typeO.LoadModule<TestModule>();
+            var typeO = TypeO.Create<TestGameWithService>(GameName)
+                             .LoadModule<TestModule>() as TypeO;
+            var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(TestModule)) as TestModule;
             Assert.NotNull(module);
             Assert.IsType<TestModule>(module);
             Assert.NotEmpty(typeO.Context.Modules);
             Assert.Null(module.TestService);
             Assert.Null(module.TestHardware);
 
-            module
+            typeO
                 .AddHardware<ITestHardware, TestHardware>()
                 .AddService<ITestService, TestServiceWithHardware>();
             
