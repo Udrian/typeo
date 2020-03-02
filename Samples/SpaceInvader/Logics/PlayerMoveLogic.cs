@@ -30,9 +30,17 @@ namespace SpaceInvader.Logics
             {
                 Entity.Position.X -= EntityData.Speed;
             }
-            if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
+            else if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
             {
                 Entity.Position.X += EntityData.Speed;
+            }
+            if (KeyboardInputService.IsDown("Up") && Entity.Position.Y > 0)
+            {
+                Entity.Position.Y -= EntityData.Speed;
+            }
+            else if (KeyboardInputService.IsDown("Down") && Entity.Position.Y + Entity.Size.Y < Scene.Window.Size.Y)
+            {
+                Entity.Position.Y += EntityData.Speed;
             }
 
             ShootTimer += dt;
