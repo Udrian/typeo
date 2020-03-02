@@ -32,7 +32,7 @@ namespace SpaceInvader
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_UP);
 
-            Scenes = CreateScenes();
+            Scenes = CreateSceneHandler();
 
             Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
             Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);

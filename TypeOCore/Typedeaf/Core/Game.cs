@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
 
         protected Game() {}
 
-        public SceneList CreateScenes()
+        public SceneList CreateSceneHandler()
         {
             var scenes = new SceneList();
             Context.InitializeObject(scenes);

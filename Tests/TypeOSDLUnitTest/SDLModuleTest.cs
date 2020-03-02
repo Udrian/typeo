@@ -27,7 +27,7 @@ namespace Test
 
             public override void Initialize()
             {
-                Scenes = CreateScenes();
+                Scenes = CreateSceneHandler();
                 Scenes.Window = WindowService.CreateWindow("test", new Vec2(100, 100), new Vec2(100, 100));
                 Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);
                 Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
