@@ -102,21 +102,32 @@ namespace TypeOEngine.Typedeaf.Core
 
             public static double Distance(Vec2 from, Vec2 to)
             {
-                return (to - from).Length();
+                return Direction(from, to).Length();
             }
 
             public static double DistanceSquared(Vec2 from, Vec2 to)
             {
-                return (to - from).LengthSquared();
+                return Direction(from, to).LengthSquared();
             }
 
-            public void Normalize()
+            public Vec2 Direction(Vec2 to)
+            {
+                return new Vec2(to - this);
+            }
+
+            public static Vec2 Direction(Vec2 from, Vec2 to)
+            {
+                return from.Direction(to);
+            }
+
+            public Vec2 Normalize()
             {
                 var l = Length();
-                if (l <= 0) return;
+                if (l <= 0) return this;
                 var factor = 1.0 / l;
                 X *= factor;
                 Y *= factor;
+                return this;
             }
 
             public Vec2 Rotate(double radians)
@@ -124,9 +135,10 @@ namespace TypeOEngine.Typedeaf.Core
                 var cosRadians = Math.Cos(radians);
                 var sinRadians = Math.Sin(radians);
 
-                return new Vec2(
-                    X * cosRadians - Y * sinRadians,
+                Set(X * cosRadians - Y * sinRadians,
                     X * sinRadians + Y * cosRadians);
+
+                return this;
             }
 
             public static Vec2 operator *(Vec2 a, Vec2 b)
@@ -190,7 +202,7 @@ namespace TypeOEngine.Typedeaf.Core
             }
 
             public static Vec2 One { get { return new Vec2(1); } }
-            public static Vec2 Zero { get { return new Vec2(); } }
+            public static Vec2 Zero { get { return new Vec2(0); } }
             public static Vec2 UnitY { get { return new Vec2(0, 1); } }
             public static Vec2 UnitX { get { return new Vec2(1, 0); } }
 
