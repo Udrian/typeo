@@ -1,5 +1,5 @@
-﻿using SpaceInvader.Entities.Data;
-using SpaceInvader.Logics;
+﻿using SpaceInvader.Data.Entities;
+using SpaceInvader.Logics.Aliens;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<DownwardSwayLogic>, IHasScene
+    public class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<AlienSwayLogic>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         public bool Pause { get; set; }
@@ -18,7 +18,7 @@ namespace SpaceInvader.Entities
         
         public AlienData EntityData { get; set; }
         public Scene Scene { get; set; }
-        public DownwardSwayLogic Logic { get; set; }
+        public AlienSwayLogic Logic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override void Initialize()

@@ -2,12 +2,12 @@
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
-using SpaceInvader.Entities.Data;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using SpaceInvader.Logics;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using SpaceInvader.Data.Entities;
 
 namespace SpaceInvader.Entities
 {

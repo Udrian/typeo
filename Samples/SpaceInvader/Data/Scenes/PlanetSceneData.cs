@@ -1,6 +1,6 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities;
 
-namespace SpaceInvader.Entities.Data.Scenes
+namespace SpaceInvader.Data.Scenes
 {
     public class PlanetSceneData : EntityData
     {

@@ -1,5 +1,5 @@
-﻿using SpaceInvader.Entities.Data;
-using SpaceInvader.Logics;
+﻿using SpaceInvader.Data.Entities;
+using SpaceInvader.Logics.Aliens;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
@@ -19,7 +19,7 @@ namespace SpaceInvader.Entities
 
         public AlienData EntityData { get; set; }
         public Scene Scene { get; set; }
-        public DownwardSwayLogic Logic { get; set; }
+        public AlienSwayLogic Logic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override Vec2 Size { get => Drawable.Texture.Size; set { } }

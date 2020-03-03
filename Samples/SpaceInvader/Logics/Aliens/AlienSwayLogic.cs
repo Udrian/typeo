@@ -1,4 +1,4 @@
-﻿using SpaceInvader.Entities.Data;
+﻿using SpaceInvader.Data.Entities;
 using System;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
@@ -6,9 +6,9 @@ using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
-namespace SpaceInvader.Logics
+namespace SpaceInvader.Logics.Aliens
 {
-    public class DownwardSwayLogic : Logic, IHasGame<SpaceInvaderGame>, IHasData<AlienData>, IHasEntity<Entity2d>, IHasScene
+    public class AlienSwayLogic : Logic, IHasGame<SpaceInvaderGame>, IHasData<AlienData>, IHasEntity<Entity2d>, IHasScene
     {
         public AlienData EntityData { get; set; }
         public SpaceInvaderGame Game { get; set; }
