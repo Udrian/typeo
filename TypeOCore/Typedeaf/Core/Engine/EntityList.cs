@@ -21,15 +21,15 @@ namespace TypeOEngine.Typedeaf.Core
             public Scene Scene { get; set; }
             public Entity Entity { get; set; }
 
-            private List<Entity> Entities;
-            private List<Entity> EntitiesToAdd;
+            private List<Entity> Entities { get; set; }
+            private List<Entity> EntitiesToAdd { get; set; }
 
-            private List<Entity> Updatables;
-            private List<Entity> Drawables;
-            private List<IHasEntities> HasEntities;
+            private List<Entity> Updatables { get; set; }
+            private List<Entity> Drawables { get; set; }
+            private List<IHasEntities> HasEntities { get; set; }
 
-            private Dictionary<Type, IEnumerable<Entity>> EntityLists;
-            private Dictionary<string, Entity> EntityIDs;
+            private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
+            private Dictionary<string, Entity> EntityIDs { get; set; }
 
             internal EntityList()
             {
@@ -123,7 +123,7 @@ namespace TypeOEngine.Typedeaf.Core
                             isUpdatable.Update(dt);
                         }
                     }
-                    else if (entity is IHasLogic hasLogic)
+                    if (entity is IHasLogic hasLogic)
                     {
                         if (!hasLogic.PauseLogic)
                         {
@@ -204,7 +204,7 @@ namespace TypeOEngine.Typedeaf.Core
                             hasDrawable.Drawable.Draw(canvas);
                         }
                     }
-                    else if (entity is IIsDrawable isDrawable)
+                    if (entity is IIsDrawable isDrawable)
                     {
                         if (!isDrawable.Hidden)
                         {
