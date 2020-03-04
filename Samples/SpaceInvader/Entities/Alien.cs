@@ -1,5 +1,4 @@
 ﻿using SpaceInvader.Data.Entities;
-using SpaceInvader.Logics.Aliens;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -9,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public abstract class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<LogicMulti>, IHasScene
+    public class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<LogicMulti>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         public bool Pause { get; set; }
@@ -21,6 +20,10 @@ namespace SpaceInvader.Entities
         public bool PauseLogic { get; set; }
 
         public override Vec2 Size { get => Drawable.Size; set { } }
+
+        public override void Initialize()
+        {
+        }
 
         public override void Cleanup()
         {
