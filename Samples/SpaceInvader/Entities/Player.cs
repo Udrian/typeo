@@ -29,7 +29,7 @@ namespace SpaceInvader.Entities
         {
             LoadContent();
             HealthTexture = Drawable.Texture;
-            EntityData.Speed = 5;
+            EntityData.Speed = 500;
             EntityData.Health = 3;
 
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);

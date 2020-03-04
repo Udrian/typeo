@@ -28,20 +28,25 @@ namespace SpaceInvader.Logics
         {
             if (KeyboardInputService.IsDown("Left") && Entity.Position.X > 0)
             {
-                Entity.Position.X -= EntityData.Speed;
+                Entity.Position.X -= EntityData.Speed * dt;
             }
             else if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
             {
-                Entity.Position.X += EntityData.Speed;
+                Entity.Position.X += EntityData.Speed * dt;
             }
             if (KeyboardInputService.IsDown("Up") && Entity.Position.Y > 0)
             {
-                Entity.Position.Y -= EntityData.Speed;
+                Entity.Position.Y -= EntityData.Speed * dt;
             }
             else if (KeyboardInputService.IsDown("Down") && Entity.Position.Y + Entity.Size.Y < Scene.Window.Size.Y)
             {
-                Entity.Position.Y += EntityData.Speed;
+                Entity.Position.Y += EntityData.Speed * dt;
             }
+
+            if (Entity.Position.X < 0) Entity.Position.X = 0;
+            if (Entity.Position.X > Scene.Window.Size.X - Entity.Size.X) Entity.Position.X = Scene.Window.Size.X - Entity.Size.X;
+            if (Entity.Position.Y < 0) Entity.Position.Y = 0;
+            if (Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.Y = Scene.Window.Size.Y - Entity.Size.Y;
 
             ShootTimer += dt;
 
@@ -52,12 +57,12 @@ namespace SpaceInvader.Logics
                     ShootTimer = 0;
                     if (Entity is PlayerGround)
                     {
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X / 2 - 2, Entity.Position.Y));
+                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X / 2 - 2, Entity.Position.Y)).EntityData.Speed += EntityData.Speed;
                     }
                     else
                     {
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + 25, Entity.Position.Y + Entity.Size.Y - 55));
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X - 35, Entity.Position.Y + Entity.Size.Y - 55));
+                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + 25, Entity.Position.Y + Entity.Size.Y - 55)).EntityData.Speed += EntityData.Speed;
+                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X - 35, Entity.Position.Y + Entity.Size.Y - 55)).EntityData.Speed += EntityData.Speed;
                     }
                 }
             }
