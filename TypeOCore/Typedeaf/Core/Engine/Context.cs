@@ -239,6 +239,11 @@ namespace TypeOEngine.Typedeaf.Core
                             Logger.Log(LogLevel.Ludacris, $"EntityData creation skipped on {obj.GetType().FullName}");
                         }
                     }
+
+                    if ((obj as IHasData).EntityData == null)
+                    {
+                        Logger.Log(LogLevel.Warning, $"EntityData is null in {obj.GetType().FullName}");
+                    }
                 }
 
                 if (obj is IHasScene)
@@ -252,6 +257,10 @@ namespace TypeOEngine.Typedeaf.Core
                         (obj as IHasScene).Scene = (from as IHasScene)?.Scene;
                     }
                     Logger.Log(LogLevel.Ludacris, $"Injecting Scene of type '{(obj as IHasScene).Scene?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+                    if ((obj as IHasScene).Scene == null)
+                    {
+                        Logger.Log(LogLevel.Warning, $"Scene is null in {obj.GetType().FullName}");
+                    }
                 }
 
                 if (obj is IHasDrawable)
@@ -269,6 +278,11 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     (obj as IHasEntity).Entity = from as Entity;
                     Logger.Log(LogLevel.Ludacris, $"Injecting Entity of type '{(obj as IHasEntity).Entity?.GetType().FullName}' from '{from.GetType().FullName}' into {obj.GetType().FullName}");
+
+                    if ((obj as IHasEntity).Entity == null)
+                    {
+                        Logger.Log(LogLevel.Warning, $"Entity is null in {obj.GetType().FullName}");
+                    }
                 }
 
                 if (obj is IHasEntities)

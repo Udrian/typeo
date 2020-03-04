@@ -2,8 +2,6 @@
 using SpaceInvader.Entities;
 using SpaceInvader.Scenes;
 using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -11,17 +9,12 @@ namespace SpaceInvader.Logics.Scenes
 {
     public class PlanetSceneLogic : Logic, IHasScene<PlanetScene>, IHasGame<SpaceInvaderGame>, IHasData<PlanetSceneData>
     {
-        public ILogger Logger { get; set; }
         public PlanetScene Scene { get; set; }
         public SpaceInvaderGame Game { get; set; }
         public PlanetSceneData EntityData { get; set; }
 
         public override void Initialize()
         {
-            if(Scene == null)
-            {
-                Logger.Log(LogLevel.Warning, "Scene is null in PlanetSceneLogic");
-            }
         }
 
         public override void Update(double dt)

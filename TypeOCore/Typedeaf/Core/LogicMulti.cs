@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -42,6 +43,11 @@ namespace TypeOEngine.Typedeaf.Core
             Logics.Add(logic);
 
             return logic;
+        }
+
+        public L GetLogic<L>() where L : Logic
+        {
+            return Logics.FirstOrDefault(l => l is L) as L;
         }
     }
 }

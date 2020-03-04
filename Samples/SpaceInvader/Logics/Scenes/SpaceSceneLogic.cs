@@ -5,8 +5,6 @@ using SpaceInvader.Logics.Aliens;
 using SpaceInvader.Scenes;
 using System;
 using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -14,17 +12,12 @@ namespace SpaceInvader.Logics.Scenes
 {
     public class SpaceSceneLogic : Logic, IHasScene<SpaceScene>, IHasGame<SpaceInvaderGame>, IHasData<SpaceSceneData>
     {
-        public ILogger Logger { get; set; }
         public SpaceScene Scene { get; set; }
         public SpaceInvaderGame Game { get; set; }
         public SpaceSceneData EntityData { get; set; }
 
         public override void Initialize()
         {
-            if (Scene == null)
-            {
-                Logger.Log(LogLevel.Warning, "Scene is null in SpaceSceneLogic");
-            }
         }
 
         public override void Update(double dt)
