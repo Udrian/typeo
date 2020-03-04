@@ -7,7 +7,7 @@ namespace SpaceInvader.Data.Scenes
         public double AlienSpawnTimer { get; set; } = 0;
         public double AlienSpawnTime { get; set; } = 5;
         public double AlienSpawnFrequencyTimer { get; set; } = 0;
-        public double AlienSpawnFrequencyTime { get; set; } = 0.25;
+        public double AlienSpawnFrequencyTime { get; set; } = 0.5;
         public int AlienSpawnAmount { get; set; } = 4;
         public int AlienSpawns { get; set; } = 0;
         public bool AlienSpawning { get; set; } = false;

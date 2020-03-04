@@ -15,7 +15,7 @@ namespace SpaceInvader
         public IWindowService WindowService { get; set; }
         public IKeyboardInputService KeyboardInputService { get; set; }
 
-        public Vec2 ScreenSize { get; set; } = new Vec2(800, 600);
+        public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);
         public Random Random { get; set; }
         public SceneList Scenes { get; set; }
 

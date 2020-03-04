@@ -56,8 +56,8 @@ namespace SpaceInvader.Logics
                     }
                     else
                     {
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X, Entity.Position.Y + 19));
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + 36, Entity.Position.Y + 19));
+                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + 25, Entity.Position.Y + Entity.Size.Y - 55));
+                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X - 35, Entity.Position.Y + Entity.Size.Y - 55));
                     }
                 }
             }

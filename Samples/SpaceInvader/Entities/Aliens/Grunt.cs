@@ -11,10 +11,7 @@ namespace SpaceInvader.Entities.Aliens
     {
         public Scene Scene { get; set; }
 
-        public override void Initialize()
-        {
-            
-        }
+        public override void Initialize() { }
 
         protected override void InitializeEntity(Alien entity)
         {
@@ -30,7 +27,7 @@ namespace SpaceInvader.Entities.Aliens
 
             entity.Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/alien.png");
 
-            entity.Position = new Vec2(Scene.Window.Size.X / 2, -50);
+            entity.Position = new Vec2(Scene.Window.Size.X / 2, -entity.Size.Y);
         }
     }
 }
