@@ -31,6 +31,8 @@ namespace TypeOEngine.Typedeaf.Core
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
             private Dictionary<string, Entity> EntityIDs { get; set; }
 
+            private Dictionary<Type, Stub> Stubs { get; set; }
+
             internal EntityList()
             {
                 Entities = new List<Entity>();
@@ -42,11 +44,13 @@ namespace TypeOEngine.Typedeaf.Core
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
                 EntityIDs = new Dictionary<string, Entity>();
+
+                Stubs = new Dictionary<Type, Stub>();
             }
 
             public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
             {
-                var entity = CreateEntity<E>() as Entity2d;
+                var entity = Create<E>() as Entity2d;
 
                 entity.Position = position ?? entity.Position;
                 entity.Scale    = scale    ?? entity.Scale;
@@ -57,11 +61,6 @@ namespace TypeOEngine.Typedeaf.Core
             }
 
             public E Create<E>() where E : Entity, new()
-            {
-                return CreateEntity<E>();
-            }
-
-            private E CreateEntity<E>() where E : Entity, new()
             {
                 var entity = new E
                 {
@@ -85,6 +84,34 @@ namespace TypeOEngine.Typedeaf.Core
                 EntityIDs.Add(entity.ID, entity);
                 EntitiesToAdd.Add(entity);
 
+                return entity;
+            }
+
+            public Entity CreateFromStub<S>() where S : Stub, new()
+            {
+                var sType = typeof(S);
+                if (!Stubs.ContainsKey(sType))
+                {
+                    var nStub = new S();
+                    Logger.Log(LogLevel.Debug, $"Creating Stub of type '{typeof(S).FullName}'");
+                    Context.InitializeObject(nStub, this);
+                    nStub.Initialize();
+                    Stubs.Add(sType, nStub);
+                }
+
+                var stub = Stubs[sType];
+                Logger.Log(LogLevel.Debug, $"Creating Entity from Stub '{typeof(S).FullName}'");
+                var entity = stub.CreateEntity(this);
+                return entity;
+            }
+
+            public E CreateFromStub<S, E>() where S : Stub<E>, new() where E : Entity, new()
+            {
+                var entity = CreateFromStub<S>() as E;
+                if(entity == null)
+                {
+                    Logger.Log(LogLevel.Warning, $"Could not create entity '{typeof(E).FullName}' from Stub '{typeof(S).FullName}'");
+                }
                 return entity;
             }
 
