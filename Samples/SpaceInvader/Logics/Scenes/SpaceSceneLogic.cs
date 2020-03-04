@@ -1,5 +1,7 @@
 ﻿using SpaceInvader.Data.Scenes;
 using SpaceInvader.Entities;
+using SpaceInvader.Entities.Aliens;
+using SpaceInvader.Logics.Aliens;
 using SpaceInvader.Scenes;
 using System;
 using TypeOEngine.Typedeaf.Core;
@@ -54,8 +56,8 @@ namespace SpaceInvader.Logics.Scenes
                 if (EntityData.AlienSpawnFrequencyTimer >= EntityData.AlienSpawnFrequencyTime)
                 {
                     EntityData.AlienSpawnFrequencyTimer -= EntityData.AlienSpawnFrequencyTime;
-                    var alien = Scene.Entities.Create<Alien>();
-                    alien.EntityData.Phase = EntityData.AlienSpawnPhase;
+                    var alien = Scene.Entities.Create<Grunt>();
+                    alien.Logic.GetLogic<AlienSwayLogic>().Phase = EntityData.AlienSpawnPhase;
 
                     EntityData.AlienSpawns++;
                     if (EntityData.AlienSpawns >= EntityData.AlienSpawnAmount)

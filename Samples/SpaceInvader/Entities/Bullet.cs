@@ -3,7 +3,6 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using SpaceInvader.Entities.Drawable;
 using TypeOEngine.Typedeaf.Core.Common;
-using System;
 using SpaceInvader.Data.Entities;
 
 namespace SpaceInvader.Entities
