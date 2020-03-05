@@ -45,6 +45,11 @@ namespace TypeOEngine.Typedeaf.Core
             return logic;
         }
 
+        public bool RemoveLogic<L>() where L : Logic
+        {
+            return Logics.Remove(Logics.FirstOrDefault(l => l.GetType() == typeof(L)));
+        }
+
         public L GetLogic<L>() where L : Logic
         {
             return Logics.FirstOrDefault(l => l is L) as L;
