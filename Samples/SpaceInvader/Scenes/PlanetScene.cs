@@ -9,14 +9,14 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
-    public class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSceneLogic>
+    public class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSpawnLogic>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public SpaceInvaderGame Game { get; set; }
         public PlayerGround Player { get; set; }
-        public PlanetSceneLogic Logic { get; set; }
+        public PlanetSpawnLogic Logic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override void Initialize()

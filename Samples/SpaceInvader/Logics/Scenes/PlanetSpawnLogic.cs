@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Logics.Scenes
 {
-    public class PlanetSceneLogic : Logic, IHasScene<PlanetScene>, IHasGame<SpaceInvaderGame>, IHasData<PlanetSceneData>
+    public class PlanetSpawnLogic : Logic, IHasScene<PlanetScene>, IHasGame<SpaceInvaderGame>, IHasData<PlanetSceneData>
     {
         public PlanetScene Scene { get; set; }
         public SpaceInvaderGame Game { get; set; }

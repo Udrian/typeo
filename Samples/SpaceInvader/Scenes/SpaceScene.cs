@@ -17,7 +17,7 @@ namespace SpaceInvader.Scenes
         public Font LoadedFont { get; set; }
         public Player Player { get; set; }
         public LogicMulti Logic { get; set; }
-        public SpaceSceneLogic SpaceSceneLogic { get; set; }
+        public SpaceSpawnLogic SpaceSceneLogic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override void Initialize()
@@ -30,7 +30,7 @@ namespace SpaceInvader.Scenes
             Player = Entities.Create<Player>();
             Entities.Create<Powerup>();
 
-            SpaceSceneLogic = Logic.CreateLogic<SpaceSceneLogic>();
+            SpaceSceneLogic = Logic.CreateLogic<SpaceSpawnLogic>();
         }
 
         public override void Update(double dt)
