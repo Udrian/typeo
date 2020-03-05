@@ -1,4 +1,5 @@
 ﻿using SpaceInvader.Data.Entities;
+using SpaceInvader.Logics.Aliens;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -23,6 +24,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Logic.CreateLogic<AlienBulletDamageLogic>();
         }
 
         public override void Cleanup()

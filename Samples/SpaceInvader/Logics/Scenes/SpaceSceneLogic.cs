@@ -61,38 +61,6 @@ namespace SpaceInvader.Logics.Scenes
                     }
                 }
             }
-
-            foreach (var alien in Scene.Entities.List<Alien>())
-            {
-                if (alien.WillBeDeleted) continue;
-                foreach (var bullet in Scene.Entities.List<Bullet>())
-                {
-                    if (bullet.WillBeDeleted) continue;
-                    if (alien.Position.X <= bullet.Position.X && (alien.Position.X + alien.Size.X) >= bullet.Position.X &&
-                        alien.Position.Y <= bullet.Position.Y && (alien.Position.Y + alien.Size.Y) >= bullet.Position.Y)
-                    {
-                        bullet.Remove();
-                        alien.EntityData.Health--;
-                        if (alien.EntityData.Health <= 0)
-                        {
-                            alien.Remove();
-                            Game.Score++;
-                            break;
-                        }
-                    }
-                }
-
-                if (alien.Position.X <= Scene.Player.Position.X + Scene.Player.Size.X && (alien.Position.X + alien.Size.X) >= Scene.Player.Position.X &&
-                    alien.Position.Y <= Scene.Player.Position.Y + Scene.Player.Size.Y && (alien.Position.Y + alien.Size.Y) >= Scene.Player.Position.Y)
-                {
-                    alien.Remove();
-                    Scene.Player.EntityData.Health--;
-                    if (Scene.Player.EntityData.Health <= 0)
-                    {
-                        Scene.Scenes.SetScene<ScoreScene>();
-                    }
-                }
-            }
         }
     }
 }

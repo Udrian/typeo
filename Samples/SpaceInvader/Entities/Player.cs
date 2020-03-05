@@ -7,6 +7,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using SpaceInvader.Logics;
 using TypeOEngine.Typedeaf.Core.Common;
 using SpaceInvader.Data.Entities;
+using SpaceInvader.Logics.Aliens;
 
 namespace SpaceInvader.Entities
 {
@@ -35,6 +36,7 @@ namespace SpaceInvader.Entities
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
 
             Logic.CreateLogic<PlayerMoveLogic>();
+            Logic.CreateLogic<PlayerAlienDamageLogic>();
         }
 
         public override void Cleanup()
