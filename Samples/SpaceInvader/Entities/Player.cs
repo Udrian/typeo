@@ -4,10 +4,9 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using SpaceInvader.Logics;
 using TypeOEngine.Typedeaf.Core.Common;
 using SpaceInvader.Data.Entities;
-using SpaceInvader.Logics.Aliens;
+using SpaceInvader.Logics.Players;
 
 namespace SpaceInvader.Entities
 {

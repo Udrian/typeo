@@ -1,13 +1,11 @@
 ﻿using SpaceInvader.Data;
 using SpaceInvader.Entities;
 using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
-namespace SpaceInvader.Logics
+namespace SpaceInvader.Logics.Players
 {
     public class PlayerMoveLogic : Logic, IHasEntity<Player>, IHasData<IMovementData>, IHasScene
     {

@@ -3,7 +3,7 @@ using SpaceInvader.Scenes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
-namespace SpaceInvader.Logics.Aliens
+namespace SpaceInvader.Logics.Players
 {
     public class PlayerAlienDamageLogic : Logic, IHasEntity<Player>, IHasScene, IHasGame<SpaceInvaderGame>
     {
