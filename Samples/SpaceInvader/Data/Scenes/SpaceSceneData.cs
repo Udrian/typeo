@@ -13,6 +13,14 @@ namespace SpaceInvader.Data.Scenes
         public bool AlienSpawning { get; set; } = false;
         public double AlienSpawnPhase { get; set; } = 0;
 
+        public double AlienRunnerSpawnTimer { get; set; } = 0;
+        public double AlienRunnerSpawnTime { get; set; } = 10;
+        public double AlienRunnerSpawnFrequencyTimer { get; set; } = 0;
+        public double AlienRunnerSpawnFrequencyTime { get; set; } = 2;
+        public int AlienRunnerSpawnAmount { get; set; } = 10;
+        public int AlienRunnerSpawns { get; set; } = 0;
+        public bool AlienRunnerSpawning { get; set; } = false;
+
         public double PlanetSpawnTimer { get; set; } = 0;
         public double PlanetSpawnTime { get; set; } = 30;
         public bool PlanetSpawned { get; set; }

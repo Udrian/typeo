@@ -62,6 +62,33 @@ namespace SpaceInvader.Logics.Scenes
                 }
             }
 
+            if (!EntityData.AlienRunnerSpawning)
+            {
+                EntityData.AlienRunnerSpawnTimer += dt;
+                if (EntityData.AlienRunnerSpawnTimer >= EntityData.AlienRunnerSpawnTime)
+                {
+                    EntityData.AlienRunnerSpawnTimer -= EntityData.AlienRunnerSpawnTime;
+                    EntityData.AlienRunnerSpawning = true;
+                }
+            }
+            else
+            {
+                EntityData.AlienRunnerSpawnFrequencyTimer += dt;
+                if (EntityData.AlienRunnerSpawnFrequencyTimer >= EntityData.AlienRunnerSpawnFrequencyTime)
+                {
+                    EntityData.AlienRunnerSpawnFrequencyTimer -= EntityData.AlienRunnerSpawnFrequencyTime;
+                    Scene.Entities.CreateFromStub<AlienSpeeder>();
+
+                    EntityData.AlienRunnerSpawns++;
+                    if (EntityData.AlienRunnerSpawns >= EntityData.AlienRunnerSpawnAmount)
+                    {
+                        EntityData.AlienRunnerSpawning = false;
+                        EntityData.AlienRunnerSpawnFrequencyTimer = 0;
+                        EntityData.AlienRunnerSpawns = 0;
+                    }
+                }
+            }
+
             EntityData.PowerUpSpawnTimer += dt;
             if(EntityData.PowerUpSpawnTimer >= EntityData.PowerUpSpawnTime)
             {
