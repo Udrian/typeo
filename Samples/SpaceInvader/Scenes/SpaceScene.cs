@@ -28,7 +28,6 @@ namespace SpaceInvader.Scenes
             Entities.Create<Space>();
 
             Player = Entities.Create<Player>();
-            Entities.Create<Powerup>();
 
             SpaceSceneLogic = Logic.CreateLogic<SpaceSpawnLogic>();
         }

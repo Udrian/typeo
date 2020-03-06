@@ -1,22 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using SpaceInvader.Logics.Players;
+using System.Linq;
+using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Powerup : Entity2d, IIsDrawable
+    public class PowerUp : Entity2d, IHasDrawable<DrawableTexture>, IHasScene, IIsUpdatable, IHasGame<SpaceInvaderGame>
     {
         public bool Hidden { get; set; }
+        public DrawableTexture Drawable { get; set; }
+        public Scene Scene { get; set; }
+        public SpaceInvaderGame Game { get; set; }
 
-        public void Draw(Canvas canvas)
+        public override Vec2 Size { get => Drawable.Size; set { } }
+        public bool Pause { get; set; }
+
+        public double Speed { get; set; } = 200;
+
+        public override void Initialize()
         {
-            canvas.DrawLines(new List<Vec2> { new Vec2(10, 10), new Vec2(5, 5), new Vec2(25, 25) }, Color.Blue, this);
+            Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/powerup.png");
+            Position = new Vec2(Game.Random.Next(0, (int)(Scene.Window.Size.X - Size.X)), - Size.Y);
         }
 
-        public override void Initialize() { }
-
         public override void Cleanup() { }
+
+        public void Update(double dt)
+        {
+            Position.Y += Speed * dt;
+
+            var player = Scene.Entities.List<Player>().FirstOrDefault();
+
+            var r1x = Position.X;
+            var r1y = Position.Y;
+            var r1w = Size.X;
+            var r1h = Size.Y;
+
+            var r2x = player.Position.X;
+            var r2y = player.Position.Y;
+            var r2w = player.Size.X;
+            var r2h = player.Size.Y;
+
+            if (r1x + r1w >= r2x &&
+                r1x <= r2x + r2w &&
+                r1y + r1h >= r2y &&
+                r1y <= r2y + r2h)
+            {
+                player.Logic.CreateLogic<PlayerPowerUpLogic>();
+                Remove();
+            }
+        }
     }
 }

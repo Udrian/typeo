@@ -17,6 +17,9 @@ namespace SpaceInvader.Data.Scenes
         public double PlanetSpawnTime { get; set; } = 30;
         public bool PlanetSpawned { get; set; }
 
+        public double PowerUpSpawnTimer { get; set; } = 0;
+        public double PowerUpSpawnTime { get; set; } = 60;
+
         public override void Initialize()
         {
         }

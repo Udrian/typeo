@@ -61,6 +61,13 @@ namespace SpaceInvader.Logics.Scenes
                     }
                 }
             }
+
+            EntityData.PowerUpSpawnTimer += dt;
+            if(EntityData.PowerUpSpawnTimer >= EntityData.PowerUpSpawnTime)
+            {
+                EntityData.PowerUpSpawnTimer -= EntityData.PowerUpSpawnTime;
+                Scene.Entities.Create<PowerUp>();
+            }
         }
     }
 }

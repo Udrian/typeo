@@ -17,8 +17,21 @@ namespace SpaceInvader.Logics.Aliens
             foreach (var bullet in Scene.Entities.List<Bullet>())
             {
                 if (bullet.WillBeDeleted) continue;
-                if (Entity.Position.X <= bullet.Position.X && (Entity.Position.X + Entity.Size.X) >= bullet.Position.X &&
-                    Entity.Position.Y <= bullet.Position.Y && (Entity.Position.Y + Entity.Size.Y) >= bullet.Position.Y)
+
+                var r1x = Entity.Position.X;
+                var r1y = Entity.Position.Y;
+                var r1w = Entity.Size.X;
+                var r1h = Entity.Size.Y;
+
+                var r2x = bullet.Position.X;
+                var r2y = bullet.Position.Y;
+                var r2w = bullet.Size.X;
+                var r2h = bullet.Size.Y;
+
+                if (r1x + r1w >= r2x &&
+                    r1x <= r2x + r2w &&
+                    r1y + r1h >= r2y &&
+                    r1y <= r2y + r2h)
                 {
                     bullet.Remove();
                     Entity.EntityData.Health--;
