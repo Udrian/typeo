@@ -66,6 +66,10 @@ namespace SpaceInvader.Scenes
             {
                 bullet.Remove();
             }
+            foreach (var alien in Entities.List<Alien>())
+            {
+                alien.Remove();
+            }
         }
     }
 }

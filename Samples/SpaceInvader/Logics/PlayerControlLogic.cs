@@ -9,11 +9,11 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Logics
 {
-    public class PlayerMoveLogic : Logic, IHasEntity<Entity2d>, IHasData<IMovementData>, IHasScene
+    public class PlayerMoveLogic : Logic, IHasEntity<Player>, IHasData<IMovementData>, IHasScene
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
-        public Entity2d Entity { get; set; }
+        public Player Entity { get; set; }
         public IMovementData EntityData { get; set; }
         public Scene Scene { get; set; }
 
@@ -49,21 +49,13 @@ namespace SpaceInvader.Logics
             if (Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.Y = Scene.Window.Size.Y - Entity.Size.Y;
 
             ShootTimer += dt;
-
             if (KeyboardInputService.IsDown("Shoot"))
             {
                 if (ShootTimer >= ShootTime)
                 {
                     ShootTimer = 0;
-                    if (Entity is PlayerGround)
-                    {
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X / 2 - 2, Entity.Position.Y)).EntityData.Speed += EntityData.Speed;
-                    }
-                    else
-                    {
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + 25, Entity.Position.Y + Entity.Size.Y - 55)).EntityData.Speed += EntityData.Speed;
-                        Scene.Entities.Create<Bullet>(new Vec2(Entity.Position.X + Entity.Size.X - 35, Entity.Position.Y + Entity.Size.Y - 55)).EntityData.Speed += EntityData.Speed;
-                    }
+
+                    Entity.Shoot();
                 }
             }
         }

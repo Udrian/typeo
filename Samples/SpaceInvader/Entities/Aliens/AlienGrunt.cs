@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities.Aliens
 {
-    public class Grunt : Stub<Alien>, IHasScene
+    public class AlienGrunt : Stub<Alien>, IHasScene
     {
         public Scene Scene { get; set; }
 

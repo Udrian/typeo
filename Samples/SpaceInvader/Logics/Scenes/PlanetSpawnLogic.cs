@@ -1,5 +1,6 @@
 ﻿using SpaceInvader.Data.Scenes;
 using SpaceInvader.Entities;
+using SpaceInvader.Entities.Aliens;
 using SpaceInvader.Scenes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
@@ -25,11 +26,11 @@ namespace SpaceInvader.Logics.Scenes
                 if (EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
                 {
                     EntityData.AlienSpawnTimer -= EntityData.AlienSpawnTime;
-                    Scene.Entities.Create<AlienGround>();
+                    Scene.Entities.CreateFromStub<AlienRunner>();
                     EntityData.AlienSpawns--;
                 }
             }
-            if (EntityData.AlienSpawns == 0 && Scene.Entities.List<AlienGround>().Count == 0)
+            if (EntityData.AlienSpawns == 0 && Scene.Entities.List<Alien>().Count == 0)
             {
                 Scene.Scenes.SetScene<SpaceScene>();
             }
