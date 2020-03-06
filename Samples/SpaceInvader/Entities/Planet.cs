@@ -1,6 +1,5 @@
-﻿using SpaceInvader.Entities.Data;
+﻿using SpaceInvader.Data.Entities;
 using SpaceInvader.Scenes;
-using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;

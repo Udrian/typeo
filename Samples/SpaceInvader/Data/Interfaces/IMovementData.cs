@@ -1,6 +1,6 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
-namespace SpaceInvader.Entities.Data
+namespace SpaceInvader.Data
 {
     public interface IMovementData : IEntityData
     {

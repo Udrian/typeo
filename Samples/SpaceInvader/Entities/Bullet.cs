@@ -1,9 +1,9 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
-using SpaceInvader.Entities.Data;
 using SpaceInvader.Entities.Drawable;
 using TypeOEngine.Typedeaf.Core.Common;
+using SpaceInvader.Data.Entities;
 
 namespace SpaceInvader.Entities
 {
@@ -13,6 +13,8 @@ namespace SpaceInvader.Entities
         public bool Hidden { get; set; }
         public DrawableBullet Drawable { get; set; }
         public BulletData EntityData { get; set; }
+
+        public override Vec2 Size { get => Drawable.Size; set { } }
 
         public Bullet() : base() { }
 

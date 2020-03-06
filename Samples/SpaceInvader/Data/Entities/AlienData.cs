@@ -1,11 +1,11 @@
 ﻿using TypeOEngine.Typedeaf.Core.Entities;
 
-namespace SpaceInvader.Entities.Data
+namespace SpaceInvader.Data.Entities
 {
-    public class SpaceData : EntityData
+    public class AlienData : EntityData, IMovementData
     {
-        public int NumberOfStars { get; set; }
         public double Speed { get; set; }
+        public int Health { get; set; }
 
         public override void Initialize() { }
     }
