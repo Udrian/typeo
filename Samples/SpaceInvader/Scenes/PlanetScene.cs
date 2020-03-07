@@ -9,7 +9,7 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
-    public class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSpawnLogic>
+    class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSpawnLogic>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 

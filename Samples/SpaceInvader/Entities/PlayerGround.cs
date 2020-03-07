@@ -4,7 +4,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Contents;
 
 namespace SpaceInvader.Entities
 {
-    public class PlayerGround : Player
+    class PlayerGround : Player
     {
         public override void LoadContent()
         {

@@ -7,7 +7,7 @@ using SpaceInvader.Data.Entities;
 
 namespace SpaceInvader.Entities
 {
-    public class Bullet : Entity2d, IHasDrawable<DrawableBullet>, IIsUpdatable, IHasData<BulletData>
+    class Bullet : Entity2d, IHasDrawable<DrawableBullet>, IIsUpdatable, IHasData<BulletData>
     {
         public bool Pause { get; set; }
         public bool Hidden { get; set; }

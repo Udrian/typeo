@@ -2,7 +2,7 @@
 
 namespace SpaceInvader.Data.Scenes
 {
-    public class SpaceSceneData : EntityData
+    class SpaceSceneData : EntityData
     {
         public double AlienSpawnTimer { get; set; } = 0;
         public double AlienSpawnTime { get; set; } = 5;

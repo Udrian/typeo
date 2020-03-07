@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class PowerUp : Entity2d, IHasDrawable<DrawableTexture>, IHasScene, IIsUpdatable, IHasGame<SpaceInvaderGame>
+    class PowerUp : Entity2d, IHasDrawable<DrawableTexture>, IHasScene, IIsUpdatable, IHasGame<SpaceInvaderGame>
     {
         public bool Hidden { get; set; }
         public DrawableTexture Drawable { get; set; }

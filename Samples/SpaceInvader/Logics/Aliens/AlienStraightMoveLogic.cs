@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Logics.Aliens
 {
-    public class AlienStraightMoveLogic : Logic, IHasData<IMovementData>, IHasEntity<Entity2d>, IHasScene
+    class AlienStraightMoveLogic : Logic, IHasData<IMovementData>, IHasEntity<Entity2d>, IHasScene
     {
         public IMovementData EntityData { get; set; }
         public Entity2d Entity { get; set; }

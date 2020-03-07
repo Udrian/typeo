@@ -9,7 +9,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    public class Planet : Entity2d, IHasDrawable<DrawableTexture>, IHasScene<SpaceScene>, IHasData<PlanetData>, IIsUpdatable, IHasGame<SpaceInvaderGame>
+    class Planet : Entity2d, IHasDrawable<DrawableTexture>, IHasScene<SpaceScene>, IHasData<PlanetData>, IIsUpdatable, IHasGame<SpaceInvaderGame>
     {
         public DrawableTexture Drawable { get; set; }
         public bool Hidden { get; set; }

@@ -4,7 +4,7 @@ using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace SpaceInvader.Entities.Drawable
 {
-    public class DrawableBullet : Drawable2d
+    class DrawableBullet : Drawable2d
     {
         public override Vec2 Size { get; protected set; }
 

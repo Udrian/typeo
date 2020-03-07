@@ -9,7 +9,7 @@ using SpaceInvader.Scenes;
 
 namespace SpaceInvader
 {
-    public class SpaceInvaderGame : Game
+    class SpaceInvaderGame : Game
     {
         public ILogger Logger { get; set; }
         public IWindowService WindowService { get; set; }

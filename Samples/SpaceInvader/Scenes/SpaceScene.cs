@@ -9,7 +9,7 @@ using SpaceInvader.Logics.Scenes;
 
 namespace SpaceInvader.Scenes
 {
-    public class SpaceScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<LogicMulti>
+    class SpaceScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<LogicMulti>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 

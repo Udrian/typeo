@@ -9,7 +9,7 @@ using SpaceInvader.Data.Entities;
 
 namespace SpaceInvader.Entities
 {
-    public class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>, IHasScene
+    class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IIsDrawable, IHasData<SpaceData>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         private List<Vec2> Stars { get; set; }

@@ -2,7 +2,7 @@
 
 namespace SpaceInvader.Data.Entities
 {
-    public class PlayerData : EntityData, IMovementData
+    class PlayerData : EntityData, IMovementData
     {
         public double Speed { get; set; }
         public int Health { get; set; }

@@ -5,7 +5,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Logics.Players
 {
-    public class PlayerAlienDamageLogic : Logic, IHasEntity<Player>, IHasScene, IHasGame<SpaceInvaderGame>
+    class PlayerAlienDamageLogic : Logic, IHasEntity<Player>, IHasScene, IHasGame<SpaceInvaderGame>
     {
         public Player Entity { get; set; }
         public Scene Scene { get; set; }

@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core.Common;
 
 namespace SpaceInvader.Scenes
 {
-    public class ScoreScene : Scene, IHasGame<SpaceInvaderGame>
+    class ScoreScene : Scene, IHasGame<SpaceInvaderGame>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
