@@ -71,6 +71,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Context.InitializeObject(entity, this);
                 entity.Initialize();
 
+                Entities.Add(entity);
                 var eType = typeof(E);
                 if (EntityLists.ContainsKey(eType))
                 {
@@ -133,8 +134,6 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     HasEntities.Add(hasEntities);
                 }
-
-                Entities.Add(entity);
             }
 
             public void Update(double dt)
