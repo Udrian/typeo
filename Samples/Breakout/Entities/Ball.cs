@@ -51,6 +51,30 @@ namespace Breakout.Entities
             {
                 Game.Exit();
             }
+
+            foreach(var brick in Scene.Entities.List<Brick>())
+            {
+                var r1x = Position.X;
+                var r1y = Position.Y;
+                var r1w = Size.X;
+                var r1h = Size.Y;
+
+                var r2x = brick.Position.X;
+                var r2y = brick.Position.Y;
+                var r2w = brick.Size.X;
+                var r2h = brick.Size.Y;
+
+                if (r1x + r1w >= r2x &&
+                    r1x <= r2x + r2w &&
+                    r1y + r1h >= r2y &&
+                    r1y <= r2y + r2h)
+                {
+                    Direction.Y = -Direction.Y;
+                    Position.Y = brick.Position.Y + Size.Y + 1;
+                    brick.Remove();
+                    continue;
+                }
+            }
         }
 
         public void Draw(Canvas canvas)

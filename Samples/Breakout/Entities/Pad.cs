@@ -32,16 +32,13 @@ namespace Breakout.Entities
 
         public void Update(double dt)
         {
-            var moveSpeed = 0d;
             if (KeyboardInputService.IsDown("Left") && Position.X > 0)
             {
-                moveSpeed = Speed;
-                Position.X -= moveSpeed * dt;
+                Position.X -= Speed * dt;
             }
             else if (KeyboardInputService.IsDown("Right") && Position.X + Size.X < Scene.Window.Size.X)
             {
-                moveSpeed = Speed;
-                Position.X += moveSpeed * dt;
+                Position.X += Speed * dt;
             }
 
             if (Position.X < 0) Position.X = 0;
@@ -64,6 +61,7 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
+                    //TODO: Calculate from center instead
                     var p = (ball.Position.X - Position.X) / Size.X - 0.5;
 
                     if(p >= -0.25 && p <= 0.25)
