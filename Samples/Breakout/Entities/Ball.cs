@@ -20,8 +20,6 @@ namespace Breakout.Entities
         public override void Initialize()
         {
             Size = new Vec2(25);
-            Position = (Scene.Window.Size - Size) / 2;
-            Direction = new Vec2(0, 1);
             Speed = Scene.Window.Size.Y / 4;
         }
 
@@ -49,7 +47,7 @@ namespace Breakout.Entities
             }
             if (Position.Y >= Scene.Window.Size.Y)
             {
-                Game.Exit();
+                Remove();
             }
 
             foreach(var brick in Scene.Entities.List<Brick>())
@@ -69,9 +67,10 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
+                    //TODO: Make proper breakout brick bounce logic
                     Direction.Y = -Direction.Y;
                     Position.Y = brick.Position.Y + Size.Y + 1;
-                    brick.Remove();
+                    brick.Hit();
                     continue;
                 }
             }

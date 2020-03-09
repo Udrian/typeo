@@ -64,12 +64,33 @@ namespace Breakout.Entities
                     //TODO: Calculate from center instead
                     var p = (ball.Position.X - Position.X) / Size.X - 0.5;
 
-                    if(p >= -0.25 && p <= 0.25)
+                    if(p >= -0.15 && p <= 0.15)
                         ball.Direction = new Vec2(0, -1);
                     else
-                        ball.Direction = new Vec2(p, -1);
+                        ball.Direction = new Vec2(ball.Direction.X + p, -ball.Direction.Y);
                     ball.Direction.Normalize();
                     ball.Position.Y = Position.Y - ball.Size.Y - 1;
+                }
+            }
+
+            foreach (var powerup in Scene.Entities.List<Powerup>())
+            {
+                var r1x = Position.X;
+                var r1y = Position.Y;
+                var r1w = Size.X;
+                var r1h = Size.Y;
+
+                var r2x = powerup.Position.X;
+                var r2y = powerup.Position.Y;
+                var r2w = powerup.Size.X;
+                var r2h = powerup.Size.Y;
+
+                if (r1x + r1w >= r2x &&
+                    r1x <= r2x + r2w &&
+                    r1y + r1h >= r2y &&
+                    r1y <= r2y + r2h)
+                {
+                    powerup.Pickup();
                 }
             }
         }
