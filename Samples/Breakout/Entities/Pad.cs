@@ -16,15 +16,17 @@ namespace Breakout.Entities
         public bool Pause { get; set; }
 
         public double Speed { get; set; }
+        public int BlockSize { get; set; } = 25;
+        public int Blocks { get { return (int)Size.X; } set { Size = new Vec2(value * BlockSize, BlockSize); } }
 
         public override void Initialize()
         {
-            Size = new Vec2(100, 25);
-            Position = new Vec2((Scene.Window.Size.X - 100) / 2, Scene.Window.Size.Y - (Size.Y * 2));
+            Blocks = 10;
+            Position = new Vec2((Scene.Window.Size.X - Size.X) / 2, Scene.Window.Size.Y - (Size.Y * 2));
             Speed = Scene.Window.Size.X;
         }
 
-        public override void Cleanup()
+        public override void Cleanup() 
         {
         }
 
@@ -62,7 +64,13 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
-                    ball.Direction.Y = -ball.Direction.Y;
+                    var p = (ball.Position.X - Position.X) / Size.X - 0.5;
+
+                    if(p >= -0.25 && p <= 0.25)
+                        ball.Direction = new Vec2(0, -1);
+                    else
+                        ball.Direction = new Vec2(p, -1);
+                    ball.Direction.Normalize();
                     ball.Position.Y = Position.Y - ball.Size.Y - 1;
                 }
             }
