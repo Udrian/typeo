@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace Breakout.Entities
 {
-    class Powerup : Entity2d, IIsUpdatable, IIsDrawable, IHasScene
+    abstract class Powerup : Entity2d, IIsUpdatable, IIsDrawable, IHasScene
     {
         public bool Hidden { get; set; }
         public bool Pause { get; set; }
@@ -35,17 +35,8 @@ namespace Breakout.Entities
             }
         }
 
-        public void Draw(Canvas canvas)
-        {
-            canvas.DrawRectangle(Position, Size, true, Color.DarkGreen);
-        }
+        public abstract void Draw(Canvas canvas);
 
-        public void Pickup()
-        {
-            var ball = Scene.Entities.Create<Ball>(position: Position);
-                ball.Direction = new Vec2(0, -1);
-
-            Remove();
-        }
+        public abstract void Pickup();
     }
 }

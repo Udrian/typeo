@@ -259,6 +259,11 @@ namespace TypeOEngine.Typedeaf.Core
                 return EntityLists[eType] as List<E>;
             }
 
+            public List<Entity> ListAll()
+            {
+                return new List<Entity>(Entities);
+            }
+
             public E GetEntityByID<E>(string id) where E : Entity
             {
                 if (!EntityIDs.ContainsKey(id))

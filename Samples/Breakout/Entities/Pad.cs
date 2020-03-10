@@ -61,7 +61,7 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
-                    var p = ((ball.Position.X + ball.Size.X/2) - (Position.X + Size.X/2)) / Size.X - 0.5;
+                    var p = ((ball.Position.X + ball.Size.X/2) - (Position.X + Size.X/2)) / Size.X;
 
                     if(p >= -0.15 && p <= 0.15)
                         ball.Direction = new Vec2(0, -1);
@@ -72,8 +72,11 @@ namespace Breakout.Entities
                 }
             }
 
-            foreach (var powerup in Scene.Entities.List<Powerup>())
+            foreach (var entity in Scene.Entities.ListAll())
             {
+                if (!(entity is Powerup)) continue;
+                var powerup = entity as Powerup;
+
                 var r1x = Position.X;
                 var r1y = Position.Y;
                 var r1w = Size.X;
@@ -90,6 +93,7 @@ namespace Breakout.Entities
                     r1y <= r2y + r2h)
                 {
                     powerup.Pickup();
+                    powerup.Remove();
                 }
             }
         }

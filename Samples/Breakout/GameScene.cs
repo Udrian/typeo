@@ -17,7 +17,6 @@ namespace Breakout
 
         public override void Initialize()
         {
-            Random rand = new Random();
             Entities.Create<Pad>();
             var ball = Entities.Create<Ball>();
                 ball.Position = (Window.Size - ball.Size) / 2;
@@ -27,7 +26,7 @@ namespace Breakout
             {
                 for(int y = 1; y < 14; y++)
                 {
-                    CreateBrick(new Vec2(x, y), new Color(rand.NextDouble(), rand.NextDouble(), rand.NextDouble()));
+                    CreateBrick(new Vec2(x, y), new Color(Game.Random.NextDouble(), Game.Random.NextDouble(), Game.Random.NextDouble()));
                 }
             }
         }
