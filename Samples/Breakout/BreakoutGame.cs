@@ -12,11 +12,14 @@ namespace Breakout
         public IWindowService WindowService { get; set; }
         public IKeyboardInputService KeyboardInputService { get; set; }
 
+        public Random Random { get; set; }
         public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);
         public SceneList Scenes { get; set; }
 
         public override void Initialize()
         {
+            Random = new Random();
+
             KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_ESCAPE);
             KeyboardInputService.SetKeyAlias("Left", SDL.SDL_Keycode.SDLK_LEFT);
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);

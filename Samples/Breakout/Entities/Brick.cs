@@ -30,6 +30,7 @@ namespace Breakout.Entities
         public void Hit()
         {
             Remove();
+            
             Scene.Entities.Create<Powerup>(position: Position + new Vec2(Size.X / 3, 0));
         }
     }

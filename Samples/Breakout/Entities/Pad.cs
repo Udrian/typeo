@@ -61,8 +61,7 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
-                    //TODO: Calculate from center instead
-                    var p = (ball.Position.X - Position.X) / Size.X - 0.5;
+                    var p = ((ball.Position.X + ball.Size.X/2) - (Position.X + Size.X/2)) / Size.X - 0.5;
 
                     if(p >= -0.15 && p <= 0.15)
                         ball.Direction = new Vec2(0, -1);

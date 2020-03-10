@@ -1,4 +1,5 @@
-﻿using TypeOEngine.Typedeaf.Core;
+﻿using System;
+using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -52,26 +53,41 @@ namespace Breakout.Entities
 
             foreach(var brick in Scene.Entities.List<Brick>())
             {
-                var r1x = Position.X;
-                var r1y = Position.Y;
-                var r1w = Size.X;
-                var r1h = Size.Y;
+                var w = 0.5 * (Size.X + brick.Size.X);
+                var h = 0.5 * (Size.Y + brick.Size.Y);
+                var dx = (Position + Size / 2).X - (brick.Position + brick.Size / 2).X;
+                var dy = (Position + Size / 2).Y - (brick.Position + brick.Size / 2).Y;
 
-                var r2x = brick.Position.X;
-                var r2y = brick.Position.Y;
-                var r2w = brick.Size.X;
-                var r2h = brick.Size.Y;
-
-                if (r1x + r1w >= r2x &&
-                    r1x <= r2x + r2w &&
-                    r1y + r1h >= r2y &&
-                    r1y <= r2y + r2h)
+                if (Math.Abs(dx) <= w && Math.Abs(dy) <= h)
                 {
-                    //TODO: Make proper breakout brick bounce logic
-                    Direction.Y = -Direction.Y;
-                    Position.Y = brick.Position.Y + Size.Y + 1;
+                    var wy = w * dy;
+                    var hx = h * dx;
+
+                    if (wy > hx)
+                    {
+                        if (wy > -hx)
+                        {
+                            Direction.Y = Math.Abs(Direction.Y);
+                        }
+                        else
+                        {
+                            Direction.X = -Math.Abs(Direction.X);
+                        }
+                    }
+
+                    else
+                    {
+                        if (wy > -hx)
+                        {
+                            Direction.X = Math.Abs(Direction.X);
+                        }
+                        else
+                        {
+                            Direction.Y = -Math.Abs(Direction.Y);
+                        }
+                    }
+
                     brick.Hit();
-                    continue;
                 }
             }
         }
