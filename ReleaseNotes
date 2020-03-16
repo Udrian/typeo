@@ -1,0 +1,34 @@
+*******************************
+******** RELEASE NOTES ********
+*******************************
+
+**************************
+**** 0.1.0 - 13/03-20 ****
+**************************
+
+******************
+**** Features ****
+******************
+
+ * Added support for .net core 3.1
+ * Created TypeOCore
+ * Created Module TypeODesktop
+ * Created Module TypeOSDL
+ * Created 'Game' base class for containing your Game code
+ * Created 'Entity' base class that should contain all the agents and objects
+ * Created 'Scene' base class holding a collection of entities
+ * Created 'Logic' base class that contain modular pieces of logic
+ * Created 'EntityData' base class for defining entity data structures
+ * Created 'Drawable' base class for handling drawings to screen
+ * Added a Module system
+ * Created a service for Keyboard input
+ * Created a service for Window handling
+ * Created a Logger system
+
+******************
+***** Fixes ******
+******************
+
+******************
+** Improvements **
+******************
