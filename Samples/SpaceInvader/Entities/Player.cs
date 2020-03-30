@@ -23,7 +23,7 @@ namespace SpaceInvader.Entities
         public LogicMulti Logic { get; set; }
         public bool PauseLogic { get; set; }
 
-        public override Vec2 Size { get => Drawable.Texture.Size; set { } }
+        public override Vec2 Size { get => Drawable.Size; set { } }
 
         public override void Initialize()
         {

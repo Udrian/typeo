@@ -171,12 +171,12 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotate, origin ?? new Vec2(0), color, flipped, source, entity);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
             }
 
-            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotate, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -225,7 +225,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
                 if (source == null)
-                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 else
                 {
                     SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
@@ -236,7 +236,7 @@ namespace TypeOEngine.Typedeaf.SDL
                         h = (int)source.Size.Y
                     };
 
-                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotate * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                    SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
 
                 SDL2.SDL.SDL_FreeSurface(fontSur);

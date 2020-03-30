@@ -27,6 +27,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override void Initialize() { }
 
+            public override void Cleanup()
+            {
+                Texture?.Cleanup();
+            }
+
             public override void Draw(Canvas canvas)
             {
                 if (Texture == null) return;
@@ -39,11 +44,6 @@ namespace TypeOEngine.Typedeaf.Core
                     flipped:  Flipped,
                     entity:   Entity
                 );
-            }
-
-            public override void Cleanup()
-            {
-                Texture?.Cleanup();
             }
         }
     }
