@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -308,7 +309,7 @@ namespace TypeOEngine.Typedeaf.Core
             private void SetHardwares(object obj)
             {
                 var type = obj.GetType();
-                var properties = type.GetProperties();
+                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (var property in properties)
                 {
                     if (property.PropertyType.GetInterface(nameof(IHardware)) == null)
@@ -330,7 +331,7 @@ namespace TypeOEngine.Typedeaf.Core
             private void SetServices(object obj)
             {
                 var type = obj.GetType();
-                var properties = type.GetProperties();
+                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (var property in properties)
                 {
                     if (property.PropertyType.GetInterface(nameof(IService)) == null)
@@ -352,7 +353,7 @@ namespace TypeOEngine.Typedeaf.Core
             private void SetLogger(object obj)
             {
                 var type = obj.GetType();
-                var properties = type.GetProperties();
+                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (var property in properties)
                 {
                     if (property.PropertyType != typeof(ILogger))

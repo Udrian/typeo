@@ -11,9 +11,9 @@ namespace SpaceInvader
 {
     class SpaceInvaderGame : Game
     {
-        public ILogger Logger { get; set; }
-        public IWindowService WindowService { get; set; }
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        ILogger Logger { get; set; }
+        IWindowService WindowService { get; set; }
+        IKeyboardInputService KeyboardInputService { get; set; }
 
         public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);
         public Random Random { get; set; }

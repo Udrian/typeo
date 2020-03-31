@@ -20,6 +20,8 @@
 ** Improvements **
 ******************
 
+ * Dependency injections can not be set to private properties as well as public
+
 **************************
 **** 0.1.0 - 13/03-20 ****
 **************************
