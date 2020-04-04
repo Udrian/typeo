@@ -11,6 +11,7 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
+using TypeOEngine.Typedeaf.SDL.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -78,7 +79,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 }
             }
 
-            if (KeyboardHardware is SDLKeyboardHardware sdlKeyboardHardware)
+            if (KeyboardHardware is ISDLKeyboardHardware sdlKeyboardHardware)
             {
                 sdlKeyboardHardware.UpdateKeys(es);
             }

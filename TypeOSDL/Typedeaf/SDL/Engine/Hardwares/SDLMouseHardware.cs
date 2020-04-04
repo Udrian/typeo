@@ -1,16 +1,19 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Hardwares.Interfaces;
 
-namespace TypeOEngine.Typedeaf.SDL.Engine.Hardwares
+namespace TypeOEngine.Typedeaf.SDL
 {
-    public class SDLMouseHardware : Hardware, IMouseHardware
+    namespace Engine.Hardwares
     {
-        public override void Initialize()
+        public class SDLMouseHardware : Hardware, ISDLMouseHardware
         {
-        }
+            public override void Initialize()
+            {
+            }
 
-        public override void Cleanup()
-        {
+            public override void Cleanup()
+            {
+            }
         }
     }
 }
