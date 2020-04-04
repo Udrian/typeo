@@ -17,7 +17,6 @@ namespace TypeOEngine.Typedeaf.SDL
 {
     public class SDLModule : Module<SDLModuleOption>, IIsUpdatable
     {
-        public IKeyboardHardware KeyboardHardware { get; set; }
         public ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
@@ -66,22 +65,22 @@ namespace TypeOEngine.Typedeaf.SDL
 
         public void Update(double dt)
         {
-            var es = new List<SDL2.SDL.SDL_Event>();
+            var events = new List<SDL2.SDL.SDL_Event>();
             while (SDL2.SDL.SDL_PollEvent(out SDL2.SDL.SDL_Event e) > 0)
             {
+                events.Add(e);
                 if (e.type == SDL2.SDL.SDL_EventType.SDL_QUIT)
                 {
                     TypeO.Context.Exit();
                 }
-                else if (e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP)
-                {
-                    es.Add(e);
-                }
             }
 
-            if (KeyboardHardware is ISDLKeyboardHardware sdlKeyboardHardware)
+            foreach(var hardware in TypeO.Context.Hardwares.Values)
             {
-                sdlKeyboardHardware.UpdateKeys(es);
+                if (hardware is ISDLEvents sdlEvents)
+                {
+                    sdlEvents.UpdateEvents(events);
+                }
             }
         }
 

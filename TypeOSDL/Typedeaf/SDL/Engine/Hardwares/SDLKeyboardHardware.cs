@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
     namespace Engine.Hardwares
     {
-        public class SDLKeyboardHardware : Hardware, ISDLKeyboardHardware
+        public class SDLKeyboardHardware : Hardware, IKeyboardHardware, ISDLEvents
         {
             private Dictionary<SDL2.SDL.SDL_Keycode, bool> OldState { get; set; }
             private Dictionary<SDL2.SDL.SDL_Keycode, bool> NewState { get; set; }
@@ -17,11 +18,16 @@ namespace TypeOEngine.Typedeaf.SDL
                 NewState = new Dictionary<SDL2.SDL.SDL_Keycode, bool>();
             }
 
-            public void UpdateKeys(List<SDL2.SDL.SDL_Event> es)
+            public void UpdateEvents(List<SDL2.SDL.SDL_Event> events)
             {
                 OldState = new Dictionary<SDL2.SDL.SDL_Keycode, bool>(NewState);
-                foreach (var e in es)
+                foreach (var e in events)
                 {
+                    if (!(e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP))
+                    {
+                        continue;
+                    }
+
                     bool? state = null;
                     if (e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN && e.key.repeat == 0)
                     {
