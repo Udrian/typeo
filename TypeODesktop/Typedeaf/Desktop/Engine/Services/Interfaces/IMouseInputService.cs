@@ -8,6 +8,11 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public interface IMouseInputService : IService
         {
+            public Vec2 MousePosition { get; }
+            public Vec2 MousePositionRelative { get; }
+
+            public Vec2 WheelPosition { get; }
+            public Vec2 WheelPositionRelative { get; }
         }
     }
 }
