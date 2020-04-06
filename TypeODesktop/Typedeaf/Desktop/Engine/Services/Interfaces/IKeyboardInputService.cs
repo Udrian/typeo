@@ -7,8 +7,6 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public interface IKeyboardInputService : IService
         {
-            public IKeyboardHardware KeyboardHardware { get; set; }
-
             public void SetKeyAlias(object input, object key);
 
             public bool IsDown(object input);

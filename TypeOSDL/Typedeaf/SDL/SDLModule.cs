@@ -86,10 +86,9 @@ namespace TypeOEngine.Typedeaf.SDL
 
         public override void LoadExtensions()
         {
-            TypeO.AddService<IWindowService, WindowService>();
-            TypeO.AddService<IKeyboardInputService, KeyboardInputService>();
             TypeO.AddHardware<IWindowHardware, SDLWindowHardware>();
             TypeO.AddHardware<IKeyboardHardware, SDLKeyboardHardware>();
+            TypeO.AddHardware<IMouseHardware, SDLMouseHardware>();
             TypeO.BindContent<Texture, SDLTexture>();
             TypeO.BindContent<Font, SDLFont>();
         }
