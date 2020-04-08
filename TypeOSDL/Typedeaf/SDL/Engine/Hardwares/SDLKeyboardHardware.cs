@@ -18,6 +18,10 @@ namespace TypeOEngine.Typedeaf.SDL
                 NewState = new Dictionary<SDL2.SDL.SDL_Keycode, bool>();
             }
 
+            public override void Cleanup()
+            {
+            }
+
             public void UpdateEvents(List<SDL2.SDL.SDL_Event> events)
             {
                 OldState = new Dictionary<SDL2.SDL.SDL_Keycode, bool>(NewState);
@@ -74,10 +78,6 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 if (!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
                 return !OldState[(SDL2.SDL.SDL_Keycode)key];
-            }
-
-            public override void Cleanup()
-            {
             }
         }
     }

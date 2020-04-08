@@ -9,16 +9,19 @@ namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Services
     {
-        public class KeyboardInputService : Service, IHasGame, IKeyboardInputService
+        public class KeyboardInputService : Service, IKeyboardInputService
         {
             public IKeyboardHardware KeyboardHardware { get; set; }
 
-            public Game Game { get; set; }
             protected KeyConverter KeyConverter { get; set; }
 
             public override void Initialize()
             {
                 KeyConverter = new KeyConverter();
+            }
+
+            public override void Cleanup()
+            {
             }
 
             public void SetKeyAlias(object input, object key)
@@ -43,10 +46,6 @@ namespace TypeOEngine.Typedeaf.Desktop
                 if (!KeyConverter.ContainsInput(input)) return false;
 
                 return KeyboardHardware.CurrentKeyUpEvent(KeyConverter.GetKey(input)) && KeyboardHardware.OldKeyDownEvent(KeyConverter.GetKey(input));
-            }
-
-            public override void Cleanup()
-            {
             }
         }
     }
