@@ -28,10 +28,10 @@ namespace TypeOEngine.Typedeaf.Core
             public abstract void DrawRectangleE(Vec2 from, Vec2 to,   bool filled, Color color, Entity2d entity = null);
 
             public abstract void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null);
-            public abstract void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null);
+            public abstract void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null);
 
             public abstract void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null);
-            public abstract void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null);
+            public abstract void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null);
 
             public abstract void Present();
         }

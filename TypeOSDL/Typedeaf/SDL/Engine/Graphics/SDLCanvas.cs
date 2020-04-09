@@ -171,9 +171,9 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(), color, flipped, source, entity);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(), color ?? Color.White, flipped, source, entity);
             }
 
             private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
@@ -188,8 +188,6 @@ namespace TypeOEngine.Typedeaf.SDL
 
                 pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
 
-                if (color == null)
-                    color = Color.White;
                 var sdlColor = new SDL2.SDL.SDL_Color
                 {
                     r = (byte)color.R,
@@ -250,9 +248,9 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawImage(texture, pos, null, entity: entity);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
             {
-                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color ?? Color.White, flipped, source, entity);
             }
 
             private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
@@ -285,8 +283,6 @@ namespace TypeOEngine.Typedeaf.SDL
                     y = (int)origin.Y
                 };
 
-                if (color == null)
-                    color = Color.White;
                 SDL2.SDL.SDL_SetTextureColorMod(sdltexture.SDL_Image, (byte)color.R, (byte)color.G, (byte)color.B);
                 SDL2.SDL.SDL_SetTextureAlphaMod(sdltexture.SDL_Image, (byte)color.A);
 

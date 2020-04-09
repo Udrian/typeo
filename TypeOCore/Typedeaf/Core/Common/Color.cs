@@ -1,34 +1,12 @@
-﻿namespace TypeOEngine.Typedeaf.Core
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+namespace TypeOEngine.Typedeaf.Core
 {
     namespace Common
     {
-        public class Color
+        public struct Color : IEquatable<Color>
         {
-            protected bool Equals(Color other)
-            {
-                return A == other.A && R == other.R && G == other.G && B == other.B;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null) return false;
-                if ((Color)obj == this) return true;
-                if (obj.GetType() != this.GetType()) return false;
-                return Equals((Color)obj);
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
-                {
-                    int hashCode = A;
-                    hashCode = (hashCode * 397) ^ R;
-                    hashCode = (hashCode * 397) ^ G;
-                    hashCode = (hashCode * 397) ^ B;
-                    return hashCode;
-                }
-            }
-
             public int A { get; set; }
             public int R { get; set; }
             public int G { get; set; }
@@ -66,7 +44,7 @@
                 B = (int)(b * 255);
             }
 
-            public static bool operator ==(Color a, Color b)
+            public static bool operator ==(Color? a, Color? b)
             {
                 if (a is null)
                 {
@@ -76,13 +54,13 @@
                 {
                     return a is null;
                 }
-                return a.A == b.A &&
-                        a.R == b.R &&
-                        a.G == b.G &&
-                        a.B == b.B;
+                return a?.A == b?.A &&
+                       a?.R == b?.R &&
+                       a?.G == b?.G &&
+                       a?.B == b?.B;
             }
 
-            public static bool operator !=(Color a, Color b)
+            public static bool operator !=(Color? a, Color? b)
             {
                 return !(a == b);
             }
@@ -112,6 +90,31 @@
                 if (lerp > 1) lerp = 1;
                 var invLerp = 1 - lerp;
                 return new Color((int)(A.A * invLerp + B.A * lerp), (int)(A.R * invLerp + B.R * lerp), (int)(A.G * invLerp + B.G * lerp), (int)(A.B * invLerp + B.B * lerp));
+            }
+
+            public bool Equals([AllowNull] Color other)
+            {
+                return A == other.A && R == other.R && G == other.G && B == other.B;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null) return false;
+                if ((Color)obj == this) return true;
+                if (obj.GetType() != this.GetType()) return false;
+                return Equals((Color)obj);
+            }
+
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    int hashCode = A;
+                    hashCode = (hashCode * 397) ^ R;
+                    hashCode = (hashCode * 397) ^ G;
+                    hashCode = (hashCode * 397) ^ B;
+                    return hashCode;
+                }
             }
 
             public static Color SoftBlack { get { return new Color(255, 20, 20, 20); } }
