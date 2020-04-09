@@ -171,12 +171,12 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(), color, flipped, source, entity);
             }
 
-            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -224,16 +224,18 @@ namespace TypeOEngine.Typedeaf.SDL
                 else if (flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-                if (source == null)
+                if (!source.HasValue)
+                {
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                }
                 else
                 {
                     SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
                     {
-                        x = (int)source.Pos.X,
-                        y = (int)source.Pos.Y,
-                        w = (int)source.Size.X,
-                        h = (int)source.Size.Y
+                        x = (int)source?.Pos.X,
+                        y = (int)source?.Pos.Y,
+                        w = (int)source?.Size.X,
+                        h = (int)source?.Size.Y
                     };
 
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
@@ -248,12 +250,12 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawImage(texture, pos, null, entity: entity);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
             {
                 InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
             }
 
-            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle source, Entity2d entity)
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -296,16 +298,18 @@ namespace TypeOEngine.Typedeaf.SDL
                 else if (flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-                if (source == null)
+                if (!source.HasValue)
+                {
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                }
                 else
                 {
                     SDL2.SDL.SDL_Rect srect = new SDL2.SDL.SDL_Rect
                     {
-                        x = (int)source.Pos.X,
-                        y = (int)source.Pos.Y,
-                        w = (int)source.Size.X,
-                        h = (int)source.Size.Y
+                        x = (int)source?.Pos.X,
+                        y = (int)source?.Pos.Y,
+                        w = (int)source?.Size.X,
+                        h = (int)source?.Size.Y
                     };
 
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);

@@ -2,16 +2,10 @@
 {
     namespace Common
     {
-        public class Rectangle
+        public struct Rectangle
         {
             public Vec2 Pos { get; set; }
             public Vec2 Size { get; set; }
-
-            public Rectangle()
-            {
-                Pos = new Vec2();
-                Size = new Vec2();
-            }
 
             public Rectangle(Vec2 pos, Vec2 size)
             {
