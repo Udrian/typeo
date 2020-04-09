@@ -4,18 +4,11 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Common
     {
-        public class Vec3 : IEquatable<Vec3>
+        public struct Vec3 : IEquatable<Vec3>
         {
             public double X { get; set; }
             public double Y { get; set; }
             public double Z { get; set; }
-
-            public Vec3()
-            {
-                X = 0;
-                Y = 0;
-                Z = 0;
-            }
 
             public Vec3(double xyz)
             {
@@ -52,6 +45,33 @@ namespace TypeOEngine.Typedeaf.Core
                 Z = vec.Z;
             }
 
+            public void SetX(double x)
+            {
+                X = x;
+            }
+            public void SetX(Vec3 vec)
+            {
+                X = vec.X;
+            }
+
+            public void SetY(double y)
+            {
+                Y = y;
+            }
+            public void SetY(Vec3 vec)
+            {
+                Y = vec.Y;
+            }
+
+            public void SetZ(double z)
+            {
+                Z = z;
+            }
+            public void SetZ(Vec3 vec)
+            {
+                Z = vec.Z;
+            }
+
             public void Set(double x, double y, double z)
             {
                 X = x;
@@ -64,6 +84,47 @@ namespace TypeOEngine.Typedeaf.Core
                 X = vec.X;
                 Y = vec.Y;
                 Z = vec.Z;
+            }
+
+            public void TransformX(double x)
+            {
+                X += x;
+            }
+            public void TransformX(Vec3 vec)
+            {
+                X += vec.X;
+            }
+
+            public void TransformY(double y)
+            {
+                Y += y;
+            }
+            public void TransformY(Vec3 vec)
+            {
+                Y += vec.Y;
+            }
+
+            public void TransformZ(double z)
+            {
+                Z += z;
+            }
+            public void TransformZ(Vec3 vec)
+            {
+                Z += vec.Z;
+            }
+
+            public void Transform(double x, double y, double z)
+            {
+                X += x;
+                Y += y;
+                Z += z;
+            }
+
+            public void Transform(Vec3 vec)
+            {
+                X += vec.X;
+                Y += vec.Y;
+                Z += vec.Z;
             }
 
             public static Vec3 operator +(Vec3 a, Vec3 b)
