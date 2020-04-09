@@ -11,6 +11,7 @@
 ******************
 
  * Added DrawableFont with new line support
+ * Added Mouse Input Service and Hardware for TypeODesktop and TypeOSDL
 
 ******************
 ***** Fixes ******
