@@ -2,7 +2,7 @@
 {
     namespace Common
     {
-        public class Plane
+        public struct Plane
         {
             public Vec3 Normal { get; set; }
             public double D { get; set; }

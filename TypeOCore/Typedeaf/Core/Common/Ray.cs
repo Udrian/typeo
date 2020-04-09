@@ -4,7 +4,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Common
     {
-        public class Ray
+        public struct Ray
         {
             public Vec3 Position { get; set; }
             public Vec3 Direction { get; set; }
