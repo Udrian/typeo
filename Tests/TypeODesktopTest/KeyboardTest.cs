@@ -1,4 +1,3 @@
-using System;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
@@ -110,8 +109,8 @@ namespace TypeODesktopTest
             Assert.NotNull(testGame.KeyboardInputService);
             Assert.IsType<TestKeyboardInputService>(testGame.KeyboardInputService);
 
-            Assert.NotNull(testGame.KeyboardInputService.KeyboardHardware);
-            Assert.IsType<TestKeyboardHardware>(testGame.KeyboardInputService.KeyboardHardware);
+            Assert.NotNull((testGame.KeyboardInputService as TestKeyboardInputService)?.KeyboardHardware);
+            Assert.IsType<TestKeyboardHardware>((testGame.KeyboardInputService as TestKeyboardInputService)?.KeyboardHardware);
         }
     }
 }

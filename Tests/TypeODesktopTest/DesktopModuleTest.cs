@@ -45,7 +45,7 @@ namespace TypeODesktopTest
         public void TestDefaultLogger()
         {
             var typeO = TypeO.Create<TestGame>(GameName)
-                             .LoadModule<DesktopModule>(new DesktopModuleOption() { LogPath = "test" }) as TypeO;
+                             .LoadModule<DesktopModule>(new DesktopModuleOption() { LogPath = "test" }, false) as TypeO;
             var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(DesktopModule)) as DesktopModule;
             typeO.Start();
 
