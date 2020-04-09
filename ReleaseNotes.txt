@@ -17,6 +17,8 @@
 ***** Fixes ******
 ******************
 
+ * Changed Color, Plane, Ray, Rectangle, Vec2 and Vec3 back to being Structs, oops
+
 ******************
 ** Improvements **
 ******************
