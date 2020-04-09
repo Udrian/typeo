@@ -26,25 +26,25 @@ namespace SpaceInvader.Logics.Players
         {
             if (KeyboardInputService.IsDown("Left") && Entity.Position.X > 0)
             {
-                Entity.Position.X -= EntityData.Speed * dt;
+                Entity.Position.TransformX(-EntityData.Speed * dt);
             }
             else if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
             {
-                Entity.Position.X += EntityData.Speed * dt;
+                Entity.Position.TransformX(EntityData.Speed * dt);
             }
             if (KeyboardInputService.IsDown("Up") && Entity.Position.Y > 0)
             {
-                Entity.Position.Y -= EntityData.Speed * dt;
+                Entity.Position.TransformY(-EntityData.Speed * dt);
             }
             else if (KeyboardInputService.IsDown("Down") && Entity.Position.Y + Entity.Size.Y < Scene.Window.Size.Y)
             {
-                Entity.Position.Y += EntityData.Speed * dt;
+                Entity.Position.TransformY(EntityData.Speed * dt);
             }
 
-            if (Entity.Position.X < 0) Entity.Position.X = 0;
-            if (Entity.Position.X > Scene.Window.Size.X - Entity.Size.X) Entity.Position.X = Scene.Window.Size.X - Entity.Size.X;
-            if (Entity.Position.Y < 0) Entity.Position.Y = 0;
-            if (Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.Y = Scene.Window.Size.Y - Entity.Size.Y;
+            if (Entity.Position.X < 0) Entity.Position.SetX(0);
+            if (Entity.Position.X > Scene.Window.Size.X - Entity.Size.X) Entity.Position.SetX(Scene.Window.Size.X - Entity.Size.X);
+            if (Entity.Position.Y < 0) Entity.Position.SetY(0);
+            if (Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.SetY(Scene.Window.Size.Y - Entity.Size.Y);
 
             ShootTimer += dt;
             if (KeyboardInputService.IsDown("Shoot"))

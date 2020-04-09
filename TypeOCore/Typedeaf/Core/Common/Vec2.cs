@@ -4,16 +4,10 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Common
     {
-        public class Vec2 : IEquatable<Vec2>
+        public struct Vec2 : IEquatable<Vec2>
         {
             public double X { get; set; }
             public double Y { get; set; }
-
-            public Vec2()
-            {
-                X = 0;
-                Y = 0;
-            }
 
             public Vec2(double xy)
             {
@@ -33,6 +27,26 @@ namespace TypeOEngine.Typedeaf.Core
                 Y = vec.Y;
             }
 
+            public void SetX(double x)
+            {
+                X = x;
+            }
+
+            public void SetX(Vec2 vec)
+            {
+                X = vec.X;
+            }
+
+            public void SetY(double y)
+            {
+                Y = y;
+            }
+
+            public void SetY(Vec2 vec)
+            {
+                Y = vec.Y;
+            }
+
             public void Set(double x, double y)
             {
                 X = x;
@@ -43,6 +57,38 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 X = vec.X;
                 Y = vec.Y;
+            }
+
+            public void TransformX(double x)
+            {
+                X += x;
+            }
+
+            public void TransformX(Vec2 vec)
+            {
+                X += vec.X;
+            }
+
+            public void TransformY(double y)
+            {
+                Y += y;
+            }
+
+            public void TransformY(Vec2 vec)
+            {
+                Y += vec.Y;
+            }
+
+            public void Transform(double x, double y)
+            {
+                X += x;
+                Y += y;
+            }
+
+            public void Transform(Vec2 vec)
+            {
+                X += vec.X;
+                Y += vec.Y;
             }
 
             public static Vec2 operator +(Vec2 a, Vec2 b)

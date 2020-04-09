@@ -78,17 +78,17 @@ namespace Particles
             foreach(var particle in Particles)
             {
                 var color = Color.Lerp(Color.Cyan, Color.DarkCyan, particle.Velocity.LengthSquared() / 1000);
-                Vec2 closestGravityPoint = null;
+                Vec2? closestGravityPoint = null;
                 foreach(var gravityPoints in GravityPoints)
                 {
                     if (closestGravityPoint is null)
                         closestGravityPoint = gravityPoints;
-                    else if(closestGravityPoint.DistanceSquared(particle.Position) > gravityPoints.DistanceSquared(particle.Position))
+                    else if(closestGravityPoint?.DistanceSquared(particle.Position) > gravityPoints.DistanceSquared(particle.Position))
                     {
                         closestGravityPoint = gravityPoints;
                     }
                 }
-                color = Color.Lerp(Color.Red, color, Vec2.Distance(particle.Position, closestGravityPoint) / 100);
+                color = Color.Lerp(Color.Red, color, Vec2.Distance(particle.Position, closestGravityPoint.Value) / 100);
                 Canvas.DrawRectangle(particle.Position, new Vec2(5, 5), true, color);
             }
             Canvas.Present();

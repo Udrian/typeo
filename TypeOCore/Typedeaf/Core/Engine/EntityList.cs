@@ -48,7 +48,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Stubs = new Dictionary<Type, Stub>();
             }
 
-            public E Create<E>(Vec2 position = null, Vec2 scale = null, double rotation = 0, Vec2 origin = null) where E : Entity2d, new()
+            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null) where E : Entity2d, new()
             {
                 var entity = Create<E>() as Entity2d;
 

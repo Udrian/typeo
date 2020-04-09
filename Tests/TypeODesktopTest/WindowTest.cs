@@ -57,7 +57,7 @@ namespace TypeODesktopTest
             {
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
             }
 
@@ -97,7 +97,7 @@ namespace TypeODesktopTest
             {
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotate = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotate = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
             }
 

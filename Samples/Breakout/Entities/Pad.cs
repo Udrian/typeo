@@ -34,15 +34,15 @@ namespace Breakout.Entities
         {
             if (KeyboardInputService.IsDown("Left") && Position.X > 0)
             {
-                Position.X -= Speed * dt;
+                Position.TransformX(-Speed * dt);
             }
             else if (KeyboardInputService.IsDown("Right") && Position.X + Size.X < Scene.Window.Size.X)
             {
-                Position.X += Speed * dt;
+                Position.TransformX(Speed * dt);
             }
 
-            if (Position.X < 0) Position.X = 0;
-            if (Position.X > Scene.Window.Size.X - Size.X) Position.X = Scene.Window.Size.X - Size.X;
+            if (Position.X < 0) Position.SetX(0);
+            if (Position.X > Scene.Window.Size.X - Size.X) Position.SetX(Scene.Window.Size.X - Size.X);
 
             foreach(var ball in Scene.Entities.List<Ball>())
             {
@@ -68,7 +68,7 @@ namespace Breakout.Entities
                     else
                         ball.Direction = new Vec2(ball.Direction.X + p, -ball.Direction.Y);
                     ball.Direction.Normalize();
-                    ball.Position.Y = Position.Y - ball.Size.Y - 1;
+                    ball.Position.SetY(Position.Y - ball.Size.Y - 1);
                 }
             }
 

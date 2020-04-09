@@ -171,7 +171,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawText(font, text, pos, null, entity: entity);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
                 InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
             }
@@ -248,7 +248,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 DrawImage(texture, pos, null, entity: entity);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2 scale = null, double rotation = 0, Vec2 origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color color = null, Flipped flipped = Flipped.None, Rectangle source = null, Entity2d entity = null)
             {
                 InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color, flipped, source, entity);
             }
