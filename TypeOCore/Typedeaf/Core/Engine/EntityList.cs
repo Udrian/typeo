@@ -53,9 +53,9 @@ namespace TypeOEngine.Typedeaf.Core
                 var entity = Create<E>() as Entity2d;
 
                 entity.Position = position ?? entity.Position;
-                entity.Scale    = scale    ?? entity.Scale;
+                entity.Scale = scale ?? entity.Scale;
                 entity.Rotation = rotation;
-                entity.Origin   = origin   ?? entity.Origin;
+                entity.Origin = origin ?? entity.Origin;
 
                 return entity as E;
             }
@@ -73,12 +73,12 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Entities.Add(entity);
                 var eType = typeof(E);
-                if (EntityLists.ContainsKey(eType))
+                if(EntityLists.ContainsKey(eType))
                 {
                     EntityLists[eType] = Entities.Where(e => e is E).Cast<E>().ToList();
                 }
 
-                if (string.IsNullOrEmpty(entity.ID))
+                if(string.IsNullOrEmpty(entity.ID))
                 {
                     entity.ID = Guid.NewGuid().ToString();
                 }
@@ -91,7 +91,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Entity CreateFromStub<S>() where S : Stub, new()
             {
                 var sType = typeof(S);
-                if (!Stubs.ContainsKey(sType))
+                if(!Stubs.ContainsKey(sType))
                 {
                     var nStub = new S();
                     Logger.Log(LogLevel.Debug, $"Creating Stub of type '{typeof(S).FullName}'");
@@ -120,17 +120,17 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Logger.Log(LogLevel.Debug, $"Entity of type '{entity.GetType().FullName}' added");
 
-                if (entity is IIsUpdatable || entity is IHasLogic)
+                if(entity is IIsUpdatable || entity is IHasLogic)
                 {
                     Updatables.Add(entity);
                 }
 
-                if (entity is IHasDrawable || entity is IIsDrawable)
+                if(entity is IHasDrawable || entity is IIsDrawable)
                 {
                     Drawables.Add(entity);
                 }
 
-                if (entity is IHasEntities hasEntities)
+                if(entity is IHasEntities hasEntities)
                 {
                     HasEntities.Add(hasEntities);
                 }
@@ -140,18 +140,18 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 foreach(var entity in Updatables)
                 {
-                    if (entity.WillBeDeleted) continue;
+                    if(entity.WillBeDeleted) continue;
 
-                    if (entity is IIsUpdatable isUpdatable)
+                    if(entity is IIsUpdatable isUpdatable)
                     {
-                        if (!isUpdatable.Pause)
+                        if(!isUpdatable.Pause)
                         {
                             isUpdatable.Update(dt);
                         }
                     }
-                    if (entity is IHasLogic hasLogic)
+                    if(entity is IHasLogic hasLogic)
                     {
-                        if (!hasLogic.PauseLogic)
+                        if(!hasLogic.PauseLogic)
                         {
                             hasLogic.Logic.Update(dt);
                         }
@@ -160,8 +160,8 @@ namespace TypeOEngine.Typedeaf.Core
 
                 foreach(var entity in HasEntities)
                 {
-                    if ((entity as Entity)?.WillBeDeleted == true) continue;
-                    if ((entity as IIsUpdatable)?.Pause == true) continue;
+                    if((entity as Entity)?.WillBeDeleted == true) continue;
+                    if((entity as IIsUpdatable)?.Pause == true) continue;
                     entity.Entities.Update(dt);
                 }
 
@@ -173,9 +173,9 @@ namespace TypeOEngine.Typedeaf.Core
                 EntitiesToAdd.Clear();
 
                 //Remove entities
-                for (int i = Entities.Count - 1; i >= 0; i--)
+                for(int i = Entities.Count - 1; i >= 0; i--)
                 {
-                    if (Entities[i].WillBeDeleted)
+                    if(Entities[i].WillBeDeleted)
                     {
                         for(int j = 0; j < Updatables.Count; j++)
                         {
@@ -186,18 +186,18 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
-                        for (int j = 0; j < Drawables.Count; j++)
+                        for(int j = 0; j < Drawables.Count; j++)
                         {
-                            if (Drawables[j] == Entities[i])
+                            if(Drawables[j] == Entities[i])
                             {
                                 Drawables.RemoveAt(j);
                                 break;
                             }
                         }
 
-                        for (int j = 0; j < HasEntities.Count; j++)
+                        for(int j = 0; j < HasEntities.Count; j++)
                         {
-                            if (HasEntities[j] == Entities[i])
+                            if(HasEntities[j] == Entities[i])
                             {
                                 HasEntities.RemoveAt(j);
                                 break;
@@ -205,7 +205,7 @@ namespace TypeOEngine.Typedeaf.Core
                         }
 
                         var iType = Entities[i].GetType();
-                        if (EntityLists.ContainsKey(iType))
+                        if(EntityLists.ContainsKey(iType))
                         {
                             EntityLists.Remove(iType);
                         }
@@ -219,31 +219,31 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Draw(Canvas canvas)
             {
-                foreach (var entity in Drawables)
+                foreach(var entity in Drawables)
                 {
-                    if (entity.WillBeDeleted) continue;
+                    if(entity.WillBeDeleted) continue;
 
-                    if (entity is IHasDrawable hasDrawable)
+                    if(entity is IHasDrawable hasDrawable)
                     {
-                        if (!hasDrawable.Hidden)
+                        if(!hasDrawable.Hidden)
                         {
                             hasDrawable.Drawable.Draw(canvas);
                         }
                     }
-                    if (entity is IIsDrawable isDrawable)
+                    if(entity is IIsDrawable isDrawable)
                     {
-                        if (!isDrawable.Hidden)
+                        if(!isDrawable.Hidden)
                         {
                             isDrawable.Draw(canvas);
                         }
                     }
                 }
 
-                foreach (var entity in HasEntities)
+                foreach(var entity in HasEntities)
                 {
-                    if ((entity as Entity)?.WillBeDeleted == true) continue;
-                    if ((entity as IIsDrawable)?.Hidden == true) continue;
-                    if ((entity as IHasDrawable)?.Hidden == true) continue;
+                    if((entity as Entity)?.WillBeDeleted == true) continue;
+                    if((entity as IIsDrawable)?.Hidden == true) continue;
+                    if((entity as IHasDrawable)?.Hidden == true) continue;
                     entity.Entities.Draw(canvas);
                 }
             }
@@ -251,7 +251,7 @@ namespace TypeOEngine.Typedeaf.Core
             public List<E> List<E>() where E : Entity
             {
                 var eType = typeof(E);
-                if (!EntityLists.ContainsKey(eType))
+                if(!EntityLists.ContainsKey(eType))
                 {
                     EntityLists.Add(eType, Entities.Where(e => e is E).Cast<E>().ToList());
                 }
@@ -266,10 +266,10 @@ namespace TypeOEngine.Typedeaf.Core
 
             public E GetEntityByID<E>(string id) where E : Entity
             {
-                if (!EntityIDs.ContainsKey(id))
+                if(!EntityIDs.ContainsKey(id))
                     return null;
                 var entity = EntityIDs[id] as E;
-                if (entity == null)
+                if(entity == null)
                     Logger.Log(LogLevel.Warning, $"Entity with id '{id}' is not of type '{typeof(E).FullName}'");
                 return entity;
             }

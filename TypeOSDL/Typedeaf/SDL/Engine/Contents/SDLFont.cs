@@ -1,10 +1,10 @@
 ﻿using SDL2;
-using SDL_Font = System.IntPtr;
-using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
+using SDL_Font = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -32,7 +32,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
                 SDL_Font = SDL_ttf.TTF_OpenFont(FilePath, FontSize);
                 FontSize = FontSize;
-                if (SDL_Font == SDL_Font.Zero)
+                if(SDL_Font == SDL_Font.Zero)
                 {
                     Logger.Log(LogLevel.Error, $"Error loading SDLFont '{path}' with error : {SDL2.SDL.SDL_GetError()}");
                 }
@@ -43,7 +43,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL_ttf.TTF_CloseFont(SDL_Font);
             }
 
-            public override int FontSize { 
+            public override int FontSize {
                 get => base.FontSize;
                 set {
                     base.FontSize = value;

@@ -81,7 +81,7 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var module = new M();
 
-                if (option == null)
+                if(option == null)
                 {
                     module.CreateOption();
                 }
@@ -105,7 +105,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             public ITypeO RequireTypeO(Version version)
             {
-                if (!Context.RequiredTypeOVersion.Eligable(version))
+                if(!Context.RequiredTypeOVersion.Eligable(version))
                     Context.RequiredTypeOVersion = version;
                 return this;
             }

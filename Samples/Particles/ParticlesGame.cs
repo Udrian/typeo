@@ -36,12 +36,12 @@ namespace Particles
             Window = WindowService.CreateWindow("Particles", new Vec2(100, 100), ScreenSize);
             Canvas = WindowService.CreateCanvas(Window);
 
-            for (int i = 0; i < ParticlesAmount; i++)
+            for(int i = 0; i < ParticlesAmount; i++)
             {
                 Particles.Add(new Particle() { Position = new Vec2(Random.Next(0, (int)ScreenSize.X), Random.Next(0, (int)ScreenSize.Y)) });
             }
 
-            for (int i = 0; i < 6; i++)
+            for(int i = 0; i < 6; i++)
             {
                 GravityPoints.Add(new Vec2(Random.Next(0, (int)ScreenSize.X), Random.Next(0, (int)ScreenSize.Y)));
             }
@@ -55,9 +55,9 @@ namespace Particles
 
         public override void Update(double dt)
         {
-            for (int i = 0; i < Particles.Count; i++)
+            for(int i = 0; i < Particles.Count; i++)
             {
-                for (int j = 0; j < GravityPoints.Count; j++)
+                for(int j = 0; j < GravityPoints.Count; j++)
                 {
                     var particle = Particles[i];
                     var gravityPoint = GravityPoints[j];
@@ -81,7 +81,7 @@ namespace Particles
                 Vec2? closestGravityPoint = null;
                 foreach(var gravityPoints in GravityPoints)
                 {
-                    if (closestGravityPoint is null)
+                    if(closestGravityPoint is null)
                         closestGravityPoint = gravityPoints;
                     else if(closestGravityPoint?.DistanceSquared(particle.Position) > gravityPoints.DistanceSquared(particle.Position))
                     {

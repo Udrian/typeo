@@ -26,23 +26,23 @@ namespace Breakout.Entities
             Speed = Scene.Window.Size.X;
         }
 
-        public override void Cleanup() 
+        public override void Cleanup()
         {
         }
 
         public void Update(double dt)
         {
-            if (KeyboardInputService.IsDown("Left") && Position.X > 0)
+            if(KeyboardInputService.IsDown("Left") && Position.X > 0)
             {
                 Position.TransformX(-Speed * dt);
             }
-            else if (KeyboardInputService.IsDown("Right") && Position.X + Size.X < Scene.Window.Size.X)
+            else if(KeyboardInputService.IsDown("Right") && Position.X + Size.X < Scene.Window.Size.X)
             {
                 Position.TransformX(Speed * dt);
             }
 
-            if (Position.X < 0) Position.SetX(0);
-            if (Position.X > Scene.Window.Size.X - Size.X) Position.SetX(Scene.Window.Size.X - Size.X);
+            if(Position.X < 0) Position.SetX(0);
+            if(Position.X > Scene.Window.Size.X - Size.X) Position.SetX(Scene.Window.Size.X - Size.X);
 
             foreach(var ball in Scene.Entities.List<Ball>())
             {
@@ -61,7 +61,7 @@ namespace Breakout.Entities
                     r1y + r1h >= r2y &&
                     r1y <= r2y + r2h)
                 {
-                    var p = ((ball.Position.X + ball.Size.X/2) - (Position.X + Size.X/2)) / Size.X;
+                    var p = ((ball.Position.X + ball.Size.X / 2) - (Position.X + Size.X / 2)) / Size.X;
 
                     if(p >= -0.15 && p <= 0.15)
                         ball.Direction = new Vec2(0, -1);
@@ -72,9 +72,9 @@ namespace Breakout.Entities
                 }
             }
 
-            foreach (var entity in Scene.Entities.ListAll())
+            foreach(var entity in Scene.Entities.ListAll())
             {
-                if (!(entity is Powerup)) continue;
+                if(!(entity is Powerup)) continue;
                 var powerup = entity as Powerup;
 
                 var r1x = Position.X;

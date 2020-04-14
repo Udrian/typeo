@@ -25,26 +25,26 @@ namespace TypeOEngine.Typedeaf.SDL
             public void UpdateEvents(List<SDL2.SDL.SDL_Event> events)
             {
                 OldState = new Dictionary<SDL2.SDL.SDL_Keycode, bool>(NewState);
-                foreach (var e in events)
+                foreach(var e in events)
                 {
-                    if (!(e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP))
+                    if(!(e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN || e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP))
                     {
                         continue;
                     }
 
                     bool? state = null;
-                    if (e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN && e.key.repeat == 0)
+                    if(e.type == SDL2.SDL.SDL_EventType.SDL_KEYDOWN && e.key.repeat == 0)
                     {
                         state = true;
                     }
-                    else if (e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP)
+                    else if(e.type == SDL2.SDL.SDL_EventType.SDL_KEYUP)
                     {
                         state = false;
                     }
 
-                    if (state.HasValue)
+                    if(state.HasValue)
                     {
-                        if (!NewState.ContainsKey(e.key.keysym.sym))
+                        if(!NewState.ContainsKey(e.key.keysym.sym))
                         {
                             NewState.Add(e.key.keysym.sym, state.Value);
                         }
@@ -58,25 +58,25 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public bool CurrentKeyDownEvent(object key)
             {
-                if (!NewState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return false;
+                if(!NewState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return false;
                 return NewState[(SDL2.SDL.SDL_Keycode)key];
             }
 
             public bool CurrentKeyUpEvent(object key)
             {
-                if (!NewState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
+                if(!NewState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
                 return !NewState[(SDL2.SDL.SDL_Keycode)key];
             }
 
             public bool OldKeyDownEvent(object key)
             {
-                if (!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return false;
+                if(!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return false;
                 return OldState[(SDL2.SDL.SDL_Keycode)key];
             }
 
             public bool OldKeyUpEvent(object key)
             {
-                if (!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
+                if(!OldState.ContainsKey((SDL2.SDL.SDL_Keycode)key)) return true;
                 return !OldState[(SDL2.SDL.SDL_Keycode)key];
             }
         }

@@ -29,7 +29,7 @@ namespace SpaceInvader.Logics.Aliens
             SinTime += dt;
             Entity.Position = new Vec2(Math.Sin((Frequency * SinTime) + Phase) * Amplitude + Scene.Window.Size.X / 2 - Entity.Size.X / 2, Entity.Position.Y + EntityData.Speed * dt);
 
-            if (Entity.Position.Y >= Scene.Window.Size.Y)
+            if(Entity.Position.Y >= Scene.Window.Size.Y)
                 Entity.Remove();
         }
     }

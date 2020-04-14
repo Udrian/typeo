@@ -24,32 +24,32 @@ namespace SpaceInvader.Logics.Players
 
         public override void Update(double dt)
         {
-            if (KeyboardInputService.IsDown("Left") && Entity.Position.X > 0)
+            if(KeyboardInputService.IsDown("Left") && Entity.Position.X > 0)
             {
                 Entity.Position.TransformX(-EntityData.Speed * dt);
             }
-            else if (KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
+            else if(KeyboardInputService.IsDown("Right") && Entity.Position.X + Entity.Size.X < Scene.Window.Size.X)
             {
                 Entity.Position.TransformX(EntityData.Speed * dt);
             }
-            if (KeyboardInputService.IsDown("Up") && Entity.Position.Y > 0)
+            if(KeyboardInputService.IsDown("Up") && Entity.Position.Y > 0)
             {
                 Entity.Position.TransformY(-EntityData.Speed * dt);
             }
-            else if (KeyboardInputService.IsDown("Down") && Entity.Position.Y + Entity.Size.Y < Scene.Window.Size.Y)
+            else if(KeyboardInputService.IsDown("Down") && Entity.Position.Y + Entity.Size.Y < Scene.Window.Size.Y)
             {
                 Entity.Position.TransformY(EntityData.Speed * dt);
             }
 
-            if (Entity.Position.X < 0) Entity.Position.SetX(0);
-            if (Entity.Position.X > Scene.Window.Size.X - Entity.Size.X) Entity.Position.SetX(Scene.Window.Size.X - Entity.Size.X);
-            if (Entity.Position.Y < 0) Entity.Position.SetY(0);
-            if (Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.SetY(Scene.Window.Size.Y - Entity.Size.Y);
+            if(Entity.Position.X < 0) Entity.Position.SetX(0);
+            if(Entity.Position.X > Scene.Window.Size.X - Entity.Size.X) Entity.Position.SetX(Scene.Window.Size.X - Entity.Size.X);
+            if(Entity.Position.Y < 0) Entity.Position.SetY(0);
+            if(Entity.Position.Y > Scene.Window.Size.Y - Entity.Size.Y) Entity.Position.SetY(Scene.Window.Size.Y - Entity.Size.Y);
 
             ShootTimer += dt;
-            if (KeyboardInputService.IsDown("Shoot"))
+            if(KeyboardInputService.IsDown("Shoot"))
             {
-                if (ShootTimer >= ShootTime)
+                if(ShootTimer >= ShootTime)
                 {
                     ShootTimer = 0;
 

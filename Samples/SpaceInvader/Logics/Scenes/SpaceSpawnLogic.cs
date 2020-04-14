@@ -22,10 +22,10 @@ namespace SpaceInvader.Logics.Scenes
 
         public override void Update(double dt)
         {
-            if (!EntityData.PlanetSpawned)
+            if(!EntityData.PlanetSpawned)
             {
                 EntityData.PlanetSpawnTimer += dt;
-                if (EntityData.PlanetSpawnTimer >= EntityData.PlanetSpawnTime)
+                if(EntityData.PlanetSpawnTimer >= EntityData.PlanetSpawnTime)
                 {
                     EntityData.PlanetSpawnTimer = 0;
                     EntityData.PlanetSpawned = true;
@@ -33,10 +33,10 @@ namespace SpaceInvader.Logics.Scenes
                 }
             }
 
-            if (!EntityData.AlienSpawning)
+            if(!EntityData.AlienSpawning)
             {
                 EntityData.AlienSpawnTimer += dt;
-                if (EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
+                if(EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
                 {
                     EntityData.AlienSpawnTimer -= EntityData.AlienSpawnTime;
                     EntityData.AlienSpawning = true;
@@ -46,14 +46,14 @@ namespace SpaceInvader.Logics.Scenes
             else
             {
                 EntityData.AlienSpawnFrequencyTimer += dt;
-                if (EntityData.AlienSpawnFrequencyTimer >= EntityData.AlienSpawnFrequencyTime)
+                if(EntityData.AlienSpawnFrequencyTimer >= EntityData.AlienSpawnFrequencyTime)
                 {
                     EntityData.AlienSpawnFrequencyTimer -= EntityData.AlienSpawnFrequencyTime;
                     var alien = Scene.Entities.CreateFromStub<AlienGrunt, Alien>();
                     alien.Logic.GetLogic<AlienSwayLogic>().Phase = EntityData.AlienSpawnPhase;
 
                     EntityData.AlienSpawns++;
-                    if (EntityData.AlienSpawns >= EntityData.AlienSpawnAmount)
+                    if(EntityData.AlienSpawns >= EntityData.AlienSpawnAmount)
                     {
                         EntityData.AlienSpawning = false;
                         EntityData.AlienSpawnFrequencyTimer = 0;
@@ -62,10 +62,10 @@ namespace SpaceInvader.Logics.Scenes
                 }
             }
 
-            if (!EntityData.AlienRunnerSpawning)
+            if(!EntityData.AlienRunnerSpawning)
             {
                 EntityData.AlienRunnerSpawnTimer += dt;
-                if (EntityData.AlienRunnerSpawnTimer >= EntityData.AlienRunnerSpawnTime)
+                if(EntityData.AlienRunnerSpawnTimer >= EntityData.AlienRunnerSpawnTime)
                 {
                     EntityData.AlienRunnerSpawnTimer -= EntityData.AlienRunnerSpawnTime;
                     EntityData.AlienRunnerSpawning = true;
@@ -74,13 +74,13 @@ namespace SpaceInvader.Logics.Scenes
             else
             {
                 EntityData.AlienRunnerSpawnFrequencyTimer += dt;
-                if (EntityData.AlienRunnerSpawnFrequencyTimer >= EntityData.AlienRunnerSpawnFrequencyTime)
+                if(EntityData.AlienRunnerSpawnFrequencyTimer >= EntityData.AlienRunnerSpawnFrequencyTime)
                 {
                     EntityData.AlienRunnerSpawnFrequencyTimer -= EntityData.AlienRunnerSpawnFrequencyTime;
                     Scene.Entities.CreateFromStub<AlienSpeeder>();
 
                     EntityData.AlienRunnerSpawns++;
-                    if (EntityData.AlienRunnerSpawns >= EntityData.AlienRunnerSpawnAmount)
+                    if(EntityData.AlienRunnerSpawns >= EntityData.AlienRunnerSpawnAmount)
                     {
                         EntityData.AlienRunnerSpawning = false;
                         EntityData.AlienRunnerSpawnFrequencyTimer = 0;

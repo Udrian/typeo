@@ -53,7 +53,7 @@ namespace TypeOEngine.Typedeaf.Core
         public bool RemoveLogic<L>() where L : Logic
         {
             var l = Logics.FirstOrDefault(l => l.GetType() == typeof(L));
-            if (l == null) return false;
+            if(l == null) return false;
             RemoveLogics.Add(l);
             return true;
         }

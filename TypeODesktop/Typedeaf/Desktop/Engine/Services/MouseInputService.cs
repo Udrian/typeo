@@ -36,19 +36,19 @@ namespace TypeOEngine.Typedeaf.Desktop
             }
             public bool IsDown(object input)
             {
-                if (!KeyConverter.ContainsInput(input)) return false;
+                if(!KeyConverter.ContainsInput(input)) return false;
 
                 return MouseHardware.CurrentButtonDownEvent(KeyConverter.GetKey(input));
             }
             public bool IsPressed(object input)
             {
-                if (!KeyConverter.ContainsInput(input)) return false;
+                if(!KeyConverter.ContainsInput(input)) return false;
 
                 return MouseHardware.CurrentButtonDownEvent(KeyConverter.GetKey(input)) && MouseHardware.OldButtonUpEvent(KeyConverter.GetKey(input));
             }
             public bool IsReleased(object input)
             {
-                if (!KeyConverter.ContainsInput(input)) return false;
+                if(!KeyConverter.ContainsInput(input)) return false;
 
                 return MouseHardware.CurrentButtonUpEvent(KeyConverter.GetKey(input)) && MouseHardware.OldButtonDownEvent(KeyConverter.GetKey(input));
             }

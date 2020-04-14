@@ -30,7 +30,7 @@ namespace SpaceInvader.Scenes
         public override void Update(double dt)
         {
             Entities.Update(dt);
-            if (KeyboardInputService.IsDown("Quit"))
+            if(KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
@@ -46,7 +46,7 @@ namespace SpaceInvader.Scenes
 
             Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, 15), color: Color.Green);
 
-            for (int i = 0; i < Player.EntityData.Health; i++)
+            for(int i = 0; i < Player.EntityData.Health; i++)
             {
                 Canvas.DrawImage(Player.HealthTexture, new Vec2(Window.Size.X - (((Player.HealthTexture.Size.X * 0.5 + 15) * i) + 15 + Player.HealthTexture.Size.X), 25), scale: new Vec2(0.5));
             }
@@ -62,11 +62,11 @@ namespace SpaceInvader.Scenes
         public override void OnExit(Scene to)
         {
             Logic.EntityData.AlienSpawns = 100;
-            foreach (var bullet in Entities.List<Bullet>())
+            foreach(var bullet in Entities.List<Bullet>())
             {
                 bullet.Remove();
             }
-            foreach (var alien in Entities.List<Alien>())
+            foreach(var alien in Entities.List<Alien>())
             {
                 alien.Remove();
             }

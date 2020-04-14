@@ -1,5 +1,4 @@
-﻿using System;
-using TypeOEngine.Typedeaf.Core.Engine;
+﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.SDL;
 

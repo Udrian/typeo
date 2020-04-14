@@ -1,12 +1,12 @@
-﻿ using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
-using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Common;
-using SpaceInvader.Data.Entities;
+﻿using SpaceInvader.Data.Entities;
 using SpaceInvader.Logics.Players;
+using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
@@ -50,7 +50,7 @@ namespace SpaceInvader.Entities
 
         public virtual void Shoot()
         {
-            Scene.Entities.Create<Bullet>(new Vec2(Position.X + 25         , Position.Y + Size.Y - 55)).EntityData.Speed += EntityData.Speed;
+            Scene.Entities.Create<Bullet>(new Vec2(Position.X + 25, Position.Y + Size.Y - 55)).EntityData.Speed += EntityData.Speed;
             Scene.Entities.Create<Bullet>(new Vec2(Position.X + Size.X - 35, Position.Y + Size.Y - 55)).EntityData.Speed += EntityData.Speed;
         }
     }

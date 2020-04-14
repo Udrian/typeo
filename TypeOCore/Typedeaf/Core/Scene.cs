@@ -17,7 +17,7 @@ namespace TypeOEngine.Typedeaf.Core
         public bool Pause         { get; set; } = false;
         public bool Hide          { get; set; } = false;
 
-        protected Scene() {}
+        protected Scene() { }
 
         public abstract void Initialize();
         public abstract void Update(double dt);

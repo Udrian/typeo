@@ -36,17 +36,17 @@ namespace Breakout.Entities
                 Position.SetY(0);
                 Direction.SetY(-Direction.Y);
             }
-            if (Position.X <= 0)
+            if(Position.X <= 0)
             {
                 Position.SetX(0);
                 Direction.SetX(-Direction.X);
             }
-            if (Position.X >= Scene.Window.Size.X - Size.X)
+            if(Position.X >= Scene.Window.Size.X - Size.X)
             {
                 Position.SetX(Scene.Window.Size.X - Size.X);
                 Direction.SetX(-Direction.X);
             }
-            if (Position.Y >= Scene.Window.Size.Y)
+            if(Position.Y >= Scene.Window.Size.Y)
             {
                 Remove();
             }
@@ -58,14 +58,14 @@ namespace Breakout.Entities
                 var dx = (Position + Size / 2).X - (brick.Position + brick.Size / 2).X;
                 var dy = (Position + Size / 2).Y - (brick.Position + brick.Size / 2).Y;
 
-                if (Math.Abs(dx) <= w && Math.Abs(dy) <= h)
+                if(Math.Abs(dx) <= w && Math.Abs(dy) <= h)
                 {
                     var wy = w * dy;
                     var hx = h * dx;
 
-                    if (wy > hx)
+                    if(wy > hx)
                     {
-                        if (wy > -hx)
+                        if(wy > -hx)
                         {
                             Direction.SetY(Math.Abs(Direction.Y));
                         }
@@ -77,7 +77,7 @@ namespace Breakout.Entities
 
                     else
                     {
-                        if (wy > -hx)
+                        if(wy > -hx)
                         {
                             Direction.SetX(Math.Abs(Direction.X));
                         }

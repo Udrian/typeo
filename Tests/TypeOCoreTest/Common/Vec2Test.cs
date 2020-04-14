@@ -1,5 +1,4 @@
-﻿using System;
-using TypeOEngine.Typedeaf.Core.Common;
+﻿using TypeOEngine.Typedeaf.Core.Common;
 using Xunit;
 
 namespace TypeOCoreTest.Common

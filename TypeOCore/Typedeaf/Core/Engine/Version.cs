@@ -22,8 +22,8 @@
 
             public bool Eligable(Version to)
             {
-                if (Major > to.Major) return true;
-                if (Major == to.Major && Minor >= to.Minor) return true;
+                if(Major > to.Major) return true;
+                if(Major == to.Major && Minor >= to.Minor) return true;
                 return false;
                 //return (Major  to.Major && Minor >= to.Minor);
             }

@@ -1,8 +1,8 @@
 ﻿using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
@@ -21,7 +21,7 @@ namespace SpaceInvader.Scenes
 
         public override void Update(double dt)
         {
-            if (KeyboardInputService.IsDown("Quit"))
+            if(KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
@@ -31,7 +31,7 @@ namespace SpaceInvader.Scenes
         {
             Canvas.Clear(Color.Black);
 
-            Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, Window.Size.Y*0.5 - 27), color: Color.Green);
+            Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, Window.Size.Y * 0.5 - 27), color: Color.Green);
 
             Canvas.Present();
         }

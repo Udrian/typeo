@@ -1,10 +1,10 @@
-﻿using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
-using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 
 namespace TypeOEngine.Typedeaf.SDL
 {

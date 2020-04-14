@@ -31,18 +31,18 @@ namespace TypeOEngine.Typedeaf.Core.Engine
 
         public void CreateScene<S>() where S : Scene, new()
         {
-            if (!Scenes.ContainsKey(typeof(S)))
+            if(!Scenes.ContainsKey(typeof(S)))
             {
                 Logger.Log(LogLevel.Debug, $"Creating Scene '{typeof(S).FullName}'");
                 var scene = new S();
                 Context.InitializeObject(scene);
                 Scenes.Add(scene.GetType(), scene);
 
-                if (Window == null)
+                if(Window == null)
                     Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
-                if (Canvas == null)
+                if(Canvas == null)
                     Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
-                if (ContentLoader == null)
+                if(ContentLoader == null)
                     Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
 
                 scene.Scenes = this;
@@ -55,7 +55,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
         public S SetScene<S>() where S : Scene, new()
         {
             var init = false;
-            if (!Scenes.ContainsKey(typeof(S)))
+            if(!Scenes.ContainsKey(typeof(S)))
             {
                 CreateScene<S>();
                 init = true;
@@ -64,7 +64,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             var fromScene = CurrentScene;
             var toScene = Scenes[typeof(S)];
             CurrentScene = toScene;
-            if (init)
+            if(init)
                 CurrentScene.Initialize();
             fromScene?.OnExit(toScene);
             toScene?.OnEnter(fromScene);

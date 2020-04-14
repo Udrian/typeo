@@ -28,9 +28,9 @@ namespace SpaceInvader.Logics.Players
         public override void Update(double dt)
         {
             ShootTimer += dt;
-            if (KeyboardInputService.IsDown("Shoot"))
+            if(KeyboardInputService.IsDown("Shoot"))
             {
-                if (ShootTimer >= ShootTime)
+                if(ShootTimer >= ShootTime)
                 {
                     ShootTimer = 0;
 

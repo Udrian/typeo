@@ -20,17 +20,17 @@ namespace SpaceInvader.Logics.Scenes
 
         public override void Update(double dt)
         {
-            if (EntityData.AlienSpawns > 0)
+            if(EntityData.AlienSpawns > 0)
             {
                 EntityData.AlienSpawnTimer += dt;
-                if (EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
+                if(EntityData.AlienSpawnTimer >= EntityData.AlienSpawnTime)
                 {
                     EntityData.AlienSpawnTimer -= EntityData.AlienSpawnTime;
                     Scene.Entities.CreateFromStub<AlienRunner>();
                     EntityData.AlienSpawns--;
                 }
             }
-            if (EntityData.AlienSpawns == 0 && Scene.Entities.List<Alien>().Count == 0)
+            if(EntityData.AlienSpawns == 0 && Scene.Entities.List<Alien>().Count == 0)
             {
                 Scene.Scenes.SetScene<SpaceScene>();
             }

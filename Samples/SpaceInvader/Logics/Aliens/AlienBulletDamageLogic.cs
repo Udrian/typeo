@@ -14,9 +14,9 @@ namespace SpaceInvader.Logics.Aliens
 
         public override void Update(double dt)
         {
-            foreach (var bullet in Scene.Entities.List<Bullet>())
+            foreach(var bullet in Scene.Entities.List<Bullet>())
             {
-                if (bullet.WillBeDeleted) continue;
+                if(bullet.WillBeDeleted) continue;
 
                 var r1x = Entity.Position.X;
                 var r1y = Entity.Position.Y;
@@ -35,7 +35,7 @@ namespace SpaceInvader.Logics.Aliens
                 {
                     bullet.Remove();
                     Entity.EntityData.Health--;
-                    if (Entity.EntityData.Health <= 0)
+                    if(Entity.EntityData.Health <= 0)
                     {
                         Entity.Remove();
                         Game.Score++;

@@ -23,7 +23,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 FilePath = path;
 
                 SDL_Image = SDL_image.IMG_LoadTexture(sdlCanvas.SDLRenderer, FilePath);
-                if (SDL_Image == SDL_Image.Zero)
+                if(SDL_Image == SDL_Image.Zero)
                 {
                     Logger.Log(LogLevel.Error, $"Error loading SDLTexture '{path}' with error : {SDL2.SDL.SDL_GetError()}");
                 }

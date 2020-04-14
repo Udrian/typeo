@@ -27,14 +27,14 @@ namespace TypeOEngine.Typedeaf.Core
             public C LoadContent<C>(string path) where C : Content
             {
                 Content content;
-                if (ContentBinding.ContainsKey(typeof(C)))
+                if(ContentBinding.ContainsKey(typeof(C)))
                 {
                     Logger.Log(LogLevel.Debug, $"Loading content path '{path}' of type '{typeof(C).FullName}' bound to type '{ContentBinding[typeof(C)].FullName}'");
                     content = Activator.CreateInstance(ContentBinding[typeof(C)]) as Content;
                 }
                 else
                 {
-                    if (typeof(C).IsAbstract)
+                    if(typeof(C).IsAbstract)
                     {
                         var message = $"Base content type '{typeof(C).Name}' is missing a sub class Content Binding";
                         Logger.Log(LogLevel.Fatal, message);

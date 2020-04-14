@@ -108,7 +108,7 @@ namespace Test
             Assert.NotEmpty(typeO.Context.Modules);
         }
 
-        
+
         [Fact]
         public void LoadDefaults()
         {

@@ -8,9 +8,8 @@ using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
+using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 using SDL_Renderer = System.IntPtr;
-using SDL_Surface = System.IntPtr;
-using SDL_Texture = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -70,7 +69,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
                 var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
-                foreach (var point in points)
+                foreach(var point in points)
                 {
                     var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
 
@@ -97,7 +96,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
-                foreach (var point in points)
+                foreach(var point in points)
                 {
                     var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
@@ -128,7 +127,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     h = (int)size.Y
                 };
 
-                if (filled)
+                if(filled)
                 {
                     SDL2.SDL.SDL_RenderFillRect(SDLRenderer, ref rect);
                 }
@@ -148,8 +147,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderPresent(SDLRenderer);
             }
 
-            public override Rectangle Viewport
-            {
+            public override Rectangle Viewport {
                 get {
                     SDL2.SDL.SDL_RenderGetViewport(SDLRenderer, out SDL2.SDL.SDL_Rect rect);
                     return new Rectangle(rect.x, rect.y, rect.w, rect.h);
@@ -180,7 +178,7 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 const double degreeToRadianConst = 57.2957795131;
 
-                if (!(font is SDLFont sdlFont))
+                if(!(font is SDLFont sdlFont))
                 {
                     Logger.Log(LogLevel.Warning, "Font is not of type SDLFont");
                     return;
@@ -215,14 +213,14 @@ namespace TypeOEngine.Typedeaf.SDL
                 };
 
                 var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
-                if (flipped == Flipped.Horizontal)
+                if(flipped == Flipped.Horizontal)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
-                else if (flipped == Flipped.Vertical)
+                else if(flipped == Flipped.Vertical)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
-                else if (flipped == Flipped.Both)
+                else if(flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-                if (!source.HasValue)
+                if(!source.HasValue)
                 {
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, fontTex, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }
@@ -257,7 +255,7 @@ namespace TypeOEngine.Typedeaf.SDL
             {
                 const double degreeToRadianConst = 57.2957795131;
 
-                if (!(texture is SDLTexture sdltexture))
+                if(!(texture is SDLTexture sdltexture))
                 {
                     Logger.Log(LogLevel.Warning, "Texture is not of type SDLTexture");
                     return;
@@ -287,14 +285,14 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_SetTextureAlphaMod(sdltexture.SDL_Image, (byte)color.A);
 
                 var sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_NONE;
-                if (flipped == Flipped.Horizontal)
+                if(flipped == Flipped.Horizontal)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
-                else if (flipped == Flipped.Vertical)
+                else if(flipped == Flipped.Vertical)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
-                else if (flipped == Flipped.Both)
+                else if(flipped == Flipped.Both)
                     sdlRenderFlip = SDL2.SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL2.SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
 
-                if (!source.HasValue)
+                if(!source.HasValue)
                 {
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, (IntPtr)null, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
                 }

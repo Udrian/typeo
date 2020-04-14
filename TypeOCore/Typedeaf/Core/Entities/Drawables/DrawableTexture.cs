@@ -10,19 +10,19 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Texture Texture { get; set; }
 
-            public Vec2 Scale      { get; set; }
+            public Vec2 Scale { get; set; }
             public double Rotation { get; set; }
-            public Color Color     { get; set; }
+            public Color Color { get; set; }
             public Flipped Flipped { get; set; }
 
             public override Vec2 Size { get { return Texture.Size; } protected set { } }
 
             public DrawableTexture() : base()
             {
-                Scale    = Vec2.One;
+                Scale = Vec2.One;
                 Rotation = 0;
-                Color    = Color.White;
-                Flipped  = Flipped.None;
+                Color = Color.White;
+                Flipped = Flipped.None;
             }
 
             public override void Initialize() { }

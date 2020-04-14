@@ -7,11 +7,11 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Services;
+using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -66,10 +66,10 @@ namespace TypeOEngine.Typedeaf.SDL
         public void Update(double dt)
         {
             var events = new List<SDL2.SDL.SDL_Event>();
-            while (SDL2.SDL.SDL_PollEvent(out SDL2.SDL.SDL_Event e) > 0)
+            while(SDL2.SDL.SDL_PollEvent(out SDL2.SDL.SDL_Event e) > 0)
             {
                 events.Add(e);
-                if (e.type == SDL2.SDL.SDL_EventType.SDL_QUIT)
+                if(e.type == SDL2.SDL.SDL_EventType.SDL_QUIT)
                 {
                     TypeO.Context.Exit();
                 }
@@ -77,7 +77,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             foreach(var hardware in TypeO.Context.Hardwares.Values)
             {
-                if (hardware is ISDLEvents sdlEvents)
+                if(hardware is ISDLEvents sdlEvents)
                 {
                     sdlEvents.UpdateEvents(events);
                 }

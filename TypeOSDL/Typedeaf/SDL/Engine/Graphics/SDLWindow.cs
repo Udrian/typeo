@@ -2,6 +2,7 @@
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 using SDL_Window = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -28,9 +29,9 @@ namespace TypeOEngine.Typedeaf.SDL
                     throw new InvalidOperationException(message);
                 }
 
-                if (fullscreen)
+                if(fullscreen)
                     Fullscreen = fullscreen;
-                if (borderless)
+                if(borderless)
                     Borderless = borderless;
             }
 
@@ -41,7 +42,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override string Title {
                 get {
-                    if (SDL_Window == null)
+                    if(SDL_Window == null)
                     {
                         Logger.Log(LogLevel.Warning, "Can not get Title of Window because Window is not initialized");
                         return "";
@@ -49,7 +50,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return SDL2.SDL.SDL_GetWindowTitle(SDL_Window);
                 }
                 set {
-                    if (SDL_Window != null)
+                    if(SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowTitle(SDL_Window, value);
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Title of Window because Window is not initialized");
@@ -57,7 +58,7 @@ namespace TypeOEngine.Typedeaf.SDL
             }
             public override Vec2 Position {
                 get {
-                    if (SDL_Window == null)
+                    if(SDL_Window == null)
                     {
                         Logger.Log(LogLevel.Warning, "Can not get Position of Window because Window is not initialized");
                         return Vec2.Zero;
@@ -66,7 +67,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return new Vec2(x, y);
                 }
                 set {
-                    if (SDL_Window != null)
+                    if(SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowPosition(SDL_Window, (int)value.X, (int)value.Y);
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Position of Window because Window is not initialized");
@@ -74,7 +75,7 @@ namespace TypeOEngine.Typedeaf.SDL
             }
             public override Vec2 Size {
                 get {
-                    if (SDL_Window == null)
+                    if(SDL_Window == null)
                     {
                         Logger.Log(LogLevel.Warning, "Can not get Size of Window because Window is not initialized");
                         return Vec2.Zero;
@@ -83,7 +84,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return new Vec2(x, y);
                 }
                 set {
-                    if (SDL_Window != null)
+                    if(SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowSize(SDL_Window, (int)value.X, (int)value.Y);
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Size of Window because Window is not initialized");
@@ -91,7 +92,7 @@ namespace TypeOEngine.Typedeaf.SDL
             }
             public override bool Fullscreen {
                 get {
-                    if (SDL_Window == null)
+                    if(SDL_Window == null)
                     {
                         Logger.Log(LogLevel.Warning, "Can not get Fullscreen of Window because Window is not initialized");
                         return false;
@@ -100,7 +101,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return mode.format == (uint)SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
                 }
                 set {
-                    if (SDL_Window != null)
+                    if(SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowFullscreen(SDL_Window, (uint)(value ? SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN : 0));
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Fullscreen of Window because Window is not initialized");
@@ -108,7 +109,7 @@ namespace TypeOEngine.Typedeaf.SDL
             }
             public override bool Borderless {
                 get {
-                    if (SDL_Window == null)
+                    if(SDL_Window == null)
                     {
                         Logger.Log(LogLevel.Warning, "Can not get Borderless of Window because Window is not initialized");
                         return false;
@@ -117,7 +118,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return mode.format == (uint)SDL2.SDL.SDL_WindowFlags.SDL_WINDOW_BORDERLESS;
                 }
                 set {
-                    if (SDL_Window != null)
+                    if(SDL_Window != null)
                         SDL2.SDL.SDL_SetWindowBordered(SDL_Window, value ? SDL2.SDL.SDL_bool.SDL_FALSE : SDL2.SDL.SDL_bool.SDL_TRUE);
                     else
                         Logger.Log(LogLevel.Warning, "Can not set Borderless of Window because Window is not initialized");

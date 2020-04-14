@@ -14,7 +14,7 @@ namespace SpaceInvader.Entities
         public DrawableTexture Drawable { get; set; }
         public bool Pause { get; set; }
         public bool Hidden { get; set; }
-        
+
         public AlienData EntityData { get; set; }
         public Scene Scene { get; set; }
         public LogicMulti Logic { get; set; }

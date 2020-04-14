@@ -18,7 +18,7 @@ namespace Breakout.Entities
         public override void Initialize()
         {
             Size = new Vec2(25);
-            Speed = Scene.Window.Size.Y/2;
+            Speed = Scene.Window.Size.Y / 2;
         }
 
         public override void Cleanup()

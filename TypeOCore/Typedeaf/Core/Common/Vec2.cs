@@ -169,7 +169,7 @@ namespace TypeOEngine.Typedeaf.Core
             public Vec2 Normalize()
             {
                 var l = Length();
-                if (l <= 0) return this;
+                if(l <= 0) return this;
                 var factor = 1.0 / l;
                 X *= factor;
                 Y *= factor;

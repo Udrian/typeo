@@ -36,7 +36,7 @@ namespace SpaceInvader.Entities
         {
             Position.TransformY(EntityData.Speed * dt);
 
-            if (Position.X <= Scene.Player.Position.X + Scene.Player.Size.X && (Position.X + Size.X) >= Scene.Player.Position.X &&
+            if(Position.X <= Scene.Player.Position.X + Scene.Player.Size.X && (Position.X + Size.X) >= Scene.Player.Position.X &&
                 Position.Y <= Scene.Player.Position.Y + Scene.Player.Size.Y && (Position.Y + Size.Y) >= Scene.Player.Position.Y)
             {
                 Remove();
@@ -44,7 +44,7 @@ namespace SpaceInvader.Entities
                 Scene.Scenes.SetScene<PlanetScene>();
             }
 
-            if (Position.Y >= Scene.Window.Size.Y)
+            if(Position.Y >= Scene.Window.Size.Y)
             {
                 Remove();
                 Scene.SpaceSceneLogic.EntityData.PlanetSpawned = false;

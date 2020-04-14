@@ -34,12 +34,12 @@ namespace TypeOEngine.Typedeaf.Core
 
             public async void Log(LogLevel level, string log)
             {
-                if (LogLevel == LogLevel.None) return;
-                if (LogLevel > level) return;
+                if(LogLevel == LogLevel.None) return;
+                if(LogLevel > level) return;
 
                 var defaultColor = Console.ForegroundColor;
                 string levelMessage = "";
-                switch (level)
+                switch(level)
                 {
                     case LogLevel.Ludacris:
                         levelMessage = "LDCR";
@@ -76,7 +76,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Console.ForegroundColor = defaultColor;
 
-                if (LogToDisk)
+                if(LogToDisk)
                 {
                     var now = DateTime.UtcNow;
                     TimeToLog += (now - LastTick).TotalSeconds;
@@ -100,14 +100,14 @@ namespace TypeOEngine.Typedeaf.Core
                         var filePath = $"{DateTime.UtcNow.ToShortDateString()}.log".Replace("/", "-");
                         var logPath = Path.Combine(dirPath, filePath);
 
-                        if (!Directory.Exists(dirPath))
+                        if(!Directory.Exists(dirPath))
                         {
                             Directory.CreateDirectory(dirPath);
                         }
 
-                        using (var logFile = File.AppendText(logPath))
+                        using(var logFile = File.AppendText(logPath))
                         {
-                            foreach (var logMessage in Logs)
+                            foreach(var logMessage in Logs)
                             {
                                 logFile.WriteLine(logMessage);
                             }
@@ -115,7 +115,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                         Logs.Clear();
                     }
-                    catch (Exception e)
+                    catch(Exception e)
                     {
                         FileAccessMutex.ReleaseMutex();
                         throw e;

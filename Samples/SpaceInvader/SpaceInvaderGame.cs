@@ -1,11 +1,11 @@
 using SDL2;
-using TypeOEngine.Typedeaf.Core;
-using System;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Core.Engine;
 using SpaceInvader.Scenes;
+using System;
+using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader
 {

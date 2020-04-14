@@ -46,11 +46,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             public static bool operator ==(Color? a, Color? b)
             {
-                if (a is null)
+                if(a is null)
                 {
                     return b is null;
                 }
-                if (b is null)
+                if(b is null)
                 {
                     return a is null;
                 }
@@ -86,8 +86,8 @@ namespace TypeOEngine.Typedeaf.Core
             }
             public static Color Lerp(Color A, Color B, double lerp)
             {
-                if (lerp < 0) lerp = 0;
-                if (lerp > 1) lerp = 1;
+                if(lerp < 0) lerp = 0;
+                if(lerp > 1) lerp = 1;
                 var invLerp = 1 - lerp;
                 return new Color((int)(A.A * invLerp + B.A * lerp), (int)(A.R * invLerp + B.R * lerp), (int)(A.G * invLerp + B.G * lerp), (int)(A.B * invLerp + B.B * lerp));
             }
@@ -99,9 +99,9 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override bool Equals(object obj)
             {
-                if (obj == null) return false;
-                if ((Color)obj == this) return true;
-                if (obj.GetType() != this.GetType()) return false;
+                if(obj == null) return false;
+                if((Color)obj == this) return true;
+                if(obj.GetType() != this.GetType()) return false;
                 return Equals((Color)obj);
             }
 

@@ -1,5 +1,4 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {

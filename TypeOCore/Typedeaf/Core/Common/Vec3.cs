@@ -175,7 +175,7 @@ namespace TypeOEngine.Typedeaf.Core
             public void Normalize()
             {
                 var l = Length();
-                if (l <= 0) return;
+                if(l <= 0) return;
                 var factor = 1.0 / l;
                 X *= factor;
                 Y *= factor;

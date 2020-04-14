@@ -1,9 +1,9 @@
-﻿using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+﻿using SpaceInvader.Data.Entities;
 using SpaceInvader.Entities.Drawable;
 using TypeOEngine.Typedeaf.Core.Common;
-using SpaceInvader.Data.Entities;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
@@ -27,7 +27,7 @@ namespace SpaceInvader.Entities
         {
             Position = new Vec2(Position.X, Position.Y - EntityData.Speed * dt);
 
-            if (Position.Y <= -Drawable.Size.Y)
+            if(Position.Y <= -Drawable.Size.Y)
                 Remove();
         }
 

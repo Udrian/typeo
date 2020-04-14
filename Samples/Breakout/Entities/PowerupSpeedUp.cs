@@ -12,7 +12,7 @@ namespace Breakout.Entities
 
         public override void Pickup()
         {
-            foreach (var ball in Scene.Entities.List<Ball>())
+            foreach(var ball in Scene.Entities.List<Ball>())
             {
                 ball.Speed *= 2;
             }

@@ -10,7 +10,7 @@ namespace TypeOEngine.Typedeaf.Core
 
         public string Name { get { return Context.Name; } }
 
-        protected Game() {}
+        protected Game() { }
 
         public SceneList CreateSceneHandler()
         {

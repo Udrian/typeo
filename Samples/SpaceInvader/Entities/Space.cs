@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
-using TypeOEngine.Typedeaf.Core.Common;
+﻿using SpaceInvader.Data.Entities;
+using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core;
-using SpaceInvader.Data.Entities;
+using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
@@ -25,7 +25,7 @@ namespace SpaceInvader.Entities
             EntityData.Speed = 250;
 
             Stars = new List<Vec2>();
-            for (int i = 0; i < EntityData.NumberOfStars; i++)
+            for(int i = 0; i < EntityData.NumberOfStars; i++)
             {
                 Stars.Add(new Vec2(Game.Random.Next((int)Scene.Window.Size.X), Game.Random.Next(-(int)Scene.Window.Size.Y, (int)Scene.Window.Size.Y)));
             }
@@ -36,7 +36,7 @@ namespace SpaceInvader.Entities
             foreach(var star in Stars)
             {
                 var pulse = (Game.Random.NextDouble() <= 0.0001);
-                if (pulse)
+                if(pulse)
                 {
                     canvas.DrawRectangle(star - new Vec2(2, 2), new Vec2(4, 4), true, Color.White);
                 }
@@ -53,9 +53,9 @@ namespace SpaceInvader.Entities
             {
                 var star = Stars[i];
                 star.Y += EntityData.Speed * dt;
-                if (star.Y > Scene.Window.Size.Y)
+                if(star.Y > Scene.Window.Size.Y)
                     star = new Vec2(Game.Random.Next((int)Scene.Window.Size.X), Game.Random.Next(-(int)Scene.Window.Size.Y, 0));
-                
+
                 Stars[i] = star;
             }
         }

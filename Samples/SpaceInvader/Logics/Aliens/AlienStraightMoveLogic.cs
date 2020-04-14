@@ -20,7 +20,7 @@ namespace SpaceInvader.Logics.Aliens
         {
             Entity.Position.TransformY(EntityData.Speed * dt);
 
-            if (Entity.Position.Y >= Scene.Window.Size.Y)
+            if(Entity.Position.Y >= Scene.Window.Size.Y)
             {
                 Entity.Remove();
             }

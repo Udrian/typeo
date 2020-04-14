@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
@@ -39,7 +38,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 OldMousePosition = new Vec2(CurrentMousePosition);
                 OldWheelPosition = new Vec2(CurrentWheelPosition);
                 OldState = new Dictionary<uint, bool>(NewState);
-                foreach (var e in events)
+                foreach(var e in events)
                 {
                     if(e.type == SDL2.SDL.SDL_EventType.SDL_MOUSEWHEEL)
                     {
@@ -51,18 +50,18 @@ namespace TypeOEngine.Typedeaf.SDL
                     }
 
                     bool? state = null;
-                    if (e.type == SDL2.SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN && e.key.repeat == 0)
+                    if(e.type == SDL2.SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN && e.key.repeat == 0)
                     {
                         state = true;
                     }
-                    else if (e.type == SDL2.SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
+                    else if(e.type == SDL2.SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
                     {
                         state = false;
                     }
 
-                    if (state.HasValue)
+                    if(state.HasValue)
                     {
-                        if (!NewState.ContainsKey(e.button.button))
+                        if(!NewState.ContainsKey(e.button.button))
                         {
                             NewState.Add(e.button.button, state.Value);
                         }
@@ -76,25 +75,25 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public bool CurrentButtonDownEvent(object key)
             {
-                if (!NewState.ContainsKey((uint)key)) return false;
+                if(!NewState.ContainsKey((uint)key)) return false;
                 return NewState[(uint)key];
             }
 
             public bool CurrentButtonUpEvent(object key)
             {
-                if (!NewState.ContainsKey((uint)key)) return true;
+                if(!NewState.ContainsKey((uint)key)) return true;
                 return !NewState[(uint)key];
             }
 
             public bool OldButtonDownEvent(object key)
             {
-                if (!OldState.ContainsKey((uint)key)) return false;
+                if(!OldState.ContainsKey((uint)key)) return false;
                 return OldState[(uint)key];
             }
 
             public bool OldButtonUpEvent(object key)
             {
-                if (!OldState.ContainsKey((uint)key)) return true;
+                if(!OldState.ContainsKey((uint)key)) return true;
                 return !OldState[(uint)key];
             }
         }

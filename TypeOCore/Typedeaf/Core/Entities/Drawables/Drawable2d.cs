@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable2d : Drawable
         {
-            public Vec2     Position { get; set; }
+            public Vec2 Position { get; set; }
             public abstract Vec2 Size { get; protected set; }
 
             public new Entity2d Entity { get { return base.Entity as Entity2d; } set { base.Entity = value as Entity2d; } }

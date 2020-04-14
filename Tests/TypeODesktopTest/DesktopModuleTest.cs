@@ -33,7 +33,7 @@ namespace TypeODesktopTest
         [Fact]
         public void LoadDesktopModule()
         {
-            var typeO = TypeO.Create<TestGame>(GameName) 
+            var typeO = TypeO.Create<TestGame>(GameName)
                              .LoadModule<DesktopModule>() as TypeO;
             var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(DesktopModule)) as DesktopModule;
             Assert.NotNull(module);

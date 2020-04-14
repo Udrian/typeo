@@ -117,7 +117,7 @@ namespace TypeOCoreTest
             }
         }
 
-        public class TestModuleOption : ModuleOption {}
+        public class TestModuleOption : ModuleOption { }
 
         public class TestModule : Module<TestModuleOption>
         {
@@ -220,7 +220,7 @@ namespace TypeOCoreTest
             typeO
                 .AddHardware<ITestHardware, TestHardware>()
                 .AddService<ITestService, TestServiceWithHardware>();
-            
+
             typeO.Start();
 
             Assert.NotNull(module.TestService);

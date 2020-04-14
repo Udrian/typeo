@@ -18,10 +18,10 @@ namespace TypeOEngine.Typedeaf.Desktop
         {
             TypeO.RequireTypeO(new Version(0, 1, 1));
 
-            if (TypeO.Context.Logger is DefaultLogger)
+            if(TypeO.Context.Logger is DefaultLogger)
             {
                 (TypeO.Context.Logger as DefaultLogger).LogToDisk = Option.SaveLogsToDisk;
-                if (!string.IsNullOrEmpty(Option.LogPath))
+                if(!string.IsNullOrEmpty(Option.LogPath))
                 {
                     (TypeO.Context.Logger as DefaultLogger).LogPath = Option.LogPath;
                 }

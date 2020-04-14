@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
@@ -17,7 +15,7 @@ namespace TypeOEngine.Typedeaf.Core
                 set {
                     var update = _font != value;
                     _font = value;
-                    if (update)
+                    if(update)
                     {
                         UpdateSizeAndLines();
                     }
@@ -29,7 +27,7 @@ namespace TypeOEngine.Typedeaf.Core
                 set {
                     var update = _text != value;
                     _text = value;
-                    if (update)
+                    if(update)
                     {
                         UpdateSizeAndLines();
                     }
@@ -46,21 +44,22 @@ namespace TypeOEngine.Typedeaf.Core
             private void UpdateSizeAndLines()
             {
                 Lines.Clear();
-                if (Text == null || Font == null) {
+                if(Text == null || Font == null)
+                {
                     Size = new Vec2(0);
                     return;
                 }
                 double width, height;
                 width = height = 0;
                 int startIndex = 0;
-                for (int i = 0; i < Text.Length; i++)
+                for(int i = 0; i < Text.Length; i++)
                 {
-                    if (Text[i] == '\n' || i == Text.Length - 1)
+                    if(Text[i] == '\n' || i == Text.Length - 1)
                     {
                         var text = Text.Substring(startIndex, i - startIndex);
                         Lines.Add(text);
                         var size = Font.MeasureString(text);
-                        if (size.X > width) width = size.X;
+                        if(size.X > width) width = size.X;
                         height += size.Y;
                         startIndex = i + 1;
                     }
@@ -87,10 +86,10 @@ namespace TypeOEngine.Typedeaf.Core
 
             public override void Draw(Canvas canvas)
             {
-                if (Font == null || Text == null) return;
+                if(Font == null || Text == null) return;
                 var position = new Vec2(Position.X, Position.Y);
                 var ySize = Font.MeasureString(Text).Y;
-                foreach (var line in Lines)
+                foreach(var line in Lines)
                 {
                     canvas.DrawText(
                         Font,
