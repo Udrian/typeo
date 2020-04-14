@@ -32,10 +32,16 @@ namespace TypeOEngine.Typedeaf.SDL
             ((ISDLService)TypeO.Context.Services[typeof(ISDLService)]).Option = Option;
 
             //Initial SDL
-            foreach(var hint in Option.SDLHints)
+            foreach(var hint in Option.Hints)
             {
                 SDL2.SDL.SDL_SetHint(hint.Key, hint.Value);
             }
+
+            foreach(var eventState in Option.EventStates)
+            {
+                SDL2.SDL.SDL_EventState(eventState.Key, eventState.Value);
+            }
+
             if(SDL2.SDL.SDL_Init(Option.SDLInitFlags) != 0)
             {
                 var message = $"SDL_Init Error: {SDL2.SDL.SDL_GetError()}";
