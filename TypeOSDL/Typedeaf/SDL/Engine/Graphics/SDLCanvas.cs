@@ -17,17 +17,18 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLCanvas : Canvas
         {
+            internal ISDLService SDLService { get; set; }
             public ILogger Logger { get; set; }
             public SDL_Renderer SDLRenderer { get; private set; }
 
             public override void Initialize()
             {
-                if (Window != null && Window is SDLWindow)
+                if(Window != null && Window is SDLWindow)
                 {
                     var sdlWindow = (Window as SDLWindow).SDL_Window;
 
-                    SDLRenderer = SDL2.SDL.SDL_CreateRenderer(sdlWindow, -1, SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | SDL2.SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC);
-                    if (SDLRenderer == SDL_Renderer.Zero)
+                    SDLRenderer = SDL2.SDL.SDL_CreateRenderer(sdlWindow, -1, SDLService.Option.RenderFlags);
+                    if(SDLRenderer == SDL_Renderer.Zero)
                     {
                         var message = $"Error creating SDLRenderer with error: {SDL2.SDL.SDL_GetError()}";
                         Logger.Log(LogLevel.Fatal, message);

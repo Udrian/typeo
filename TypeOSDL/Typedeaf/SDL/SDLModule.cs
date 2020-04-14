@@ -28,10 +28,15 @@ namespace TypeOEngine.Typedeaf.SDL
         {
             TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 1));
             TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 1));
+            TypeO.AddService<ISDLService, SDLService>();
+            ((ISDLService)TypeO.Context.Services[typeof(ISDLService)]).Option = Option;
 
             //Initial SDL
-            SDL2.SDL.SDL_SetHint(SDL2.SDL.SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
-            if (SDL2.SDL.SDL_Init(SDL2.SDL.SDL_INIT_VIDEO) != 0)
+            foreach(var hint in Option.SDLHints)
+            {
+                SDL2.SDL.SDL_SetHint(hint.Key, hint.Value);
+            }
+            if(SDL2.SDL.SDL_Init(Option.SDLInitFlags) != 0)
             {
                 var message = $"SDL_Init Error: {SDL2.SDL.SDL_GetError()}";
                 Logger.Log(LogLevel.Fatal, message);
@@ -39,7 +44,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 throw new ApplicationException(message);
             }
 
-            if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG) == 0)
+            if(SDL_image.IMG_Init(Option.IMGInitFlags) == 0)
             {
                 var message = $"IMG_Init Error: {SDL2.SDL.SDL_GetError()}";
                 Logger.Log(LogLevel.Fatal, message);
