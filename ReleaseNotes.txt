@@ -12,6 +12,7 @@
 
  * Added DrawableFont with new line support
  * Added Mouse Input Service and Hardware for TypeODesktop and TypeOSDL
+ * Added SDL flags to SDLModuleOption in TypeOSDL
 
 ******************
 ***** Fixes ******
