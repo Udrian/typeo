@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Desktop
 {
     public class DesktopModule : Module<DesktopModuleOption>
     {
-        public DesktopModule() : base(new Version(0, 1, 0))
+        public DesktopModule() : base(new Version(0, 1, 1))
         {
         }
 
@@ -16,7 +16,7 @@ namespace TypeOEngine.Typedeaf.Desktop
 
         public override void Initialize()
         {
-            TypeO.RequireTypeO(new Version(0, 1, 0));
+            TypeO.RequireTypeO(new Version(0, 1, 1));
 
             if (TypeO.Context.Logger is DefaultLogger)
             {
