@@ -27,7 +27,7 @@ namespace Breakout.Entities
 
         public void Update(double dt)
         {
-            Position.TransformY(Speed * dt);
+            Position = Position.TransformY(Speed * dt);
 
             if(Position.Y >= Scene.Window.Size.Y)
             {

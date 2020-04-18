@@ -34,7 +34,7 @@ namespace SpaceInvader.Entities
 
         public void Update(double dt)
         {
-            Position.TransformY(EntityData.Speed * dt);
+            Position = Position.TransformY(EntityData.Speed * dt);
 
             if(Position.X <= Scene.Player.Position.X + Scene.Player.Size.X && (Position.X + Size.X) >= Scene.Player.Position.X &&
                 Position.Y <= Scene.Player.Position.Y + Scene.Player.Size.Y && (Position.Y + Size.Y) >= Scene.Player.Position.Y)

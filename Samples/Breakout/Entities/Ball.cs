@@ -33,18 +33,18 @@ namespace Breakout.Entities
             Position += Direction * Speed * dt;
             if(Position.Y <= 0)
             {
-                Position.SetY(0);
-                Direction.SetY(-Direction.Y);
+                Position = Position.SetY(0);
+                Direction = Direction.SetY(-Direction.Y);
             }
             if(Position.X <= 0)
             {
-                Position.SetX(0);
-                Direction.SetX(-Direction.X);
+                Position = Position.SetX(0);
+                Direction = Direction.SetX(-Direction.X);
             }
             if(Position.X >= Scene.Window.Size.X - Size.X)
             {
-                Position.SetX(Scene.Window.Size.X - Size.X);
-                Direction.SetX(-Direction.X);
+                Position = Position.SetX(Scene.Window.Size.X - Size.X);
+                Direction = Direction.SetX(-Direction.X);
             }
             if(Position.Y >= Scene.Window.Size.Y)
             {
@@ -67,11 +67,11 @@ namespace Breakout.Entities
                     {
                         if(wy > -hx)
                         {
-                            Direction.SetY(Math.Abs(Direction.Y));
+                            Direction = Direction.SetY(Math.Abs(Direction.Y));
                         }
                         else
                         {
-                            Direction.SetX(-Math.Abs(Direction.X));
+                            Direction = Direction.SetX(-Math.Abs(Direction.X));
                         }
                     }
 
@@ -79,11 +79,11 @@ namespace Breakout.Entities
                     {
                         if(wy > -hx)
                         {
-                            Direction.SetX(Math.Abs(Direction.X));
+                            Direction = Direction.SetX(Math.Abs(Direction.X));
                         }
                         else
                         {
-                            Direction.SetY(-Math.Abs(Direction.Y));
+                            Direction = Direction.SetY(-Math.Abs(Direction.Y));
                         }
                     }
 

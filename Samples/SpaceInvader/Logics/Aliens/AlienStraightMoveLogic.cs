@@ -18,7 +18,7 @@ namespace SpaceInvader.Logics.Aliens
 
         public override void Update(double dt)
         {
-            Entity.Position.TransformY(EntityData.Speed * dt);
+            Entity.Position = Entity.Position.TransformY(EntityData.Speed * dt);
 
             if(Entity.Position.Y >= Scene.Window.Size.Y)
             {

@@ -45,86 +45,102 @@ namespace TypeOEngine.Typedeaf.Core
                 Z = vec.Z;
             }
 
-            public void SetX(double x)
+            public Vec3 SetX(double x)
             {
                 X = x;
+                return this;
             }
-            public void SetX(Vec3 vec)
+            public Vec3 SetX(Vec3 vec)
             {
                 X = vec.X;
+                return this;
             }
 
-            public void SetY(double y)
+            public Vec3 SetY(double y)
             {
                 Y = y;
+                return this;
             }
-            public void SetY(Vec3 vec)
+            public Vec3 SetY(Vec3 vec)
             {
                 Y = vec.Y;
+                return this;
             }
 
-            public void SetZ(double z)
+            public Vec3 SetZ(double z)
             {
                 Z = z;
+                return this;
             }
-            public void SetZ(Vec3 vec)
+            public Vec3 SetZ(Vec3 vec)
             {
                 Z = vec.Z;
+                return this;
             }
 
-            public void Set(double x, double y, double z)
+            public Vec3 Set(double x, double y, double z)
             {
                 X = x;
                 Y = y;
                 Z = z;
+                return this;
             }
 
-            public void Set(Vec3 vec)
+            public Vec3 Set(Vec3 vec)
             {
                 X = vec.X;
                 Y = vec.Y;
                 Z = vec.Z;
+                return this;
             }
 
-            public void TransformX(double x)
+            public Vec3 TransformX(double x)
             {
                 X += x;
+                return this;
             }
-            public void TransformX(Vec3 vec)
+            public Vec3 TransformX(Vec3 vec)
             {
                 X += vec.X;
+                return this;
             }
 
-            public void TransformY(double y)
+            public Vec3 TransformY(double y)
             {
                 Y += y;
+                return this;
             }
-            public void TransformY(Vec3 vec)
+            public Vec3 TransformY(Vec3 vec)
             {
                 Y += vec.Y;
+                return this;
             }
 
-            public void TransformZ(double z)
+            public Vec3 TransformZ(double z)
             {
                 Z += z;
+                return this;
             }
-            public void TransformZ(Vec3 vec)
+            public Vec3 TransformZ(Vec3 vec)
             {
                 Z += vec.Z;
+                return this;
             }
 
-            public void Transform(double x, double y, double z)
+            public Vec3 Transform(double x, double y, double z)
             {
                 X += x;
                 Y += y;
                 Z += z;
+                return this;
             }
 
-            public void Transform(Vec3 vec)
+            public Vec3 Transform(Vec3 vec)
             {
                 X += vec.X;
                 Y += vec.Y;
                 Z += vec.Z;
+                return this;
             }
 
             public static Vec3 operator +(Vec3 a, Vec3 b)

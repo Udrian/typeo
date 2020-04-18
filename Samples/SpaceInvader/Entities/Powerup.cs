@@ -32,7 +32,7 @@ namespace SpaceInvader.Entities
 
         public void Update(double dt)
         {
-            Position.TransformY(Speed * dt);
+            Position = Position.TransformY(Speed * dt);
 
             var player = Scene.Entities.List<Player>().FirstOrDefault();
 

@@ -25,12 +25,12 @@ namespace TypeOCoreTest.Common
             Assert.Equal(5, v.Y);
 
             v = new Vec2();
-            v.Set(6, 7);
+            v = v.Set(6, 7);
             Assert.Equal(6, v.X);
             Assert.Equal(7, v.Y);
 
             v = new Vec2();
-            v.Set(new Vec2(8, 9));
+            v = v.Set(new Vec2(8, 9));
             Assert.Equal(8, v.X);
             Assert.Equal(9, v.Y);
 

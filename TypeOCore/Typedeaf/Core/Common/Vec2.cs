@@ -27,68 +27,80 @@ namespace TypeOEngine.Typedeaf.Core
                 Y = vec.Y;
             }
 
-            public void SetX(double x)
+            public Vec2 SetX(double x)
             {
                 X = x;
+                return this;
             }
 
-            public void SetX(Vec2 vec)
+            public Vec2 SetX(Vec2 vec)
             {
                 X = vec.X;
+                return this;
             }
 
-            public void SetY(double y)
+            public Vec2 SetY(double y)
             {
                 Y = y;
+                return this;
             }
 
-            public void SetY(Vec2 vec)
+            public Vec2 SetY(Vec2 vec)
             {
                 Y = vec.Y;
+                return this;
             }
 
-            public void Set(double x, double y)
+            public Vec2 Set(double x, double y)
             {
                 X = x;
                 Y = y;
+                return this;
             }
 
-            public void Set(Vec2 vec)
+            public Vec2 Set(Vec2 vec)
             {
                 X = vec.X;
                 Y = vec.Y;
+                return this;
             }
 
-            public void TransformX(double x)
+            public Vec2 TransformX(double x)
             {
                 X += x;
+                return this;
             }
 
-            public void TransformX(Vec2 vec)
+            public Vec2 TransformX(Vec2 vec)
             {
                 X += vec.X;
+                return this;
             }
 
-            public void TransformY(double y)
+            public Vec2 TransformY(double y)
             {
                 Y += y;
+                return this;
             }
 
-            public void TransformY(Vec2 vec)
+            public Vec2 TransformY(Vec2 vec)
             {
                 Y += vec.Y;
+                return this;
             }
 
-            public void Transform(double x, double y)
+            public Vec2 Transform(double x, double y)
             {
                 X += x;
                 Y += y;
+                return this;
             }
 
-            public void Transform(Vec2 vec)
+            public Vec2 Transform(Vec2 vec)
             {
                 X += vec.X;
                 Y += vec.Y;
+                return this;
             }
 
             public static Vec2 operator +(Vec2 a, Vec2 b)
