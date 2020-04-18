@@ -53,7 +53,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawLine(Vec2 from, Vec2 size, Color color, Entity2d entity = null)
             {
-                from += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                from += entity?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawLine(SDLRenderer, (int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
@@ -72,7 +72,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
+                    var tpoint = point + (entity?.ScreenBounds.Pos ?? Vec2.Zero);
 
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
@@ -87,7 +87,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawPixel(Vec2 point, Color color, Entity2d entity = null)
             {
-                point += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                point += entity?.ScreenBounds.Pos ?? Vec2.Zero;
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawPoint(SDLRenderer, (int)point.X, (int)point.Y);
             }
@@ -99,7 +99,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (entity?.DrawBounds.Pos ?? Vec2.Zero);
+                    var tpoint = point + (entity?.ScreenBounds.Pos ?? Vec2.Zero);
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
                         x = (int)tpoint.X,
@@ -117,7 +117,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, Entity2d entity = null)
             {
-                from += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                from += entity?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var rect = new SDL2.SDL.SDL_Rect
@@ -185,7 +185,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                pos += entity?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 var sdlColor = new SDL2.SDL.SDL_Color
                 {
@@ -262,7 +262,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += entity?.DrawBounds.Pos ?? Vec2.Zero;
+                pos += entity?.ScreenBounds.Pos ?? Vec2.Zero;
                 scale *= entity?.Scale ?? Vec2.One;
                 rotation += entity?.Rotation ?? 0;
                 origin += entity?.Origin ?? Vec2.Zero;

@@ -23,15 +23,15 @@ namespace TypeOEngine.Typedeaf.Core
                 Origin   = Vec2.Zero;
             }
 
-            public Rectangle DrawBounds {
+            public Rectangle ScreenBounds {
                 get {
                     return new Rectangle(
-                           Position + (Parent?.DrawBounds.Pos  ?? Vec2.Zero),
+                           Position + (Parent?.ScreenBounds.Pos  ?? Vec2.Zero),
                            Size//     + (Parent?.DrawBounds.Size ?? Vec2.Zero)
                         );
                 }
                 set {
-                    Position = value.Pos  - (Parent?.DrawBounds.Pos  ?? Vec2.Zero);
+                    Position = value.Pos  - (Parent?.ScreenBounds.Pos  ?? Vec2.Zero);
                     Size     = value.Size;// - (Parent?.DrawBounds.Size ?? Vec2.Zero);
                 }
             }
