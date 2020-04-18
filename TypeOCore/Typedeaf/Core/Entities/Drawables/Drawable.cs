@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable
         {
-            public Entity Entity { get; set; }
+            public Entity Entity { get; internal set; }
 
             protected Drawable() { }
 
