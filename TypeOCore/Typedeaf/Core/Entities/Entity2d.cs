@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
             public virtual Vec2   Size     { get; set; }
             public virtual Vec2   Origin   { get; set; }
 
-            public new Entity2d Parent { get { return base.Parent as Entity2d; } set { base.Parent = value as Entity2d; } }
+            public new Entity2d Parent { get { return base.Parent as Entity2d; } internal set { base.Parent = value as Entity2d; } }
             
             protected Entity2d() : base()
             {
