@@ -3,7 +3,7 @@
 *******************************
 
 **************************
-**** 0.1.1 - 30/03-20 ****
+**** 0.1.1 - 23/04-20 ****
 **************************
 
 ******************
@@ -13,6 +13,7 @@
  * Added DrawableFont with new line support
  * Added Mouse Input Service and Hardware for TypeODesktop and TypeOSDL
  * Added SDL flags to SDLModuleOption in TypeOSDL
+ * Added the ability to create a Anchor on a Entity2d object
 
 ******************
 ***** Fixes ******
