@@ -25,6 +25,9 @@ namespace SpaceInvader.Entities
 
         public override Vec2 Size { get => Drawable.Size; set { } }
 
+        public Anchor2d LeftGunAnchor;
+        public Anchor2d RightGunAnchor;
+
         public override void Initialize()
         {
             LoadContent();
@@ -36,6 +39,9 @@ namespace SpaceInvader.Entities
 
             Logic.CreateLogic<PlayerMoveLogic>();
             Logic.CreateLogic<PlayerAlienDamageLogic>();
+
+            LeftGunAnchor = CreateAnchor(new Vec2(25, 32), Orientation2d.UpperLeft);
+            RightGunAnchor = CreateAnchor(new Vec2(35, 32), Orientation2d.UpperRight);
         }
 
         public override void Cleanup()
@@ -50,8 +56,8 @@ namespace SpaceInvader.Entities
 
         public virtual void Shoot()
         {
-            Scene.Entities.Create<Bullet>(new Vec2(Position.X + 25, Position.Y + Size.Y - 55)).EntityData.Speed += EntityData.Speed;
-            Scene.Entities.Create<Bullet>(new Vec2(Position.X + Size.X - 35, Position.Y + Size.Y - 55)).EntityData.Speed += EntityData.Speed;
+            Scene.Entities.Create<Bullet>(LeftGunAnchor.ScreenBounds.Pos).EntityData.Speed += EntityData.Speed;
+            Scene.Entities.Create<Bullet>(RightGunAnchor.ScreenBounds.Pos).EntityData.Speed += EntityData.Speed;
         }
     }
 }
