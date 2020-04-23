@@ -53,51 +53,51 @@ namespace TypeODesktopTest
             {
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawLine(Vec2 from, Vec2 size, Color color, Entity2d entity = null)
+            public override void DrawLine(Vec2 from, Vec2 size, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawLineE(Vec2 from, Vec2 to, Color color, Entity2d entity = null)
+            public override void DrawLineE(Vec2 from, Vec2 to, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawLines(List<Vec2> points, Color color, Entity2d entity = null)
+            public override void DrawLines(List<Vec2> points, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawPixel(Vec2 point, Color color, Entity2d entity = null)
+            public override void DrawPixel(Vec2 point, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawPixels(List<Vec2> points, Color color, Entity2d entity = null)
+            public override void DrawPixels(List<Vec2> points, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, IAnchor2d anchor = null)
             {
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotate = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotate = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, IAnchor2d anchor = null)
             {
             }
 

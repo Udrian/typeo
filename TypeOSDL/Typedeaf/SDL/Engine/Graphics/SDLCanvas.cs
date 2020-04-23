@@ -51,20 +51,20 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderClear(SDLRenderer);
             }
 
-            public override void DrawLine(Vec2 from, Vec2 size, Color color, Entity2d entity = null)
+            public override void DrawLine(Vec2 from, Vec2 size, Color color, IAnchor2d anchor = null)
             {
-                from += entity?.ScreenBounds.Pos ?? Vec2.Zero;
+                from += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawLine(SDLRenderer, (int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
             }
 
-            public override void DrawLineE(Vec2 from, Vec2 to, Color color, Entity2d entity)
+            public override void DrawLineE(Vec2 from, Vec2 to, Color color, IAnchor2d anchor)
             {
-                DrawLine(from, to - from, color, entity);
+                DrawLine(from, to - from, color, anchor);
             }
 
-            public override void DrawLines(List<Vec2> points, Color color, Entity2d entity = null)
+            public override void DrawLines(List<Vec2> points, Color color, IAnchor2d anchor = null)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
 
@@ -72,7 +72,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (entity?.ScreenBounds.Pos ?? Vec2.Zero);
+                    var tpoint = point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero);
 
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
@@ -85,21 +85,21 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderDrawLines(SDLRenderer, sdlpoints, points.Count);
             }
 
-            public override void DrawPixel(Vec2 point, Color color, Entity2d entity = null)
+            public override void DrawPixel(Vec2 point, Color color, IAnchor2d anchor = null)
             {
-                point += entity?.ScreenBounds.Pos ?? Vec2.Zero;
+                point += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawPoint(SDLRenderer, (int)point.X, (int)point.Y);
             }
 
-            public override void DrawPixels(List<Vec2> points, Color color, Entity2d entity = null)
+            public override void DrawPixels(List<Vec2> points, Color color, IAnchor2d anchor = null)
             {
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var sdlpoints = new SDL2.SDL.SDL_Point[points.Count];
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (entity?.ScreenBounds.Pos ?? Vec2.Zero);
+                    var tpoint = point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero);
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
                         x = (int)tpoint.X,
@@ -110,14 +110,14 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_RenderDrawPoints(SDLRenderer, sdlpoints, points.Count);
             }
 
-            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, IAnchor2d anchor = null)
             {
-                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color, entity);
+                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color, anchor);
             }
 
-            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, IAnchor2d anchor = null)
             {
-                from += entity?.ScreenBounds.Pos ?? Vec2.Zero;
+                from += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var rect = new SDL2.SDL.SDL_Rect
@@ -138,9 +138,9 @@ namespace TypeOEngine.Typedeaf.SDL
                 }
             }
 
-            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, Entity2d entity = null)
+            public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, IAnchor2d anchor = null)
             {
-                DrawRectangle(from, to - from, filled, color, entity);
+                DrawRectangle(from, to - from, filled, color, anchor);
             }
 
             public override void Present()
@@ -165,17 +165,17 @@ namespace TypeOEngine.Typedeaf.SDL
                 }
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, IAnchor2d anchor = null)
             {
-                DrawText(font, text, pos, null, entity: entity);
+                DrawText(font, text, pos, null, anchor: anchor);
             }
 
-            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawText(Font font, string text, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, IAnchor2d anchor = null)
             {
-                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(), color ?? Color.White, flipped, source, entity);
+                InternalDrawText(font, text, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(), color ?? Color.White, flipped, source, anchor);
             }
 
-            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
+            private void InternalDrawText(Font font, string text, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, IAnchor2d anchor)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -185,7 +185,7 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += entity?.ScreenBounds.Pos ?? Vec2.Zero;
+                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
 
                 var sdlColor = new SDL2.SDL.SDL_Color
                 {
@@ -242,17 +242,17 @@ namespace TypeOEngine.Typedeaf.SDL
                 SDL2.SDL.SDL_DestroyTexture(fontTex);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, IAnchor2d anchor = null)
             {
-                DrawImage(texture, pos, null, entity: entity);
+                DrawImage(texture, pos, null, anchor: anchor);
             }
 
-            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, Entity2d entity = null)
+            public override void DrawImage(Texture texture, Vec2 pos, Vec2? scale = null, double rotation = 0, Vec2? origin = null, Color? color = null, Flipped flipped = Flipped.None, Rectangle? source = null, IAnchor2d anchor = null)
             {
-                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color ?? Color.White, flipped, source, entity);
+                InternalDrawImage(texture, pos, scale ?? new Vec2(1), rotation, origin ?? new Vec2(0), color ?? Color.White, flipped, source, anchor);
             }
 
-            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, Entity2d entity)
+            private void InternalDrawImage(Texture texture, Vec2 pos, Vec2 scale, double rotation, Vec2 origin, Color color, Flipped flipped, Rectangle? source, IAnchor2d anchor)
             {
                 const double degreeToRadianConst = 57.2957795131;
 
@@ -262,11 +262,14 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += entity?.ScreenBounds.Pos ?? Vec2.Zero;
-                scale *= entity?.Scale ?? Vec2.One;
-                rotation += entity?.Rotation ?? 0;
-                origin += entity?.Origin ?? Vec2.Zero;
-                //TODO: Blend color and flip entity
+                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
+                if(anchor is Entity2d entityAnchor)
+                {
+                    scale *= entityAnchor?.Scale ?? Vec2.One;
+                    rotation += entityAnchor?.Rotation ?? 0;
+                    origin += entityAnchor?.Origin ?? Vec2.Zero;
+                    //TODO: Blend color and flip entity
+                }
 
                 var drect = new SDL2.SDL.SDL_Rect
                 {

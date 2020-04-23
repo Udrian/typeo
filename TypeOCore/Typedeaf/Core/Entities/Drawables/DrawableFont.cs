@@ -99,7 +99,7 @@ namespace TypeOEngine.Typedeaf.Core
                         rotation: Rotation,
                         color: Color,
                         flipped: Flipped,
-                        entity: Entity
+                        anchor: Entity
                     );
 
                     position.Y += ySize;
