@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLTexture : Texture
         {
-            public ILogger Logger { get; set; }
+            private ILogger Logger { get; set; }
             public SDL_Image SDL_Image { get; set; }
 
             public SDLTexture() : base() { }

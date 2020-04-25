@@ -9,7 +9,6 @@ namespace TypeOEngine.Typedeaf.Core
         {
             Context IHasContext.Context { get; set; }
             protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
-            public ILogger Logger { get; set; }
 
             public virtual string Title { get; set; }
             public virtual Vec2 Size { get; set; }

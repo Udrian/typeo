@@ -10,7 +10,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
     {
         Context IHasContext.Context { get; set; }
         protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
-        public ILogger Logger { get; set; }
+        private ILogger Logger { get; set; }
 
         private Dictionary<Type, Scene> Scenes { get; set; }
         public Scene CurrentScene { get; private set; }

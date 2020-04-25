@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLFont : Font
         {
-            public ILogger Logger { get; set; }
+            private ILogger Logger { get; set; }
 
             public SDLCanvas Canvas { get; private set; }
             public SDL_Font SDL_Font { get; private set; }

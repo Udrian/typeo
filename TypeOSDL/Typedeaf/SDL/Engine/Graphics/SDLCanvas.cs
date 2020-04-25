@@ -18,7 +18,7 @@ namespace TypeOEngine.Typedeaf.SDL
         public class SDLCanvas : Canvas
         {
             internal ISDLService SDLService { get; set; }
-            public ILogger Logger { get; set; }
+            private ILogger Logger { get; set; }
             public SDL_Renderer SDLRenderer { get; private set; }
 
             public override void Initialize()

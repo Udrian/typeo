@@ -15,7 +15,7 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public class WindowService : Service, IHasGame, IWindowService
         {
-            public ILogger Logger { get; set; }
+            private ILogger Logger { get; set; }
             public IWindowHardware WindowHardware { get; set; }
 
             public Game Game { get; set; }

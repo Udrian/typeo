@@ -17,7 +17,7 @@ namespace TypeOEngine.Typedeaf.SDL
 {
     public class SDLModule : Module<SDLModuleOption>, IIsUpdatable
     {
-        public ILogger Logger { get; set; }
+        private ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
         public SDLModule() : base(new Core.Engine.Version(0, 1, 1))
