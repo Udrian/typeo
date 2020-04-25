@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
-            private ILogger Logger { get; set; }
+            protected ILogger Logger { get; set; }
 
             public string BasePath { get; set; }
             public Canvas Canvas { get; private set; }

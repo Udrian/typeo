@@ -1,6 +1,7 @@
 ﻿using System;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 using SDL_Window = System.IntPtr;
@@ -12,6 +13,7 @@ namespace TypeOEngine.Typedeaf.SDL
         public class SDLWindow : DesktopWindow
         {
             internal ISDLService SDLService { get; set; }
+            private ILogger Logger { get; set; }
 
             public SDL_Window SDL_Window { get; private set; }
 
