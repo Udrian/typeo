@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace Breakout.Entities
 {
-    class Ball : Entity2d, IIsUpdatable, IIsDrawable, IHasScene, IHasGame
+    class Ball : Entity2d, IIsUpdatable, IDrawable, IHasScene, IHasGame
     {
         public bool Pause { get; set; }
         public bool Hidden { get; set; }

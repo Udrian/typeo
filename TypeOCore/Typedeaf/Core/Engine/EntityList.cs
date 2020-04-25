@@ -125,7 +125,7 @@ namespace TypeOEngine.Typedeaf.Core
                     Updatables.Add(entity);
                 }
 
-                if(entity is IHasDrawable || entity is IIsDrawable)
+                if(entity is IHasDrawable || entity is IDrawable)
                 {
                     Drawables.Add(entity);
                 }
@@ -230,11 +230,11 @@ namespace TypeOEngine.Typedeaf.Core
                             hasDrawable.Drawable.Draw(canvas);
                         }
                     }
-                    if(entity is IIsDrawable isDrawable)
+                    if(entity is IDrawable drawable)
                     {
-                        if(!isDrawable.Hidden)
+                        if(!drawable.Hidden)
                         {
-                            isDrawable.Draw(canvas);
+                            drawable.Draw(canvas);
                         }
                     }
                 }
@@ -242,7 +242,7 @@ namespace TypeOEngine.Typedeaf.Core
                 foreach(var entity in HasEntities)
                 {
                     if((entity as Entity)?.WillBeDeleted == true) continue;
-                    if((entity as IIsDrawable)?.Hidden == true) continue;
+                    if((entity as IDrawable)?.Hidden == true) continue;
                     if((entity as IHasDrawable)?.Hidden == true) continue;
                     entity.Entities.Draw(canvas);
                 }

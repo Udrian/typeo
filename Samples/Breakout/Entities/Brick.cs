@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace Breakout.Entities
 {
-    class Brick : Entity2d, IIsDrawable, IHasScene, IHasGame<BreakoutGame>
+    class Brick : Entity2d, IDrawable, IHasScene, IHasGame<BreakoutGame>
     {
         public bool Hidden { get; set; }
         public Color Color { get; set; }
