@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Player : Entity2d, IHasDrawable<DrawableTexture>, IHasData<PlayerData>, IHasLogic<LogicMulti>, IHasScene
+    class Player : Entity2d, IHasData<PlayerData>, IHasLogic<LogicMulti>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         public Texture HealthTexture { get; set; }
@@ -30,6 +30,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Drawable = CreateDrawable<DrawableTexture>();
             LoadContent();
             HealthTexture = Drawable.Texture;
             EntityData.Speed = 500;

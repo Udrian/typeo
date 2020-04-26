@@ -5,12 +5,11 @@ using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class PowerUp : Entity2d, IHasDrawable<DrawableTexture>, IHasScene, IIsUpdatable, IHasGame<SpaceInvaderGame>
+    class PowerUp : Entity2d, IHasScene, IIsUpdatable, IHasGame<SpaceInvaderGame>
     {
         public bool Hidden { get; set; }
         public DrawableTexture Drawable { get; set; }
@@ -24,6 +23,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Drawable = CreateDrawable<DrawableTexture>();
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/powerup.png");
             Position = new Vec2(Game.Random.Next(0, (int)(Scene.Window.Size.X - Size.X)), -Size.Y);
         }

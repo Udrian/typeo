@@ -9,7 +9,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Alien : Entity2d, IHasDrawable<DrawableTexture>, IHasData<AlienData>, IHasLogic<LogicMulti>, IHasScene
+    class Alien : Entity2d, IHasData<AlienData>, IHasLogic<LogicMulti>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         public bool Pause { get; set; }
@@ -24,6 +24,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Drawable = CreateDrawable<DrawableTexture>();
             Logic.CreateLogic<AlienBulletDamageLogic>();
         }
 

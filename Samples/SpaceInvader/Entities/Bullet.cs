@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Bullet : Entity2d, IHasDrawable<DrawableBullet>, IIsUpdatable, IHasData<BulletData>
+    class Bullet : Entity2d, IIsUpdatable, IHasData<BulletData>
     {
         public bool Pause { get; set; }
         public bool Hidden { get; set; }
@@ -20,6 +20,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Drawable = CreateDrawable<DrawableBullet>();
             EntityData.Speed = 500;
         }
 

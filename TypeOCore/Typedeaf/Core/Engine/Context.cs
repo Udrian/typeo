@@ -264,17 +264,6 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
-                if(obj is IHasDrawable)
-                {
-                    var hasDrawable = obj as IHasDrawable;
-
-                    hasDrawable.CreateDrawable(obj as Entity);
-                    Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{hasDrawable.Drawable?.GetType().FullName}' into {obj.GetType().FullName}");
-                    InitializeObject(hasDrawable.Drawable, obj);
-
-                    hasDrawable.Drawable.Initialize();
-                }
-
                 if(obj is IHasEntity)
                 {
                     (obj as IHasEntity).Entity = from as Entity;

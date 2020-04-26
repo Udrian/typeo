@@ -5,6 +5,7 @@ using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -16,16 +17,16 @@ namespace TypeOEngine.Typedeaf.Core
         {
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
-            public ILogger Logger { get; set; }
+            private ILogger Logger { get; set; }
 
             public Scene Scene { get; set; }
-            public Entity Entity { get; set; }
+            public Entity Entity { get; set; } //TODO: Internal?
 
             private List<Entity> Entities { get; set; }
             private List<Entity> EntitiesToAdd { get; set; }
 
             private List<Entity> Updatables { get; set; }
-            private List<Entity> Drawables { get; set; }
+            private List<IDrawable> Drawables { get; set; }
             private List<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
@@ -39,7 +40,7 @@ namespace TypeOEngine.Typedeaf.Core
                 EntitiesToAdd = new List<Entity>();
 
                 Updatables = new List<Entity>();
-                Drawables = new List<Entity>();
+                Drawables = new List<IDrawable>();
                 HasEntities = new List<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
@@ -64,7 +65,8 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 var entity = new E
                 {
-                    Parent = Entity
+                    Parent = Entity,
+                    ParentEntityList = this
                 };
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
@@ -125,15 +127,20 @@ namespace TypeOEngine.Typedeaf.Core
                     Updatables.Add(entity);
                 }
 
-                if(entity is IHasDrawable || entity is IDrawable)
+                if(entity is IDrawable drawable)
                 {
-                    Drawables.Add(entity);
+                    Drawables.Add(drawable);
                 }
 
                 if(entity is IHasEntities hasEntities)
                 {
                     HasEntities.Add(hasEntities);
                 }
+            }
+
+            internal void AddDrawable(Drawable drawable) //TODO: Look over this
+            {
+                Drawables.Add(drawable);
             }
 
             public void Update(double dt)
@@ -175,7 +182,7 @@ namespace TypeOEngine.Typedeaf.Core
                 //Remove entities
                 for(int i = Entities.Count - 1; i >= 0; i--)
                 {
-                    if(Entities[i].WillBeDeleted)
+                    if(Entities[i].WillBeDeleted) //TODO: Look over this
                     {
                         for(int j = 0; j < Updatables.Count; j++)
                         {
@@ -188,7 +195,15 @@ namespace TypeOEngine.Typedeaf.Core
 
                         for(int j = 0; j < Drawables.Count; j++)
                         {
-                            if(Drawables[j] == Entities[i])
+                            if(Drawables[j] is Drawable drawable) //TODO: Do I want this?
+                            {
+                                if(drawable.Entity == Entities[i])
+                                {
+                                    Drawables.RemoveAt(j);
+                                    break;
+                                }
+                            }
+                            else if(Drawables[j] == Entities[i])
                             {
                                 Drawables.RemoveAt(j);
                                 break;
@@ -219,31 +234,17 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Draw(Canvas canvas)
             {
-                foreach(var entity in Drawables)
+                foreach(var drawable in Drawables)
                 {
-                    if(entity.WillBeDeleted) continue;
-
-                    if(entity is IHasDrawable hasDrawable)
-                    {
-                        if(!hasDrawable.Hidden)
-                        {
-                            hasDrawable.Drawable.Draw(canvas);
-                        }
-                    }
-                    if(entity is IDrawable drawable)
-                    {
-                        if(!drawable.Hidden)
-                        {
-                            drawable.Draw(canvas);
-                        }
-                    }
+                    //if(entity.WillBeDeleted) continue; //TODO: Look over this
+                    if(drawable.Hidden) continue;
+                    drawable.Draw(canvas);
                 }
 
                 foreach(var entity in HasEntities)
                 {
                     if((entity as Entity)?.WillBeDeleted == true) continue;
                     if((entity as IDrawable)?.Hidden == true) continue;
-                    if((entity as IHasDrawable)?.Hidden == true) continue;
                     entity.Entities.Draw(canvas);
                 }
             }

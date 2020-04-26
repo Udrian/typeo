@@ -9,7 +9,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Planet : Entity2d, IHasDrawable<DrawableTexture>, IHasScene<SpaceScene>, IHasData<PlanetData>, IIsUpdatable, IHasGame<SpaceInvaderGame>
+    class Planet : Entity2d, IHasScene<SpaceScene>, IHasData<PlanetData>, IIsUpdatable, IHasGame<SpaceInvaderGame>
     {
         public DrawableTexture Drawable { get; set; }
         public bool Hidden { get; set; }
@@ -20,6 +20,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
+            Drawable = CreateDrawable<DrawableTexture>();
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/planet.png");
             Size = Drawable.Texture.Size;
 
