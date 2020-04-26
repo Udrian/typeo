@@ -13,14 +13,14 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class EntityList : IHasContext, IHasScene
+        public class EntityList : IHasContext, IHasScene, IHasEntity
         {
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
             private ILogger Logger { get; set; }
 
             public Scene Scene { get; set; }
-            public Entity Entity { get; set; } //TODO: Internal?
+            public Entity Entity { get; set; } //TODO: This maybe should change to something else, OwnerEntity or Node?
 
             private List<Entity> Entities { get; set; }
             private List<Entity> EntitiesToAdd { get; set; }

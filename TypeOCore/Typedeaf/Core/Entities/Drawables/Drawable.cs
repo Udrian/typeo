@@ -7,7 +7,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public abstract class Drawable : IDrawable
         {
-            public Entity Entity { get; internal set; }
+            public Entity Entity { get; internal set; } //TODO: Change to a anchor
             public bool Hidden { get; set; }
 
             protected Drawable() { }
