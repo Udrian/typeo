@@ -56,7 +56,7 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     if(Text[i] == '\n' || i == Text.Length - 1)
                     {
-                        var text = Text.Substring(startIndex, i - startIndex);
+                        var text = Text.Substring(startIndex, i - startIndex + (i == Text.Length - 1 ? 1 : 0));
                         Lines.Add(text);
                         var size = Font.MeasureString(text);
                         if(size.X > width) width = size.X;

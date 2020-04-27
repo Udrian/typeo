@@ -3,6 +3,7 @@ using SpaceInvader.Logics.Scenes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
@@ -20,10 +21,17 @@ namespace SpaceInvader.Scenes
         public SpaceSpawnLogic SpaceSceneLogic { get; set; }
         public bool PauseLogic { get; set; }
 
+        private DrawableFont DrawableScore { get; set; }
+
         public override void Initialize()
         {
             LoadedFont = ContentLoader.LoadContent<Font>("content/Awesome.ttf");
             LoadedFont.FontSize = 48;
+
+            DrawableScore = CreateDrawable<DrawableFont>();
+            DrawableScore.Font = LoadedFont;
+            DrawableScore.Position = new Vec2(15, 15);
+            DrawableScore.Color = Color.Green;
 
             Entities.Create<Space>();
 
@@ -41,6 +49,8 @@ namespace SpaceInvader.Scenes
             }
 
             Logic.Update(dt);
+            
+            DrawableScore.Text = $"Score: {Game.Score}";
         }
 
         public override void Draw()
@@ -49,7 +59,7 @@ namespace SpaceInvader.Scenes
 
             Entities.Draw(Canvas);
 
-            Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, 15), color: Color.Green);
+            DrawableScore.Draw(Canvas);
 
             for(int i = 0; i < Player.EntityData.Health; i++)
             {

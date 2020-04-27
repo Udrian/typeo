@@ -1,12 +1,18 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract class Scene : IHasEntities
+    public abstract class Scene : IHasEntities, IHasContext
     {
+        Context IHasContext.Context { get; set; }
+        private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
+        protected ILogger Logger { get; set; }
+
         public SceneList Scenes { get; set; }
         public Window Window { get; set; }
         public Canvas Canvas { get; set; }
@@ -25,5 +31,17 @@ namespace TypeOEngine.Typedeaf.Core
 
         public abstract void OnExit(Scene to);
         public abstract void OnEnter(Scene from);
+
+        public D CreateDrawable<D>() where D : Drawable, new()
+        {
+            Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{typeof(D).FullName}' into {this.GetType().FullName}");
+
+            var drawable = new D();
+
+            Context.InitializeObject(drawable, this);
+            drawable.Initialize();
+
+            return drawable;
+        }
     }
 }
