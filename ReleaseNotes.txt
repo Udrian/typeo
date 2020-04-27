@@ -3,7 +3,7 @@
 *******************************
 
 **************************
-**** 0.1.1 - 23/04-20 ****
+**** 0.1.1 - 27/04-20 ****
 **************************
 
 ******************
@@ -20,6 +20,9 @@
 ******************
 
  * Changed Color, Plane, Ray, Rectangle, Vec2 and Vec3 back to being Structs, oops
+ * Changed interface name IIsDrawable to IDrawable
+ * Removed interface IHasDrawable added CreateDrawable function to Entity2d and Scene instead.
+ * Removed class DrawableMulti
 
 ******************
 ** Improvements **
