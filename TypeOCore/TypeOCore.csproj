@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>TypeOEngine</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.1.2</Version>
     <Company>Typedeaf AB</Company>
     <Product>TypeO</Product>
     <Authors>Simon Haggren</Authors>

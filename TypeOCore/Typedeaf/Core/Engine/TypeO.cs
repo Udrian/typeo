@@ -25,7 +25,7 @@ namespace TypeOEngine.Typedeaf.Core
 
             internal TypeO() : base()
             {
-                Version = new Version(0, 1, 1);
+                Version = new Version(0, 1, 2);
             }
 
             public ITypeO AddService<I, S>()
