@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Player : Entity2d, IHasData<PlayerData>, IHasLogic<LogicMulti>, IHasScene
+    class Player : Entity2d, IHasData<PlayerData>, IHasScene
     {
         public DrawableTexture Drawable { get; set; }
         public Texture HealthTexture { get; set; }
@@ -20,7 +20,6 @@ namespace SpaceInvader.Entities
         public bool Hidden { get; set; }
 
         public Scene Scene { get; set; }
-        public LogicMulti Logic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override Vec2 Size { get => Drawable.Size; set { } }
@@ -38,8 +37,8 @@ namespace SpaceInvader.Entities
 
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
 
-            Logic.CreateLogic<PlayerMoveLogic>();
-            Logic.CreateLogic<PlayerAlienDamageLogic>();
+            CreateLogic<PlayerMoveLogic>();
+            CreateLogic<PlayerAlienDamageLogic>();
 
             LeftGunAnchor = CreateAnchor(new Vec2(25, 32), Orientation2d.UpperLeft);
             RightGunAnchor = CreateAnchor(new Vec2(35, 32), Orientation2d.UpperRight);

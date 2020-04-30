@@ -3,20 +3,19 @@ using SpaceInvader.Logics.Scenes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
-    class PlanetScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<PlanetSpawnLogic>
+    class PlanetScene : Scene, IHasGame<SpaceInvaderGame>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public SpaceInvaderGame Game { get; set; }
         public PlayerGround Player { get; set; }
-        public PlanetSpawnLogic Logic { get; set; }
+        public PlanetSpawnLogic PlanetSpawnLogic { get; set; }
         public bool PauseLogic { get; set; }
 
         public override void Initialize()
@@ -25,6 +24,7 @@ namespace SpaceInvader.Scenes
             LoadedFont.FontSize = 48;
 
             Player = Entities.Create<PlayerGround>();
+            PlanetSpawnLogic = CreateLogic<PlanetSpawnLogic>();
         }
 
         public override void Update(double dt)
@@ -35,7 +35,7 @@ namespace SpaceInvader.Scenes
                 Game.Exit();
             }
 
-            Logic.Update(dt);
+            PlanetSpawnLogic.Update(dt);
         }
 
         public override void Draw()
@@ -61,7 +61,7 @@ namespace SpaceInvader.Scenes
 
         public override void OnExit(Scene to)
         {
-            Logic.EntityData.AlienSpawns = 100;
+            PlanetSpawnLogic.EntityData.AlienSpawns = 100;
             foreach(var bullet in Entities.List<Bullet>())
             {
                 bullet.Remove();

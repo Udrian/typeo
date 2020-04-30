@@ -4,21 +4,19 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace SpaceInvader.Scenes
 {
-    class SpaceScene : Scene, IHasGame<SpaceInvaderGame>, IHasLogic<LogicMulti>
+    class SpaceScene : Scene, IHasGame<SpaceInvaderGame>
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
 
         public SpaceInvaderGame Game { get; set; }
         public Font LoadedFont { get; set; }
         public Player Player { get; set; }
-        public LogicMulti Logic { get; set; }
-        public SpaceSpawnLogic SpaceSceneLogic { get; set; }
+        public SpaceSpawnLogic SpaceSpawnLogic { get; set; }
         public bool PauseLogic { get; set; }
 
         private DrawableFont DrawableScore { get; set; }
@@ -37,7 +35,7 @@ namespace SpaceInvader.Scenes
 
             Player = Entities.Create<Player>();
 
-            SpaceSceneLogic = Logic.CreateLogic<SpaceSpawnLogic>();
+            SpaceSpawnLogic = CreateLogic<SpaceSpawnLogic>();
         }
 
         public override void Update(double dt)
@@ -48,7 +46,7 @@ namespace SpaceInvader.Scenes
                 Game.Exit();
             }
 
-            Logic.Update(dt);
+            SpaceSpawnLogic.Update(dt);
             
             DrawableScore.Text = $"Score: {Game.Score}";
         }

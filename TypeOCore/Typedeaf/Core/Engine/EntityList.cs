@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TypeOEngine.Typedeaf.Core.Collections;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -25,7 +26,7 @@ namespace TypeOEngine.Typedeaf.Core
             private List<Entity> Entities { get; set; }
             private List<Entity> EntitiesToAdd { get; set; }
 
-            private List<Entity> Updatables { get; set; }
+            private LazyList<IIsUpdatable> Updatables { get; set; }
             private List<IDrawable> Drawables { get; set; }
             private List<IHasEntities> HasEntities { get; set; }
 
@@ -39,7 +40,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Entities = new List<Entity>();
                 EntitiesToAdd = new List<Entity>();
 
-                Updatables = new List<Entity>();
+                Updatables = new LazyList<IIsUpdatable>();
                 Drawables = new List<IDrawable>();
                 HasEntities = new List<IHasEntities>();
 
@@ -122,9 +123,9 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Logger.Log(LogLevel.Debug, $"Entity of type '{entity.GetType().FullName}' added");
 
-                if(entity is IIsUpdatable || entity is IHasLogic)
+                if(entity is IIsUpdatable updatable)
                 {
-                    Updatables.Add(entity);
+                    Updatables.Add(updatable);
                 }
 
                 if(entity is IDrawable drawable)
@@ -138,30 +139,34 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
-            internal void AddDrawable(Drawable drawable) //TODO: Look over this
+            internal void AddDrawable(IDrawable drawable) //TODO: Look over this
             {
                 Drawables.Add(drawable);
+            }
+            internal void RemoveDrawable(IDrawable drawable) //TODO: Look over this
+            {
+                Drawables.Remove(drawable);
+            }
+
+            internal void AddUpdatable(IIsUpdatable updatable) //TODO: Look over this
+            {
+                Updatables.Add(updatable);
+            }
+
+            internal void RemoveUpdatable(IIsUpdatable updatable) //TODO: Look over this
+            {
+                Updatables.Remove(updatable);
             }
 
             public void Update(double dt)
             {
-                foreach(var entity in Updatables)
+                foreach(var updatable in Updatables)
                 {
-                    if(entity.WillBeDeleted) continue;
+                    //if(entity.WillBeDeleted) continue; //TODO: Look over this
 
-                    if(entity is IIsUpdatable isUpdatable)
+                    if(!updatable.Pause)
                     {
-                        if(!isUpdatable.Pause)
-                        {
-                            isUpdatable.Update(dt);
-                        }
-                    }
-                    if(entity is IHasLogic hasLogic)
-                    {
-                        if(!hasLogic.PauseLogic)
-                        {
-                            hasLogic.Logic.Update(dt);
-                        }
+                        updatable.Update(dt);
                     }
                 }
 
@@ -180,13 +185,20 @@ namespace TypeOEngine.Typedeaf.Core
                 EntitiesToAdd.Clear();
 
                 //Remove entities
-                for(int i = Entities.Count - 1; i >= 0; i--)
+                for(int i = Entities.Count - 1; i >= 0; i--) //TODO: Look over this, change to queue instead
                 {
-                    if(Entities[i].WillBeDeleted) //TODO: Look over this
+                    if(Entities[i].WillBeDeleted)
                     {
                         for(int j = 0; j < Updatables.Count; j++)
                         {
-                            if(Updatables[j] == Entities[i])
+                            if(Updatables[j] is Logic logic) //TODO: Do I want this? No, I don't
+                            {
+                                if(logic.Parent == Entities[i])
+                                {
+                                    Updatables.RemoveAt(j);
+                                }
+                            }
+                            else if(Updatables[j] == Entities[i])
                             {
                                 Updatables.RemoveAt(j);
                                 break;
@@ -195,7 +207,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                         for(int j = 0; j < Drawables.Count; j++)
                         {
-                            if(Drawables[j] is Drawable drawable) //TODO: Do I want this?
+                            if(Drawables[j] is Drawable drawable) //TODO: Do I want this? No, I don't
                             {
                                 if(drawable.Entity == Entities[i])
                                 {
@@ -230,6 +242,8 @@ namespace TypeOEngine.Typedeaf.Core
                         Entities.RemoveAt(i);
                     }
                 }
+
+                Updatables.Process();
             }
 
             public void Draw(Canvas canvas)

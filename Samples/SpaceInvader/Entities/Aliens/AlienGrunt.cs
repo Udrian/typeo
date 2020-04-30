@@ -15,7 +15,7 @@ namespace SpaceInvader.Entities.Aliens
 
         protected override void InitializeEntity(Alien entity)
         {
-            var alienSwayLogic = entity.Logic.CreateLogic<AlienSwayLogic>();
+            var alienSwayLogic = entity.CreateLogic<AlienSwayLogic>();
 
             alienSwayLogic.SinTime = 0;
             alienSwayLogic.Amplitude = (Scene.Window.Size.X / 2) * 0.8;

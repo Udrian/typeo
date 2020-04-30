@@ -32,7 +32,7 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract void OnExit(Scene to);
         public abstract void OnEnter(Scene from);
 
-        public D CreateDrawable<D>() where D : Drawable, new()
+        public D CreateDrawable<D>() where D : Drawable, new() //TODO: Duplicate code from Entity, look over this
         {
             Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{typeof(D).FullName}' into {this.GetType().FullName}");
 
@@ -42,6 +42,18 @@ namespace TypeOEngine.Typedeaf.Core
             drawable.Initialize();
 
             return drawable;
+        }
+
+        public L CreateLogic<L>() where L : Logic, new() //TODO: Duplicate code from Entity, look over this
+        {
+            Logger.Log(LogLevel.Ludacris, $"Creating Logic of type '{typeof(L).FullName}' into {this.GetType().FullName}");
+
+            var logic = new L();
+
+            Context.InitializeObject(logic, this);
+            logic.Initialize(); 
+
+            return logic;
         }
     }
 }

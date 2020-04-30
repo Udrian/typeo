@@ -283,16 +283,6 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log(LogLevel.Ludacris, $"Creating EntityList in {obj.GetType().FullName}");
                     InitializeObject(hasEntities.Entities, obj);
                 }
-
-                if(obj is IHasLogic)
-                {
-                    var hasLogic = obj as IHasLogic;
-                    hasLogic.CreateLogic();
-                    Logger.Log(LogLevel.Ludacris, $"Creating Logic of type '{hasLogic.Logic.GetType().FullName}' into {obj.GetType().FullName}");
-                    InitializeObject(hasLogic.Logic, obj);
-
-                    hasLogic.Logic.Initialize();
-                }
             }
 
             private void SetHardwares(object obj)
