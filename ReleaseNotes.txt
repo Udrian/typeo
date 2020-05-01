@@ -3,7 +3,7 @@
 *******************************
 
 **************************
-**** 0.1.2 - 29/04-20 ****
+**** 0.1.2 - 01/05-20 ****
 **************************
 
 ******************
@@ -16,7 +16,8 @@
 ***** Fixes ******
 ******************
 
- 
+ * Removed interface IHasLogic added CreateLogic function to Entity2d and Scene instead.
+ * Removed class LogicMulti
 
 ******************
 ** Improvements **
