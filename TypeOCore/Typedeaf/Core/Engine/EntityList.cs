@@ -23,12 +23,11 @@ namespace TypeOEngine.Typedeaf.Core
             public Scene Scene { get; set; }
             public Entity Entity { get; set; } //TODO: This maybe should change to something else, OwnerEntity or Node?
 
-            private List<Entity> Entities { get; set; }
-            private List<Entity> EntitiesToAdd { get; set; }
+            private LazyList<Entity> Entities { get; set; }
 
             private LazyList<IIsUpdatable> Updatables { get; set; }
-            private List<IDrawable> Drawables { get; set; }
-            private List<IHasEntities> HasEntities { get; set; }
+            private LazyList<IDrawable> Drawables { get; set; }
+            private LazyList<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
             private Dictionary<string, Entity> EntityIDs { get; set; }
@@ -37,12 +36,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             internal EntityList()
             {
-                Entities = new List<Entity>();
-                EntitiesToAdd = new List<Entity>();
+                Entities = new LazyList<Entity>();
 
                 Updatables = new LazyList<IIsUpdatable>();
-                Drawables = new List<IDrawable>();
-                HasEntities = new List<IHasEntities>();
+                Drawables = new LazyList<IDrawable>();
+                HasEntities = new LazyList<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
                 EntityIDs = new Dictionary<string, Entity>();
@@ -50,7 +48,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Stubs = new Dictionary<Type, Stub>();
             }
 
-            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null) where E : Entity2d, new()
+            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null) where E : Entity2d, new() //TODO: Split out
             {
                 var entity = Create<E>() as Entity2d;
 
@@ -62,7 +60,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return entity as E;
             }
 
-            public E Create<E>() where E : Entity, new()
+            public E Create<E>() where E : Entity, new() //TODO: Split out
             {
                 var entity = new E
                 {
@@ -86,12 +84,26 @@ namespace TypeOEngine.Typedeaf.Core
                     entity.ID = Guid.NewGuid().ToString();
                 }
                 EntityIDs.Add(entity.ID, entity);
-                EntitiesToAdd.Add(entity);
+
+                if(entity is IIsUpdatable updatable)
+                {
+                    Updatables.Add(updatable);
+                }
+
+                if(entity is IDrawable drawable)
+                {
+                    Drawables.Add(drawable);
+                }
+
+                if(entity is IHasEntities hasEntities)
+                {
+                    HasEntities.Add(hasEntities);
+                }
 
                 return entity;
             }
 
-            public Entity CreateFromStub<S>() where S : Stub, new()
+            public Entity CreateFromStub<S>() where S : Stub, new() //TODO: Split out
             {
                 var sType = typeof(S);
                 if(!Stubs.ContainsKey(sType))
@@ -117,26 +129,6 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log(LogLevel.Warning, $"Could not create entity '{typeof(E).FullName}' from Stub '{typeof(S).FullName}'");
                 }
                 return entity;
-            }
-
-            private void AddEntity(Entity entity)
-            {
-                Logger.Log(LogLevel.Debug, $"Entity of type '{entity.GetType().FullName}' added");
-
-                if(entity is IIsUpdatable updatable)
-                {
-                    Updatables.Add(updatable);
-                }
-
-                if(entity is IDrawable drawable)
-                {
-                    Drawables.Add(drawable);
-                }
-
-                if(entity is IHasEntities hasEntities)
-                {
-                    HasEntities.Add(hasEntities);
-                }
             }
 
             internal void AddDrawable(IDrawable drawable) //TODO: Look over this
@@ -176,13 +168,6 @@ namespace TypeOEngine.Typedeaf.Core
                     if((entity as IIsUpdatable)?.Pause == true) continue;
                     entity.Entities.Update(dt);
                 }
-
-                //Add entities
-                foreach(var entity in EntitiesToAdd)
-                {
-                    AddEntity(entity);
-                }
-                EntitiesToAdd.Clear();
 
                 //Remove entities
                 for(int i = Entities.Count - 1; i >= 0; i--) //TODO: Look over this, change to queue instead
@@ -243,7 +228,10 @@ namespace TypeOEngine.Typedeaf.Core
                     }
                 }
 
+                Entities.Process();
                 Updatables.Process();
+                Drawables.Process();
+                HasEntities.Process();
             }
 
             public void Draw(Canvas canvas)
