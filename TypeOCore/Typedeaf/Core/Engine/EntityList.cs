@@ -26,7 +26,7 @@ namespace TypeOEngine.Typedeaf.Core
             private DelayedList<Entity> Entities { get; set; }
 
             private DelayedList<IIsUpdatable> Updatables { get; set; }
-            private DelayedList<IDrawable> Drawables { get; set; }
+            private SortedDelayedList<IDrawable> Drawables { get; set; }
             private DelayedList<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
@@ -39,7 +39,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Entities = new DelayedList<Entity>();
 
                 Updatables = new DelayedList<IIsUpdatable>();
-                Drawables = new DelayedList<IDrawable>();
+                Drawables = new SortedDelayedList<IDrawable>();
                 HasEntities = new DelayedList<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
@@ -236,11 +236,22 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Draw(Canvas canvas)
             {
+                var needSort = false;
+                var lastDraworder = int.MinValue;
                 foreach(var drawable in Drawables)
                 {
+                    if(!needSort && lastDraworder > drawable.DrawOrder)
+                    {
+                        needSort = true;
+                    }
+                    lastDraworder = drawable.DrawOrder;
                     //if(entity.WillBeDeleted) continue; //TODO: Look over this
                     if(drawable.Hidden) continue;
                     drawable.Draw(canvas);
+                }
+                if(needSort) //TODO: A problem with this solution is that the draw order won't come in effect until next tick
+                {
+                    Drawables.Sort();
                 }
 
                 foreach(var entity in HasEntities)
