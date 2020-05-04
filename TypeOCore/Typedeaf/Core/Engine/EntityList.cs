@@ -23,11 +23,11 @@ namespace TypeOEngine.Typedeaf.Core
             public Scene Scene { get; set; }
             public Entity Entity { get; set; } //TODO: This maybe should change to something else, OwnerEntity or Node?
 
-            private LazyList<Entity> Entities { get; set; }
+            private DelayedList<Entity> Entities { get; set; }
 
-            private LazyList<IIsUpdatable> Updatables { get; set; }
-            private LazyList<IDrawable> Drawables { get; set; }
-            private LazyList<IHasEntities> HasEntities { get; set; }
+            private DelayedList<IIsUpdatable> Updatables { get; set; }
+            private DelayedList<IDrawable> Drawables { get; set; }
+            private DelayedList<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
             private Dictionary<string, Entity> EntityIDs { get; set; }
@@ -36,11 +36,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             internal EntityList()
             {
-                Entities = new LazyList<Entity>();
+                Entities = new DelayedList<Entity>();
 
-                Updatables = new LazyList<IIsUpdatable>();
-                Drawables = new LazyList<IDrawable>();
-                HasEntities = new LazyList<IHasEntities>();
+                Updatables = new DelayedList<IIsUpdatable>();
+                Drawables = new DelayedList<IDrawable>();
+                HasEntities = new DelayedList<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
                 EntityIDs = new Dictionary<string, Entity>();

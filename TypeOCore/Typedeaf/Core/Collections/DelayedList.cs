@@ -4,13 +4,13 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Collections
     {
-        public class LazyList<T> : List<T>
+        public class DelayedList<T> : List<T>
         {
             private Queue<T> AddQueue { get; set; }
             private Queue<T> RemoveQueue { get; set; }
             private bool ToBeCleared { get; set; }
 
-            public LazyList()
+            public DelayedList()
             {
                 AddQueue = new Queue<T>();
                 RemoveQueue = new Queue<T>();
@@ -60,12 +60,29 @@ namespace TypeOEngine.Typedeaf.Core
 
                 while(AddQueue.Count > 0)
                 {
-                    base.Add(AddQueue.Dequeue());
+                    ProcessAdd(AddQueue.Dequeue());
                 }
                 while(RemoveQueue.Count > 0)
                 {
                     base.Remove(RemoveQueue.Dequeue());
                 }
+
+                return;
+            }
+
+            protected virtual void ProcessAdd(T item)
+            {
+                BaseAdd(item);
+            }
+
+            protected void BaseAdd(T item)
+            {
+                base.Add(item);
+            }
+
+            protected void BaseInsert(int index, T item)
+            {
+                base.Insert(index, item);
             }
         }
     }
