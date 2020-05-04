@@ -9,6 +9,7 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Entity Entity { get; internal set; } //TODO: Change to a anchor
             public bool Hidden { get; set; }
+            public int DrawOrder { get; set; }
 
             protected Drawable() { }
 

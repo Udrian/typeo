@@ -18,6 +18,7 @@ namespace SpaceInvader.Entities
 
         public SpaceData EntityData { get; set; }
         public Scene Scene { get; set; }
+        public int DrawOrder { get; set; }
 
         public override void Initialize()
         {
