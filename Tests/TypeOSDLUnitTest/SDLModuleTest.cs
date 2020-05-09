@@ -49,7 +49,7 @@ namespace Test
 
         public class TestScene1 : Scene
         {
-            public ILogger Logger { get; set; }
+            public new ILogger Logger { get; set; }
             public IWindowService WindowService { get; set; }
             public IKeyboardInputService KeyboardInputService { get; set; }
 

@@ -42,7 +42,7 @@ namespace SpaceInvader.Scenes
         {
             Canvas.Clear(Color.DarkGreen);
 
-            Entities.Draw(Canvas);
+            DrawStack.Draw(Canvas);
 
             Canvas.DrawText(LoadedFont, $"Score: {Game.Score}", new Vec2(15, 15), color: Color.Green);
 

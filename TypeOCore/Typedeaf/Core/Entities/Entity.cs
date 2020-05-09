@@ -3,6 +3,7 @@ using System.Linq;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -17,6 +18,7 @@ namespace TypeOEngine.Typedeaf.Core
             public string ID { get; internal set; }
             public Entity Parent { get; internal set; }
             internal EntityList ParentEntityList { get; set; } //TODO: This should change to something else
+            public DrawStack DrawStack { get; internal set; }
 
             private List<Logic> Logics { get; set; }
             private List<Drawable> Drawables { get; set; }
@@ -32,6 +34,11 @@ namespace TypeOEngine.Typedeaf.Core
 
             public void Remove()
             {
+                foreach(var drawable in Drawables)
+                {
+                    DrawStack.Pop(drawable);
+                }
+                DrawStack.Pop(this as IDrawable);
                 WillBeDeleted = true;
             }
             public bool WillBeDeleted { get; private set; }
@@ -68,7 +75,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return Logics.FirstOrDefault(logic => logic is L) as L;
             }
 
-            public D CreateDrawable<D>() where D : Drawable, new()
+            public D CreateDrawable<D>(bool pushToDrawStack = true) where D : Drawable, new()
             {
                 Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{typeof(D).FullName}' into {this.GetType().FullName}");
 
@@ -80,7 +87,10 @@ namespace TypeOEngine.Typedeaf.Core
                 Context.InitializeObject(drawable, this);
                 drawable.Initialize();
 
-                ParentEntityList.AddDrawable(drawable); //TODO: Not like this, should be sent back and then be added by caller
+                if(pushToDrawStack)
+                {
+                    DrawStack.Push(drawable);
+                }
                 Drawables.Add(drawable);
 
                 return drawable;
@@ -91,7 +101,7 @@ namespace TypeOEngine.Typedeaf.Core
                 var drawable = Drawables.FirstOrDefault(drawable => drawable.GetType() == typeof(D));
                 if(drawable == null) return false;
                 Drawables.Remove(drawable);
-                ParentEntityList.RemoveDrawable(drawable); //TODO: Not really like this?
+                DrawStack.Pop(drawable);
                 return true;
             }
 

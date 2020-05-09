@@ -14,6 +14,7 @@ namespace Breakout.Entities
         public Scene Scene { get; set; }
 
         public double Speed { get; set; }
+        public int DrawOrder { get; set; }
 
         public override void Initialize()
         {

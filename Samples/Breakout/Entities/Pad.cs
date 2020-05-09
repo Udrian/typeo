@@ -19,6 +19,8 @@ namespace Breakout.Entities
         public int BlockSize { get; set; } = 25;
         public int Blocks { get { return (int)Size.X; } set { Size = new Vec2(value * BlockSize, BlockSize); } }
 
+        public int DrawOrder { get; set; }
+
         public override void Initialize()
         {
             Blocks = 10;

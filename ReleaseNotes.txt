@@ -11,6 +11,7 @@
 ******************
 
  * Added DrawOrder property to IDrawable
+ * Added a DrawStack class accessible in Scenes and Entities
 
 ******************
 ***** Fixes ******

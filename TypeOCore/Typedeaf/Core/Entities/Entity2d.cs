@@ -42,9 +42,9 @@ namespace TypeOEngine.Typedeaf.Core
                 return new Anchor2d(anchorPosition, orientation, orientationType, this);
             }
 
-            public new D CreateDrawable<D>() where D : Drawable2d, new()
+            public new D CreateDrawable<D>(bool pushToDrawStack = true) where D : Drawable2d, new()
             {
-                return base.CreateDrawable<D>();
+                return base.CreateDrawable<D>(pushToDrawStack);
             }
         }
     }

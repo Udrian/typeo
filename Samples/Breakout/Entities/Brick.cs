@@ -13,6 +13,7 @@ namespace Breakout.Entities
         public Color Color { get; set; }
         public Scene Scene { get; set; }
         public BreakoutGame Game { get; set; }
+        public int DrawOrder { get; set; }
 
         public override void Initialize()
         {

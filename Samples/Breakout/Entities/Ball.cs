@@ -17,6 +17,7 @@ namespace Breakout.Entities
         public double Speed { get; set; }
         public Vec2 Direction { get; set; }
         public Game Game { get; set; }
+        public int DrawOrder { get; set; }
 
         public override void Initialize()
         {

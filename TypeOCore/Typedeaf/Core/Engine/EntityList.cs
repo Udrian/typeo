@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TypeOEngine.Typedeaf.Core.Collections;
 using TypeOEngine.Typedeaf.Core.Common;
-using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -26,7 +24,6 @@ namespace TypeOEngine.Typedeaf.Core
             private DelayedList<Entity> Entities { get; set; }
 
             private DelayedList<IIsUpdatable> Updatables { get; set; }
-            private SortedDelayedList<IDrawable> Drawables { get; set; }
             private DelayedList<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
@@ -39,7 +36,6 @@ namespace TypeOEngine.Typedeaf.Core
                 Entities = new DelayedList<Entity>();
 
                 Updatables = new DelayedList<IIsUpdatable>();
-                Drawables = new SortedDelayedList<IDrawable>();
                 HasEntities = new DelayedList<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
@@ -48,7 +44,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Stubs = new Dictionary<Type, Stub>();
             }
 
-            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null) where E : Entity2d, new() //TODO: Split out
+            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null, bool pushToDrawStack = true) where E : Entity2d, new() //TODO: Split out
             {
                 var entity = Create<E>() as Entity2d;
 
@@ -60,12 +56,13 @@ namespace TypeOEngine.Typedeaf.Core
                 return entity as E;
             }
 
-            public E Create<E>() where E : Entity, new() //TODO: Split out
+            public E Create<E>() where E : Entity, new() //TODO: Split out, Should be able to push automatically to draw stack
             {
                 var entity = new E
                 {
                     Parent = Entity,
-                    ParentEntityList = this
+                    ParentEntityList = this,
+                    DrawStack = Scene?.DrawStack ?? Entity?.DrawStack //TODO: Change this to be from same interface
                 };
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
@@ -88,11 +85,6 @@ namespace TypeOEngine.Typedeaf.Core
                 if(entity is IIsUpdatable updatable)
                 {
                     Updatables.Add(updatable);
-                }
-
-                if(entity is IDrawable drawable)
-                {
-                    Drawables.Add(drawable);
                 }
 
                 if(entity is IHasEntities hasEntities)
@@ -129,15 +121,6 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log(LogLevel.Warning, $"Could not create entity '{typeof(E).FullName}' from Stub '{typeof(S).FullName}'");
                 }
                 return entity;
-            }
-
-            internal void AddDrawable(IDrawable drawable) //TODO: Look over this
-            {
-                Drawables.Add(drawable);
-            }
-            internal void RemoveDrawable(IDrawable drawable) //TODO: Look over this
-            {
-                Drawables.Remove(drawable);
             }
 
             internal void AddUpdatable(IIsUpdatable updatable) //TODO: Look over this
@@ -190,23 +173,6 @@ namespace TypeOEngine.Typedeaf.Core
                             }
                         }
 
-                        for(int j = 0; j < Drawables.Count; j++)
-                        {
-                            if(Drawables[j] is Drawable drawable) //TODO: Do I want this? No, I don't
-                            {
-                                if(drawable.Entity == Entities[i])
-                                {
-                                    Drawables.RemoveAt(j);
-                                    break;
-                                }
-                            }
-                            else if(Drawables[j] == Entities[i])
-                            {
-                                Drawables.RemoveAt(j);
-                                break;
-                            }
-                        }
-
                         for(int j = 0; j < HasEntities.Count; j++)
                         {
                             if(HasEntities[j] == Entities[i])
@@ -230,36 +196,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Entities.Process();
                 Updatables.Process();
-                Drawables.Process();
                 HasEntities.Process();
-            }
-
-            public void Draw(Canvas canvas)
-            {
-                var needSort = false;
-                var lastDraworder = int.MinValue;
-                foreach(var drawable in Drawables)
-                {
-                    if(!needSort && lastDraworder > drawable.DrawOrder)
-                    {
-                        needSort = true;
-                    }
-                    lastDraworder = drawable.DrawOrder;
-                    //if(entity.WillBeDeleted) continue; //TODO: Look over this
-                    if(drawable.Hidden) continue;
-                    drawable.Draw(canvas);
-                }
-                if(needSort) //TODO: A problem with this solution is that the draw order won't come in effect until next tick
-                {
-                    Drawables.Sort();
-                }
-
-                foreach(var entity in HasEntities)
-                {
-                    if((entity as Entity)?.WillBeDeleted == true) continue;
-                    if((entity as IDrawable)?.Hidden == true) continue;
-                    entity.Entities.Draw(canvas);
-                }
             }
 
             public List<E> List<E>() where E : Entity

@@ -48,7 +48,7 @@ namespace Breakout
 
         public override void Draw()
         {
-            Entities.Draw(Canvas);
+            DrawStack.Draw(Canvas);
         }
 
         public override void OnEnter(Scene from)

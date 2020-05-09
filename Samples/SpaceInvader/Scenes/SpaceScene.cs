@@ -31,7 +31,7 @@ namespace SpaceInvader.Scenes
             DrawableScore.Position = new Vec2(15, 15);
             DrawableScore.Color = Color.Green;
 
-            Entities.Create<Space>();
+            DrawStack.Push(Entities.Create<Space>());
 
             Player = Entities.Create<Player>();
 
@@ -55,7 +55,7 @@ namespace SpaceInvader.Scenes
         {
             Canvas.Clear(Color.Black);
 
-            Entities.Draw(Canvas);
+            DrawStack.Draw(Canvas);
 
             DrawableScore.Draw(Canvas);
 
