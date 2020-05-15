@@ -42,10 +42,6 @@ namespace TypeOEngine.Typedeaf.Core
                     entity.Entities.Draw(canvas);
                 }*/
 
-
-                //TODO: Need a way to delete drawables when entitiy gets destroyed
-
-
                 Drawables.Process();
             }
 

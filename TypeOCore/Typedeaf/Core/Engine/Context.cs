@@ -7,6 +7,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -50,7 +51,7 @@ namespace TypeOEngine.Typedeaf.Core
                 ExitApplication = true;
             }
 
-            public void Start()
+            internal void Start()
             {
                 StartTime = DateTime.UtcNow;
 
@@ -72,7 +73,7 @@ namespace TypeOEngine.Typedeaf.Core
                 //We need to set Context here before so that the logger works in InitializeObject
                 (Logger as IHasContext)?.SetContext(this);
                 InitializeObject(Logger);
-                Logger.Log($"Game started at: {StartTime.ToString()}");
+                Logger.Log($"Game started at: {StartTime}");
                 Logger.Log($"Logger of type '{Logger.GetType().FullName}' loaded");
 
                 //Initialize Hardware
@@ -343,6 +344,63 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log(LogLevel.Ludacris, $"Logger injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
                     property.SetValue(obj, Logger);
                     break;
+                }
+            }
+
+            internal D CreateDrawable<D>(object obj, DrawStack drawStack) where D : Drawable, new()
+            {
+                Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{typeof(D).FullName}' into {obj.GetType().FullName}");
+
+                var drawable = new D()
+                {
+                    Entity = obj as Entity
+                };
+
+                InitializeObject(drawable, obj);
+                drawable.Initialize();
+
+                if(drawStack != null)
+                {
+                    drawStack.Push(drawable);
+                }
+
+                return drawable;
+            }
+
+            internal void DestroyDrawable(Drawable drawable, DrawStack drawStack)
+            {
+                if(drawStack != null)
+                {
+                    drawStack.Pop(drawable);
+                }
+                drawable.Cleanup();
+            }
+
+            internal L CreateLogic<L>(object obj, EntityList entityList) where L : Logic, new()
+            {
+                Logger.Log(LogLevel.Ludacris, $"Creating Logic of type '{typeof(L).FullName}' into {obj.GetType().FullName}");
+
+                var logic = new L()
+                {
+                    Parent = obj as Entity
+                };
+
+                InitializeObject(logic, obj);
+                logic.Initialize();
+
+                if(entityList != null)
+                {
+                    entityList.AddUpdatable(logic);
+                }
+
+                return logic;
+            }
+
+            internal void DestroyLogic(Logic logic, EntityList entityList)
+            {
+                if(entityList != null)
+                {
+                    entityList.RemoveUpdatable(logic);
                 }
             }
         }

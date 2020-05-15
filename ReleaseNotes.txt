@@ -24,7 +24,7 @@
 ** Improvements **
 ******************
 
-
+ * Changed method signatures for Creating and Destroying Logic and Drawable, can be used in Game, Scene and Entity now
 
 **************************
 **** 0.1.1 - 27/04-20 ****
