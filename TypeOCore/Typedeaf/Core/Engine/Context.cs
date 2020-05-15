@@ -376,7 +376,7 @@ namespace TypeOEngine.Typedeaf.Core
                 drawable.Cleanup();
             }
 
-            internal L CreateLogic<L>(object obj, EntityList entityList) where L : Logic, new()
+            internal L CreateLogic<L>(object obj, UpdateLoop updateLoop) where L : Logic, new()
             {
                 Logger.Log(LogLevel.Ludacris, $"Creating Logic of type '{typeof(L).FullName}' into {obj.GetType().FullName}");
 
@@ -388,19 +388,19 @@ namespace TypeOEngine.Typedeaf.Core
                 InitializeObject(logic, obj);
                 logic.Initialize();
 
-                if(entityList != null)
+                if(updateLoop != null)
                 {
-                    entityList.AddUpdatable(logic);
+                    updateLoop.Push(logic);
                 }
 
                 return logic;
             }
 
-            internal void DestroyLogic(Logic logic, EntityList entityList)
+            internal void DestroyLogic(Logic logic, UpdateLoop updateLoop)
             {
-                if(entityList != null)
+                if(updateLoop != null)
                 {
-                    entityList.RemoveUpdatable(logic);
+                    updateLoop.Pop(logic);
                 }
             }
         }

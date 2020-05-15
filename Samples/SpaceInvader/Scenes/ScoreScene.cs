@@ -21,6 +21,7 @@ namespace SpaceInvader.Scenes
 
         public override void Update(double dt)
         {
+            UpdateLoop.Update(dt);
             if(KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();

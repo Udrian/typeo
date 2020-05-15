@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core.Engine
 {
-    public class SceneList : IHasContext
+    public class SceneList : IHasContext //TODO: Maybe change to a "GameContext class"
     {
         Context IHasContext.Context { get; set; }
         protected Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
@@ -27,6 +27,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
         {
             Window?.Cleanup();
             Canvas?.Cleanup();
+            //TODO: Cleanup all scenes?
         }
 
         public void CreateScene<S>() where S : Scene, new()
@@ -51,6 +52,8 @@ namespace TypeOEngine.Typedeaf.Core.Engine
                 scene.ContentLoader = ContentLoader;
             }
         }
+
+        //TODO: Destroy Scene?
 
         public S SetScene<S>() where S : Scene, new()
         {

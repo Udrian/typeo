@@ -31,7 +31,7 @@ namespace SpaceInvader.Scenes
             DrawableScore.Position = new Vec2(15, 15);
             DrawableScore.Color = Color.Green;
 
-            DrawStack.Push(Entities.Create<Space>());
+            Entities.Create<Space>();
 
             Player = Entities.Create<Player>();
 
@@ -41,12 +41,11 @@ namespace SpaceInvader.Scenes
         public override void Update(double dt)
         {
             Entities.Update(dt);
+            UpdateLoop.Update(dt);
             if(KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
-
-            SpaceSpawnLogic.Update(dt);
             
             DrawableScore.Text = $"Score: {Game.Score}";
         }

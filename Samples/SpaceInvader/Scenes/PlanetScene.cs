@@ -30,12 +30,11 @@ namespace SpaceInvader.Scenes
         public override void Update(double dt)
         {
             Entities.Update(dt);
+            UpdateLoop.Update(dt);
             if(KeyboardInputService.IsDown("Quit"))
             {
                 Game.Exit();
             }
-
-            PlanetSpawnLogic.Update(dt);
         }
 
         public override void Draw()

@@ -23,7 +23,6 @@ namespace TypeOEngine.Typedeaf.Core
 
             private DelayedList<Entity> Entities { get; set; }
 
-            private DelayedList<IIsUpdatable> Updatables { get; set; }
             private DelayedList<IHasEntities> HasEntities { get; set; }
 
             private Dictionary<Type, IEnumerable<Entity>> EntityLists { get; set; }
@@ -35,7 +34,6 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Entities = new DelayedList<Entity>();
 
-                Updatables = new DelayedList<IIsUpdatable>();
                 HasEntities = new DelayedList<IHasEntities>();
 
                 EntityLists = new Dictionary<Type, IEnumerable<Entity>>();
@@ -44,9 +42,49 @@ namespace TypeOEngine.Typedeaf.Core
                 Stubs = new Dictionary<Type, Stub>();
             }
 
-            public E Create<E>(Vec2? position = null, Vec2? scale = null, double rotation = 0, Vec2? origin = null, bool pushToDrawStack = true) where E : Entity2d, new() //TODO: Split out
+            public void Update(double dt)
             {
-                var entity = Create<E>() as Entity2d;
+                //Remove entities
+                for(int i = Entities.Count - 1; i >= 0; i--) //TODO: Look over this, change to queue instead
+                {
+                    if(Entities[i].WillBeDeleted)
+                    {
+                        for(int j = 0; j < HasEntities.Count; j++)
+                        {
+                            if(HasEntities[j] == Entities[i])
+                            {
+                                HasEntities.RemoveAt(j);
+                                break;
+                            }
+                        }
+
+                        var iType = Entities[i].GetType();
+                        if(EntityLists.ContainsKey(iType))
+                        {
+                            EntityLists.Remove(iType);
+                        }
+
+                        Logger.Log(LogLevel.Debug, $"Removing Entity of type '{Entities[i].GetType().FullName}'");
+                        Entities[i].Cleanup();
+                        Entities.RemoveAt(i);
+                    }
+                }
+
+                //TODO: Look over this, remove IHasEntities and make Drawstack and UpdateLoop to IUpdatable and IDrawable and create from Entity
+                foreach(var entity in HasEntities)
+                {
+                    if((entity as Entity)?.WillBeDeleted == true) continue;
+                    if((entity as IIsUpdatable)?.Pause == true) continue;
+                    entity.Entities.Update(dt);
+                }
+
+                Entities.Process();
+                HasEntities.Process();
+            }
+
+            public E Create<E>(Vec2? position, Vec2? scale = null, double rotation = 0, Vec2? origin = null, bool pushToUpdateLoop = true, bool pushToDrawStack = true) where E : Entity2d, new() //TODO: Split out
+            {
+                var entity = Create<E>(pushToUpdateLoop, pushToDrawStack) as Entity2d;
 
                 entity.Position = position ?? entity.Position;
                 entity.Scale = scale ?? entity.Scale;
@@ -56,13 +94,14 @@ namespace TypeOEngine.Typedeaf.Core
                 return entity as E;
             }
 
-            public E Create<E>() where E : Entity, new() //TODO: Split out, Should be able to push automatically to draw stack
+            public E Create<E>(bool pushToUpdateLoop = true, bool pushToDrawStack = true) where E : Entity, new() //TODO: Split out, Should be able to push automatically to draw stack and update stack
             {
                 var entity = new E
                 {
                     Parent = Entity,
                     ParentEntityList = this,
-                    DrawStack = Scene?.DrawStack ?? Entity?.DrawStack //TODO: Change this to be from same interface
+                    DrawStack = Scene?.DrawStack ?? Entity?.DrawStack, //TODO: Change this to be from same interface
+                    UpdateLoop = Scene?.UpdateLoop ?? Entity?.UpdateLoop //TODO: Change this to be from same interface
                 };
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
@@ -82,9 +121,14 @@ namespace TypeOEngine.Typedeaf.Core
                 }
                 EntityIDs.Add(entity.ID, entity);
 
-                if(entity is IIsUpdatable updatable)
+                if(pushToUpdateLoop && entity.UpdateLoop != null && entity is IIsUpdatable updatable)
                 {
-                    Updatables.Add(updatable);
+                    entity.UpdateLoop.Push(updatable);
+                }
+
+                if(pushToDrawStack && entity.DrawStack != null && entity is IDrawable drawable)
+                {
+                    entity.DrawStack.Push(drawable);
                 }
 
                 if(entity is IHasEntities hasEntities)
@@ -121,82 +165,6 @@ namespace TypeOEngine.Typedeaf.Core
                     Logger.Log(LogLevel.Warning, $"Could not create entity '{typeof(E).FullName}' from Stub '{typeof(S).FullName}'");
                 }
                 return entity;
-            }
-
-            internal void AddUpdatable(IIsUpdatable updatable) //TODO: Look over this
-            {
-                Updatables.Add(updatable);
-            }
-
-            internal void RemoveUpdatable(IIsUpdatable updatable) //TODO: Look over this
-            {
-                Updatables.Remove(updatable);
-            }
-
-            public void Update(double dt)
-            {
-                foreach(var updatable in Updatables)
-                {
-                    //if(entity.WillBeDeleted) continue; //TODO: Look over this
-
-                    if(!updatable.Pause)
-                    {
-                        updatable.Update(dt);
-                    }
-                }
-
-                foreach(var entity in HasEntities)
-                {
-                    if((entity as Entity)?.WillBeDeleted == true) continue;
-                    if((entity as IIsUpdatable)?.Pause == true) continue;
-                    entity.Entities.Update(dt);
-                }
-
-                //Remove entities
-                for(int i = Entities.Count - 1; i >= 0; i--) //TODO: Look over this, change to queue instead
-                {
-                    if(Entities[i].WillBeDeleted)
-                    {
-                        for(int j = 0; j < Updatables.Count; j++)
-                        {
-                            if(Updatables[j] is Logic logic) //TODO: Do I want this? No, I don't
-                            {
-                                if(logic.Parent == Entities[i])
-                                {
-                                    Updatables.RemoveAt(j);
-                                }
-                            }
-                            else if(Updatables[j] == Entities[i])
-                            {
-                                Updatables.RemoveAt(j);
-                                break;
-                            }
-                        }
-
-                        for(int j = 0; j < HasEntities.Count; j++)
-                        {
-                            if(HasEntities[j] == Entities[i])
-                            {
-                                HasEntities.RemoveAt(j);
-                                break;
-                            }
-                        }
-
-                        var iType = Entities[i].GetType();
-                        if(EntityLists.ContainsKey(iType))
-                        {
-                            EntityLists.Remove(iType);
-                        }
-
-                        Logger.Log(LogLevel.Debug, $"Removing Entity of type '{Entities[i].GetType().FullName}'");
-                        Entities[i].Cleanup();
-                        Entities.RemoveAt(i);
-                    }
-                }
-
-                Entities.Process();
-                Updatables.Process();
-                HasEntities.Process();
             }
 
             public List<E> List<E>() where E : Entity
