@@ -68,7 +68,10 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             var toScene = Scenes[typeof(S)];
             CurrentScene = toScene;
             if(init)
+            {
+                CurrentScene.InternalInitialize();
                 CurrentScene.Initialize();
+            }
             fromScene?.OnExit(toScene);
             toScene?.OnEnter(fromScene);
 

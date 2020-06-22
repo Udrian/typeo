@@ -22,7 +22,7 @@ namespace TypeOEngine.Typedeaf.Core
         public DrawStack DrawStack { get; private set; } //TODO: Should be able to create draw stack from Game maybe?
         public UpdateLoop UpdateLoop { get; private set; } //TODO: Should be able to create Update loop from Game maybe?
         private List<Logic> Logics { get; set; } //TODO: Do we want internally saved Logic list?
-        private List<Drawable> Drawables { get; set; } //TODO: Do we want internally saved Drawable list?
+        public DrawableManager<Drawable> Drawables { get; private set; }
 
         public bool IsInitialized { get; set; } = false;
         public bool Pause         { get; set; } = false;
@@ -33,7 +33,12 @@ namespace TypeOEngine.Typedeaf.Core
             DrawStack = new DrawStack();
             UpdateLoop = new UpdateLoop();
             Logics = new List<Logic>();
-            Drawables = new List<Drawable>();
+        }
+
+        internal void InternalInitialize()
+        {
+            Drawables = new DrawableManager<Drawable>(DrawStack, this);
+            Context.InitializeObject(Drawables, this);
         }
 
         public abstract void Initialize();
@@ -42,42 +47,6 @@ namespace TypeOEngine.Typedeaf.Core
 
         public abstract void OnExit(Scene to);
         public abstract void OnEnter(Scene from);
-
-        public D CreateDrawable<D>(bool pushToDrawStack = true) where D : Drawable, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
-        {
-            var drawable = Context.CreateDrawable<D>(this, pushToDrawStack ? DrawStack : null);
-            Drawables.Add(drawable);
-
-            return drawable;
-        }
-
-        public int DestroyDrawable<D>() where D : Drawable //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
-        {
-            var destroyCount = 0;
-            foreach(var drawable in Drawables)
-            {
-                if(drawable is D)
-                {
-                    Context.DestroyDrawable(drawable, DrawStack);
-                    destroyCount++;
-                }
-            }
-
-            Drawables.RemoveAll(drawable => drawable is D);
-
-            return destroyCount;
-        }
-
-        public void DestroyDrawable(Drawable drawable) //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
-        {
-            Context.DestroyDrawable(drawable, DrawStack);
-            Drawables.Remove(drawable);
-        }
-
-        public IEnumerable<D> GetDrawable<D>() where D : Drawable //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
-        {
-            return Drawables.FindAll(drawable => drawable is D).Cast<D>();
-        }
 
         public L CreateLogic<L>(bool pushToUpdateLoop = true) where L : Logic, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
         {

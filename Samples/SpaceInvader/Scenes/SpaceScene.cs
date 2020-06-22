@@ -26,7 +26,7 @@ namespace SpaceInvader.Scenes
             LoadedFont = ContentLoader.LoadContent<Font>("content/Awesome.ttf");
             LoadedFont.FontSize = 48;
 
-            DrawableScore = CreateDrawable<DrawableFont>();
+            DrawableScore = Drawables.CreateDrawable<DrawableFont>();
             DrawableScore.Font = LoadedFont;
             DrawableScore.Position = new Vec2(15, 15);
             DrawableScore.Color = Color.Green;

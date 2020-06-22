@@ -13,18 +13,18 @@ namespace TypeOEngine.Typedeaf.Core.Engine
 
         internal List<T> Drawables { get; private set; }
         private DrawStack DrawStack { get; set; }
-        private Entity Entity { get; set; }
+        private object Parent { get; set; }
 
-        internal DrawableManager(DrawStack drawStack, Entity entity)
+        internal DrawableManager(DrawStack drawStack, object parent)
         {
             Drawables = new List<T>();
             DrawStack = drawStack;
-            Entity = entity;
+            Parent = parent;
         }
 
         public D CreateDrawable<D>(bool pushToDrawStack = true) where D : T, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
         {
-            var drawable = Context.CreateDrawable<D>(Entity, pushToDrawStack ? DrawStack : null);
+            var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null);
             Drawables.Add(drawable);
 
             return drawable;

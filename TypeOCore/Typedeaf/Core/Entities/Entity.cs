@@ -13,7 +13,7 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract class Entity : IHasContext
         {
             Context IHasContext.Context { get; set; }
-            internal Context Context { get  => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
+            internal Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
             public string ID { get; internal set; }
             public Entity Parent { get; internal set; }
@@ -44,7 +44,6 @@ namespace TypeOEngine.Typedeaf.Core
                 WillBeDeleted = true;
             }
             public bool WillBeDeleted { get; private set; }
-
 
             public L CreateLogic<L>(bool pushToUpdateLoop = true) where L : Logic, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
             {
