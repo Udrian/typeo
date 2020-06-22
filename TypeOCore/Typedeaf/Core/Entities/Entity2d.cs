@@ -1,4 +1,5 @@
 using TypeOEngine.Typedeaf.Core.Common;
+using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeOEngine.Typedeaf.Core
@@ -14,7 +15,9 @@ namespace TypeOEngine.Typedeaf.Core
             public virtual Vec2   Origin   { get; set; }
 
             public new Entity2d Parent { get { return base.Parent as Entity2d; } internal set { base.Parent = value as Entity2d; } }
-            
+
+            public DrawableManager<Drawable2d> Drawables { get; private set; }
+
             protected Entity2d() : base()
             {
                 Position = Vec2.Zero;
@@ -22,6 +25,21 @@ namespace TypeOEngine.Typedeaf.Core
                 Rotation = 0;
                 Size     = Vec2.Zero;
                 Origin   = Vec2.Zero;
+            }
+
+            internal override void InternalInitialize()
+            {
+                Drawables = new DrawableManager<Drawable2d>(DrawStack, this);
+                Context.InitializeObject(Drawables, this);
+            }
+
+            public override void Remove()
+            {
+                foreach(var drawable in Drawables.Drawables)
+                {
+                    DrawStack.Pop(drawable);
+                }
+                base.Remove();
             }
 
             public Rectangle ScreenBounds {
@@ -40,11 +58,6 @@ namespace TypeOEngine.Typedeaf.Core
             public Anchor2d CreateAnchor(Vec2 anchorPosition, Orientation2d orientation = Orientation2d.UpperLeft, OrientationType orientationType = OrientationType.Absolute)
             {
                 return new Anchor2d(anchorPosition, orientation, orientationType, this);
-            }
-
-            public new D CreateDrawable<D>(bool pushToDrawStack = true) where D : Drawable2d, new()
-            {
-                return base.CreateDrawable<D>(pushToDrawStack);
             }
         }
     }

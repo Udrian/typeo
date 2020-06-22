@@ -20,7 +20,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = CreateDrawable<DrawableTexture>();
+            Drawable = Drawables.CreateDrawable<DrawableTexture>();
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/planet.png");
             Size = Drawable.Texture.Size;
 

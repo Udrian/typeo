@@ -20,7 +20,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = CreateDrawable<DrawableBullet>();
+            Drawable = Drawables.CreateDrawable<DrawableBullet>();
             EntityData.Speed = 500;
         }
 

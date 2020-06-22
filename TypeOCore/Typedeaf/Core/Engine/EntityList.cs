@@ -106,6 +106,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
                 Context.InitializeObject(entity, this);
+                entity.InternalInitialize();
                 entity.Initialize();
 
                 Entities.Add(entity);
