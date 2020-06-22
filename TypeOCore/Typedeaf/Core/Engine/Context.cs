@@ -147,6 +147,7 @@ namespace TypeOEngine.Typedeaf.Core
 
                 //Initialize the game
                 InitializeObject(Game);
+                Game.InternalInitialize();
                 Game.Initialize();
 
                 Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");

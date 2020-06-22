@@ -11,6 +11,8 @@ namespace TypeOEngine.Typedeaf.Core
 
         public string Name { get { return Context.Name; } }
 
+        public DrawableManager<Drawable> Drawables { get; private set; }
+
         protected Game() { }
 
         public SceneList CreateSceneHandler()
@@ -20,21 +22,17 @@ namespace TypeOEngine.Typedeaf.Core
             return scenes;
         }
 
+        internal void InternalInitialize()
+        {
+            Drawables = new DrawableManager<Drawable>(null, this);
+            Context.InitializeObject(Drawables, this);
+        }
+
         public abstract void Initialize();
         public abstract void Update(double dt);
         public abstract void Draw();
         public abstract void Cleanup();
         public void Exit() { Context.Exit(); }
-
-        public D CreateDrawable<D>() where D : Drawable, new()
-        {
-            return Context.CreateDrawable<D>(this, null);
-        }
-
-        public void DestroyDrawable(Drawable drawable)
-        {
-            Context.DestroyDrawable(drawable, null);
-        }
 
         public L CreateLogic<L>() where L : Logic, new()
         {
