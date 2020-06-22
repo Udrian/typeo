@@ -23,7 +23,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = Drawables.CreateDrawable<DrawableTexture>();
+            Drawable = Drawables.Create<DrawableTexture>();
             Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/powerup.png");
             Position = new Vec2(Game.Random.Next(0, (int)(Scene.Window.Size.X - Size.X)), -Size.Y);
         }

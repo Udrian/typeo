@@ -23,7 +23,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = Drawables.CreateDrawable<DrawableTexture>();
+            Drawable = Drawables.Create<DrawableTexture>();
             CreateLogic<AlienBulletDamageLogic>();
         }
 

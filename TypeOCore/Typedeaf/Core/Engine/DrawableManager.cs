@@ -21,7 +21,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             Parent = parent;
         }
 
-        public D CreateDrawable<D>(bool pushToDrawStack = true) where D : T, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+        public D Create<D>(bool pushToDrawStack = true) where D : T, new()
         {
             var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null);
             Drawables.Add(drawable);
@@ -29,7 +29,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             return drawable;
         }
 
-        public int DestroyDrawable<D>() where D : T //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+        public int Destroy<D>() where D : T
         {
             var destroyCount = 0;
             foreach(var drawable in Drawables)
@@ -46,13 +46,13 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             return destroyCount;
         }
 
-        public void DestroyDrawable(T drawable) //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+        public void Destroy(T drawable)
         {
             Context.DestroyDrawable(drawable, DrawStack);
             Drawables.Remove(drawable);
         }
 
-        public IEnumerable<D> GetDrawables<D>() where D : T //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+        public IEnumerable<D> Get<D>() where D : T
         {
             return Drawables.FindAll(drawable => drawable is D).Cast<D>();
         }

@@ -29,7 +29,7 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = Drawables.CreateDrawable<DrawableTexture>();
+            Drawable = Drawables.Create<DrawableTexture>();
             LoadContent();
             HealthTexture = Drawable.Texture;
             EntityData.Speed = 500;
