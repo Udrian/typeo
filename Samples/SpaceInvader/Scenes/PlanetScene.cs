@@ -24,7 +24,7 @@ namespace SpaceInvader.Scenes
             LoadedFont.FontSize = 48;
 
             Player = Entities.Create<PlayerGround>();
-            PlanetSpawnLogic = CreateLogic<PlanetSpawnLogic>();
+            PlanetSpawnLogic = Logics.CreateLogic<PlanetSpawnLogic>();
         }
 
         public override void Update(double dt)

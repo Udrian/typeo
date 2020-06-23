@@ -3,58 +3,61 @@ using System.Linq;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeOEngine.Typedeaf.Core.Engine
+namespace TypeOEngine.Typedeaf.Core
 {
-    public class DrawableManager<T> : IHasContext where T : Drawable
+    namespace Engine
     {
-        Context IHasContext.Context { get; set; }
-        private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
-
-        internal List<T> Drawables { get; private set; }
-        private DrawStack DrawStack { get; set; }
-        private object Parent { get; set; }
-
-        internal DrawableManager(DrawStack drawStack, object parent)
+        public class DrawableManager<T> : IHasContext where T : Drawable
         {
-            Drawables = new List<T>();
-            DrawStack = drawStack;
-            Parent = parent;
-        }
+            Context IHasContext.Context { get; set; }
+            private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
 
-        public D Create<D>(bool pushToDrawStack = true) where D : T, new()
-        {
-            var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null);
-            Drawables.Add(drawable);
+            internal List<T> Drawables { get; private set; }
+            private DrawStack DrawStack { get; set; }
+            private object Parent { get; set; }
 
-            return drawable;
-        }
-
-        public int Destroy<D>() where D : T
-        {
-            var destroyCount = 0;
-            foreach(var drawable in Drawables)
+            internal DrawableManager(DrawStack drawStack, object parent)
             {
-                if(drawable is D)
-                {
-                    Context.DestroyDrawable(drawable, DrawStack);
-                    destroyCount++;
-                }
+                Drawables = new List<T>();
+                DrawStack = drawStack;
+                Parent = parent;
             }
 
-            Drawables.RemoveAll(drawable => drawable is D);
+            public D Create<D>(bool pushToDrawStack = true) where D : T, new()
+            {
+                var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null);
+                Drawables.Add(drawable);
 
-            return destroyCount;
-        }
+                return drawable;
+            }
 
-        public void Destroy(T drawable)
-        {
-            Context.DestroyDrawable(drawable, DrawStack);
-            Drawables.Remove(drawable);
-        }
+            public int Destroy<D>() where D : T
+            {
+                var destroyCount = 0;
+                foreach(var drawable in Drawables)
+                {
+                    if(drawable is D)
+                    {
+                        Context.DestroyDrawable(drawable, DrawStack);
+                        destroyCount++;
+                    }
+                }
 
-        public IEnumerable<D> Get<D>() where D : T
-        {
-            return Drawables.FindAll(drawable => drawable is D).Cast<D>();
+                Drawables.RemoveAll(drawable => drawable is D);
+
+                return destroyCount;
+            }
+
+            public void Destroy(T drawable)
+            {
+                Context.DestroyDrawable(drawable, DrawStack);
+                Drawables.Remove(drawable);
+            }
+
+            public IEnumerable<D> Get<D>() where D : T
+            {
+                return Drawables.FindAll(drawable => drawable is D).Cast<D>();
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
         public string Name { get { return Context.Name; } }
 
         public DrawableManager<Drawable> Drawables { get; private set; }
+        public LogicManager Logics { get; private set; }
 
         protected Game() { }
 
@@ -26,6 +27,8 @@ namespace TypeOEngine.Typedeaf.Core
         {
             Drawables = new DrawableManager<Drawable>(null, this);
             Context.InitializeObject(Drawables, this);
+            Logics = new LogicManager(null, this);
+            Context.InitializeObject(Logics, this);
         }
 
         public abstract void Initialize();
@@ -33,15 +36,5 @@ namespace TypeOEngine.Typedeaf.Core
         public abstract void Draw();
         public abstract void Cleanup();
         public void Exit() { Context.Exit(); }
-
-        public L CreateLogic<L>() where L : Logic, new()
-        {
-            return Context.CreateLogic<L>(this, null);
-        }
-
-        public void DestroyLogic(Logic logic)
-        {
-            Context.DestroyLogic(logic, null);
-        }
     }
 }

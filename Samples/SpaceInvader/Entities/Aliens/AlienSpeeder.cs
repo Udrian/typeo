@@ -16,7 +16,7 @@ namespace SpaceInvader.Entities.Aliens
 
         protected override void InitializeEntity(Alien entity)
         {
-            entity.CreateLogic<AlienStraightMoveLogic>();
+            entity.Logics.CreateLogic<AlienStraightMoveLogic>();
 
             entity.EntityData.Speed = 1000;
             entity.EntityData.Health = 2;

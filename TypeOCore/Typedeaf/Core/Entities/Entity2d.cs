@@ -31,6 +31,7 @@ namespace TypeOEngine.Typedeaf.Core
             {
                 Drawables = new DrawableManager<Drawable2d>(DrawStack, this);
                 Context.InitializeObject(Drawables, this);
+                base.InternalInitialize();
             }
 
             public override void Remove()

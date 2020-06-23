@@ -37,8 +37,8 @@ namespace SpaceInvader.Entities
 
             Position = new Vec2(100, Scene.Window.Size.Y * 0.8f);
 
-            CreateLogic<PlayerMoveLogic>();
-            CreateLogic<PlayerAlienDamageLogic>();
+            Logics.CreateLogic<PlayerMoveLogic>();
+            Logics.CreateLogic<PlayerAlienDamageLogic>();
 
             LeftGunAnchor = CreateAnchor(new Vec2(25, 32), Orientation2d.UpperLeft);
             RightGunAnchor = CreateAnchor(new Vec2(35, 32), Orientation2d.UpperRight);

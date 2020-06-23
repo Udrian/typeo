@@ -24,7 +24,7 @@ namespace SpaceInvader.Entities
         public override void Initialize()
         {
             Drawable = Drawables.Create<DrawableTexture>();
-            CreateLogic<AlienBulletDamageLogic>();
+            Logics.CreateLogic<AlienBulletDamageLogic>();
         }
 
         public override void Cleanup()

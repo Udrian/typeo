@@ -41,7 +41,7 @@ namespace SpaceInvader.Logics.Players
             PowerUpTimer += dt;
             if(PowerUpTimer >= PowerUpTime)
             {
-                Entity.DestroyLogic<PlayerPowerUpLogic>();
+                Entity.Logics.DestroyLogic<PlayerPowerUpLogic>();
             }
         }
     }

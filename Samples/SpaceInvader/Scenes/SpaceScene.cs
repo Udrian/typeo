@@ -35,7 +35,7 @@ namespace SpaceInvader.Scenes
 
             Player = Entities.Create<Player>();
 
-            SpaceSpawnLogic = CreateLogic<SpaceSpawnLogic>();
+            SpaceSpawnLogic = Logics.CreateLogic<SpaceSpawnLogic>();
         }
 
         public override void Update(double dt)
