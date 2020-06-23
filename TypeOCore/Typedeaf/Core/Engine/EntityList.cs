@@ -30,6 +30,8 @@ namespace TypeOEngine.Typedeaf.Core
 
             private Dictionary<Type, Stub> Stubs { get; set; }
 
+            internal Queue<Entity> RemoveQueue { get; set; }
+
             internal EntityList()
             {
                 Entities = new DelayedList<Entity>();
@@ -40,34 +42,34 @@ namespace TypeOEngine.Typedeaf.Core
                 EntityIDs = new Dictionary<string, Entity>();
 
                 Stubs = new Dictionary<Type, Stub>();
+
+                RemoveQueue = new Queue<Entity>();
             }
 
             public void Update(double dt)
             {
                 //Remove entities
-                for(int i = Entities.Count - 1; i >= 0; i--) //TODO: Look over this, change to queue instead
+                while(RemoveQueue.Count > 0)
                 {
-                    if(Entities[i].WillBeDeleted)
+                    var deleteEntity = RemoveQueue.Dequeue();
+                    for(int j = 0; j < HasEntities.Count; j++)
                     {
-                        for(int j = 0; j < HasEntities.Count; j++)
+                        if(HasEntities[j] == deleteEntity)
                         {
-                            if(HasEntities[j] == Entities[i])
-                            {
-                                HasEntities.RemoveAt(j);
-                                break;
-                            }
+                            HasEntities.RemoveAt(j);
+                            break;
                         }
-
-                        var iType = Entities[i].GetType();
-                        if(EntityLists.ContainsKey(iType))
-                        {
-                            EntityLists.Remove(iType);
-                        }
-
-                        Logger.Log(LogLevel.Debug, $"Removing Entity of type '{Entities[i].GetType().FullName}'");
-                        Entities[i].Cleanup();
-                        Entities.RemoveAt(i);
                     }
+
+                    var iType = deleteEntity.GetType();
+                    if(EntityLists.ContainsKey(iType))
+                    {
+                        EntityLists.Remove(iType);
+                    }
+
+                    Logger.Log(LogLevel.Debug, $"Removing Entity of type '{iType.FullName}'");
+                    deleteEntity.Cleanup();
+                    Entities.Remove(deleteEntity);
                 }
 
                 //TODO: Look over this, remove IHasEntities and make Drawstack and UpdateLoop to IUpdatable and IDrawable and create from Entity

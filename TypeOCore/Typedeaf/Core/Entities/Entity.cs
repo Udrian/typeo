@@ -38,6 +38,7 @@ namespace TypeOEngine.Typedeaf.Core
                 DrawStack.Pop(this as IDrawable);
                 UpdateLoop.Pop(this as IIsUpdatable);
                 WillBeDeleted = true;
+                ParentEntityList.RemoveQueue.Enqueue(this);
             }
             public bool WillBeDeleted { get; private set; }
         }
