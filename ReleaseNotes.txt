@@ -13,6 +13,7 @@
  * Added DrawOrder property to IDrawable
  * Added a DrawStack class accessible in Scenes and Entities
  * Added a UpdateLoop class accessible in Scenes and Entities
+ * Added Drawable and Logic Manager to Entity, Scene and Game
 
 ******************
 ***** Fixes ******
