@@ -51,7 +51,7 @@ namespace SpaceInvader.Logics.Scenes
                 {
                     EntityData.AlienSpawnFrequencyTimer -= EntityData.AlienSpawnFrequencyTime;
                     var alien = Scene.Entities.CreateFromStub<AlienGrunt, Alien>();
-                    var alienSwayLogic = alien.Logics.GetLogics<AlienSwayLogic>().SingleOrDefault();
+                    var alienSwayLogic = alien.Logics.Get<AlienSwayLogic>().SingleOrDefault();
                     alienSwayLogic.Phase = EntityData.AlienSpawnPhase;
 
                     EntityData.AlienSpawns++;

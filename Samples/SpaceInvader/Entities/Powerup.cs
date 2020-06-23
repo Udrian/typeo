@@ -51,7 +51,7 @@ namespace SpaceInvader.Entities
                 r1y + r1h >= r2y &&
                 r1y <= r2y + r2h)
             {
-                player.Logics.CreateLogic<PlayerPowerUpLogic>();
+                player.Logics.Create<PlayerPowerUpLogic>();
                 Remove();
             }
         }

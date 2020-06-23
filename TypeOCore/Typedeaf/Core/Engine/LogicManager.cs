@@ -22,14 +22,14 @@ namespace TypeOEngine.Typedeaf.Core
                 Parent = parent;
             }
 
-            public L CreateLogic<L>(bool pushToUpdateLoop = true) where L : Logic, new() //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+            public L Create<L>(bool pushToUpdateLoop = true) where L : Logic, new()
             {
                 var logic = Context.CreateLogic<L>(Parent, pushToUpdateLoop ? UpdateLoop : null);
                 Logics.Add(logic);
                 return logic;
             }
 
-            public int DestroyLogic<L>() where L : Logic //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+            public int Destroy<L>() where L : Logic
             {
                 var destroyCount = 0;
                 foreach(var logic in Logics)
@@ -46,13 +46,13 @@ namespace TypeOEngine.Typedeaf.Core
                 return destroyCount;
             }
 
-            public void DestroyLogic(Logic logic) //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+            public void Destroy(Logic logic)
             {
                 Context.DestroyLogic(logic, UpdateLoop);
                 Logics.Remove(logic);
             }
 
-            public IEnumerable<L> GetLogics<L>() where L : Logic //TODO: Maybe have all the Create, Destroy and Get logic in Handler classes in a "Node" class instead?
+            public IEnumerable<L> Get<L>() where L : Logic
             {
                 return Logics.FindAll(logic => logic is L).Cast<L>();
             }
