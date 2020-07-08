@@ -33,6 +33,7 @@ namespace Breakout
         public override void Update(double dt)
         {
             Entities.Update(dt);
+            UpdateLoop.Update(dt);
             if(KeyboardInputService.IsDown("Quit") || Entities.List<Ball>().Count == 0)
             {
                 Game.Exit();
