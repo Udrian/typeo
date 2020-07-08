@@ -3,7 +3,7 @@
 *******************************
 
 **************************
-**** 0.1.2 - 04/05-20 ****
+**** 0.1.2 - 08/07-20 ****
 **************************
 
 ******************
@@ -13,7 +13,7 @@
  * Added DrawOrder property to IDrawable
  * Added a DrawStack class accessible in Scenes and Entities
  * Added a UpdateLoop class accessible in Scenes and Entities
- * Added Drawable and Logic Manager to Entity, Scene and Game
+ * Added Drawable and Logic Manager to Entity, Scene and Game for Creating and Destroying logics and Drawables
 
 ******************
 ***** Fixes ******
@@ -26,7 +26,6 @@
 ** Improvements **
 ******************
 
- * Changed method signatures for Creating and Destroying Logic and Drawable, can be used in Game, Scene and Entity now
 
 **************************
 **** 0.1.1 - 27/04-20 ****
