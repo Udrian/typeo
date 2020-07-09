@@ -1,4 +1,5 @@
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
@@ -17,6 +18,7 @@ namespace TypeOEngine.Typedeaf.Core
             internal EntityList ParentEntityList { get; set; } //TODO: This should change to something else
             public DrawStack DrawStack { get; internal set; }
             public UpdateLoop UpdateLoop { get; internal set; }
+            public ContentLoader ContentLoader { get; internal set; }
 
             public LogicManager Logics { get; private set; }
 

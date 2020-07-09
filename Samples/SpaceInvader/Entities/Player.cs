@@ -51,7 +51,7 @@ namespace SpaceInvader.Entities
 
         public virtual void LoadContent()
         {
-            Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/ship.png");
+            Drawable.Texture = ContentLoader.LoadContent<Texture>("content/ship.png");
         }
 
         public virtual void Shoot()

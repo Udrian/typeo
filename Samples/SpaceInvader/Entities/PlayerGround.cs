@@ -8,7 +8,7 @@ namespace SpaceInvader.Entities
     {
         public override void LoadContent()
         {
-            Drawable.Texture = Scene.ContentLoader.LoadContent<Texture>("content/player_ground.png");
+            Drawable.Texture = ContentLoader.LoadContent<Texture>("content/player_ground.png");
         }
 
         public override void Shoot()

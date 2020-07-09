@@ -103,7 +103,8 @@ namespace TypeOEngine.Typedeaf.Core
                     Parent = Entity,
                     ParentEntityList = this,
                     DrawStack = Scene?.DrawStack ?? Entity?.DrawStack, //TODO: Change this to be from same interface
-                    UpdateLoop = Scene?.UpdateLoop ?? Entity?.UpdateLoop //TODO: Change this to be from same interface
+                    UpdateLoop = Scene?.UpdateLoop ?? Entity?.UpdateLoop, //TODO: Change this to be from same interface
+                    ContentLoader = Scene?.ContentLoader ?? Entity?.ContentLoader //TODO: Change this to be from same interface
                 };
 
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
