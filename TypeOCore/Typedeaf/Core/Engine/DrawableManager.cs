@@ -23,7 +23,7 @@ namespace TypeOEngine.Typedeaf.Core
                 Parent = parent;
             }
 
-            public D Create<D>(DrawableCreateOption<D> option = null, bool pushToDrawStack = true) where D : T, new()
+            public D Create<D>(DrawableOption<D> option = null, bool pushToDrawStack = true) where D : T, new()
             {
                 var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null, option);
                 Drawables.Add(drawable);

@@ -10,6 +10,7 @@
 **** Features ****
 ******************
 
+ * Added Create option for DrawableTexture and DrawableFont
 
 ******************
 ***** Fixes ******

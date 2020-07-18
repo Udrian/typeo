@@ -348,7 +348,7 @@ namespace TypeOEngine.Typedeaf.Core
                 }
             }
 
-            internal D CreateDrawable<D>(object obj, DrawStack drawStack, DrawableCreateOption<D> option) where D : Drawable, new()
+            internal D CreateDrawable<D>(object obj, DrawStack drawStack, DrawableOption<D> option) where D : Drawable, new()
             {
                 Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{typeof(D).FullName}' into {obj.GetType().FullName}");
 
