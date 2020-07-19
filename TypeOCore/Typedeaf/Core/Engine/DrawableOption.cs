@@ -4,6 +4,6 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public abstract class DrawableCreateOption<D> : CreateOption<D> where D : Drawable { }
+        public abstract class DrawableOption<D> : CreateOption<D> where D : Drawable { }
     }
 }

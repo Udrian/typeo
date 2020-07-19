@@ -5,7 +5,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Engine
     {
-        public class Drawable2dCreateOption<D> : DrawableCreateOption<D> where D : Drawable2d
+        public class Drawable2dOption<D> : DrawableOption<D> where D : Drawable2d
         {
             public Vec2? Position { get; set; }
 

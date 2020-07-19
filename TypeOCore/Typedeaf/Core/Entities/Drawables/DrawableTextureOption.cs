@@ -5,7 +5,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public class DrawableTextureOption : Drawable2dCreateOption<DrawableTexture>
+        public class DrawableTextureOption : Drawable2dOption<DrawableTexture>
         {
             public Texture Texture { get; set; }
 

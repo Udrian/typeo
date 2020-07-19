@@ -6,7 +6,7 @@ namespace TypeOEngine.Typedeaf.Core
 {
     namespace Entities.Drawables
     {
-        public class DrawableFontOption : Drawable2dCreateOption<DrawableFont>
+        public class DrawableFontOption : Drawable2dOption<DrawableFont>
         {
             public Font Font { get; set; }
             public string Text { get; set; }
