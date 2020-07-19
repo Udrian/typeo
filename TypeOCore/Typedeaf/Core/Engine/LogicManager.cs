@@ -22,9 +22,9 @@ namespace TypeOEngine.Typedeaf.Core
                 Parent = parent;
             }
 
-            public L Create<L>(bool pushToUpdateLoop = true) where L : Logic, new()
+            public L Create<L>(LogicOption<L> option = null, bool pushToUpdateLoop = true) where L : Logic, new()
             {
-                var logic = Context.CreateLogic<L>(Parent, pushToUpdateLoop ? UpdateLoop : null);
+                var logic = Context.CreateLogic<L>(Parent, pushToUpdateLoop ? UpdateLoop : null, option);
                 Logics.Add(logic);
                 return logic;
             }
