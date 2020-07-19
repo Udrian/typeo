@@ -76,7 +76,7 @@ namespace TypeOEngine.Typedeaf.Core
                 foreach(var entity in HasEntities)
                 {
                     if((entity as Entity)?.WillBeDeleted == true) continue;
-                    if((entity as IIsUpdatable)?.Pause == true) continue;
+                    if((entity as IUpdatable)?.Pause == true) continue;
                     entity.Entities.Update(dt);
                 }
 
@@ -125,7 +125,7 @@ namespace TypeOEngine.Typedeaf.Core
                 }
                 EntityIDs.Add(entity.ID, entity);
 
-                if(pushToUpdateLoop && entity.UpdateLoop != null && entity is IIsUpdatable updatable)
+                if(pushToUpdateLoop && entity.UpdateLoop != null && entity is IUpdatable updatable)
                 {
                     entity.UpdateLoop.Push(updatable);
                 }

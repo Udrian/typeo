@@ -162,20 +162,20 @@ namespace TypeOEngine.Typedeaf.Core
 
                     foreach(var module in Modules)
                     {
-                        if((module as IIsUpdatable)?.Pause == false)
-                            (module as IIsUpdatable)?.Update(dt);
+                        if((module as IUpdatable)?.Pause == false)
+                            (module as IUpdatable)?.Update(dt);
                     }
 
                     foreach(var hardware in Hardwares.Values)
                     {
-                        if((hardware as IIsUpdatable)?.Pause == false)
-                            (hardware as IIsUpdatable)?.Update(dt);
+                        if((hardware as IUpdatable)?.Pause == false)
+                            (hardware as IUpdatable)?.Update(dt);
                     }
 
                     foreach(var service in Services.Values)
                     {
-                        if((service as IIsUpdatable)?.Pause == false)
-                            (service as IIsUpdatable)?.Update(dt);
+                        if((service as IUpdatable)?.Pause == false)
+                            (service as IUpdatable)?.Update(dt);
                     }
 
                     Game.Update(dt);

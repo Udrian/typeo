@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace Breakout.Entities
 {
-    abstract class Powerup : Entity2d, IIsUpdatable, IDrawable, IHasScene
+    abstract class Powerup : Entity2d, IUpdatable, IDrawable, IHasScene
     {
         public bool Hidden { get; set; }
         public bool Pause { get; set; }

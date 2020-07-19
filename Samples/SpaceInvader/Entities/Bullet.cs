@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Bullet : Entity2d, IIsUpdatable, IHasData<BulletData>
+    class Bullet : Entity2d, IUpdatable, IHasData<BulletData>
     {
         public bool Pause { get; set; }
         public bool Hidden { get; set; }

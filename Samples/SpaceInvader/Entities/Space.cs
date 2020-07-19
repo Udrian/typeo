@@ -9,7 +9,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace SpaceInvader.Entities
 {
-    class Space : Entity2d, IHasGame<SpaceInvaderGame>, IIsUpdatable, IDrawable, IHasData<SpaceData>, IHasScene
+    class Space : Entity2d, IHasGame<SpaceInvaderGame>, IUpdatable, IDrawable, IHasData<SpaceData>, IHasScene
     {
         public SpaceInvaderGame Game { get; set; }
         private List<Vec2> Stars { get; set; }

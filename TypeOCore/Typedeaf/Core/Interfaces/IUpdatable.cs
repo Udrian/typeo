@@ -2,7 +2,7 @@
 {
     namespace Interfaces
     {
-        public interface IIsUpdatable
+        public interface IUpdatable
         {
             public bool Pause { get; set; }
             void Update(double dt);

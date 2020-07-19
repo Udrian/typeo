@@ -3,7 +3,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
-    public abstract class Logic : IIsUpdatable
+    public abstract class Logic : IUpdatable
     {
         public Entity Parent { get; set; } //TODO: Look over this
         public bool Pause { get; set; }

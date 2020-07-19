@@ -22,6 +22,7 @@
 ******************
 
  * ContentLoader can now be reached from within a Entity
+ * Changed IIsUpdatable to IUpdatable
 
 **************************
 **** 0.1.2 - 08/07-20 ****

@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace Breakout.Entities
 {
-    class Pad : Entity2d, IDrawable, IHasScene, IIsUpdatable
+    class Pad : Entity2d, IDrawable, IHasScene, IUpdatable
     {
         public IKeyboardInputService KeyboardInputService { get; set; }
         public bool Hidden { get; set; }

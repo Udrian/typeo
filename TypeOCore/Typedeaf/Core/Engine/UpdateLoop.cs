@@ -7,11 +7,11 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public class UpdateLoop
         {
-            private DelayedList<IIsUpdatable> Updatables { get; set; }
+            private DelayedList<IUpdatable> Updatables { get; set; }
 
             internal UpdateLoop()
             {
-                Updatables = new DelayedList<IIsUpdatable>();
+                Updatables = new DelayedList<IUpdatable>();
             }
 
             public void Update(double dt)
@@ -29,13 +29,13 @@ namespace TypeOEngine.Typedeaf.Core
                 Updatables.Process();
             }
 
-            public void Push(IIsUpdatable updatable)
+            public void Push(IUpdatable updatable)
             {
                 if(updatable == null) return;
                 Updatables.Add(updatable);
             }
 
-            public void Pop(IIsUpdatable updatable)
+            public void Pop(IUpdatable updatable)
             {
                 if(updatable == null) return;
                 Updatables.Remove(updatable);

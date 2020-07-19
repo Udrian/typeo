@@ -15,7 +15,7 @@ using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
-    public class SDLModule : Module<SDLModuleOption>, IIsUpdatable
+    public class SDLModule : Module<SDLModuleOption>, IUpdatable
     {
         private ILogger Logger { get; set; }
         public bool Pause { get; set; }

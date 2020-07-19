@@ -38,7 +38,7 @@ namespace TypeOEngine.Typedeaf.Core
                     UpdateLoop.Pop(logic);
                 }
                 DrawStack.Pop(this as IDrawable);
-                UpdateLoop.Pop(this as IIsUpdatable);
+                UpdateLoop.Pop(this as IUpdatable);
                 WillBeDeleted = true;
                 ParentEntityList.RemoveQueue.Enqueue(this);
             }
