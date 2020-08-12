@@ -15,7 +15,6 @@ namespace SpaceInvader
         IWindowService WindowService { get; set; }
         IKeyboardInputService KeyboardInputService { get; set; }
 
-        public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);
         public Random Random { get; set; }
         public SceneList Scenes { get; set; }
 
@@ -27,16 +26,16 @@ namespace SpaceInvader
 
             Random = new Random();
 
-            KeyboardInputService.SetKeyAlias("Quit", SDL.SDL_Keycode.SDLK_ESCAPE);
-            KeyboardInputService.SetKeyAlias("Left", SDL.SDL_Keycode.SDLK_LEFT);
+            KeyboardInputService.SetKeyAlias("Quit",  SDL.SDL_Keycode.SDLK_ESCAPE);
+            KeyboardInputService.SetKeyAlias("Left",  SDL.SDL_Keycode.SDLK_LEFT);
             KeyboardInputService.SetKeyAlias("Right", SDL.SDL_Keycode.SDLK_RIGHT);
-            KeyboardInputService.SetKeyAlias("Up", SDL.SDL_Keycode.SDLK_UP);
-            KeyboardInputService.SetKeyAlias("Down", SDL.SDL_Keycode.SDLK_DOWN);
+            KeyboardInputService.SetKeyAlias("Up",    SDL.SDL_Keycode.SDLK_UP);
+            KeyboardInputService.SetKeyAlias("Down",  SDL.SDL_Keycode.SDLK_DOWN);
             KeyboardInputService.SetKeyAlias("Shoot", SDL.SDL_Keycode.SDLK_z);
 
             Scenes = CreateSceneHandler();
 
-            Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), ScreenSize);
+            Scenes.Window = WindowService.CreateWindow("Space Invader", new Vec2(100, 100), new Vec2(1280, 1024));
             Scenes.Canvas = WindowService.CreateCanvas(Scenes.Window);
             Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
             Scenes.SetScene<SpaceScene>();
