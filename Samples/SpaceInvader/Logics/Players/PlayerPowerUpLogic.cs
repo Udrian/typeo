@@ -4,13 +4,13 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace SpaceInvader.Logics.Players
 {
     class PlayerPowerUpLogic : Logic, IHasEntity<Player>, IHasData<IMovementData>, IHasScene
     {
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        public KeyboardInputService KeyboardInputService { get; set; }
         public IMovementData EntityData { get; set; }
         public Player Entity { get; set; }
         public Scene Scene { get; set; }

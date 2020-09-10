@@ -7,13 +7,12 @@ using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Services
     {
-        public class WindowService : Service, IHasGame, IWindowService
+        public class WindowService : Service, IHasGame
         {
             private ILogger Logger { get; set; }
             public IWindowHardware WindowHardware { get; set; }

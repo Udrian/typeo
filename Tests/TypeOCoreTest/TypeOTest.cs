@@ -7,7 +7,6 @@ using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using Xunit;
 
 namespace TypeOCoreTest
@@ -36,9 +35,9 @@ namespace TypeOCoreTest
             }
         }
 
-        public class TestGameWithService : Game
+        public class TestGameWithServiceHardware : Game
         {
-            public ITestService TestService { get; set; }
+            public TestServiceWithHardware TestServiceWithHardware { get; set; }
 
             public override void Initialize()
             {
@@ -58,11 +57,29 @@ namespace TypeOCoreTest
             }
         }
 
-        public interface ITestService : IService
+        public class TestGameWithService : Game
         {
+            public TestService TestService { get; set; }
 
+            public override void Initialize()
+            {
+            }
+
+            public override void Update(double dt)
+            {
+                Exit();
+            }
+
+            public override void Draw()
+            {
+            }
+
+            public override void Cleanup()
+            {
+            }
         }
-        public class TestService : Service, ITestService
+
+        public class TestService : Service
         {
             public override void Cleanup()
             {
@@ -73,7 +90,7 @@ namespace TypeOCoreTest
             }
         }
 
-        public class TestServiceWithHardware : Service, ITestService
+        public class TestServiceWithHardware : Service
         {
             public ITestHardware TestHardware { get; set; }
 
@@ -125,7 +142,7 @@ namespace TypeOCoreTest
             {
             }
 
-            public ITestService TestService { get; set; }
+            public TestServiceWithHardware TestService { get; set; }
             public ITestHardware TestHardware { get; set; }
 
             public override void Initialize()
@@ -178,7 +195,7 @@ namespace TypeOCoreTest
         public void AddService()
         {
             var typeO = TypeO.Create<TestGameWithService>(GameName)
-                .AddService<ITestService, TestService>() as TypeO;
+                .AddService<TestService>() as TypeO;
             typeO.Start();
 
             var game = typeO.Context.Game as TestGameWithService;
@@ -187,28 +204,28 @@ namespace TypeOCoreTest
             Assert.NotEmpty(typeO.Context.Services);
 
             typeO = TypeO.Create<TestGameWithService>(GameName)
-                .AddService<ITestService, TestServiceWithHardware>() as TypeO;
+                .AddService<TestServiceWithHardware>() as TypeO;
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
         }
 
         [Fact]
         public void AddHardware()
         {
-            var typeO = TypeO.Create<TestGameWithService>(GameName)
+            var typeO = TypeO.Create<TestGameWithServiceHardware>(GameName)
                 .AddHardware<ITestHardware, TestHardware>()
-                .AddService<ITestService, TestServiceWithHardware>() as TypeO;
+                .AddService<TestServiceWithHardware>() as TypeO;
             typeO.Start();
 
-            var game = typeO.Context.Game as TestGameWithService;
-            Assert.NotNull((game.TestService as TestServiceWithHardware)?.TestHardware);
-            Assert.IsType<TestHardware>((game.TestService as TestServiceWithHardware)?.TestHardware);
+            var game = typeO.Context.Game as TestGameWithServiceHardware;
+            Assert.NotNull(game.TestServiceWithHardware.TestHardware);
+            Assert.IsType<TestHardware>(game.TestServiceWithHardware.TestHardware);
             Assert.NotEmpty(typeO.Context.Hardwares);
         }
 
         [Fact]
         public void AddModule()
         {
-            var typeO = TypeO.Create<TestGameWithService>(GameName)
+            var typeO = TypeO.Create<TestGameWithServiceHardware>(GameName)
                              .LoadModule<TestModule>() as TypeO;
             var module = typeO.Context.Modules.FirstOrDefault(m => m.GetType() == typeof(TestModule)) as TestModule;
             Assert.NotNull(module);
@@ -219,22 +236,22 @@ namespace TypeOCoreTest
 
             typeO
                 .AddHardware<ITestHardware, TestHardware>()
-                .AddService<ITestService, TestServiceWithHardware>();
+                .AddService<TestServiceWithHardware>();
 
             typeO.Start();
 
             Assert.NotNull(module.TestService);
             Assert.NotNull(module.TestHardware);
 
-            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
+            typeO = TypeO.Create<TestGameWithServiceHardware>(GameName) as TypeO;
             typeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 0, 0));
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
 
-            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
+            typeO = TypeO.Create<TestGameWithServiceHardware>(GameName) as TypeO;
             typeO.LoadModule<TestRefModule>();
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
 
-            typeO = TypeO.Create<TestGameWithService>(GameName) as TypeO;
+            typeO = TypeO.Create<TestGameWithServiceHardware>(GameName) as TypeO;
             typeO.LoadModule<TestRefModule>();
             typeO.LoadModule<TestModule>();
             Assert.Throws<InvalidOperationException>(() => typeO.Start());

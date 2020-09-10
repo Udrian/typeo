@@ -4,7 +4,7 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using Xunit;
 
 namespace TypeODesktopTest
@@ -15,7 +15,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public IMouseInputService MouseInputService { get; set; }
+            public TestMouseInputService MouseInputService { get; set; }
 
             public override void Initialize()
             {
@@ -71,7 +71,7 @@ namespace TypeODesktopTest
             }
         }
 
-        public class TestMouseInputService : Service, IMouseInputService
+        public class TestMouseInputService : Service
         {
             public IMouseHardware MouseHardware { get; set; }
             public Vec2 MousePosition { get; }
@@ -112,7 +112,7 @@ namespace TypeODesktopTest
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IMouseHardware, TestMouseHardware>()
-                .AddService<IMouseInputService, TestMouseInputService>() as TypeO;
+                .AddService<TestMouseInputService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;

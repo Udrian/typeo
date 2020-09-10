@@ -3,14 +3,14 @@ using System;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace Breakout
 {
     class BreakoutGame : Game
     {
-        public IWindowService WindowService { get; set; }
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        public WindowService WindowService { get; set; }
+        public KeyboardInputService KeyboardInputService { get; set; }
 
         public Random Random { get; set; }
         public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);

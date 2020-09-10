@@ -11,7 +11,6 @@ using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Services;
-using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL
 {
@@ -28,8 +27,8 @@ namespace TypeOEngine.Typedeaf.SDL
         {
             TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 1));
             TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 1));
-            TypeO.AddService<ISDLService, SDLService>();
-            ((ISDLService)TypeO.Context.Services[typeof(ISDLService)]).Option = Option;
+            TypeO.AddService<SDLService>();
+            ((SDLService)TypeO.Context.Services[typeof(SDLService)]).Option = Option;
 
             //Initial SDL
             foreach(var hint in Option.Hints)

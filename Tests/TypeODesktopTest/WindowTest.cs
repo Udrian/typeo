@@ -10,7 +10,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using Xunit;
 
 namespace TypeODesktopTest
@@ -21,7 +21,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public IWindowService WindowService { get; set; }
+            public TestWindowService WindowService { get; set; }
 
             public override void Initialize()
             {
@@ -158,7 +158,7 @@ namespace TypeODesktopTest
             }
         }
 
-        public class TestWindowService : Service, IWindowService
+        public class TestWindowService : Service
         {
             public IWindowHardware WindowHardware { get; set; }
 
@@ -201,7 +201,7 @@ namespace TypeODesktopTest
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IWindowHardware, TestWindowHardware>()
-                .AddService<IWindowService, TestWindowService>() as TypeO;
+                .AddService<TestWindowService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;

@@ -4,13 +4,13 @@ using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace Breakout.Entities
 {
     class Pad : Entity2d, IDrawable, IHasScene, IUpdatable
     {
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        public KeyboardInputService KeyboardInputService { get; set; }
         public bool Hidden { get; set; }
         public Scene Scene { get; set; }
         public bool Pause { get; set; }

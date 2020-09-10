@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace Particles
 {
@@ -16,7 +16,7 @@ namespace Particles
 
     class ParticlesGame : Game
     {
-        public IWindowService WindowService { get; set; }
+        public WindowService WindowService { get; set; }
 
         public Vec2 ScreenSize { get; set; } = new Vec2(1024, 768);
         public Random Random { get; set; }

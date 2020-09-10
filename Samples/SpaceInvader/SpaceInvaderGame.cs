@@ -5,15 +5,15 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace SpaceInvader
 {
     class SpaceInvaderGame : Game
     {
         ILogger Logger { get; set; }
-        IWindowService WindowService { get; set; }
-        IKeyboardInputService KeyboardInputService { get; set; }
+        WindowService WindowService { get; set; }
+        KeyboardInputService KeyboardInputService { get; set; }
 
         public Vec2 ScreenSize { get; set; } = new Vec2(1280, 1024);
         public Random Random { get; set; }

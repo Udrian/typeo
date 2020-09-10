@@ -2,7 +2,6 @@
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -12,7 +11,7 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public void Start();
 
-            public ITypeO AddService<I, S>() where I : IService where S : Service, new();
+            public ITypeO AddService<S>() where S : Service, new();
             public ITypeO AddHardware<I, H>() where I : IHardware where H : Hardware, new();
             public ITypeO BindContent<CFrom, CTo>() where CFrom : Content where CTo : Content, new();
             public ITypeO SetLogger(LogLevel logLevel = LogLevel.None);
