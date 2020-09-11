@@ -14,7 +14,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public MouseInputService MouseInputService { get; set; }
+            public TestMouseInputService MouseInputService { get; set; }
 
             public override void Initialize()
             {
@@ -70,17 +70,22 @@ namespace TypeODesktopTest
             }
         }
 
+        public class TestMouseInputService : MouseInputService
+        {
+            public new IMouseHardware MouseHardware { get { return base.MouseHardware; } set { base.MouseHardware = value; } }
+        }
+
         [Fact]
         public void CreateKeyboardInputService()
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IMouseHardware, TestMouseHardware>()
-                .AddService<MouseInputService>() as TypeO;
+                .AddService<TestMouseInputService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;
             Assert.NotNull(testGame.MouseInputService);
-            Assert.IsType<MouseInputService>(testGame.MouseInputService);
+            Assert.IsType<TestMouseInputService>(testGame.MouseInputService);
 
             Assert.NotNull(testGame.MouseInputService.MouseHardware);
             Assert.IsType<TestMouseHardware>(testGame.MouseInputService.MouseHardware);

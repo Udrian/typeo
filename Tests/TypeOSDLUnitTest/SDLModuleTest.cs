@@ -126,12 +126,7 @@ namespace Test
             Assert.IsType<DefaultLogger>(testGame.Logger);
 
             Assert.NotNull(testGame.WindowService);
-            Assert.NotNull((testGame.WindowService as WindowService).WindowHardware);
-            Assert.IsType<SDLWindowHardware>((testGame.WindowService as WindowService).WindowHardware);
-
             Assert.NotNull(testGame.KeyboardInputService);
-            Assert.NotNull((testGame.KeyboardInputService as KeyboardInputService).KeyboardHardware);
-            Assert.IsType<SDLKeyboardHardware>((testGame.KeyboardInputService as KeyboardInputService).KeyboardHardware);
 
             Assert.NotNull(testGame.Scenes);
 
@@ -165,12 +160,8 @@ namespace Test
             Assert.IsType<DefaultLogger>(testScene.Logger);
 
             Assert.NotNull(testScene.WindowService);
-            Assert.NotNull((testScene.WindowService as WindowService).WindowHardware);
-            Assert.IsType<SDLWindowHardware>((testScene.WindowService as WindowService).WindowHardware);
 
             Assert.NotNull(testScene.KeyboardInputService);
-            Assert.NotNull((testScene.KeyboardInputService as KeyboardInputService).KeyboardHardware);
-            Assert.IsType<SDLKeyboardHardware>((testScene.KeyboardInputService as KeyboardInputService).KeyboardHardware);
 
             Assert.NotNull(testScene.Scenes);
 

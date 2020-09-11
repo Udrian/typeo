@@ -9,7 +9,7 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public class MouseInputService : Service
         {
-            public IMouseHardware MouseHardware { get; set; }
+            protected IMouseHardware MouseHardware { get; set; }
 
             protected KeyConverter KeyConverter { get; set; }
 

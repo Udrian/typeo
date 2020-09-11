@@ -15,7 +15,7 @@ namespace TypeOEngine.Typedeaf.Desktop
         public class WindowService : Service, IHasGame
         {
             private ILogger Logger { get; set; }
-            public IWindowHardware WindowHardware { get; set; }
+            protected IWindowHardware WindowHardware { get; set; }
 
             public Game Game { get; set; }
 
@@ -24,7 +24,7 @@ namespace TypeOEngine.Typedeaf.Desktop
             private DesktopWindow InstantiateWindow()
             {
                 var window = WindowHardware.CreateWindow();
-                Logger.Log($"Creating Window of type '{window.GetType().FullName}'");
+                Logger?.Log($"Creating Window of type '{window.GetType().FullName}'");
                 Context.InitializeObject(window);
                 return window;
             }
@@ -48,7 +48,7 @@ namespace TypeOEngine.Typedeaf.Desktop
             public Canvas CreateCanvas(Window window)
             {
                 var canvas = WindowHardware.CreateCanvas(window);
-                Logger.Log($"Creating Canvas of type '{canvas.GetType().FullName}'");
+                Logger?.Log($"Creating Canvas of type '{canvas.GetType().FullName}'");
                 Context.InitializeObject(canvas);
                 canvas.Initialize();
 
@@ -65,7 +65,7 @@ namespace TypeOEngine.Typedeaf.Desktop
             public ContentLoader CreateContentLoader(Canvas canvas)
             {
                 var contentLoader = WindowHardware.CreateContentLoader(canvas);
-                Logger.Log($"Creating ContentLoader of type '{canvas.GetType().FullName}'");
+                Logger?.Log($"Creating ContentLoader of type '{canvas.GetType().FullName}'");
                 Context.InitializeObject(contentLoader);
 
                 return contentLoader;

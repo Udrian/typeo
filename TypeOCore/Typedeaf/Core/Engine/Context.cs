@@ -314,7 +314,7 @@ namespace TypeOEngine.Typedeaf.Core
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach(var property in properties)
                 {
-                    if(property.PropertyType.BaseType != typeof(Service))
+                    if(!property.PropertyType.IsSubclassOf(typeof(Service)))
                     {
                         continue;
                     }

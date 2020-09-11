@@ -13,7 +13,7 @@ namespace TypeODesktopTest
 
         public class TestKeyboardGame : Game
         {
-            public KeyboardInputService KeyboardInputService { get; set; }
+            public TestKeyboardInputService KeyboardInputService { get; set; }
 
             public override void Initialize()
             {
@@ -31,6 +31,11 @@ namespace TypeODesktopTest
             public override void Cleanup()
             {
             }
+        }
+
+        public class TestKeyboardInputService : KeyboardInputService
+        {
+            public new IKeyboardHardware KeyboardHardware { get { return base.KeyboardHardware; } set { base.KeyboardHardware = value; } }
         }
 
         public class TestKeyboardHardware : Hardware, IKeyboardHardware
@@ -69,12 +74,12 @@ namespace TypeODesktopTest
         {
             var typeO = TypeO.Create<TestKeyboardGame>(GameName)
                 .AddHardware<IKeyboardHardware, TestKeyboardHardware>()
-                .AddService<KeyboardInputService>() as TypeO;
+                .AddService<TestKeyboardInputService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestKeyboardGame;
             Assert.NotNull(testGame.KeyboardInputService);
-            Assert.IsType<KeyboardInputService>(testGame.KeyboardInputService);
+            Assert.IsType<TestKeyboardInputService>(testGame.KeyboardInputService);
 
             Assert.NotNull(testGame.KeyboardInputService.KeyboardHardware);
             Assert.IsType<TestKeyboardHardware>(testGame.KeyboardInputService.KeyboardHardware);
