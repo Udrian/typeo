@@ -1,13 +1,12 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Engine.Services.Input;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {
     namespace Engine.Services
     {
-        public class KeyboardInputService : Service, IKeyboardInputService
+        public class KeyboardInputService : Service
         {
             public IKeyboardHardware KeyboardHardware { get; set; }
 

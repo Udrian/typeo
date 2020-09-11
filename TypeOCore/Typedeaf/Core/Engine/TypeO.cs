@@ -4,7 +4,6 @@ using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Core
 {
@@ -28,14 +27,13 @@ namespace TypeOEngine.Typedeaf.Core
                 Version = new Version(0, 1, 3);
             }
 
-            public ITypeO AddService<I, S>()
-                where I : IService
+            public ITypeO AddService<S>()
                 where S : Service, new()
             {
                 //Instantiate the Service
                 var service = new S();
 
-                Context.Services.Add(typeof(I), service);
+                Context.Services.Add(typeof(S), service);
                 return this;
             }
 
@@ -54,6 +52,8 @@ namespace TypeOEngine.Typedeaf.Core
                 where CFrom : Content
                 where CTo : Content, new()
             {
+
+                //TODO: Add checks so that CFrom are inhereting CTo
                 Context.ContentBinding.Add(typeof(CFrom), typeof(CTo));
 
                 return this;

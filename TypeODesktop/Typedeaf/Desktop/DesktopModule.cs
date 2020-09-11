@@ -1,6 +1,5 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.Desktop
 {
@@ -31,9 +30,9 @@ namespace TypeOEngine.Typedeaf.Desktop
 
         public override void LoadExtensions()
         {
-            TypeO.AddService<IWindowService, WindowService>();
-            TypeO.AddService<IKeyboardInputService, KeyboardInputService>();
-            TypeO.AddService<IMouseInputService, MouseInputService>();
+            TypeO.AddService<WindowService>();
+            TypeO.AddService<KeyboardInputService>();
+            TypeO.AddService<MouseInputService>();
         }
     }
 }

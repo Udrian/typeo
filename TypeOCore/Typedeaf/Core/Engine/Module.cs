@@ -16,7 +16,11 @@
             public abstract void Initialize();
             public abstract void Cleanup();
             public abstract void LoadExtensions();
-            public abstract void CreateOption();
+
+            internal virtual void CreateOption()
+            {
+                
+            }
         }
 
         public abstract class Module<O> : Module where O : ModuleOption, new()
@@ -25,7 +29,7 @@
 
             protected Module(Version version) : base(version) { }
 
-            public override void CreateOption()
+            internal override void CreateOption()
             {
                 Option = new O();
             }

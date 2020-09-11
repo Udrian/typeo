@@ -1,9 +1,8 @@
 ﻿using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
 
 namespace TypeOEngine.Typedeaf.SDL.Engine.Services
 {
-    internal class SDLService : Service, ISDLService
+    internal class SDLService : Service
     {
         public SDLModuleOption Option { get; set; }
 

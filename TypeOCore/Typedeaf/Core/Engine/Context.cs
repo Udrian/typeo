@@ -5,7 +5,6 @@ using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
-using TypeOEngine.Typedeaf.Core.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
@@ -315,7 +314,7 @@ namespace TypeOEngine.Typedeaf.Core
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach(var property in properties)
                 {
-                    if(property.PropertyType.GetInterface(nameof(IService)) == null)
+                    if(property.PropertyType.BaseType != typeof(Service))
                     {
                         continue;
                     }

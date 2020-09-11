@@ -5,7 +5,6 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
 using TypeOEngine.Typedeaf.SDL;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
@@ -21,8 +20,8 @@ namespace Test
         public class TestGame : Game
         {
             public ILogger Logger { get; set; }
-            public IWindowService WindowService { get; set; }
-            public IKeyboardInputService KeyboardInputService { get; set; }
+            public WindowService WindowService { get; set; }
+            public KeyboardInputService KeyboardInputService { get; set; }
             public SceneList Scenes { get; set; }
 
             public override void Initialize()
@@ -50,8 +49,8 @@ namespace Test
         public class TestScene1 : Scene
         {
             public ILogger Logger { get; set; }
-            public IWindowService WindowService { get; set; }
-            public IKeyboardInputService KeyboardInputService { get; set; }
+            public WindowService WindowService { get; set; }
+            public KeyboardInputService KeyboardInputService { get; set; }
 
             public override void Draw()
             {

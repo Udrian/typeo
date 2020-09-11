@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
-using TypeOEngine.Typedeaf.SDL.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.SDL.Engine.Services;
 using SDL_Renderer = System.IntPtr;
 
 namespace TypeOEngine.Typedeaf.SDL
@@ -17,7 +17,7 @@ namespace TypeOEngine.Typedeaf.SDL
     {
         public class SDLCanvas : Canvas
         {
-            internal ISDLService SDLService { get; set; }
+            internal SDLService SDLService { get; set; }
             private ILogger Logger { get; set; }
             public SDL_Renderer SDLRenderer { get; private set; }
 

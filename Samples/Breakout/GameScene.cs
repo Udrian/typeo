@@ -3,13 +3,13 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace Breakout
 {
     class GameScene : Scene, IHasGame<BreakoutGame>
     {
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        public KeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public BreakoutGame Game { get; set; }

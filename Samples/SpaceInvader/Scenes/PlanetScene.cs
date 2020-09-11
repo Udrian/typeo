@@ -4,13 +4,13 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Desktop.Engine.Services.Interfaces;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 
 namespace SpaceInvader.Scenes
 {
     class PlanetScene : Scene, IHasGame<SpaceInvaderGame>
     {
-        public IKeyboardInputService KeyboardInputService { get; set; }
+        public KeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public SpaceInvaderGame Game { get; set; }
