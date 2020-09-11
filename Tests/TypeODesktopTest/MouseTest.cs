@@ -2,7 +2,6 @@
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using Xunit;
@@ -15,7 +14,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public TestMouseInputService MouseInputService { get; set; }
+            public MouseInputService MouseInputService { get; set; }
 
             public override void Initialize()
             {
@@ -71,56 +70,20 @@ namespace TypeODesktopTest
             }
         }
 
-        public class TestMouseInputService : Service
-        {
-            public IMouseHardware MouseHardware { get; set; }
-            public Vec2 MousePosition { get; }
-            public Vec2 MousePositionRelative { get; }
-            public Vec2 WheelPosition { get; }
-            public Vec2 WheelPositionRelative { get; }
-
-            public override void Cleanup()
-            {
-            }
-
-            public override void Initialize()
-            {
-            }
-
-            public bool IsDown(object input)
-            {
-                return false;
-            }
-
-            public bool IsPressed(object input)
-            {
-                return false;
-            }
-
-            public bool IsReleased(object input)
-            {
-                return false;
-            }
-
-            public void SetKeyAlias(object input, object key)
-            {
-            }
-        }
-
         [Fact]
         public void CreateKeyboardInputService()
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IMouseHardware, TestMouseHardware>()
-                .AddService<TestMouseInputService>() as TypeO;
+                .AddService<MouseInputService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;
             Assert.NotNull(testGame.MouseInputService);
-            Assert.IsType<TestMouseInputService>(testGame.MouseInputService);
+            Assert.IsType<MouseInputService>(testGame.MouseInputService);
 
-            Assert.NotNull((testGame.MouseInputService as TestMouseInputService)?.MouseHardware);
-            Assert.IsType<TestMouseHardware>((testGame.MouseInputService as TestMouseInputService)?.MouseHardware);
+            Assert.NotNull(testGame.MouseInputService.MouseHardware);
+            Assert.IsType<TestMouseHardware>(testGame.MouseInputService.MouseHardware);
         }
     }
 }
