@@ -6,7 +6,6 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
-using TypeOEngine.Typedeaf.Core.Engine.Services;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
@@ -21,7 +20,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public TestWindowService WindowService { get; set; }
+            public WindowService WindowService { get; set; }
 
             public override void Initialize()
             {
@@ -158,58 +157,20 @@ namespace TypeODesktopTest
             }
         }
 
-        public class TestWindowService : Service
-        {
-            public IWindowHardware WindowHardware { get; set; }
-
-            public override void Initialize()
-            {
-            }
-
-            public DesktopWindow CreateWindow()
-            {
-                return WindowHardware.CreateWindow();
-            }
-
-            public DesktopWindow CreateWindow(string title, Vec2 position, Vec2 size, bool fullscreen = false, bool borderless = false)
-            {
-                return WindowHardware.CreateWindow();
-            }
-
-            public Canvas CreateCanvas(Window window)
-            {
-                return WindowHardware.CreateCanvas(window);
-            }
-
-            public Canvas CreateCanvas(Window window, Rectangle viewport)
-            {
-                return WindowHardware.CreateCanvas(window);
-            }
-
-            public ContentLoader CreateContentLoader(Canvas canvas)
-            {
-                return WindowHardware.CreateContentLoader(canvas);
-            }
-
-            public override void Cleanup()
-            {
-            }
-        }
-
         [Fact]
         public void CreateWindowService()
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IWindowHardware, TestWindowHardware>()
-                .AddService<TestWindowService>() as TypeO;
+                .AddService<WindowService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;
             Assert.NotNull(testGame.WindowService);
-            Assert.IsType<TestWindowService>(testGame.WindowService);
+            Assert.IsType<WindowService>(testGame.WindowService);
 
-            Assert.NotNull((testGame.WindowService as TestWindowService)?.WindowHardware);
-            Assert.IsType<TestWindowHardware>((testGame.WindowService as TestWindowService)?.WindowHardware);
+            Assert.NotNull(testGame.WindowService.WindowHardware);
+            Assert.IsType<TestWindowHardware>(testGame.WindowService.WindowHardware);
 
             var window = testGame.WindowService.CreateWindow();
             Assert.NotNull(window);
