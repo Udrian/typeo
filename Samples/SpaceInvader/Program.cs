@@ -1,5 +1,4 @@
 using TypeOEngine.Typedeaf.Basic.Services;
-using TypeOEngine.Typedeaf.Basic.Services.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.SDL;
@@ -13,7 +12,7 @@ namespace SpaceInvader
             TypeO.Create<SpaceInvaderGame>("Space invader")
                 .LoadModule<DesktopModule>(new DesktopModuleOption() { SaveLogsToDisk = false })
                 .LoadModule<SDLModule>()
-                .AddService<ICamera2dService, BasicCamera2dService>()
+                .AddService<BasicCamera2dService>()
                 .SetLogger(LogLevel.Info)
                 .Start();
         }
