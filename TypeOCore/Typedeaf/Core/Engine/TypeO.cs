@@ -52,6 +52,8 @@ namespace TypeOEngine.Typedeaf.Core
                 where CFrom : Content
                 where CTo : Content, new()
             {
+
+                //TODO: Add checks so that CFrom are inhereting CTo
                 Context.ContentBinding.Add(typeof(CFrom), typeof(CTo));
 
                 return this;
