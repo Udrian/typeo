@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
@@ -27,13 +28,10 @@ namespace TypeOEngine.Typedeaf.Core
                 Version = new Version(0, 1, 3);
             }
 
-            public ITypeO AddService<S>()
+            public ITypeO AddService<S>(string id = "")
                 where S : Service, new()
             {
-                //Instantiate the Service
-                var service = new S();
-
-                Context.Services.Add(typeof(S), service);
+                Context.AddService<S>(id);
                 return this;
             }
 

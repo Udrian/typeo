@@ -26,7 +26,7 @@ namespace TypeOEngine.Typedeaf.Core
             public List<Tuple<Type, Version>> ModuleRequirements { get; set; }
             public Version RequiredTypeOVersion { get; set; }
             public Dictionary<Type, Hardware> Hardwares { get; set; }
-            public Dictionary<Type, Service> Services { get; set; }
+            public Dictionary<Type, Dictionary<string, Service>> Services { get; set; }
             public Dictionary<Type, Type> ContentBinding { get; set; }
             public ILogger Logger { get; set; }
 
@@ -40,7 +40,7 @@ namespace TypeOEngine.Typedeaf.Core
                 ModuleRequirements = new List<Tuple<Type, Version>>();
                 RequiredTypeOVersion = new Version(0, 0, 0);
                 Hardwares = new Dictionary<Type, Hardware>();
-                Services = new Dictionary<Type, Service>();
+                Services = new Dictionary<Type, Dictionary<string, Service>>();
                 ContentBinding = new Dictionary<Type, Type>();
             }
 
@@ -85,13 +85,16 @@ namespace TypeOEngine.Typedeaf.Core
                 }
 
                 //Create Services
-                foreach(var servicePair in Services)
+                foreach(var serviceIdPair in Services)
                 {
-                    var service = servicePair.Value;
-                    InitializeObject(service);
-                    service.Initialize();
+                    foreach(var servicePair in serviceIdPair.Value)
+                    {
+                        var service = servicePair.Value;
+                        InitializeObject(service);
+                        service.Initialize();
 
-                    Logger.Log($"Service of type '{service.GetType().FullName}' loaded");
+                        Logger.Log($"Service of type '{service.GetType().FullName}' loaded");
+                    }
                 }
 
                 //Set modules Hardware and initialize
@@ -185,9 +188,12 @@ namespace TypeOEngine.Typedeaf.Core
                 //Cleanup
                 Game.Cleanup();
 
-                foreach(var service in Services)
+                foreach(var serviceIdPair in Services)
                 {
-                    service.Value.Cleanup();
+                    foreach(var servicePair in serviceIdPair.Value)
+                    {
+                        servicePair.Value.Cleanup();
+                    }
                 }
 
                 foreach(var hardware in Hardwares)
@@ -325,8 +331,17 @@ namespace TypeOEngine.Typedeaf.Core
                         throw new InvalidOperationException(message);
                     }
 
+                    var serviceId = property.GetCustomAttribute<ServiceId>() ?? new ServiceId();
+
+                    if(!Services[property.PropertyType].ContainsKey(serviceId.Id))
+                    {
+                        var message = $"Service type '{property.PropertyType.Name}' with ID '{serviceId.Id}' is not loaded for '{obj.GetType().Name}'";
+                        Logger.Log(LogLevel.Fatal, message);
+                        throw new InvalidOperationException(message);
+                    }
+
                     Logger.Log(LogLevel.Ludacris, $"Service '{Services[property.PropertyType].GetType().FullName}' injected to property '{property.Name}' on object '{obj.GetType().FullName}'");
-                    property.SetValue(obj, Services[property.PropertyType]);
+                    property.SetValue(obj, Services[property.PropertyType][serviceId.Id]);
                 }
             }
 
@@ -404,6 +419,44 @@ namespace TypeOEngine.Typedeaf.Core
                 {
                     updateLoop.Pop(logic);
                 }
+            }
+
+            public void AddService<S>(string id = "") where S : Service, new()
+            {
+                //Instantiate the Service
+                var service = new S();
+                var ServiceType = typeof(S);
+
+                if(!Services.ContainsKey(ServiceType))
+                {
+                    Services.Add(ServiceType, new Dictionary<string, Service>());
+                }
+
+                if(Services[ServiceType].ContainsKey(id))
+                {
+                    var message = $"Service of type '{ServiceType.Name}' already have key Id '{id}'";
+                    Logger.Log(LogLevel.Fatal, message);
+                    throw new ArgumentException(message);
+                }
+
+                Services[ServiceType].Add(id, service);
+            }
+
+            public S GetService<S>(string id = "") where S : Service, new()
+            {
+                var ServiceType = typeof(S);
+                if(!Services.ContainsKey(ServiceType))
+                {
+                    Logger.Log(LogLevel.Warning, $"Service of type '{ServiceType.Name}' does not exist");
+                    return null;
+                }
+                if(!Services[ServiceType].ContainsKey(id))
+                {
+                    Logger.Log(LogLevel.Warning, $"Service of type '{ServiceType.Name}' does not exist with id '{id}'");
+                    return null;
+                }
+
+                return Services[ServiceType][id] as S;
             }
         }
     }
