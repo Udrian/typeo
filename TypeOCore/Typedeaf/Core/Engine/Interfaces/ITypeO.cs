@@ -11,7 +11,7 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public void Start();
 
-            public ITypeO AddService<S>() where S : Service, new();
+            public ITypeO AddService<S>(string id = "") where S : Service, new();
             public ITypeO AddHardware<I, H>() where I : IHardware where H : Hardware, new();
             public ITypeO BindContent<CFrom, CTo>() where CFrom : Content where CTo : Content, new();
             public ITypeO SetLogger(LogLevel logLevel = LogLevel.None);

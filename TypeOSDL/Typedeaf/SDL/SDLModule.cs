@@ -19,16 +19,16 @@ namespace TypeOEngine.Typedeaf.SDL
         private ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
-        public SDLModule() : base(new Core.Engine.Version(0, 1, 1))
+        public SDLModule() : base(new Core.Engine.Version(0, 1, 2))
         {
         }
 
         public override void Initialize()
         {
-            TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 1));
-            TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 1));
+            TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 3));
+            TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 2));
             TypeO.AddService<SDLService>();
-            ((SDLService)TypeO.Context.Services[typeof(SDLService)]).Option = Option;
+            TypeO.Context.GetService<SDLService>().Option = Option;
 
             //Initial SDL
             foreach(var hint in Option.Hints)

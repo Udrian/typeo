@@ -8,7 +8,7 @@ namespace TypeOEngine.Typedeaf.Desktop
     {
         public class KeyboardInputService : Service
         {
-            public IKeyboardHardware KeyboardHardware { get; set; }
+            protected IKeyboardHardware KeyboardHardware { get; set; }
 
             protected KeyConverter KeyConverter { get; set; }
 

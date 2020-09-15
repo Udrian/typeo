@@ -20,7 +20,7 @@ namespace TypeODesktopTest
 
         public class TestGame : Game
         {
-            public WindowService WindowService { get; set; }
+            public TestWindowService WindowService { get; set; }
 
             public override void Initialize()
             {
@@ -156,18 +156,23 @@ namespace TypeODesktopTest
             {
             }
         }
+        
+        public class TestWindowService : WindowService
+        {
+            public new IWindowHardware WindowHardware { get { return base.WindowHardware; } set { base.WindowHardware = value; } }
+        }
 
         [Fact]
         public void CreateWindowService()
         {
             var typeO = TypeO.Create<TestGame>(GameName)
                 .AddHardware<IWindowHardware, TestWindowHardware>()
-                .AddService<WindowService>() as TypeO;
+                .AddService<TestWindowService>() as TypeO;
             typeO.Start();
 
             var testGame = typeO.Context.Game as TestGame;
             Assert.NotNull(testGame.WindowService);
-            Assert.IsType<WindowService>(testGame.WindowService);
+            Assert.IsType<TestWindowService>(testGame.WindowService);
 
             Assert.NotNull(testGame.WindowService.WindowHardware);
             Assert.IsType<TestWindowHardware>(testGame.WindowService.WindowHardware);
