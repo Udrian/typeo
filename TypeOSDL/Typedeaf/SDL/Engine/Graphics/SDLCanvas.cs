@@ -54,6 +54,7 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawLine(Vec2 from, Vec2 size, Color color, IAnchor2d anchor = null)
             {
                 from += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
+                from = WorldMatrix.Transform(from);
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawLine(SDLRenderer, (int)from.X, (int)from.Y, (int)size.X, (int)size.Y);
@@ -61,7 +62,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawLineE(Vec2 from, Vec2 to, Color color, IAnchor2d anchor)
             {
-                DrawLine(from, to - from, color, anchor);
+                DrawLine(WorldMatrix.Transform(from), WorldMatrix.Transform(to - from), color, anchor);
             }
 
             public override void DrawLines(List<Vec2> points, Color color, IAnchor2d anchor = null)
@@ -72,7 +73,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero);
+                    var tpoint = WorldMatrix.Transform(point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero));
 
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
@@ -88,6 +89,7 @@ namespace TypeOEngine.Typedeaf.SDL
             public override void DrawPixel(Vec2 point, Color color, IAnchor2d anchor = null)
             {
                 point += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
+                point = WorldMatrix.Transform(point);
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 SDL2.SDL.SDL_RenderDrawPoint(SDLRenderer, (int)point.X, (int)point.Y);
             }
@@ -99,7 +101,7 @@ namespace TypeOEngine.Typedeaf.SDL
                 int i = 0;
                 foreach(var point in points)
                 {
-                    var tpoint = point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero);
+                    var tpoint = WorldMatrix.Transform(point + (anchor?.ScreenBounds.Pos ?? Vec2.Zero));
                     sdlpoints[i] = new SDL2.SDL.SDL_Point
                     {
                         x = (int)tpoint.X,
@@ -112,12 +114,13 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawRectangle(Rectangle rectangle, bool filled, Color color, IAnchor2d anchor = null)
             {
-                DrawRectangle(rectangle.Pos, rectangle.Size, filled, color, anchor);
+                DrawRectangle(WorldMatrix.Transform(rectangle.Pos), rectangle.Size, filled, color, anchor);
             }
 
             public override void DrawRectangle(Vec2 from, Vec2 size, bool filled, Color color, IAnchor2d anchor = null)
             {
                 from += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
+                from = WorldMatrix.Transform(from);
 
                 SDL2.SDL.SDL_SetRenderDrawColor(SDLRenderer, (byte)color.R, (byte)color.G, (byte)color.B, (byte)color.A);
                 var rect = new SDL2.SDL.SDL_Rect
@@ -140,29 +143,7 @@ namespace TypeOEngine.Typedeaf.SDL
 
             public override void DrawRectangleE(Vec2 from, Vec2 to, bool filled, Color color, IAnchor2d anchor = null)
             {
-                DrawRectangle(from, to - from, filled, color, anchor);
-            }
-
-            public override void Present()
-            {
-                SDL2.SDL.SDL_RenderPresent(SDLRenderer);
-            }
-
-            public override Rectangle Viewport {
-                get {
-                    SDL2.SDL.SDL_RenderGetViewport(SDLRenderer, out SDL2.SDL.SDL_Rect rect);
-                    return new Rectangle(rect.x, rect.y, rect.w, rect.h);
-                }
-                set {
-                    var rect = new SDL2.SDL.SDL_Rect
-                    {
-                        x = (int)value.Pos.X,
-                        y = (int)value.Pos.Y,
-                        w = (int)value.Size.X,
-                        h = (int)value.Size.Y
-                    };
-                    SDL2.SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
-                }
+                DrawRectangle(WorldMatrix.Transform(from), WorldMatrix.Transform(to - from), filled, color, anchor);
             }
 
             public override void DrawText(Font font, string text, Vec2 pos, IAnchor2d anchor = null)
@@ -185,7 +166,9 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
+                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero - origin;
+
+                pos = WorldMatrix.Transform(pos);
 
                 var sdlColor = new SDL2.SDL.SDL_Color
                 {
@@ -201,8 +184,8 @@ namespace TypeOEngine.Typedeaf.SDL
                 var fontSize = new Vec2(w, h);
                 var drect = new SDL2.SDL.SDL_Rect
                 {
-                    x = (int)(pos.X - origin.X),
-                    y = (int)(pos.Y - origin.Y),
+                    x = (int)pos.X,
+                    y = (int)pos.Y,
                     w = (int)(fontSize.X * scale.X),
                     h = (int)(fontSize.Y * scale.Y)
                 };
@@ -262,7 +245,6 @@ namespace TypeOEngine.Typedeaf.SDL
                     return;
                 }
 
-                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero;
                 if(anchor is Entity2d entityAnchor)
                 {
                     scale *= entityAnchor?.Scale ?? Vec2.One;
@@ -271,10 +253,14 @@ namespace TypeOEngine.Typedeaf.SDL
                     //TODO: Blend color and flip entity
                 }
 
+                pos += anchor?.ScreenBounds.Pos ?? Vec2.Zero - origin;
+
+                pos = WorldMatrix.Transform(pos);
+
                 var drect = new SDL2.SDL.SDL_Rect
                 {
-                    x = (int)(pos.X - origin.X),
-                    y = (int)(pos.Y - origin.Y),
+                    x = (int)pos.X,
+                    y = (int)pos.Y,
                     w = (int)(texture.Size.X * scale.X),
                     h = (int)(texture.Size.Y * scale.Y)
                 };
@@ -311,6 +297,28 @@ namespace TypeOEngine.Typedeaf.SDL
                     };
 
                     SDL2.SDL.SDL_RenderCopyEx(this.SDLRenderer, sdltexture.SDL_Image, ref srect, ref drect, rotation * degreeToRadianConst, ref sdlPoint, sdlRenderFlip);
+                }
+            }
+
+            public override void Present()
+            {
+                SDL2.SDL.SDL_RenderPresent(SDLRenderer);
+            }
+
+            public override Rectangle Viewport {
+                get {
+                    SDL2.SDL.SDL_RenderGetViewport(SDLRenderer, out SDL2.SDL.SDL_Rect rect);
+                    return new Rectangle(rect.x, rect.y, rect.w, rect.h);
+                }
+                set {
+                    var rect = new SDL2.SDL.SDL_Rect
+                    {
+                        x = (int)value.Pos.X,
+                        y = (int)value.Pos.Y,
+                        w = (int)value.Size.X,
+                        h = (int)value.Size.Y
+                    };
+                    SDL2.SDL.SDL_RenderSetViewport(SDLRenderer, ref rect);
                 }
             }
         }

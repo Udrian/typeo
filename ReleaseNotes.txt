@@ -11,6 +11,8 @@
 ******************
 
  * Added Create option for DrawableTexture, DrawableFont and Logic
+ * Added new module called TypeOBasic2d
+ * Added new service to TypeOBasic2d called BasicCamera2dService
 
 ******************
 ***** Fixes ******
@@ -23,6 +25,7 @@
 
  * ContentLoader can now be reached from within a Entity
  * Changed IIsUpdatable to IUpdatable
+ * Changed the way services are loaded, now multiple services can be loaded at the same time with different IDs
 
 **************************
 **** 0.1.2 - 08/07-20 ****

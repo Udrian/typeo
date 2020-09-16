@@ -11,8 +11,12 @@ namespace TypeOEngine.Typedeaf.Core
         {
             public Window Window { get; set; }
             public abstract Rectangle Viewport { get; set; }
+            public Matrix WorldMatrix { get; private set; }
 
-            protected Canvas() { }
+            protected Canvas()
+            {
+                WorldMatrix = new Matrix();
+            }
 
             public abstract void Initialize();
             public abstract void Cleanup();
