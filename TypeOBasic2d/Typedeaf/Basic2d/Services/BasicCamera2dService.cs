@@ -2,7 +2,7 @@
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Engine.Services;
 
-namespace TypeOEngine.Typedeaf.Basic
+namespace TypeOEngine.Typedeaf.Basic2d
 {
     namespace Services
     {

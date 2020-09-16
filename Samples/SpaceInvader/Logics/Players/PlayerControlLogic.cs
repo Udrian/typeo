@@ -9,7 +9,7 @@ namespace SpaceInvader.Logics.Players
 {
     class PlayerMoveLogic : Logic, IHasEntity<Player>, IHasData<IMovementData>, IHasScene
     {
-        public KeyboardInputService KeyboardInputService { get; set; }
+        private KeyboardInputService KeyboardInputService { get; set; }
 
         public Player Entity { get; set; }
         public IMovementData EntityData { get; set; }

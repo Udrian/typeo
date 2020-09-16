@@ -10,7 +10,7 @@ namespace SpaceInvader.Scenes
 {
     class PlanetScene : Scene, IHasGame<SpaceInvaderGame>
     {
-        public KeyboardInputService KeyboardInputService { get; set; }
+        private KeyboardInputService KeyboardInputService { get; set; }
 
         public Font LoadedFont { get; set; }
         public SpaceInvaderGame Game { get; set; }
