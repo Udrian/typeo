@@ -42,7 +42,7 @@ namespace SpaceInvader
             Scenes.ContentLoader = WindowService.CreateContentLoader(Scenes.Canvas);
             Scenes.SetScene<SpaceScene>();
 
-            Camera.Canvas = Scenes.Canvas;
+            Camera.SetCanvas(Scenes.Canvas);
         }
 
         public override void Draw()

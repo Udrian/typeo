@@ -8,9 +8,13 @@ namespace TypeOEngine.Typedeaf.Basic2d
     {
         public class BasicCamera2dService : Service
         {
-            public Canvas Canvas { get; set; }
+            protected Canvas Canvas { get; set; }
             public Vec2 Position { get { return Canvas.WorldMatrix.Translation; } set { Canvas.WorldMatrix.Translation = value; }  }
 
+            public void SetCanvas(Canvas canvas)
+            {
+                Canvas = canvas;
+            }
 
             public override void Initialize()
             {
