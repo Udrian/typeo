@@ -12,7 +12,7 @@ namespace SpaceInvader.Entities
 {
     class Player : Entity2d, IHasData<PlayerData>, IHasScene
     {
-        public DrawableTexture Drawable { get; set; }
+        public DrawableAnimation<DrawableTexture> Drawable { get; set; }
         public Texture HealthTexture { get; set; }
         public PlayerData EntityData { get; set; }
 
@@ -29,9 +29,9 @@ namespace SpaceInvader.Entities
 
         public override void Initialize()
         {
-            Drawable = Drawables.Create<DrawableTexture>();
+            Drawable = Drawables.Create<DrawableAnimation<DrawableTexture>>();
             LoadContent();
-            HealthTexture = Drawable.Texture;
+            HealthTexture = ContentLoader.LoadContent<Texture>("content/ship.png");//Drawable.Texture;
             EntityData.Speed = 500;
             EntityData.Health = 3;
 
@@ -51,7 +51,8 @@ namespace SpaceInvader.Entities
 
         public virtual void LoadContent()
         {
-            Drawable.Texture = ContentLoader.LoadContent<Texture>("content/ship.png");
+            var animation = Drawable.AddAnimation("Start");
+            animation.AddFrame(Drawables.Create(new DrawableTextureOption() { Texture = ContentLoader.LoadContent<Texture>("content/ship.png") }));
         }
 
         public virtual void Shoot()
