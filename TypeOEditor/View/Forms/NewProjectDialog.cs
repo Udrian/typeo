@@ -2,13 +2,11 @@
 using System.IO;
 using System.Windows.Forms;
 using TypeOEditor.Controller;
-using TypeOEditor.Model;
 
 namespace TypeOEditor.View.Forms
 {
     public partial class NewProjectDialog : Form
     {
-        public Project CreatedProject { get; set; }
         public FileController FileController { get; set; }
 
         public NewProjectDialog()
@@ -17,49 +15,10 @@ namespace TypeOEditor.View.Forms
             FileController = new FileController();
         }
 
-        private void UpdateCreatedFields()
-        {
-            tbSolution.Text = CreatedProject.SolutionFilePath;
-            UpdateFields();
-        }
-        private void UpdateFields()
-        {
-            var projects = CreatedProject.FetchProjectsFromSolution();
-
-            cbProject.SelectedIndex = -1;
-            cbProject.Items.Clear();
-
-            foreach(var project in projects)
-            {
-                cbProject.Items.Add(project);
-            }
-
-            if(cbProject.Items.Count > 0)
-            {
-                cbProject.SelectedIndex = 0;
-            }
-        }
-
         private void tbName_TextChanged(object sender, EventArgs e)
         {
-            CreatedProject = FileController.Create(tbName.Text, tbLocation.Text);
-            UpdateCreatedFields();
-        }
-
-        private void tbLocation_TextChanged(object sender, EventArgs e)
-        {
-            CreatedProject = FileController.Create(tbName.Text, tbLocation.Text);
-            UpdateCreatedFields();
-        }
-
-        private void tbSolution_TextChanged(object sender, EventArgs e)
-        {
-            if(CreatedProject == null)
-            {
-                CreatedProject = FileController.Create("", "");
-            }
-            CreatedProject.SolutionFilePath = tbSolution.Text;
-            UpdateFields();
+            tbSolution.Text = tbName.Text;
+            tbProject.Text = tbName.Text;
         }
 
         private void btnOpenDir_Click(object sender, EventArgs e)
@@ -72,30 +31,20 @@ namespace TypeOEditor.View.Forms
             }
         }
 
-        private void btnOpenSolution_Click(object sender, EventArgs e)
+        private bool IsDirectory(string filePath)
         {
-            saveFileDialog.DefaultExt = ".sln";
-            saveFileDialog.FileName = tbSolution.Text;
-            var result = saveFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                tbSolution.Text = saveFileDialog.FileName;
-            }
-        }
-
-        private void cbProject_TextChanged(object sender, EventArgs e)
-        {
-            if (CreatedProject == null)
-            {
-                CreatedProject = FileController.Create("", "");
-            }
-            CreatedProject.ProjectName = cbProject.Text;
-            UpdateFields();
+            return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            FileController.Create(CreatedProject);
+            var name = Path.GetFileNameWithoutExtension(tbName.Text);
+            var location = IsDirectory(tbLocation.Text) ? tbLocation.Text : Path.GetDirectoryName(tbLocation.Text);
+            var solution = Path.GetFileNameWithoutExtension(tbSolution.Text);
+            var project = Path.GetFileNameWithoutExtension(tbProject.Text);
+
+            FileController.Create(name, location, solution, project);
+            Close();
         }
     }
 }

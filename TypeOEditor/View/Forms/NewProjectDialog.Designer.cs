@@ -37,11 +37,10 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.label4 = new System.Windows.Forms.Label();
             this.tbSolution = new System.Windows.Forms.TextBox();
-            this.btnOpenSolution = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.label5 = new System.Windows.Forms.Label();
-            this.cbProject = new System.Windows.Forms.ComboBox();
             this.btnCreate = new System.Windows.Forms.Button();
+            this.tbProject = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -86,7 +85,6 @@
             this.tbLocation.Name = "tbLocation";
             this.tbLocation.Size = new System.Drawing.Size(659, 35);
             this.tbLocation.TabIndex = 2;
-            this.tbLocation.TextChanged += new System.EventHandler(this.tbLocation_TextChanged);
             // 
             // btnOpenDir
             // 
@@ -113,17 +111,6 @@
             this.tbSolution.Name = "tbSolution";
             this.tbSolution.Size = new System.Drawing.Size(659, 35);
             this.tbSolution.TabIndex = 2;
-            this.tbSolution.TextChanged += new System.EventHandler(this.tbSolution_TextChanged);
-            // 
-            // btnOpenSolution
-            // 
-            this.btnOpenSolution.Location = new System.Drawing.Point(677, 322);
-            this.btnOpenSolution.Name = "btnOpenSolution";
-            this.btnOpenSolution.Size = new System.Drawing.Size(61, 40);
-            this.btnOpenSolution.TabIndex = 3;
-            this.btnOpenSolution.Text = "...";
-            this.btnOpenSolution.UseVisualStyleBackColor = true;
-            this.btnOpenSolution.Click += new System.EventHandler(this.btnOpenSolution_Click);
             // 
             // label5
             // 
@@ -133,15 +120,6 @@
             this.label5.Size = new System.Drawing.Size(77, 30);
             this.label5.TabIndex = 1;
             this.label5.Text = "Project";
-            // 
-            // cbProject
-            // 
-            this.cbProject.FormattingEnabled = true;
-            this.cbProject.Location = new System.Drawing.Point(12, 395);
-            this.cbProject.Name = "cbProject";
-            this.cbProject.Size = new System.Drawing.Size(659, 38);
-            this.cbProject.TabIndex = 4;
-            this.cbProject.TextChanged += new System.EventHandler(this.cbProject_TextChanged);
             // 
             // btnCreate
             // 
@@ -154,15 +132,21 @@
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
+            // tbProject
+            // 
+            this.tbProject.Location = new System.Drawing.Point(12, 395);
+            this.tbProject.Name = "tbProject";
+            this.tbProject.Size = new System.Drawing.Size(659, 35);
+            this.tbProject.TabIndex = 6;
+            // 
             // NewProjectDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 717);
+            this.Controls.Add(this.tbProject);
             this.Controls.Add(this.btnCreate);
-            this.Controls.Add(this.cbProject);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.btnOpenSolution);
             this.Controls.Add(this.tbSolution);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnOpenDir);
@@ -189,10 +173,9 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tbSolution;
-        private System.Windows.Forms.Button btnOpenSolution;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox cbProject;
         private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.TextBox tbProject;
     }
 }

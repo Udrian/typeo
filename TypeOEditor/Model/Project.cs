@@ -11,13 +11,16 @@ namespace TypeOEditor.Model
 {
     public class Project
     {
-        public static Project Create(string name, string filePath)
+        public static Project Create(string name, string location, string solutionName, string csProjName)
         {
+            if(string.IsNullOrEmpty(location)) location = @".\";
             var project = new Project()
             {
-                Name = name
+                Name = name,
+                Location = location,
+                SolutionFilePath = $@".\{solutionName}.sln",
+                CSProjectName = csProjName
             };
-            project.ProjectFilePath = project.ConstructPath(filePath);
             return project;
         }
 
@@ -26,7 +29,7 @@ namespace TypeOEditor.Model
             try
             {
                 var project = JSON.Deserialize<Project>(filePath);
-                project.ProjectFilePath = filePath;
+                project.Location = Path.GetDirectoryName(filePath);
                 return project;
             }
             catch
@@ -37,11 +40,11 @@ namespace TypeOEditor.Model
 
         public string Name { get; set; }
         public string SolutionFilePath { get; set; }
-        public string ProjectName { get; set; }
-        public string ProjectDLLPath { get; set; }
+        public string CSProjectName { get; set; }
+        public string ProjectDLLPath { get; set; } //TODO: !
 
-        public string ProjectFilePath { get; private set; }
-        public string ProjectDirPath { get { return IsDirectory(ProjectFilePath) ? ProjectFilePath : Path.GetDirectoryName(ProjectFilePath); } }
+        public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
+        public string Location { get; private set; }
         public Assembly Assembly { get; private set; }
         public TypeInfo Game { get; private set; }
         public List<TypeInfo> Scenes { get; private set; }
@@ -51,24 +54,20 @@ namespace TypeOEditor.Model
         public List<TypeInfo> Drawables { get; private set; }
         public List<TypeInfo> EntityDatas { get; private set; }
         
-
         protected Project(){ }
 
-        private bool IsDirectory(string filePath)
-        {
-            return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
-        }
-
-        private string ConstructPath(string filePath)
+        // TODO: ADD EXCISTING PROJECT
+        /*private string ConstructPath(string filePath)
         {
             if (string.IsNullOrEmpty(filePath)) return "";
 
             if (IsDirectory(filePath))
                 return Path.Combine(filePath, $"{Name}.typeo");
             return filePath;
-        }
+        }*/
 
-        public bool ScanForSolution()
+        // TODO: ADD EXCISTING PROJECT
+        /*public bool ScanForSolution()
         {
             if (string.IsNullOrEmpty(ProjectDirPath)) return false;
             if (!Directory.Exists(ProjectDirPath)) return false;
@@ -86,14 +85,18 @@ namespace TypeOEditor.Model
 
             SolutionFilePath = $".{solutionPath.Substring(ProjectDirPath.Length)}";//.TrimStart('/').TrimStart('\\');
             return true;
-        }
+        }*/
 
-        public void ConstructSolutionPath()
+
+        // TODO: ADD EXCISTING PROJECT
+        /*public void ConstructSolutionPath()
         {
             SolutionFilePath = $@".\{Name}.sln";
-        }
+        }*/
 
-        public List<string> FetchProjectsFromSolution()
+
+        // TODO: ADD EXCISTING PROJECT
+        /*public List<string> FetchProjectsFromSolution()
         {
             var projects = new List<string>();
             if (string.IsNullOrEmpty(SolutionFilePath)) return projects;
@@ -116,18 +119,15 @@ namespace TypeOEditor.Model
             }
 
             return projects;
-        }
+        }*/
 
-        public bool Save(string filePath = null)
+        public bool Save()
         {
-            if(!string.IsNullOrEmpty(filePath))
-                ProjectFilePath = ConstructPath(filePath);
-
             JSON.Serialize(new { 
                 Name = Name,
                 SolutionFilePath = SolutionFilePath,
                 ProjectDLLPath = ProjectDLLPath,
-                ProjectName = ProjectName
+                CSProjectName = CSProjectName
             }, ProjectFilePath);
 
             return true;
@@ -135,10 +135,7 @@ namespace TypeOEditor.Model
 
         public bool Build()
         {
-            if (string.IsNullOrEmpty(ProjectFilePath)) return false;
-            if (string.IsNullOrEmpty(SolutionFilePath)) return false;
-
-            var path = Path.Combine(ProjectDirPath, SolutionFilePath);
+            var path = Path.Combine(Location, SolutionFilePath);
             if (!File.Exists(path)) return false;
 
             CMD.Run($"dotnet build {path}");
@@ -148,10 +145,7 @@ namespace TypeOEditor.Model
 
         public bool LoadAssembly()
         {
-            if (string.IsNullOrEmpty(ProjectFilePath)) return false;
-            if (string.IsNullOrEmpty(ProjectDLLPath)) return false;
-
-            var path = Path.Combine(ProjectDirPath, ProjectDLLPath);
+            var path = Path.Combine(Location, ProjectDLLPath);
             if (!File.Exists(path)) return false;
 
             Assembly = Assembly.LoadFrom(path);
@@ -186,7 +180,7 @@ namespace TypeOEditor.Model
         public bool CreateSolution()
         {
             CMD.Run(new string[] {
-                $"cd \"{ProjectDirPath}\"",
+                $"cd \"{Location}\"",
                 $"dotnet new sln --name \"{Path.GetFileNameWithoutExtension(SolutionFilePath)}\""
             });
             return true;
@@ -196,9 +190,9 @@ namespace TypeOEditor.Model
         {
             CMD.Run(new string[]
             {
-                $"cd \"{ProjectDirPath}\"",
-                $"dotnet new console -lang \"C#\" -n \"{ProjectName}\"",
-                $"dotnet sln \"{Path.GetFileName(SolutionFilePath)}\" add \"{ProjectName}\""
+                $"cd \"{Location}\"",
+                $"dotnet new console -lang \"C#\" -n \"{CSProjectName}\"",
+                $"dotnet sln \"{Path.GetFileName(SolutionFilePath)}\" add \"{CSProjectName}\""
             });
             return true;
         }

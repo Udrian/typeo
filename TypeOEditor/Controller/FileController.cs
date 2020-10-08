@@ -1,4 +1,5 @@
-﻿using TypeOEditor.Model;
+﻿using System.IO;
+using TypeOEditor.Model;
 
 namespace TypeOEditor.Controller
 {
@@ -6,22 +7,21 @@ namespace TypeOEditor.Controller
     {
         public static Project LoadedProject { get; set;}
 
-        public Project Create(string name, string filePath)
+        public void Create(string name, string location, string solutionName, string csProjName)
         {
-            var project = Project.Create(name, filePath);
-
-            if(!project.ScanForSolution())
+            if (Path.GetFileNameWithoutExtension(location) != name)
             {
-                project.ConstructSolutionPath();
+                location = Path.Combine(location, name);
+            }
+            if (!Directory.Exists(location))
+            {
+                Directory.CreateDirectory(location);
             }
 
-            return project;
-        }
-
-        public void Create(Project project)
-        {
-            project.CreateSolution();
-            project.CreateProject();
+            LoadedProject = Project.Create(name, location, solutionName, csProjName);
+            LoadedProject.Save();
+            LoadedProject.CreateSolution();
+            LoadedProject.CreateProject();
         }
 
         public Project Open(string projectFilePath)
