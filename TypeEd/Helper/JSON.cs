@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace TypeOEditor.Helper
+namespace TypeEd.Helper
 {
     static class JSON
     {

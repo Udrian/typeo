@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
-using TypeOEditor.Model;
+using TypeEd.Model;
 
-namespace TypeOEditor.View.Forms
+namespace TypeEd.View.Forms
 {
     public partial class Explorer : UserControl
     {

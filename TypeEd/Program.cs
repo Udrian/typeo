@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using TypeOEditor.View.Forms;
+using TypeEd.View.Forms;
 
-namespace TypeOEditor
+namespace TypeEd
 {
     static class Program
     {

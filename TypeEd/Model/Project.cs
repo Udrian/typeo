@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using TypeOEditor.Helper;
+using TypeEd.Helper;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeOEditor.Model
+namespace TypeEd.Model
 {
     public class Project
     {

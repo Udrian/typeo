@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using TypeOEditor.Controller;
+using TypeEd.Controller;
 
-namespace TypeOEditor.View.Forms
+namespace TypeEd.View.Forms
 {
     public partial class NewProjectDialog : Form
     {

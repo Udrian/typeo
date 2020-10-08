@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TypeOEditor.Helper
+namespace TypeEd.Helper
 {
     public static class CMD
     {

@@ -1,4 +1,4 @@
-﻿namespace TypeOEditor.View.Forms
+﻿namespace TypeEd.View.Forms
 {
     partial class Main
     {

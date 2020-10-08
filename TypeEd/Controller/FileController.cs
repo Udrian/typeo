@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using TypeOEditor.Model;
+using TypeEd.Model;
 
-namespace TypeOEditor.Controller
+namespace TypeEd.Controller
 {
     public class FileController
     {

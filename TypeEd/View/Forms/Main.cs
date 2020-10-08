@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
-using TypeOEditor.Controller;
-using TypeOEditor.Model;
+using TypeEd.Controller;
+using TypeEd.Model;
 
-namespace TypeOEditor.View.Forms
+namespace TypeEd.View.Forms
 {
     public partial class Main : Form
     {
