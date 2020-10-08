@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using TypeEd.Controller;
+using TypeD.Controller;
 
-namespace TypeEd.View.Forms
+namespace TypeD.View.Forms
 {
     public partial class NewProjectDialog : Form
     {

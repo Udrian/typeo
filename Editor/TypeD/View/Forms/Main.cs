@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
-using TypeEd.Controller;
-using TypeEd.Model;
+using TypeD.Controller;
+using TypeD.Model;
 
-namespace TypeEd.View.Forms
+namespace TypeD.View.Forms
 {
     public partial class Main : Form
     {

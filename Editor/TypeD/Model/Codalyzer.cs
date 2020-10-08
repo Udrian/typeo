@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TypeEd.Model
+namespace TypeD.Model
 {
     class Codalyzer
     {

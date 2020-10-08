@@ -1,4 +1,4 @@
-﻿namespace TypeEd.View.Forms
+﻿namespace TypeD.View.Forms
 {
     partial class NewProjectDialog
     {

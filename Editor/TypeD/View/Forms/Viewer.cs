@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace TypeEd.View.Forms
+namespace TypeD.View.Forms
 {
     public partial class Viewer : UserControl
     {

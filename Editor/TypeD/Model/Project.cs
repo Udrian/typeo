@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using TypeEd.Helper;
+using TypeD.Helper;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeEd.Model
+namespace TypeD.Model
 {
     public class Project
     {

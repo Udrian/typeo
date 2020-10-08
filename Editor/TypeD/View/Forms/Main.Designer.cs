@@ -1,4 +1,4 @@
-﻿namespace TypeEd.View.Forms
+﻿namespace TypeD.View.Forms
 {
     partial class Main
     {
@@ -38,8 +38,8 @@
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.explorer = new TypeEd.View.Forms.Explorer();
-            this.output = new TypeEd.View.Forms.Output();
+            this.explorer = new TypeD.View.Forms.Explorer();
+            this.output = new TypeD.View.Forms.Output();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,7 +143,8 @@
             this.MainMenuStrip = this.menuStrip;
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Main";
-            this.Text = "TypeOEditor";
+            this.Text = "TypeD - A TypeO Editor";
+            this.TopMost = true;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -164,7 +165,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSave;
         private Explorer explorer;
-        private TypeEd.View.Forms.Output output;
+        private TypeD.View.Forms.Output output;
     }
 }
 

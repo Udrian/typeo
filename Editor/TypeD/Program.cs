@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using TypeEd.View.Forms;
+using TypeD.View.Forms;
 
-namespace TypeEd
+namespace TypeD
 {
     static class Program
     {

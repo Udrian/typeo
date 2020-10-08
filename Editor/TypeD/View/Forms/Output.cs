@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using TypeEd.Helper;
+using TypeD.Helper;
 
-namespace TypeEd.View.Forms
+namespace TypeD.View.Forms
 {
     public partial class Output : UserControl
     {

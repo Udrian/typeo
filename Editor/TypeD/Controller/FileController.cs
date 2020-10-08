@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using TypeEd.Model;
+using TypeD.Model;
 
-namespace TypeEd.Controller
+namespace TypeD.Controller
 {
     public class FileController
     {
