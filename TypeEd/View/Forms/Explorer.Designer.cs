@@ -67,7 +67,7 @@
             treeNode5,
             treeNode6,
             treeNode7});
-            this.treeView.Size = new System.Drawing.Size(516, 833);
+            this.treeView.Size = new System.Drawing.Size(240, 359);
             this.treeView.TabIndex = 0;
             // 
             // Explorer
@@ -76,7 +76,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.treeView);
             this.Name = "Explorer";
-            this.Size = new System.Drawing.Size(516, 833);
+            this.Size = new System.Drawing.Size(240, 359);
             this.ResumeLayout(false);
 
         }

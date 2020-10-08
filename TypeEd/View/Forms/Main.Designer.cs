@@ -37,13 +37,10 @@
             this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.explorer = new TypeOEditor.View.Forms.Explorer();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.explorer = new TypeEd.View.Forms.Explorer();
+            this.output = new TypeEd.View.Forms.Output();
             this.menuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -54,7 +51,7 @@
             this.toolStripMenuItemHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1018, 38);
+            this.menuStrip.Size = new System.Drawing.Size(1692, 38);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -110,52 +107,45 @@
             // statusStrip
             // 
             this.statusStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.statusStrip.Location = new System.Drawing.Point(0, 888);
+            this.statusStrip.Location = new System.Drawing.Point(0, 1071);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1018, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1692, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 38);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.explorer);
-            this.splitContainer1.Size = new System.Drawing.Size(1018, 850);
-            this.splitContainer1.SplitterDistance = 338;
-            this.splitContainer1.TabIndex = 2;
-            this.splitContainer1.Text = "splitContainer1";
-            // 
             // explorer
             // 
-            this.explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.explorer.Location = new System.Drawing.Point(0, 0);
+            this.explorer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.explorer.Location = new System.Drawing.Point(12, 41);
             this.explorer.Name = "explorer";
-            this.explorer.Size = new System.Drawing.Size(313, 847);
-            this.explorer.TabIndex = 0;
+            this.explorer.Size = new System.Drawing.Size(363, 1027);
+            this.explorer.TabIndex = 2;
+            // 
+            // output
+            // 
+            this.output.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.output.Location = new System.Drawing.Point(381, 731);
+            this.output.Name = "output";
+            this.output.Size = new System.Drawing.Size(1299, 337);
+            this.output.TabIndex = 3;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1018, 910);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(1692, 1093);
+            this.Controls.Add(this.output);
+            this.Controls.Add(this.explorer);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Main";
             this.Text = "TypeOEditor";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,10 +161,10 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAbout;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private Explorer explorer;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSave;
+        private Explorer explorer;
+        private TypeEd.View.Forms.Output output;
     }
 }
 

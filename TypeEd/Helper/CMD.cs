@@ -12,6 +12,8 @@ namespace TypeEd.Helper
         private static Task ProcessTask { get; set; }
         private static Queue<string> Cmds { get; set; } = new Queue<string>();
 
+        public static event Action<string> Output;
+
         public static void Run(string cmd)
         {
             Run(new string[] { cmd });
@@ -31,6 +33,8 @@ namespace TypeEd.Helper
                 info.FileName = "cmd.exe";
                 info.RedirectStandardInput = true;
                 info.UseShellExecute = false;
+                info.RedirectStandardOutput = true;
+                info.CreateNoWindow = true;
 
                 Process.StartInfo = info;
                 Process.Start();
@@ -46,12 +50,31 @@ namespace TypeEd.Helper
                             var cmd = Cmds.Dequeue();
                             if (sw.BaseStream.CanWrite)
                             {
+                                Output?.Invoke(cmd);
                                 sw.WriteLine(cmd);
                             }
                         }
                     }
                 });
+                var outPutTask = new Task(() =>
+                {
+                    using (var sr = Process.StandardOutput)
+                    {
+                        while (!Process.HasExited)
+                        {
+                        
+                            if (sr.BaseStream.CanRead)
+                            {
+                                while (!sr.EndOfStream) {
+                                    Output?.Invoke(sr.ReadLine());
+                                }
+                            }
+                        }
+                        Task.Delay(0);
+                    }
+                });
                 ProcessTask.Start();
+                outPutTask.Start();
             }
         }
     }

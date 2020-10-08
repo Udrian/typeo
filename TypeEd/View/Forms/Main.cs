@@ -38,12 +38,12 @@ namespace TypeEd.View.Forms
             var result = openFileDialog.ShowDialog();
             if(result == DialogResult.OK)
             {
-                explorer.Clear();
+                //explorer.Clear();
 
                 var project = FileController.Open(openFileDialog.FileName);
 
-                if(project != null)
-                    explorer.PopulateTree(project);
+                //7if(project != null)
+                //    explorer.PopulateTree(project);
             }
         }
 
