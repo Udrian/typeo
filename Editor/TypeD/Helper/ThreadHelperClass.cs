@@ -4,7 +4,7 @@ namespace TypeD.Helper
 {
     public static class ThreadHelperClass
     {
-        delegate void SetTextCallback(UserControl f, Control ctrl, string text);
+        delegate void SetTextCallback(UserControl f, RichTextBox ctrl, string text);
         /// <summary>
         /// Set text property of various controls
         /// </summary>
@@ -27,7 +27,7 @@ namespace TypeD.Helper
             }
         }
 
-        public static void AppendText(UserControl form, Control ctrl, string text)
+        public static void AppendText(UserControl form, RichTextBox ctrl, string text)
         {
             // InvokeRequired required compares the thread ID of the 
             // calling thread to the thread ID of the creating thread. 
@@ -39,7 +39,7 @@ namespace TypeD.Helper
             }
             else
             {
-                ctrl.Text = ctrl.Text + text;
+                ctrl.AppendText(text);
             }
         }
     }

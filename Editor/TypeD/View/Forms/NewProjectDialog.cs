@@ -13,6 +13,14 @@ namespace TypeD.View.Forms
         {
             InitializeComponent();
             FileController = new FileController();
+
+
+            ///DEBUG
+            if(Directory.Exists(@"C:\Users\simon\projects\typeoproj\Test"))
+                Directory.Delete(@"C:\Users\simon\projects\typeoproj\Test", true);
+            tbName.Text = "Test";
+            tbLocation.Text = @"C:\Users\simon\projects\typeoproj";
+            ///
         }
 
         private void tbName_TextChanged(object sender, EventArgs e)
@@ -36,14 +44,17 @@ namespace TypeD.View.Forms
             return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
         }
 
-        private void btnCreate_Click(object sender, EventArgs e)
+        private async void btnCreate_Click(object sender, EventArgs e)
         {
+            Enabled = false;
+
             var name = Path.GetFileNameWithoutExtension(tbName.Text);
             var location = IsDirectory(tbLocation.Text) ? tbLocation.Text : Path.GetDirectoryName(tbLocation.Text);
             var solution = Path.GetFileNameWithoutExtension(tbSolution.Text);
             var project = Path.GetFileNameWithoutExtension(tbProject.Text);
 
-            FileController.Create(name, location, solution, project);
+            await FileController.Create(name, location, solution, project);
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

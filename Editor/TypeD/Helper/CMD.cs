@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,73 +7,63 @@ namespace TypeD.Helper
 {
     public static class CMD
     {
-        private static Process Process { get; set; }
-        private static Task ProcessTask { get; set; }
-        private static Queue<string> Cmds { get; set; } = new Queue<string>();
-
         public static event Action<string> Output;
 
-        public static void Run(string cmd)
+        public static async Task Run(string cmd)
         {
-            Run(new string[] { cmd });
+            await Run(new string[] { cmd });
         }
 
-        public static void Run(string[] cmds)
+        public static async Task Run(string[] cmds)
         {
-            foreach(var cmd in cmds)
-            {
-                Cmds.Enqueue(cmd);
-            }
+            var process = new Process();
+            var info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
+            info.RedirectStandardOutput = true;
+            info.CreateNoWindow = true;
 
-            if(Process == null || Process.HasExited)
-            {
-                Process = new Process();
-                var info = new ProcessStartInfo();
-                info.FileName = "cmd.exe";
-                info.RedirectStandardInput = true;
-                info.UseShellExecute = false;
-                info.RedirectStandardOutput = true;
-                info.CreateNoWindow = true;
+            process.StartInfo = info;
+            process.Start();
 
-                Process.StartInfo = info;
-                Process.Start();
-            }
-            if(ProcessTask == null || ProcessTask.IsCompleted)
+            var processTask = new Task(() =>
             {
-                ProcessTask = new Task(() =>
+                using (StreamWriter sw = process.StandardInput)
+                using (StreamReader sr = process.StandardOutput)
                 {
-                    using (StreamWriter sw = Process.StandardInput)
-                    {
-                        while (Cmds.Count > 0)
-                        {
-                            var cmd = Cmds.Dequeue();
-                            if (sw.BaseStream.CanWrite)
-                            {
-                                Output?.Invoke(cmd);
-                                sw.WriteLine(cmd);
-                            }
-                        }
+                    foreach (var cmd in cmds) {
+                        WriteStream(sw, cmd);
                     }
-                });
-                var outPutTask = new Task(() =>
+                    WriteStream(sw, "exit");
+
+                    ReadStream(sr);
+                }
+                process.WaitForExit();
+            });
+            processTask.Start();
+
+            await processTask;
+        }
+
+        private static void WriteStream(StreamWriter sw, string cmd)
+        {
+            if (sw.BaseStream.CanWrite)
+            {
+                sw.WriteLine(cmd);
+            }
+        }
+
+        private static void ReadStream(StreamReader sr)
+        {
+            if (sr.BaseStream.CanRead)
+            {
+                while (!sr.EndOfStream)
                 {
-                    using (var sr = Process.StandardOutput)
-                    {
-                        while (!Process.HasExited)
-                        {
-                        
-                            if (sr.BaseStream.CanRead)
-                            {
-                                while (!sr.EndOfStream) {
-                                    Output?.Invoke(sr.ReadLine());
-                                }
-                            }
-                        }
-                        Task.Delay(0);
-                    }
-                });
-                ProcessTask.Start();
-                outPutTask.Start();
+                    var line = sr.ReadLine();
+                    if(line != null)
+                        Output?.Invoke(line);
+                }
             }
         }
     }

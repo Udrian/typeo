@@ -6,6 +6,7 @@ namespace TypeD.View.Forms
 {
     public partial class Main : Form
     {
+        private readonly string OriginalTitle;
         public FileController FileController { get; set; }
 
         public Main()
@@ -19,32 +20,37 @@ namespace TypeD.View.Forms
 
             FileController = new FileController();
 
-            /*var projectPath = @"C:\Users\simon\projects\typeo";
-            var project = Project.Create("Project", projectPath);
-            project.ScanForSolution();
-            project.ProjectDLLPath = @"Samples\SpaceInvader\bin\Debug\netcoreapp3.1\SpaceInvader.dll";
-            */
-
+            OriginalTitle = Text;
         }
 
         private void ToolStripMenuItemNew_Click(object sender, System.EventArgs e)
         {
             var npd = new NewProjectDialog();
-            npd.ShowDialog(this);
+            var result = npd.ShowDialog(this);
+            if (result == DialogResult.OK)
+            {
+                ProjectLoaded(FileController.LoadedProject);
+            }
         }
 
-        private void ToolStripMenuItemOpen_Click(object sender, System.EventArgs e)
+        private async void ToolStripMenuItemOpen_Click(object sender, System.EventArgs e)
         {
             var result = openFileDialog.ShowDialog();
             if(result == DialogResult.OK)
             {
-                //explorer.Clear();
-
-                var project = FileController.Open(openFileDialog.FileName);
-
-                //7if(project != null)
-                //    explorer.PopulateTree(project);
+                var project = await FileController.Open(openFileDialog.FileName);
+                ProjectLoaded(project);
             }
+        }
+
+        private void ProjectLoaded(Project project)
+        {
+            explorer.Clear();
+
+            if (project == null) return;
+
+            explorer.PopulateTree(project);
+            Text = $"{OriginalTitle} - {project.Name} - {project.ProjectFilePath}";
         }
 
         private void ToolStripMenuItemSave_Click(object sender, System.EventArgs e)

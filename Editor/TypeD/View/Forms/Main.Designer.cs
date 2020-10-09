@@ -144,7 +144,6 @@
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Main";
             this.Text = "TypeD - A TypeO Editor";
-            this.TopMost = true;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);

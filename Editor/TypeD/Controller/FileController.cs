@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using TypeD.Model;
 
 namespace TypeD.Controller
@@ -7,7 +8,7 @@ namespace TypeD.Controller
     {
         public static Project LoadedProject { get; set;}
 
-        public void Create(string name, string location, string solutionName, string csProjName)
+        public async Task Create(string name, string location, string solutionName, string csProjName)
         {
             if (Path.GetFileNameWithoutExtension(location) != name)
             {
@@ -20,21 +21,30 @@ namespace TypeD.Controller
 
             LoadedProject = Project.Create(name, location, solutionName, csProjName);
             LoadedProject.Save();
-            LoadedProject.CreateSolution();
-            LoadedProject.CreateProject();
+            await LoadedProject.CreateSolution();
+            await LoadedProject.CreateProject();
+
+            await BuildAndLoadAssembly(LoadedProject);
         }
 
-        public Project Open(string projectFilePath)
+        public async Task<Project> Open(string projectFilePath)
         {
             if (!projectFilePath.EndsWith(".typeo")) return null;
 
             LoadedProject = Project.Load(projectFilePath);
             if (LoadedProject == null) return null;
-            LoadedProject.Build();
-            LoadedProject.LoadAssembly();
-            LoadedProject.LoadTypes();
+
+            await BuildAndLoadAssembly(LoadedProject);
 
             return LoadedProject;
+        }
+
+        private async Task BuildAndLoadAssembly(Project project)
+        {
+            if (!LoadedProject.LoadAssembly())
+                await LoadedProject.Build();
+            if (LoadedProject.LoadAssembly())
+                LoadedProject.LoadTypes();
         }
 
         public void Save()

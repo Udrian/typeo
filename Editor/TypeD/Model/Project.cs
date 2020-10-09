@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using TypeD.Helper;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -41,20 +41,25 @@ namespace TypeD.Model
         public string Name { get; set; }
         public string SolutionFilePath { get; set; }
         public string CSProjectName { get; set; }
-        public string ProjectDLLPath { get; set; } //TODO: !
 
         public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
+        public string ProjectBuildOutput { get { return Path.Combine(Location, "build", CSProjectName); } }
         public string Location { get; private set; }
         public Assembly Assembly { get; private set; }
-        public TypeInfo Game { get; private set; }
+        public List<TypeInfo> Types { get; private set; }
+
+        /*public TypeInfo Game { get; private set; }
         public List<TypeInfo> Scenes { get; private set; }
         public List<TypeInfo> Entities { get; private set; }
         public List<TypeInfo> Stubs { get; private set; }
         public List<TypeInfo> Logics { get; private set; }
         public List<TypeInfo> Drawables { get; private set; }
-        public List<TypeInfo> EntityDatas { get; private set; }
-        
-        protected Project(){ }
+        public List<TypeInfo> EntityDatas { get; private set; }*/
+
+        protected Project()
+        {
+            Types = new List<TypeInfo>();
+        }
 
         // TODO: ADD EXCISTING PROJECT
         /*private string ConstructPath(string filePath)
@@ -126,26 +131,43 @@ namespace TypeD.Model
             JSON.Serialize(new { 
                 Name = Name,
                 SolutionFilePath = SolutionFilePath,
-                ProjectDLLPath = ProjectDLLPath,
                 CSProjectName = CSProjectName
             }, ProjectFilePath);
 
             return true;
         }
 
-        public bool Build()
+        public async Task CreateSolution()
+        {
+            await CMD.Run(new string[] {
+                $"cd \"{Location}\"",
+                $"dotnet new sln --name \"{Path.GetFileNameWithoutExtension(SolutionFilePath)}\""
+            });
+        }
+
+        public async Task CreateProject()
+        {
+            await CMD.Run(new string[]
+            {
+                $"cd \"{Location}\"",
+                $"dotnet new console -lang \"C#\" -n \"{CSProjectName}\"",
+                $"dotnet sln \"{Path.GetFileName(SolutionFilePath)}\" add \"{CSProjectName}\""
+            });
+        }
+
+        public async Task<bool> Build()
         {
             var path = Path.Combine(Location, SolutionFilePath);
             if (!File.Exists(path)) return false;
 
-            CMD.Run($"dotnet build {path}");
+            await CMD.Run($"dotnet build \"{path}\" --output \"{ProjectBuildOutput}\"");
 
             return true;
         }
 
         public bool LoadAssembly()
         {
-            var path = Path.Combine(Location, ProjectDLLPath);
+            var path = Path.Combine(ProjectBuildOutput, $"{CSProjectName}.dll");
             if (!File.Exists(path)) return false;
 
             Assembly = Assembly.LoadFrom(path);
@@ -157,44 +179,40 @@ namespace TypeD.Model
         {
             if (Assembly == null) return false;
 
-            Game = LoadType<Game>().FirstOrDefault();
-            Scenes = LoadType<Scene>();
-            Entities = LoadType<Entity>();
-            Stubs = LoadType<Stub>();
-            Logics = LoadType<Logic>();
-            Drawables = LoadType<Drawable>();
-            EntityDatas = LoadType<EntityData>();
+            foreach(var type in Assembly.DefinedTypes)
+            {
+                if(type.IsSubclassOf(typeof(Game))     ||
+                   type.IsSubclassOf(typeof(Scene))    ||
+                   type.IsSubclassOf(typeof(Entity))   ||
+                   type.IsSubclassOf(typeof(Stub))     ||
+                   type.IsSubclassOf(typeof(Logic))    ||
+                   type.IsSubclassOf(typeof(Drawable)) ||
+                   type.IsSubclassOf(typeof(EntityData)))
+                {
+                    Types.Add(type);
+                }
+            }
+
+            /*var game = LoadType<Game>().FirstOrDefault();
+            var scenes = LoadType<Scene>();
+            var entities = LoadType<Entity>();
+            var stubs = LoadType<Stub>();
+            var logics = LoadType<Logic>();
+            var drawables = LoadType<Drawable>();
+            var entityDatas = LoadType<EntityData>();
+
+            if (game != null)*/
 
             return true;
         }
 
-        private List<TypeInfo> LoadType<T>()
+        /*private List<TypeInfo> LoadType<T>()
         {
             var types = Assembly.DefinedTypes;
             return types.Where(
                         t =>
                         t.IsSubclassOf(typeof(T))
                     ).ToList();
-        }
-
-        public bool CreateSolution()
-        {
-            CMD.Run(new string[] {
-                $"cd \"{Location}\"",
-                $"dotnet new sln --name \"{Path.GetFileNameWithoutExtension(SolutionFilePath)}\""
-            });
-            return true;
-        }
-
-        public bool CreateProject()
-        {
-            CMD.Run(new string[]
-            {
-                $"cd \"{Location}\"",
-                $"dotnet new console -lang \"C#\" -n \"{CSProjectName}\"",
-                $"dotnet sln \"{Path.GetFileName(SolutionFilePath)}\" add \"{CSProjectName}\""
-            });
-            return true;
-        }
+        }*/
     }
 }
