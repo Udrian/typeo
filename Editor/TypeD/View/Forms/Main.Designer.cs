@@ -41,6 +41,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.explorer = new TypeD.View.Forms.Explorer();
             this.output = new TypeD.View.Forms.Output();
+            this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemBuildProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemRunProject = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +52,7 @@
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFile,
+            this.toolStripMenuItemBuild,
             this.toolStripMenuItemHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -144,6 +148,27 @@
             this.output.Size = new System.Drawing.Size(1299, 337);
             this.output.TabIndex = 3;
             // 
+            // toolStripMenuItemBuild
+            // 
+            this.toolStripMenuItemBuild.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemBuildProject,
+            this.toolStripMenuItemRunProject});
+            this.toolStripMenuItemBuild.Name = "toolStripMenuItemBuild";
+            this.toolStripMenuItemBuild.Size = new System.Drawing.Size(77, 34);
+            this.toolStripMenuItemBuild.Text = "Build";
+            // 
+            // toolStripMenuItemBuildProject
+            // 
+            this.toolStripMenuItemBuildProject.Name = "toolStripMenuItemBuildProject";
+            this.toolStripMenuItemBuildProject.Size = new System.Drawing.Size(247, 40);
+            this.toolStripMenuItemBuildProject.Text = "Build Project";
+            // 
+            // toolStripMenuItemRunProject
+            // 
+            this.toolStripMenuItemRunProject.Name = "toolStripMenuItemRunProject";
+            this.toolStripMenuItemRunProject.Size = new System.Drawing.Size(247, 40);
+            this.toolStripMenuItemRunProject.Text = "Run Project";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
@@ -179,6 +204,9 @@
         private Explorer explorer;
         private TypeD.View.Forms.Output output;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNewProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuild;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuildProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRunProject;
     }
 }
 

@@ -24,6 +24,8 @@ namespace TypeD.Controller
             await LoadedProject.CreateSolution();
             await LoadedProject.CreateProject();
 
+            LoadedProject.GenerateProjectFiles();
+
             await BuildAndLoadAssembly(LoadedProject);
         }
 
@@ -41,10 +43,16 @@ namespace TypeD.Controller
 
         private async Task BuildAndLoadAssembly(Project project)
         {
+            var loaded = true;
             if (!LoadedProject.LoadAssembly())
+            {
                 await LoadedProject.Build();
-            if (LoadedProject.LoadAssembly())
+                loaded = LoadedProject.LoadAssembly();
+            }
+            if(loaded)
+            {
                 LoadedProject.LoadTypes();
+            }
         }
 
         public void Save()

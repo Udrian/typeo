@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -47,14 +48,6 @@ namespace TypeD.Model
         public string Location { get; private set; }
         public Assembly Assembly { get; private set; }
         public List<TypeInfo> Types { get; private set; }
-
-        /*public TypeInfo Game { get; private set; }
-        public List<TypeInfo> Scenes { get; private set; }
-        public List<TypeInfo> Entities { get; private set; }
-        public List<TypeInfo> Stubs { get; private set; }
-        public List<TypeInfo> Logics { get; private set; }
-        public List<TypeInfo> Drawables { get; private set; }
-        public List<TypeInfo> EntityDatas { get; private set; }*/
 
         protected Project()
         {
@@ -160,6 +153,11 @@ namespace TypeD.Model
             var path = Path.Combine(Location, SolutionFilePath);
             if (!File.Exists(path)) return false;
 
+            if (Assembly != null)
+            {
+                Assembly = null;
+                Types.Clear();
+            }
             await CMD.Run($"dotnet build \"{path}\" --output \"{ProjectBuildOutput}\"");
 
             return true;
@@ -170,7 +168,13 @@ namespace TypeD.Model
             var path = Path.Combine(ProjectBuildOutput, $"{CSProjectName}.dll");
             if (!File.Exists(path)) return false;
 
-            Assembly = Assembly.LoadFrom(path);
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                byte[] bytes = new byte[fs.Length];
+                fs.Read(bytes, 0, (int)fs.Length);
+
+                Assembly = Assembly.Load(bytes);
+            }
 
             return true;
         }
@@ -178,41 +182,42 @@ namespace TypeD.Model
         public bool LoadTypes()
         {
             if (Assembly == null) return false;
-
-            foreach(var type in Assembly.DefinedTypes)
+                
+            foreach (var type in Assembly.DefinedTypes)
             {
-                if(type.IsSubclassOf(typeof(Game))     ||
-                   type.IsSubclassOf(typeof(Scene))    ||
-                   type.IsSubclassOf(typeof(Entity))   ||
-                   type.IsSubclassOf(typeof(Stub))     ||
-                   type.IsSubclassOf(typeof(Logic))    ||
-                   type.IsSubclassOf(typeof(Drawable)) ||
-                   type.IsSubclassOf(typeof(EntityData)))
+                if (type.IsSubclassOf(typeof(Game)) ||
+                    type.IsSubclassOf(typeof(Scene)) ||
+                    type.IsSubclassOf(typeof(Entity)) ||
+                    type.IsSubclassOf(typeof(Stub)) ||
+                    type.IsSubclassOf(typeof(Logic)) ||
+                    type.IsSubclassOf(typeof(Drawable)) ||
+                    type.IsSubclassOf(typeof(EntityData)))
                 {
                     Types.Add(type);
                 }
             }
 
-            /*var game = LoadType<Game>().FirstOrDefault();
-            var scenes = LoadType<Scene>();
-            var entities = LoadType<Entity>();
-            var stubs = LoadType<Stub>();
-            var logics = LoadType<Logic>();
-            var drawables = LoadType<Drawable>();
-            var entityDatas = LoadType<EntityData>();
-
-            if (game != null)*/
-
             return true;
         }
 
-        /*private List<TypeInfo> LoadType<T>()
+        public void GenerateProjectFiles()
         {
-            var types = Assembly.DefinedTypes;
-            return types.Where(
-                        t =>
-                        t.IsSubclassOf(typeof(T))
-                    ).ToList();
-        }*/
+            var code = new Codalyzer()
+            {
+                Name = "Program",
+                Namespace = $"{Name}",
+                Usings = new List<string>()
+                {
+                    "System"
+                }
+            };
+
+            code.Generate(Location);
+        }
+
+        public void Run()
+        {
+            Process.Start(Path.Combine(ProjectBuildOutput, $"{CSProjectName}.exe"));
+        }
     }
 }
