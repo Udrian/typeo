@@ -43,7 +43,7 @@ namespace TypeD.Model
         public string CSProjectName { get; set; }
 
         public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
-        public string ProjectBuildOutput { get { return Path.Combine(Location, "build", CSProjectName); } }
+        public string ProjectBuildOutput { get { return Path.Combine(Location, "typeo", "build", CSProjectName); } }
         public string Location { get; private set; }
         public Assembly Assembly { get; private set; }
         public List<TypeInfo> Types { get; private set; }

@@ -31,6 +31,7 @@
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemNew = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemNewProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,9 +69,17 @@
             // 
             // toolStripMenuItemNew
             // 
+            this.toolStripMenuItemNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemNewProject});
             this.toolStripMenuItemNew.Name = "toolStripMenuItemNew";
             this.toolStripMenuItemNew.Size = new System.Drawing.Size(182, 40);
             this.toolStripMenuItemNew.Text = "New";
+            // 
+            // toolStripMenuItemNewProject
+            // 
+            this.toolStripMenuItemNewProject.Name = "toolStripMenuItemNewProject";
+            this.toolStripMenuItemNewProject.Size = new System.Drawing.Size(195, 40);
+            this.toolStripMenuItemNewProject.Text = "Project";
             // 
             // toolStripMenuItemOpen
             // 
@@ -112,6 +121,10 @@
             this.statusStrip.Size = new System.Drawing.Size(1692, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "TypeD Project file|*.typeo";
             // 
             // explorer
             // 
@@ -165,6 +178,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSave;
         private Explorer explorer;
         private TypeD.View.Forms.Output output;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNewProject;
     }
 }
 

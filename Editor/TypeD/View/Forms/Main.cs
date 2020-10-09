@@ -13,7 +13,7 @@ namespace TypeD.View.Forms
         {
             InitializeComponent();
 
-            toolStripMenuItemNew.Click += ToolStripMenuItemNew_Click;
+            toolStripMenuItemNewProject.Click += ToolStripMenuItemNewProject_Click;
             toolStripMenuItemOpen.Click += ToolStripMenuItemOpen_Click;
             toolStripMenuItemSave.Click += ToolStripMenuItemSave_Click;
             toolStripMenuItemExit.Click += ToolStripMenuItemExit_Click;
@@ -23,7 +23,7 @@ namespace TypeD.View.Forms
             OriginalTitle = Text;
         }
 
-        private void ToolStripMenuItemNew_Click(object sender, System.EventArgs e)
+        private void ToolStripMenuItemNewProject_Click(object sender, System.EventArgs e)
         {
             var npd = new NewProjectDialog();
             var result = npd.ShowDialog(this);
