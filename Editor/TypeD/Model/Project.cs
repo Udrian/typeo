@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TypeD.Helper;
+using TypeD.Model.Code;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -22,6 +24,7 @@ namespace TypeD.Model
                 SolutionFilePath = $@".\{solutionName}.sln",
                 CSProjectName = csProjName
             };
+            project.AddCodeFiles();
             return project;
         }
 
@@ -31,6 +34,7 @@ namespace TypeD.Model
             {
                 var project = JSON.Deserialize<Project>(filePath);
                 project.Location = Path.GetDirectoryName(filePath);
+                project.AddCodeFiles();
                 return project;
             }
             catch
@@ -44,14 +48,23 @@ namespace TypeD.Model
         public string CSProjectName { get; set; }
 
         public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
-        public string ProjectBuildOutput { get { return Path.Combine(Location, "typeo", "build", CSProjectName); } }
+        public string ProjectTypeO { get { return Path.Combine(Location, "typeo"); } }
+        public string ProjectBuildOutput { get { return Path.Combine(ProjectTypeO, "build", CSProjectName); } }
         public string Location { get; private set; }
         public Assembly Assembly { get; private set; }
         public List<TypeInfo> Types { get; private set; }
+        public Dictionary<string, Codalyzer> Codes { get; private set; }
 
         protected Project()
         {
+            Codes = new Dictionary<string, Codalyzer>();
+        }
+
+        private void AddCodeFiles()
+        {
             Types = new List<TypeInfo>();
+            AddCode(new ProgramCode(this));
+            AddCode(new GameCode(this));
         }
 
         // TODO: ADD EXCISTING PROJECT
@@ -148,6 +161,17 @@ namespace TypeD.Model
             });
         }
 
+        public void AddModule(Module module)
+        {
+            var path = Path.Combine(Location, CSProjectName, $"{CSProjectName}.csproj");
+            if (!File.Exists(path)) return;
+
+            module.CopyProject(ProjectTypeO);
+            var projectX = XElement.Load(path);
+            module.AddToProjectXML(projectX);
+            projectX.Save(path);
+        }
+
         public async Task<bool> Build()
         {
             var path = Path.Combine(Location, SolutionFilePath);
@@ -202,22 +226,18 @@ namespace TypeD.Model
 
         public void GenerateProjectFiles()
         {
-            var code = new Codalyzer()
-            {
-                Name = "Program",
-                Namespace = $"{Name}",
-                Usings = new List<string>()
-                {
-                    "System"
-                }
-            };
-
-            code.Generate(Location);
+            Codes[$"{Name}.Program"].Generate(Location);
+            Codes[$"{Name}.{Name}Game"].Generate(Location);
         }
 
         public void Run()
         {
             Process.Start(Path.Combine(ProjectBuildOutput, $"{CSProjectName}.exe"));
+        }
+
+        public void AddCode(Codalyzer code)
+        {
+            Codes.Add($"{code.Namespace}.{code.Name}", code);
         }
     }
 }

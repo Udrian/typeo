@@ -24,7 +24,7 @@ namespace TypeD.View.Forms
         {
             foreach(var type in project.Types)
             {
-                AddTree(type);
+                AddTree(type, project);
             }
 
             /*if(project.Game != null)
@@ -36,15 +36,16 @@ namespace TypeD.View.Forms
             AddTree("Drawables", project.Drawables);
             AddTree("EntityDatas", project.EntityDatas);*/
         }
-        private void AddTree(TypeInfo type)
+        private void AddTree(TypeInfo type, Project project)
         {
-            var namespaces = type.Namespace.Split('.');
+            var namespaces = (type.Namespace.StartsWith(project.Name)?type.Namespace.Remove(0, project.Name.Length):type.Namespace).Split('.');
 
             var node = treeView.Nodes;
             foreach(var ns in namespaces)
             {
+                if (string.IsNullOrEmpty(ns)) continue;
                 if (!node.ContainsKey(ns))
-                    node.Add(ns);
+                    node.Add(ns, ns);
                 node = node[ns].Nodes;
             }
 

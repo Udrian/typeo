@@ -2,38 +2,60 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace TypeD.Model
 {
-    public class Codalyzer
+    public abstract class Codalyzer
     {
         public List<string> Usings { get; set; }
         public string Namespace { get; set; }
         public string Name { get; set; }
+        public string Base { get; set; }
 
+        public Project Project { get; set; }
 
         private StringBuilder Output { get; set; }
         private int Tabs { get; set; }
         private string Tab { get { return "    "; } }
 
-        public Codalyzer()
+        public Codalyzer(Project project, string name, string ns)
         {
+            Project = project;
+            Name = name;
+            Namespace = ns;
             Usings = new List<string>();
         }
 
-        private void AddLine(string line = "", bool tab = false)
+        public Codalyzer(Project project, TypeInfo from)
+        {
+            Project = project;
+            Name = from.Name;
+            Namespace = from.Namespace;
+
+            Usings = new List<string>();
+            var nestedTypes = from.GetNestedTypes();
+            foreach(var type in nestedTypes)
+            {
+                Usings.Add(type.Namespace);
+            }
+
+            Output = new StringBuilder(from.Assembly.CodeBase);
+        }
+
+        protected void AddLine(string line = "", bool tab = false)
         {
             if (tab) Tabs++;
             Output.Append($"{string.Concat(Enumerable.Repeat(Tab, Tabs))}{line}{Environment.NewLine}");
         }
-        private void AddLeftCurlyBracket()
+        protected void AddLeftCurlyBracket()
         {
             AddLine("{");
             Tabs++;
         }
 
-        private void AddRightCurlyBrackets(int count = 1)
+        protected void AddRightCurlyBrackets(int count = 1)
         {
             count = (count < Tabs ? count : Tabs);
             for (int i = 0; i < count; i++)
@@ -42,6 +64,11 @@ namespace TypeD.Model
                     Tabs--;
                 AddLine("}");
             }
+        }
+
+        protected void AddAllClosingBrackets()
+        {
+            AddRightCurlyBrackets(Tabs);
         }
 
         public void Generate(string location)
@@ -55,14 +82,14 @@ namespace TypeD.Model
             AddLine();
             AddLine($"namespace {Namespace}");
             AddLeftCurlyBracket();
-            AddLine($"class Program");
+            AddLine($"class {Name}{(string.IsNullOrEmpty(Base)?"":$" : {Base}")}");
             AddLeftCurlyBracket();
-            AddLine($"static void Main(string[] args)");
-            AddLeftCurlyBracket();
-            AddLine($"Console.WriteLine(\"Hello '{Name}' World!\");");
-            AddRightCurlyBrackets(Tabs);
+            Generate();
+            AddAllClosingBrackets();
 
             File.WriteAllText(Path.Combine(location, Namespace, $"{Name}.cs"), Output.ToString());
         }
+
+        protected abstract void Generate();
     }
 }

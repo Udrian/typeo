@@ -26,6 +26,8 @@ namespace TypeD.Controller
 
             LoadedProject.GenerateProjectFiles();
 
+            LoadedProject.AddModule(new Module("TypeOCore"));
+
             await BuildAndLoadAssembly(LoadedProject);
         }
 
