@@ -12,7 +12,7 @@ namespace TypeD.Model.Code
             };
         }
 
-        protected override void Generate()
+        protected override void GenerateBody()
         {
             AddLine($"static void Main(string[] args)");
             AddLeftCurlyBracket();

@@ -20,13 +20,11 @@ namespace TypeD.Controller
             }
 
             LoadedProject = Project.Create(name, location, solutionName, csProjName);
-            LoadedProject.Save();
             await LoadedProject.CreateSolution();
             await LoadedProject.CreateProject();
-
             LoadedProject.GenerateProjectFiles();
-
             LoadedProject.AddModule(new Module("TypeOCore"));
+            LoadedProject.Save();
 
             await BuildAndLoadAssembly(LoadedProject);
         }

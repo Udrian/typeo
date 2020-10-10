@@ -71,7 +71,15 @@ namespace TypeD.Model
             AddRightCurlyBrackets(Tabs);
         }
 
-        public void Generate(string location)
+        public void Save(string location)
+        {
+            if(Output != null)
+            {
+                File.WriteAllText(Path.Combine(location, Namespace, $"{Name}.cs"), Output.ToString());
+            }
+        }
+
+        public void Generate()
         {
             Output = new StringBuilder();
 
@@ -84,12 +92,10 @@ namespace TypeD.Model
             AddLeftCurlyBracket();
             AddLine($"class {Name}{(string.IsNullOrEmpty(Base)?"":$" : {Base}")}");
             AddLeftCurlyBracket();
-            Generate();
+            GenerateBody();
             AddAllClosingBrackets();
-
-            File.WriteAllText(Path.Combine(location, Namespace, $"{Name}.cs"), Output.ToString());
         }
 
-        protected abstract void Generate();
+        protected abstract void GenerateBody();
     }
 }

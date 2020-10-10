@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Forms;
 using TypeD.Model;
 
@@ -26,15 +25,6 @@ namespace TypeD.View.Forms
             {
                 AddTree(type, project);
             }
-
-            /*if(project.Game != null)
-                AddTree("Game", new List<TypeInfo>() { project.Game });
-            AddTree("Scenes", project.Scenes);
-            AddTree("Entities", project.Entities);
-            AddTree("Stubs", project.Stubs);
-            AddTree("Logics", project.Logics);
-            AddTree("Drawables", project.Drawables);
-            AddTree("EntityDatas", project.EntityDatas);*/
         }
         private void AddTree(TypeInfo type, Project project)
         {

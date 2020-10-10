@@ -46,6 +46,7 @@ namespace TypeD.Model
         public string Name { get; set; }
         public string SolutionFilePath { get; set; }
         public string CSProjectName { get; set; }
+        public List<string> Modules { get; set; }
 
         public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
         public string ProjectTypeO { get { return Path.Combine(Location, "typeo"); } }
@@ -137,8 +138,14 @@ namespace TypeD.Model
             JSON.Serialize(new { 
                 Name = Name,
                 SolutionFilePath = SolutionFilePath,
-                CSProjectName = CSProjectName
+                CSProjectName = CSProjectName,
+                Modules = Modules
             }, ProjectFilePath);
+
+            foreach (var code in Codes.Values)
+            {
+                code.Save(Location);
+            }
 
             return true;
         }
@@ -159,6 +166,12 @@ namespace TypeD.Model
                 $"dotnet new console -lang \"C#\" -n \"{CSProjectName}\"",
                 $"dotnet sln \"{Path.GetFileName(SolutionFilePath)}\" add \"{CSProjectName}\""
             });
+        }
+
+        public void GenerateProjectFiles()
+        {
+            Codes[$"{Name}.Program"].Generate();
+            Codes[$"{Name}.{Name}Game"].Generate();
         }
 
         public void AddModule(Module module)
@@ -222,12 +235,6 @@ namespace TypeD.Model
             }
 
             return true;
-        }
-
-        public void GenerateProjectFiles()
-        {
-            Codes[$"{Name}.Program"].Generate(Location);
-            Codes[$"{Name}.{Name}Game"].Generate(Location);
         }
 
         public void Run()
