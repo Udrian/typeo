@@ -1,10 +1,12 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace TypeD.Model
 {
     public class Module
     {
+        private Assembly Assembly { get; set; }
         public string Name { get; set; }
         
         private string ModulePath { get { return Path.Combine(Directory.GetCurrentDirectory(), "modules", Name); } }
@@ -12,6 +14,24 @@ namespace TypeD.Model
         public Module(string name)
         {
             Name = name;
+            var path = Path.Combine(ModulePath, "Debug", $"{Name}.dll");
+            Assembly = Assembly.LoadFrom(path);
+        }
+
+        public TypeInfo GetModuleType()
+        {
+            if (Name == "TypeOCore") return null;
+            TypeInfo moduleType = null;
+            foreach (var type in Assembly.DefinedTypes)
+            {
+                if (type.IsSubclassOf(typeof(TypeOEngine.Typedeaf.Core.Engine.Module)))
+                {
+                    moduleType = type;
+                    break;
+                }
+            }
+
+            return moduleType;
         }
 
         public void CopyProject(string location)

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -12,6 +13,14 @@ using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeD.Model
 {
+    public class ProjectDTO
+    {
+        public string Name { get; set; }
+        public string SolutionFilePath { get; set; }
+        public string CSProjectName { get; set; }
+        public List<string> Modules { get; set; }
+    }
+
     public class Project
     {
         public static Project Create(string name, string location, string solutionName, string csProjName)
@@ -32,7 +41,15 @@ namespace TypeD.Model
         {
             try
             {
-                var project = JSON.Deserialize<Project>(filePath);
+                var projectDTO = JSON.Deserialize<ProjectDTO>(filePath);
+                var project = new Project()
+                {
+                    Name = projectDTO.Name,
+                    SolutionFilePath = projectDTO.SolutionFilePath,
+                    CSProjectName = projectDTO.CSProjectName,
+                    Modules = projectDTO.Modules.Select(m => new Module(m)).ToList()
+                };
+
                 project.Location = Path.GetDirectoryName(filePath);
                 project.AddCodeFiles();
                 return project;
@@ -46,7 +63,7 @@ namespace TypeD.Model
         public string Name { get; set; }
         public string SolutionFilePath { get; set; }
         public string CSProjectName { get; set; }
-        public List<string> Modules { get; set; }
+        public List<Module> Modules { get; set; }
 
         public string ProjectFilePath { get { return $@"{Location}\{Name}.typeo"; } }
         public string ProjectTypeO { get { return Path.Combine(Location, "typeo"); } }
@@ -59,11 +76,12 @@ namespace TypeD.Model
         protected Project()
         {
             Codes = new Dictionary<string, Codalyzer>();
+            Modules = new List<Module>();
+            Types = new List<TypeInfo>();
         }
 
         private void AddCodeFiles()
         {
-            Types = new List<TypeInfo>();
             AddCode(new ProgramCode(this));
             AddCode(new GameCode(this));
         }
@@ -135,11 +153,11 @@ namespace TypeD.Model
 
         public bool Save()
         {
-            JSON.Serialize(new { 
+            JSON.Serialize(new ProjectDTO(){ 
                 Name = Name,
                 SolutionFilePath = SolutionFilePath,
                 CSProjectName = CSProjectName,
-                Modules = Modules
+                Modules = Modules.Select(m => m.Name).ToList()
             }, ProjectFilePath);
 
             foreach (var code in Codes.Values)
@@ -168,16 +186,24 @@ namespace TypeD.Model
             });
         }
 
-        public void GenerateProjectFiles()
+        public void GenerateCodeFiles()
         {
-            Codes[$"{Name}.Program"].Generate();
-            Codes[$"{Name}.{Name}Game"].Generate();
+            foreach(var code in Codes.Values)
+            {
+                code.Generate();
+            }
         }
 
         public void AddModule(Module module)
         {
             var path = Path.Combine(Location, CSProjectName, $"{CSProjectName}.csproj");
             if (!File.Exists(path)) return;
+            Modules.Add(module);
+
+            var programCode = Codes[$"{Name}.Program"];
+            var moduleType = module.GetModuleType();
+            if(moduleType != null)
+                programCode.Usings.Add(moduleType.Namespace);
 
             module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);

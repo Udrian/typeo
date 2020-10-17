@@ -8,7 +8,7 @@ namespace TypeD.Model.Code
         {
             Usings = new List<string>()
             {
-                "System"
+                "TypeOEngine.Typedeaf.Core.Engine"
             };
         }
 
@@ -16,7 +16,15 @@ namespace TypeD.Model.Code
         {
             AddLine($"static void Main(string[] args)");
             AddLeftCurlyBracket();
-            AddLine($"Console.WriteLine(\"Hello '{Name}' World!\");");
+            AddLine($"TypeO.Create<{Project.Name}Game>(\"{Project.Name}\")");
+            foreach(var module in Project.Modules)
+            {
+                var moduleType = module.GetModuleType();
+                if (moduleType == null) continue;
+                AddLine($".LoadModule<{moduleType.Name}>()");
+            }
+            AddLine(".Start();");
+            AddRightCurlyBrackets();
         }
     }
 }

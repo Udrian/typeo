@@ -22,8 +22,10 @@ namespace TypeD.Controller
             LoadedProject = Project.Create(name, location, solutionName, csProjName);
             await LoadedProject.CreateSolution();
             await LoadedProject.CreateProject();
-            LoadedProject.GenerateProjectFiles();
             LoadedProject.AddModule(new Module("TypeOCore"));
+            LoadedProject.AddModule(new Module("TypeODesktop"));
+            LoadedProject.AddModule(new Module("TypeOSDL"));
+            LoadedProject.GenerateCodeFiles();
             LoadedProject.Save();
 
             await BuildAndLoadAssembly(LoadedProject);

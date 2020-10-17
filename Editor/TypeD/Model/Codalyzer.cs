@@ -83,6 +83,7 @@ namespace TypeD.Model
         {
             Output = new StringBuilder();
 
+            Usings = Usings.Distinct().ToList();
             foreach(var @using in Usings)
             {
                 AddLine($"using {@using};");
