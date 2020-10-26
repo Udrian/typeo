@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using TypeD.Controller;
+using TypeDEditor.Controller;
 
-namespace TypeD.View.Forms
+namespace TypeDEditor.View.Forms
 {
     public partial class NewProjectDialog : Form
     {
@@ -13,7 +13,6 @@ namespace TypeD.View.Forms
         {
             InitializeComponent();
             FileController = new FileController();
-
 
             ///DEBUG
             if(Directory.Exists(@"C:\Users\simon\projects\typeoproj\Test"))
@@ -50,7 +49,7 @@ namespace TypeD.View.Forms
 
             var name = Path.GetFileNameWithoutExtension(tbName.Text);
             var location = IsDirectory(tbLocation.Text) ? tbLocation.Text : Path.GetDirectoryName(tbLocation.Text);
-            var solution = Path.GetFileNameWithoutExtension(tbSolution.Text);
+            var solution = @$".\{tbSolution.Text}.sln";
             var project = Path.GetFileNameWithoutExtension(tbProject.Text);
 
             await FileController.Create(name, location, solution, project);

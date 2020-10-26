@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace TypeD.Helper
+namespace TypeDEditor.Helper
 {
     public static class ThreadHelperClass
     {

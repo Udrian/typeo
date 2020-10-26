@@ -2,38 +2,31 @@
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace TypeD.Model
+namespace TypeD.Models
 {
-    public class Module
+    public class ModuleModel
     {
-        private Assembly Assembly { get; set; }
+        // Data
         public string Name { get; set; }
+
+        // Loads
+        private Assembly Assembly { get; set; }
+        public TypeInfo ModuleTypeInfo { get; set; }
         
-        private string ModulePath { get { return Path.Combine(Directory.GetCurrentDirectory(), "modules", Name); } }
-        
-        public Module(string name)
+        // Constructors
+        public ModuleModel(string name)
         {
             Name = name;
             var path = Path.Combine(ModulePath, "Debug", $"{Name}.dll");
             Assembly = Assembly.LoadFrom(path);
+
+            ModuleTypeInfo = GetModuleType();
         }
 
-        public TypeInfo GetModuleType()
-        {
-            if (Name == "TypeOCore") return null;
-            TypeInfo moduleType = null;
-            foreach (var type in Assembly.DefinedTypes)
-            {
-                if (type.IsSubclassOf(typeof(TypeOEngine.Typedeaf.Core.Engine.Module)))
-                {
-                    moduleType = type;
-                    break;
-                }
-            }
+        // Paths
+        private string ModulePath { get { return Path.Combine(Directory.GetCurrentDirectory(), "modules", Name); } }
 
-            return moduleType;
-        }
-
+        // Public functions
         public void CopyProject(string location)
         {
             foreach (string dirPath in Directory.GetDirectories(ModulePath, "*", SearchOption.AllDirectories))
@@ -47,6 +40,23 @@ namespace TypeD.Model
         {
             AddReference(GetItemGroup(project, "Debug"), "Debug");
             AddReference(GetItemGroup(project, "Release"), "Release");
+        }
+
+        // Private functions
+        private TypeInfo GetModuleType()
+        {
+            if (Name == "TypeOCore") return null;
+            TypeInfo moduleType = null;
+            foreach (var type in Assembly.DefinedTypes)
+            {
+                if (type.IsSubclassOf(typeof(TypeOEngine.Typedeaf.Core.Engine.Module)))
+                {
+                    moduleType = type;
+                    break;
+                }
+            }
+
+            return moduleType;
         }
 
         private XElement GetItemGroup(XElement project, string configuration)

@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
-using TypeD.Controller;
-using TypeD.Model;
+using TypeD.Models;
+using TypeDEditor.Controller;
 
-namespace TypeD.View.Forms
+namespace TypeDEditor.View.Forms
 {
     public partial class Main : Form
     {
@@ -33,7 +33,6 @@ namespace TypeD.View.Forms
         private async void ToolStripMenuItemBuildProject_Click(object sender, System.EventArgs e)
         {
             await FileController.LoadedProject.Build();
-            FileController.LoadedProject.LoadAssembly();
             ProjectLoaded(FileController.LoadedProject);
         }
 
@@ -52,19 +51,19 @@ namespace TypeD.View.Forms
             var result = openFileDialog.ShowDialog();
             if(result == DialogResult.OK)
             {
-                var project = await FileController.Open(openFileDialog.FileName);
-                ProjectLoaded(project);
+                await FileController.Open(openFileDialog.FileName);
+                ProjectLoaded(FileController.LoadedProject);
             }
         }
 
-        private void ProjectLoaded(Project project)
+        private void ProjectLoaded(ProjectModel project)
         {
             explorer.Clear();
 
             if (project == null) return;
 
             explorer.PopulateTree(project);
-            Text = $"{OriginalTitle} - {project.Name} - {project.ProjectFilePath}";
+            Text = $"{OriginalTitle} - {project.ProjectName} - {project.ProjectFilePath}";
         }
 
         private void ToolStripMenuItemSave_Click(object sender, System.EventArgs e)

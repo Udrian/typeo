@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using TypeD.Models;
 
-namespace TypeD.Model.Code
+namespace TypeD.Code
 {
     public class GameCode : Codalyzer
     {
-        public GameCode(Project project) : base(project, $"{project.Name}Game", $"{project.Name}")
+        public GameCode(ProjectModel project) : base(project, $"{project.ProjectName}Game", $"{project.ProjectName}")
         {
             Base = "Game";
             Usings = new List<string>()

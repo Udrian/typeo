@@ -1,4 +1,4 @@
-﻿namespace TypeD.View.Forms
+﻿namespace TypeDEditor.View.Forms
 {
     partial class Main
     {
@@ -39,8 +39,8 @@
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.explorer = new TypeD.View.Forms.Explorer();
-            this.output = new TypeD.View.Forms.Output();
+            this.explorer = new TypeDEditor.View.Forms.Explorer();
+            this.output = new TypeDEditor.View.Forms.Output();
             this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemBuildProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRunProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -202,7 +202,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSave;
         private Explorer explorer;
-        private TypeD.View.Forms.Output output;
+        private TypeDEditor.View.Forms.Output output;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemNewProject;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuild;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuildProject;

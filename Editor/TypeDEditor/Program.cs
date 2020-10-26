@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using TypeD.View.Forms;
+using TypeDEditor.View.Forms;
 
-namespace TypeD
+namespace TypeDEditor
 {
     static class Program
     {

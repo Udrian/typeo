@@ -1,66 +1,26 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using TypeD.Model;
+﻿using System.Threading.Tasks;
+using TypeD.Commands.Project;
+using TypeD.Models;
 
-namespace TypeD.Controller
+namespace TypeDEditor.Controller
 {
     public class FileController
     {
-        public static Project LoadedProject { get; set;}
+        public static ProjectModel LoadedProject { get; set;}
 
-        public async Task Create(string name, string location, string solutionName, string csProjName)
+        public async Task Create(string projectName, string location, string csSolutionPath, string csProjName)
         {
-            if (Path.GetFileNameWithoutExtension(location) != name)
-            {
-                location = Path.Combine(location, name);
-            }
-            if (!Directory.Exists(location))
-            {
-                Directory.CreateDirectory(location);
-            }
-
-            LoadedProject = Project.Create(name, location, solutionName, csProjName);
-            await LoadedProject.CreateSolution();
-            await LoadedProject.CreateProject();
-            LoadedProject.AddModule(new Module("TypeOCore"));
-            LoadedProject.AddModule(new Module("TypeODesktop"));
-            LoadedProject.AddModule(new Module("TypeOSDL"));
-            LoadedProject.GenerateCodeFiles();
-            LoadedProject.Save();
-
-            await BuildAndLoadAssembly(LoadedProject);
+            LoadedProject = await ProjectCommand.Create(projectName, location, csSolutionPath, csProjName);
         }
 
-        public async Task<Project> Open(string projectFilePath)
+        public async Task Open(string projectFilePath)
         {
-            if (!projectFilePath.EndsWith(".typeo")) return null;
-
-            LoadedProject = Project.Load(projectFilePath);
-            if (LoadedProject == null) return null;
-
-            await BuildAndLoadAssembly(LoadedProject);
-
-            return LoadedProject;
+            LoadedProject = await ProjectCommand.Load(projectFilePath);
         }
-
-        private async Task BuildAndLoadAssembly(Project project)
-        {
-            var loaded = true;
-            if (!LoadedProject.LoadAssembly())
-            {
-                await LoadedProject.Build();
-                loaded = LoadedProject.LoadAssembly();
-            }
-            if(loaded)
-            {
-                LoadedProject.LoadTypes();
-            }
-        }
-
         public void Save()
         {
             if (LoadedProject == null) return;
-            LoadedProject.Save();
+                ProjectCommand.Save(LoadedProject);
         }
     }
 }

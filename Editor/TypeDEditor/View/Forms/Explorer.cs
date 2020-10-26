@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using System.Windows.Forms;
-using TypeD.Model;
+using TypeD.Models;
 
-namespace TypeD.View.Forms
+namespace TypeDEditor.View.Forms
 {
     public partial class Explorer : UserControl
     {
@@ -19,16 +19,16 @@ namespace TypeD.View.Forms
             }
         }
 
-        public void PopulateTree(Project project)
+        public void PopulateTree(ProjectModel project)
         {
             foreach(var type in project.Types)
             {
                 AddTree(type, project);
             }
         }
-        private void AddTree(TypeInfo type, Project project)
+        private void AddTree(TypeInfo type, ProjectModel project)
         {
-            var namespaces = (type.Namespace.StartsWith(project.Name)?type.Namespace.Remove(0, project.Name.Length):type.Namespace).Split('.');
+            var namespaces = (type.Namespace.StartsWith(project.ProjectName)?type.Namespace.Remove(0, project.ProjectName.Length):type.Namespace).Split('.');
 
             var node = treeView.Nodes;
             foreach(var ns in namespaces)

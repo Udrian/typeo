@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using TypeD.Models;
 
-namespace TypeD.Model.Code
+namespace TypeD.Code
 {
     public class ProgramCode : Codalyzer
     {
-        public ProgramCode(Project project) : base(project, "Program", $"{project.Name}")
+        public ProgramCode(ProjectModel project) : base(project, "Program", $"{project.ProjectName}")
         {
             Usings = new List<string>()
             {
@@ -16,10 +17,10 @@ namespace TypeD.Model.Code
         {
             AddLine($"static void Main(string[] args)");
             AddLeftCurlyBracket();
-            AddLine($"TypeO.Create<{Project.Name}Game>(\"{Project.Name}\")");
+            AddLine($"TypeO.Create<{Project.ProjectName}Game>(\"{Project.ProjectName}\")");
             foreach(var module in Project.Modules)
             {
-                var moduleType = module.GetModuleType();
+                var moduleType = module.ModuleTypeInfo;
                 if (moduleType == null) continue;
                 AddLine($".LoadModule<{moduleType.Name}>()");
             }

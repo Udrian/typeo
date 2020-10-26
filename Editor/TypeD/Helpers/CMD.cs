@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TypeD.Helper
+namespace TypeD.Helpers
 {
     public static class CMD
     {

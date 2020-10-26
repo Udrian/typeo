@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace TypeD.Helper
+namespace TypeD.Helpers
 {
     static class JSON
     {

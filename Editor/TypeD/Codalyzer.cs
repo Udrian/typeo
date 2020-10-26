@@ -4,8 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using TypeD.Models;
 
-namespace TypeD.Model
+namespace TypeD
 {
     public abstract class Codalyzer
     {
@@ -14,13 +15,13 @@ namespace TypeD.Model
         public string Name { get; set; }
         public string Base { get; set; }
 
-        public Project Project { get; set; }
+        public ProjectModel Project { get; private set; }
 
         private StringBuilder Output { get; set; }
         private int Tabs { get; set; }
         private string Tab { get { return "    "; } }
 
-        public Codalyzer(Project project, string name, string ns)
+        public Codalyzer(ProjectModel project, string name, string ns)
         {
             Project = project;
             Name = name;
@@ -28,7 +29,7 @@ namespace TypeD.Model
             Usings = new List<string>();
         }
 
-        public Codalyzer(Project project, TypeInfo from)
+        public Codalyzer(ProjectModel project, TypeInfo from)
         {
             Project = project;
             Name = from.Name;
