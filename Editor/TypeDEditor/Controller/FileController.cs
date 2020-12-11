@@ -6,7 +6,7 @@ namespace TypeDEditor.Controller
 {
     public class FileController
     {
-        public static ProjectModel LoadedProject { get; set;}
+        public static ProjectModel LoadedProject { get; set; }
 
         public async Task Create(string projectName, string location, string csSolutionPath, string csProjName)
         {

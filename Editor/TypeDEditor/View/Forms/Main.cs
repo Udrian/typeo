@@ -58,11 +58,8 @@ namespace TypeDEditor.View.Forms
 
         private void ProjectLoaded(ProjectModel project)
         {
-            explorer.Clear();
-
             if (project == null) return;
 
-            explorer.PopulateTree(project);
             Text = $"{OriginalTitle} - {project.ProjectName} - {project.ProjectFilePath}";
         }
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Data;
 using TypeD.Helpers;
+using TypeD.Models.TreeNodes;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -21,6 +22,8 @@ namespace TypeD.Models
         public string CSProjName { get; private set; }
         public List<ModuleModel> Modules { get; private set; }
         public string Location { get; private set; }
+
+        public TreeNode Nodes { get; private set; }
 
         // Loads
         public Dictionary<string, Codalyzer> Codes { get; private set; }
@@ -107,7 +110,32 @@ namespace TypeD.Models
                 }
             }
 
+            if (Nodes != null)
+                Nodes.Clear();
+            Nodes = TreeNode.Create(ProjectName, this, ProjectName);
+
+            foreach (var type in Types)
+            {
+                AddTypeToTree(type);
+            }
+
             return true;
+        }
+
+        private void AddTypeToTree(TypeInfo type)
+        {
+            var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.');
+
+            var node = Nodes;
+            foreach (var ns in namespaces)
+            {
+                if (string.IsNullOrEmpty(ns)) continue;
+                if (!node.Nodes.ContainsKey(ns))
+                    node.AddNode(ns, null, ns);
+                node = node.Nodes[ns];
+            }
+
+            node.AddNode(type.Name, type, type.FullName);
         }
 
         public void Run()
