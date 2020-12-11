@@ -12,7 +12,7 @@ namespace TypeOEngine.Typedeaf.Core
     {
         public class DefaultLogger : ILogger, IHasContext
         {
-            private static Mutex FileAccessMutex = new Mutex();
+            private static readonly Mutex FileAccessMutex = new Mutex();
 
             Context IHasContext.Context { get; set; }
             private Context Context { get => (this as IHasContext).Context; set => (this as IHasContext).Context = value; }
@@ -115,10 +115,10 @@ namespace TypeOEngine.Typedeaf.Core
 
                         Logs.Clear();
                     }
-                    catch(Exception e)
+                    catch
                     {
                         FileAccessMutex.ReleaseMutex();
-                        throw e;
+                        throw;
                     }
                     FileAccessMutex.ReleaseMutex();
                 });
