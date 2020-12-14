@@ -383,7 +383,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return drawable;
             }
 
-            internal void DestroyDrawable(Drawable drawable, DrawStack drawStack)
+            internal static void DestroyDrawable(Drawable drawable, DrawStack drawStack)
             {
                 if(drawStack != null)
                 {
@@ -413,7 +413,7 @@ namespace TypeOEngine.Typedeaf.Core
                 return logic;
             }
 
-            internal void DestroyLogic(Logic logic, UpdateLoop updateLoop)
+            internal static void DestroyLogic(Logic logic, UpdateLoop updateLoop)
             {
                 if(updateLoop != null)
                 {
