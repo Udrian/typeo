@@ -38,8 +38,8 @@ def pack(project_name, projects, build_number, externals=[], output_prefix="..")
                 addFileToZip(zipObj, filename, "", externalDir, "{}/Release/external/{}".format(project_name, external))
         
         #Add readme and releasenotes
-        addFileToZip(zipObj, "readme_typeo.txt", "", output_prefix, "{}/Debug".format(project_name))
-        addFileToZip(zipObj, "readme_typeo.txt", "", output_prefix, "{}/Release".format(project_name))
+        addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Debug".format(project_name))
+        addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Release".format(project_name))
         addFileToZip(zipObj, "ReleaseNotes.txt", "", output_prefix, project_name)
     
 def addFileToZip(zipObj, filename, directory, pathFrom, pathTo):
