@@ -40,7 +40,8 @@ def pack(project_name, projects, build_number, externals=[], output_prefix="..")
         #Add readme and releasenotes
         addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Debug".format(project_name))
         addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Release".format(project_name))
-        addFileToZip(zipObj, "ReleaseNotes.txt", "", output_prefix, project_name)
+        if os.path.isfile("{}/{}/ReleaseNotes-{}.txt".format(output_prefix, project_name, project_name)):
+            addFileToZip(zipObj, "ReleaseNotes-{}.txt".format(project_name), project_name, output_prefix, "")
     
 def addFileToZip(zipObj, filename, directory, pathFrom, pathTo):
     print("... Adding file: {}/{}/{}".format(pathFrom, directory, filename))
