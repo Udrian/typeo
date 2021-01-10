@@ -16,8 +16,10 @@ def pack(project_name, projects, build_number, externals=[], output_prefix="..")
     output = "{}/bin/package/{}".format(output_prefix, project_name)
     print("Packing '{}' '{}' to output '{}'".format(project_name, version, output))
 
+    zipfilename = "{}/{}-v{}.zip".format(output, project_name, version)
+
     os.makedirs(output, exist_ok=True)
-    with zipfile.ZipFile("{}/{}-v{}.zip".format(output, project_name, version), 'w') as zipObj:
+    with zipfile.ZipFile(zipfilename, 'w') as zipObj:
         for project in projects:
             print("Adding project '{}' to zip".format(project))
             path = "{}/bin/builds/{}".format(output_prefix, project)
@@ -42,6 +44,7 @@ def pack(project_name, projects, build_number, externals=[], output_prefix="..")
         addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Release".format(project_name))
         if os.path.isfile("{}/{}/ReleaseNotes-{}.txt".format(output_prefix, project_name, project_name)):
             addFileToZip(zipObj, "ReleaseNotes-{}.txt".format(project_name), project_name, output_prefix, "")
+    return zipfilename
     
 def addFileToZip(zipObj, filename, directory, pathFrom, pathTo):
     print("... Adding file: {}/{}/{}".format(pathFrom, directory, filename))
