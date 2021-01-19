@@ -11,7 +11,7 @@ configs = ["Debug", "Release"]
 modules = [
     Module("TypeOCore"),
     Module("TypeODesktop"),
-    Module("TypeOSDL", ["sdl2"])
+    Module("TypeOSDL", ["SDL2"])
 ]
 
 def main():
