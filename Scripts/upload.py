@@ -23,7 +23,7 @@ def upload(key, secret, bucket, path, filename):
                             aws_access_key_id=key,
                             aws_secret_access_key=secret)
 
-    client.upload_file(filename, bucket, path)
+    client.upload_file(filename, bucket, path, ExtraArgs={'ACL':'public-read'})
 
 if __name__ == "__main__":
     main()
