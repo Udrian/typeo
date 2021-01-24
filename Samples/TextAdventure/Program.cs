@@ -1,12 +1,14 @@
-﻿using System;
+﻿using TypeOEngine.Typedeaf.Core.Engine;
 
 namespace TextAdventure
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Console.WriteLine("Hello World!");
+            TypeO.Create<TextAdventureGame>("Text Adventure")
+                .SetLogger(LogLevel.Info)
+                .Start();
         }
     }
 }
