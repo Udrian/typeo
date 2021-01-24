@@ -19,7 +19,7 @@ namespace TypeD
 
         private StringBuilder Output { get; set; }
         private int Tabs { get; set; }
-        private string Tab { get { return "    "; } }
+        private static string Tab { get { return "    "; } }
 
         public Codalyzer(ProjectModel project, string name, string ns)
         {
@@ -42,7 +42,7 @@ namespace TypeD
                 Usings.Add(type.Namespace);
             }
 
-            Output = new StringBuilder(from.Assembly.CodeBase);
+            Output = new StringBuilder(from.Assembly.Location);
         }
 
         protected void AddLine(string line = "", bool tab = false)
