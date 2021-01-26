@@ -7,7 +7,7 @@ namespace TypeD.Code
     {
         public GameCode(ProjectModel project) : base(project, $"{project.ProjectName}Game", $"{project.ProjectName}")
         {
-            Base = "Game";
+            BaseClass = "Game";
             Usings = new List<string>()
             {
                 "TypeOEngine.Typedeaf.Core"

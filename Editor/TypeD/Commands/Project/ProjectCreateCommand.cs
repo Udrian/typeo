@@ -42,9 +42,9 @@ namespace TypeD.Commands.Project
             project.AddCode(new ProgramCode(project));
             project.AddCode(new GameCode(project));
 
-            project.AddModule(new ModuleModel("TypeOCore"));
-            project.AddModule(new ModuleModel("TypeODesktop"));
-            project.AddModule(new ModuleModel("TypeOSDL"));
+            //project.AddModule(new ModuleModel("TypeOCore"));
+            //project.AddModule(new ModuleModel("TypeODesktop"));
+            //project.AddModule(new ModuleModel("TypeOSDL"));
 
             project.Save();
             await project.Build();

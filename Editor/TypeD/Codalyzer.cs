@@ -13,7 +13,7 @@ namespace TypeD
         public List<string> Usings { get; set; }
         public string Namespace { get; set; }
         public string Name { get; set; }
-        public string Base { get; set; }
+        public string BaseClass { get; set; }
 
         public ProjectModel Project { get; private set; }
 
@@ -92,7 +92,7 @@ namespace TypeD
             AddLine();
             AddLine($"namespace {Namespace}");
             AddLeftCurlyBracket();
-            AddLine($"class {Name}{(string.IsNullOrEmpty(Base)?"":$" : {Base}")}");
+            AddLine($"class {Name}{(string.IsNullOrEmpty(BaseClass)?"":$" : {BaseClass}")}");
             AddLeftCurlyBracket();
             GenerateBody();
             AddAllClosingBrackets();
