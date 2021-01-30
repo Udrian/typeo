@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using TypeD.Models;
 
 namespace TypeD.Code
@@ -11,21 +12,24 @@ namespace TypeD.Code
             {
                 "TypeOEngine.Typedeaf.Core.Engine"
             };
+
+            AddFunction(new Function($"static void Main(string[] args)", () =>
+            {
+                Writer.AddLine($"TypeO.Create<{Project.ProjectName}Game>(\"{Project.ProjectName}\")");
+                foreach (var module in Project.Modules)
+                {
+                    var moduleType = module.ModuleTypeInfo;
+                    if (moduleType == null) continue;
+                    Writer.AddLine($".LoadModule<{moduleType.Name}>()");
+                }
+                Writer.AddLine(".Start();", true);
+                Writer.Tabs--;
+            }));
         }
 
-        protected override void GenerateBody()
+        public override void Save(string location)
         {
-            AddLine($"static void Main(string[] args)");
-            AddLeftCurlyBracket();
-            AddLine($"TypeO.Create<{Project.ProjectName}Game>(\"{Project.ProjectName}\")");
-            foreach(var module in Project.Modules)
-            {
-                var moduleType = module.ModuleTypeInfo;
-                if (moduleType == null) continue;
-                AddLine($".LoadModule<{moduleType.Name}>()");
-            }
-            AddLine(".Start();");
-            AddRightCurlyBrackets();
+            Writer.Save(Path.Combine(location, Namespace, $"{ClassName}.cs"));
         }
     }
 }

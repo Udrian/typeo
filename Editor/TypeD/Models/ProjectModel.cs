@@ -145,7 +145,7 @@ namespace TypeD.Models
 
         public void AddCode(Codalyzer code)
         {
-            Codes.Add($"{code.Namespace}.{code.Name}", code);
+            Codes.Add($"{code.Namespace}.{code.ClassName}", code);
         }
 
         public void Save()

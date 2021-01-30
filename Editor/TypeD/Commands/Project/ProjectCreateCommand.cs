@@ -46,7 +46,7 @@ namespace TypeD.Commands.Project
             //project.AddModule(new ModuleModel("TypeODesktop"));
             //project.AddModule(new ModuleModel("TypeOSDL"));
 
-            project.Save();
+            Save(project);
             await project.Build();
             // Return
             return project;
