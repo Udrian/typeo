@@ -65,6 +65,7 @@ namespace TypeD.Models
             module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);
             module.AddToProjectXML(projectX);
+            //Should only save when we press save
             projectX.Save(path);
         }
 

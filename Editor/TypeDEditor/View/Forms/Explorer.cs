@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
-using TypeD.Models;
 
 namespace TypeDEditor.View.Forms
 {

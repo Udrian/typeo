@@ -19,7 +19,7 @@ namespace TypeD.Code
                 foreach (var module in Project.Modules)
                 {
                     var moduleType = module.ModuleTypeInfo;
-                    if (moduleType == null) continue;
+                    if (moduleType == null || moduleType.Name == "TypeOCore") continue;
                     Writer.AddLine($".LoadModule<{moduleType.Name}>()");
                 }
                 Writer.AddLine(".Start();", true);
