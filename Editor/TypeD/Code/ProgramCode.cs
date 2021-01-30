@@ -26,10 +26,5 @@ namespace TypeD.Code
                 Writer.Tabs--;
             }));
         }
-
-        public override void Save(string location)
-        {
-            Writer.Save(Path.Combine(location, Namespace, $"{ClassName}.cs"));
-        }
     }
 }

@@ -21,14 +21,5 @@ namespace TypeD.Code
             AddFunction(new Function("public override void Update(double dt)", () => { }));
             AddFunction(new Function("public override void Cleanup()", () => { }));
         }
-
-        public override void Save(string location)
-        {
-            var path = Path.Combine(location, Namespace, $"{ClassName}.cs");
-            if(!File.Exists(path))
-            {
-                Writer.Save(path);
-            }
-        }
     }
 }
