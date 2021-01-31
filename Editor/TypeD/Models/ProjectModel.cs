@@ -125,7 +125,9 @@ namespace TypeD.Models
 
         private void AddTypeToTree(TypeInfo type)
         {
-            var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.');
+            var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.').ToList();
+            if(namespaces.Count > 0)
+                namespaces.RemoveAt(0);
 
             var node = Nodes;
             foreach (var ns in namespaces)
@@ -136,7 +138,7 @@ namespace TypeD.Models
                 node = node.Nodes[ns];
             }
 
-            node.AddNode(type.Name, type, type.FullName);
+            node.AddSibling(type.Name, type, type.FullName);
         }
 
         public void Run()

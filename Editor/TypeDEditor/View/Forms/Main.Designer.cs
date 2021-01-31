@@ -35,15 +35,15 @@
             this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemBuildProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemRunProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.explorer = new TypeDEditor.View.Forms.Explorer();
             this.output = new TypeDEditor.View.Forms.Output();
-            this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemBuildProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemRunProject = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -103,6 +103,27 @@
             this.toolStripMenuItemExit.Size = new System.Drawing.Size(182, 40);
             this.toolStripMenuItemExit.Text = "Exit";
             // 
+            // toolStripMenuItemBuild
+            // 
+            this.toolStripMenuItemBuild.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemBuildProject,
+            this.toolStripMenuItemRunProject});
+            this.toolStripMenuItemBuild.Name = "toolStripMenuItemBuild";
+            this.toolStripMenuItemBuild.Size = new System.Drawing.Size(77, 34);
+            this.toolStripMenuItemBuild.Text = "Build";
+            // 
+            // toolStripMenuItemBuildProject
+            // 
+            this.toolStripMenuItemBuildProject.Name = "toolStripMenuItemBuildProject";
+            this.toolStripMenuItemBuildProject.Size = new System.Drawing.Size(247, 40);
+            this.toolStripMenuItemBuildProject.Text = "Build Project";
+            // 
+            // toolStripMenuItemRunProject
+            // 
+            this.toolStripMenuItemRunProject.Name = "toolStripMenuItemRunProject";
+            this.toolStripMenuItemRunProject.Size = new System.Drawing.Size(247, 40);
+            this.toolStripMenuItemRunProject.Text = "Run Project";
+            // 
             // toolStripMenuItemHelp
             // 
             this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -148,27 +169,6 @@
             this.output.Size = new System.Drawing.Size(1299, 337);
             this.output.TabIndex = 3;
             // 
-            // toolStripMenuItemBuild
-            // 
-            this.toolStripMenuItemBuild.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemBuildProject,
-            this.toolStripMenuItemRunProject});
-            this.toolStripMenuItemBuild.Name = "toolStripMenuItemBuild";
-            this.toolStripMenuItemBuild.Size = new System.Drawing.Size(77, 34);
-            this.toolStripMenuItemBuild.Text = "Build";
-            // 
-            // toolStripMenuItemBuildProject
-            // 
-            this.toolStripMenuItemBuildProject.Name = "toolStripMenuItemBuildProject";
-            this.toolStripMenuItemBuildProject.Size = new System.Drawing.Size(247, 40);
-            this.toolStripMenuItemBuildProject.Text = "Build Project";
-            // 
-            // toolStripMenuItemRunProject
-            // 
-            this.toolStripMenuItemRunProject.Name = "toolStripMenuItemRunProject";
-            this.toolStripMenuItemRunProject.Size = new System.Drawing.Size(247, 40);
-            this.toolStripMenuItemRunProject.Text = "Run Project";
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
@@ -182,6 +182,7 @@
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "Main";
             this.Text = "TypeD - A TypeO Editor";
+            this.Load += new System.EventHandler(this.Main_Load);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.ResumeLayout(false);

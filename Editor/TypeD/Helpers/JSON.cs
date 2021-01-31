@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace TypeD.Helpers
 {
-    static class JSON
+    public static class JSON
     {
         public static bool Serialize(object obj, string filePath)
         {
@@ -16,6 +16,11 @@ namespace TypeD.Helpers
 
         public static T Deserialize<T>(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                return default;
+            }
+
             var json = File.ReadAllText(filePath);
             var obj = (T)JsonSerializer.Deserialize(json, typeof(T));
 

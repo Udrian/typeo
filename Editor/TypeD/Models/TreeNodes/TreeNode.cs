@@ -37,6 +37,14 @@ namespace TypeD.Models.TreeNodes
             NodeAddedEvent?.Invoke(node);
         }
 
+        public void AddSibling(string name, object obj, string key = null)
+        {
+            var node = new TreeNode(name, obj, key);
+            node.Parent = Parent;
+            Nodes.Add(node.Key, node);
+            NodeAddedEvent?.Invoke(node);
+        }
+
         public void Clear()
         {
             InternalClear();
