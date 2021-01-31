@@ -14,11 +14,9 @@ namespace TypeD.Models.TreeNodes
         public TreeNode Parent { get; private set; }
         public Dictionary<string, TreeNode> Nodes { get; private set; }
 
-        public static TreeNode Create(string name, object obj, string key = null)
+        public static TreeNode Create()
         {
-            var node = new TreeNode(name, obj, key);
-            NodeAddedEvent?.Invoke(node);
-            return node;
+            return new TreeNode("", null, null);
         }
 
         protected TreeNode(string name, object obj, string key = null)
@@ -33,14 +31,6 @@ namespace TypeD.Models.TreeNodes
         {
             var node = new TreeNode(name, obj, key);
             node.Parent = this;
-            Nodes.Add(node.Key, node);
-            NodeAddedEvent?.Invoke(node);
-        }
-
-        public void AddSibling(string name, object obj, string key = null)
-        {
-            var node = new TreeNode(name, obj, key);
-            node.Parent = Parent;
             Nodes.Add(node.Key, node);
             NodeAddedEvent?.Invoke(node);
         }

@@ -4,6 +4,7 @@ using TypeD.Code;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.Models;
+using TypeOEngine.Typedeaf.Core.Entities;
 
 namespace TypeD.Commands.Project
 {
@@ -23,6 +24,16 @@ namespace TypeD.Commands.Project
                     // Prepare
                     project.AddCode(new ProgramCode(project));
                     project.AddCode(new GameCode(project));
+                    project.AddCode(new GameTypeDCode(project));
+
+                    foreach(var type in project.Types)
+                    {
+                        if(type.IsSubclassOf(typeof(Entity)))
+                        {
+                            project.AddCode(new EntityCode(project, type.Name, type.Namespace));
+                            project.AddCode(new EntityTypeDCode(project, type.Name, type.Namespace));
+                        }
+                    }
 
                     return project;
                 });

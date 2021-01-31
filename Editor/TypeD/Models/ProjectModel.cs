@@ -26,7 +26,7 @@ namespace TypeD.Models
         public TreeNode Nodes { get; private set; }
 
         // Loads
-        public Dictionary<string, Codalyzer> Codes { get; private set; }
+        public Dictionary<string, List<Codalyzer>> Codes { get; private set; }
         public Assembly Assembly { get; private set; }
         public List<TypeInfo> Types { get; private set; }
 
@@ -35,7 +35,7 @@ namespace TypeD.Models
         {
             Location = location;
 
-            Codes = new Dictionary<string, Codalyzer>();
+            Codes = new Dictionary<string, List<Codalyzer>>();
             Types = new List<TypeInfo>();
 
             ProjectName = projectData.ProjectName;
@@ -60,7 +60,7 @@ namespace TypeD.Models
 
             var programCode = Codes[$"{ProjectName}.Program"];
             if (module.ModuleTypeInfo != null)
-                programCode.Usings.Add(module.ModuleTypeInfo.Namespace);
+                programCode.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
             module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);
@@ -111,9 +111,15 @@ namespace TypeD.Models
                 }
             }
 
-            if (Nodes != null)
+            if (Nodes == null)
+            {
+                Nodes = TreeNode.Create();
+            }
+            else
+            {
                 Nodes.Clear();
-            Nodes = TreeNode.Create(ProjectName, this, ProjectName);
+            }
+            Nodes.AddNode(ProjectName, this);
 
             foreach (var type in Types)
             {
@@ -138,7 +144,7 @@ namespace TypeD.Models
                 node = node.Nodes[ns];
             }
 
-            node.AddSibling(type.Name, type, type.FullName);
+            node.AddNode(type.Name, type, type.FullName);
         }
 
         public void Run()
@@ -148,7 +154,12 @@ namespace TypeD.Models
 
         public void AddCode(Codalyzer code)
         {
-            Codes.Add($"{code.Namespace}.{code.ClassName}", code);
+            var key = $"{code.Namespace}.{code.ClassName}";
+            if (!Codes.ContainsKey(key))
+            {
+                Codes.Add(key, new List<Codalyzer>());
+            }
+            Codes[key].Add(code);
         }
 
         public void Save()
@@ -161,10 +172,13 @@ namespace TypeD.Models
                 Modules = Modules.Select(m => m.Name).ToList()
             }, ProjectFilePath);
 
-            foreach (var code in Codes.Values)
+            foreach (var codes in Codes.Values)
             {
-                code.Generate();
-                code.Save(Location);
+                foreach(var code in codes)
+                {
+                    code.Generate();
+                    code.Save(Location);
+                }
             }
         }
     }

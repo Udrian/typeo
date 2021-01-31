@@ -5,6 +5,7 @@ using TypeD.Helpers;
 using TypeDEditor.Controller;
 using TypeDEditor.Model;
 using System.IO;
+using TypeDEditor.View.Forms.Dialogs;
 
 namespace TypeDEditor.View.Forms
 {
@@ -12,6 +13,7 @@ namespace TypeDEditor.View.Forms
     {
         private readonly string OriginalTitle;
         public FileController FileController { get; set; }
+        public ProjectController ProjectController { get; set; }
         public static string RecentFilePath { get; set; } = "recent";
         public static int RecentLength { get; set; } = 5;
 
@@ -25,12 +27,25 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemExit.Click += ToolStripMenuItemExit_Click;
             toolStripMenuItemBuildProject.Click += ToolStripMenuItemBuildProject_Click;
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
+            toolStripMenuItemAddEntity.Click += ToolStripMenuItemAddEntity_Click;
 
             FileController = new FileController();
+            ProjectController = new ProjectController();
 
             OriginalTitle = Text;
 
             Hide();
+        }
+
+        //Add to Project
+        private void ToolStripMenuItemAddEntity_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new AddNewEntityDialog();
+            var result = dialog.ShowDialog(this);
+            if(result == DialogResult.OK)
+            {
+                ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace);
+            }
         }
 
         private void ToolStripMenuItemRunProject_Click(object sender, System.EventArgs e)

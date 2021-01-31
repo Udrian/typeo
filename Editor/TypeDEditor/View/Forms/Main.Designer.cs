@@ -44,6 +44,9 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.explorer = new TypeDEditor.View.Forms.Explorer();
             this.output = new TypeDEditor.View.Forms.Output();
+            this.toolStripMenuItemProject = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAddEntity = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,6 +55,7 @@
             this.menuStrip.ImageScalingSize = new System.Drawing.Size(28, 28);
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemFile,
+            this.toolStripMenuItemProject,
             this.toolStripMenuItemBuild,
             this.toolStripMenuItemHelp});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
@@ -169,6 +173,28 @@
             this.output.Size = new System.Drawing.Size(1299, 337);
             this.output.TabIndex = 3;
             // 
+            // toolStripMenuItemProject
+            // 
+            this.toolStripMenuItemProject.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAdd});
+            this.toolStripMenuItemProject.Name = "toolStripMenuItemProject";
+            this.toolStripMenuItemProject.Size = new System.Drawing.Size(95, 34);
+            this.toolStripMenuItemProject.Text = "Project";
+            // 
+            // toolStripMenuItemAdd
+            // 
+            this.toolStripMenuItemAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemAddEntity});
+            this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
+            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(169, 40);
+            this.toolStripMenuItemAdd.Text = "Add";
+            // 
+            // toolStripMenuItemAddEntity
+            // 
+            this.toolStripMenuItemAddEntity.Name = "toolStripMenuItemAddEntity";
+            this.toolStripMenuItemAddEntity.Size = new System.Drawing.Size(183, 40);
+            this.toolStripMenuItemAddEntity.Text = "Entity";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
@@ -208,6 +234,9 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuild;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuildProject;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRunProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemProject;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddEntity;
     }
 }
 

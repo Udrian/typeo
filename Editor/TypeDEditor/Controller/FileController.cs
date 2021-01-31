@@ -21,6 +21,7 @@ namespace TypeDEditor.Controller
                 ProjectCommand.Clear(LoadedProject);
             LoadedProject = await ProjectCommand.Load(projectFilePath);
         }
+
         public void Save()
         {
             if (LoadedProject == null) return;
