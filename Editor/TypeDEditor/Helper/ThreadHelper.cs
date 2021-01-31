@@ -1,9 +1,27 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace TypeDEditor.Helper
 {
-    public static class ThreadHelperClass
+    public static class ThreadHelper
     {
+        delegate void InvokeMainThreadCallback(UserControl uc, Action action);
+        public static void InvokeMainThread(UserControl uc, Action action)
+        {
+            if (uc.InvokeRequired)
+            {
+                var callback = new InvokeMainThreadCallback(InvokeMainThread);
+                uc.Invoke(callback, new object[] { uc, action });
+            }
+            else
+            {
+                action();
+            }
+        }
+
+
+
+
         delegate void SetTextCallback(UserControl f, RichTextBox ctrl, string text);
         /// <summary>
         /// Set text property of various controls

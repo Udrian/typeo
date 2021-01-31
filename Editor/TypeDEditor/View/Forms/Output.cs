@@ -19,7 +19,7 @@ namespace TypeDEditor.View.Forms
 
         private void CMD_Output(string output)
         {
-            ThreadHelperClass.AppendText(this, tbOutput, Environment.NewLine + output);
+            ThreadHelper.AppendText(this, tbOutput, Environment.NewLine + output);
         }
 
         private void tbOutput_TextChanged(object sender, EventArgs e)

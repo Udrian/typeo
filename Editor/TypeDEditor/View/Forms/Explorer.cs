@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using TypeDEditor.Helper;
 
 namespace TypeDEditor.View.Forms
 {
@@ -29,39 +30,42 @@ namespace TypeDEditor.View.Forms
 
         private void TreeNode_NodeAddedEvent(TypeD.Models.TreeNodes.TreeNode obj)
         {
-            if(obj.Parent == null)
+            ThreadHelper.InvokeMainThread(this, () =>
             {
-                treeView.Nodes.Add(obj.Key, obj.Name);
-            }
-            else
-            {
-                var parents = new Stack<TypeD.Models.TreeNodes.TreeNode>();
+                if (obj.Parent == null)
                 {
-                    var parent = obj.Parent;
-                    while(parent != null)
-                    {
-                        parents.Push(parent);
-                        parent = parent.Parent;
-                    }
+                    treeView.Nodes.Add(obj.Key, obj.Name);
                 }
-
-                var nodes = treeView.Nodes;
+                else
                 {
-                    while(parents.Count > 0)
+                    var parents = new Stack<TypeD.Models.TreeNodes.TreeNode>();
                     {
-                        var parent = parents.Pop();
-                        foreach(TreeNode node in nodes)
+                        var parent = obj.Parent;
+                        while(parent != null)
                         {
-                            if(node.Name == parent.Key)
+                            parents.Push(parent);
+                            parent = parent.Parent;
+                        }
+                    }
+
+                    var nodes = treeView.Nodes;
+                    {
+                        while(parents.Count > 0)
+                        {
+                            var parent = parents.Pop();
+                            foreach(TreeNode node in nodes)
                             {
-                                nodes = node.Nodes;
-                                break;
+                                if(node.Name == parent.Key)
+                                {
+                                    nodes = node.Nodes;
+                                    break;
+                                }
                             }
                         }
                     }
+                    nodes.Add(obj.Key, obj.Name);
                 }
-                nodes.Add(obj.Key, obj.Name);
-            }
+            });
         }
 
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
