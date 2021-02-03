@@ -42,9 +42,10 @@ namespace TypeDEditor.View.Forms
         {
             var dialog = new AddNewEntityDialog();
             var result = dialog.ShowDialog(this);
+
             if(result == DialogResult.OK)
             {
-                ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace);
+                ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace, dialog.Updatable, dialog.Drawable);
             }
         }
 

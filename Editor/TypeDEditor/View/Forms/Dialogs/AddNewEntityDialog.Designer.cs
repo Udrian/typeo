@@ -35,6 +35,8 @@ namespace TypeDEditor.View.Forms.Dialogs
             this.label3 = new System.Windows.Forms.Label();
             this.tbName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbUpdatable = new System.Windows.Forms.CheckBox();
+            this.cbDrawable = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -93,11 +95,33 @@ namespace TypeDEditor.View.Forms.Dialogs
             this.label2.TabIndex = 8;
             this.label2.Text = "Name";
             // 
+            // cbUpdatable
+            // 
+            this.cbUpdatable.AutoSize = true;
+            this.cbUpdatable.Location = new System.Drawing.Point(12, 306);
+            this.cbUpdatable.Name = "cbUpdatable";
+            this.cbUpdatable.Size = new System.Drawing.Size(134, 34);
+            this.cbUpdatable.TabIndex = 11;
+            this.cbUpdatable.Text = "Updatable";
+            this.cbUpdatable.UseVisualStyleBackColor = true;
+            // 
+            // cbDrawable
+            // 
+            this.cbDrawable.AutoSize = true;
+            this.cbDrawable.Location = new System.Drawing.Point(12, 346);
+            this.cbDrawable.Name = "cbDrawable";
+            this.cbDrawable.Size = new System.Drawing.Size(126, 34);
+            this.cbDrawable.TabIndex = 12;
+            this.cbDrawable.Text = "Drawable";
+            this.cbDrawable.UseVisualStyleBackColor = true;
+            // 
             // AddNewEntityDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cbDrawable);
+            this.Controls.Add(this.cbUpdatable);
             this.Controls.Add(this.tbNamespace);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tbName);
@@ -119,5 +143,7 @@ namespace TypeDEditor.View.Forms.Dialogs
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cbUpdatable;
+        private System.Windows.Forms.CheckBox cbDrawable;
     }
 }

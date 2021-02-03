@@ -7,6 +7,8 @@ namespace TypeDEditor.View.Forms.Dialogs
     {
         public string EntityName { get; private set; }
         public string EntityNamespace { get; private set; }
+        public bool Updatable { get; private set; }
+        public bool Drawable { get; private set; }
 
         public AddNewEntityDialog()
         {
@@ -17,6 +19,9 @@ namespace TypeDEditor.View.Forms.Dialogs
         {
             EntityName = tbName.Text;
             EntityNamespace = tbNamespace.Text;
+            Updatable = cbUpdatable.Checked;
+            Drawable = cbDrawable.Checked;
+
             DialogResult = DialogResult.OK;
             Close();
         }
