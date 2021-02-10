@@ -42,7 +42,6 @@
             this.tbOutput.Size = new System.Drawing.Size(213, 100);
             this.tbOutput.TabIndex = 0;
             this.tbOutput.Text = "Hello world!";
-            this.tbOutput.TextChanged += new System.EventHandler(this.tbOutput_TextChanged);
             // 
             // Output
             // 

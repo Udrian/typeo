@@ -1,12 +1,13 @@
-﻿using TypeD.Models;
+﻿using System.Threading.Tasks;
+using TypeD.Models;
 
 namespace TypeD.Commands.Project
 {
     public static partial class ProjectCommand
     {
-        public static void Save(ProjectModel project)
+        public static async Task Save(ProjectModel project)
         {
-            project.Save();
+            await project.Save();
         }
     }
 }

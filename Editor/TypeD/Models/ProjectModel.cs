@@ -162,24 +162,29 @@ namespace TypeD.Models
             Codes[key].Add(code);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            JSON.Serialize(new ProjectData()
+            var task = new Task(() =>
             {
-                ProjectName = ProjectName,
-                CSSolutionPath = CSSolutionPath,
-                CSProjName = CSProjName,
-                Modules = Modules.Select(m => m.Name).ToList()
-            }, ProjectFilePath);
-
-            foreach (var codes in Codes.Values)
-            {
-                foreach(var code in codes)
+                JSON.Serialize(new ProjectData()
                 {
-                    code.Generate();
-                    code.Save(Location);
+                    ProjectName = ProjectName,
+                    CSSolutionPath = CSSolutionPath,
+                    CSProjName = CSProjName,
+                    Modules = Modules.Select(m => m.Name).ToList()
+                }, ProjectFilePath);
+
+                foreach (var codes in Codes.Values)
+                {
+                    foreach (var code in codes)
+                    {
+                        code.Generate();
+                        code.Save(Location);
+                    }
                 }
-            }
+            });
+            task.Start();
+            await task;
         }
     }
 }

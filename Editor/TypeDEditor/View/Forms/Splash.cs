@@ -17,13 +17,13 @@ namespace TypeDEditor.View.Forms
             Main = main;
             InitializeComponent();
 
-            var recents = JSON.Deserialize<List<RecentModel>>(Main.RecentFilePath) ?? new List<RecentModel>();
+            var recents = JSON.Deserialize<List<RecentModel>>(RecentModel.RecentFilePath) ?? new List<RecentModel>();
             recents.RemoveAll((recent) => { return !File.Exists(recent.Path); });
 
             int y = 0, i = 0;
             foreach(var recent in recents)
             {
-                if (i >= Main.RecentLength) break;
+                if (i >= RecentModel.RecentLength) break;
                 i++;
 
                 var recentLink = new LinkLabel();
@@ -44,7 +44,7 @@ namespace TypeDEditor.View.Forms
             Enabled = false;
             var path = e.Link.LinkData as string;
 
-            await Main.FileController.Open(path);
+            await FileController.Open(path);
             Main.ProjectLoaded(FileController.LoadedProject);
             Main.Show();
             Close();
@@ -75,7 +75,7 @@ namespace TypeDEditor.View.Forms
             var result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                await Main.FileController.Open(openFileDialog.FileName);
+                await FileController.Open(openFileDialog.FileName);
                 Main.ProjectLoaded(FileController.LoadedProject);
                 Main.Show();
                 Close();

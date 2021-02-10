@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using TypeD.Models;
-using TypeD.Helpers;
 using TypeDEditor.Controller;
-using TypeDEditor.Model;
-using System.IO;
 using TypeDEditor.View.Forms.Dialogs;
 
 namespace TypeDEditor.View.Forms
@@ -12,10 +8,6 @@ namespace TypeDEditor.View.Forms
     public partial class Main : Form
     {
         private readonly string OriginalTitle;
-        public FileController FileController { get; set; }
-        public ProjectController ProjectController { get; set; }
-        public static string RecentFilePath { get; set; } = "recent";
-        public static int RecentLength { get; set; } = 5;
 
         public Main()
         {
@@ -28,9 +20,6 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemBuildProject.Click += ToolStripMenuItemBuildProject_Click;
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
             toolStripMenuItemAddEntity.Click += ToolStripMenuItemAddEntity_Click;
-
-            FileController = new FileController();
-            ProjectController = new ProjectController();
 
             OriginalTitle = Text;
 
@@ -49,14 +38,14 @@ namespace TypeDEditor.View.Forms
             }
         }
 
-        private void ToolStripMenuItemRunProject_Click(object sender, System.EventArgs e)
+        private async void ToolStripMenuItemRunProject_Click(object sender, System.EventArgs e)
         {
-            FileController.LoadedProject.Run();
+            await ProjectController.Run();
         }
 
         private async void ToolStripMenuItemBuildProject_Click(object sender, System.EventArgs e)
         {
-            await FileController.LoadedProject.Build();
+            await ProjectController.Build();
             ProjectLoaded(FileController.LoadedProject);
         }
 
@@ -85,22 +74,11 @@ namespace TypeDEditor.View.Forms
             if (project == null) return;
 
             Text = $"{OriginalTitle} - {project.ProjectName} - {project.ProjectFilePath}";
-
-            var recents = JSON.Deserialize<List<RecentModel>>(RecentFilePath) ?? new List<RecentModel>();
-
-            recents.RemoveAll((recent) => { return recent.Path == project.ProjectFilePath || !File.Exists(recent.Path); });
-            recents.Insert(0, new RecentModel() { Name = project.ProjectName, Path = project.ProjectFilePath });
-            
-            if(recents.Count > RecentLength)
-            {
-                recents.RemoveRange(RecentLength, recents.Count - RecentLength);
-            }
-            JSON.Serialize(recents, RecentFilePath);
         }
 
-        private void ToolStripMenuItemSave_Click(object sender, System.EventArgs e)
+        private async void ToolStripMenuItemSave_Click(object sender, System.EventArgs e)
         {
-            FileController.Save();
+            await FileController.Save();
         }
 
         private void ToolStripMenuItemExit_Click(object sender, System.EventArgs e)

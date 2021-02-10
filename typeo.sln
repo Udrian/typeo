@@ -33,9 +33,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDEditor", "Editor\TypeD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{4AEAA7A4-8925-4687-AF58-8C6DAF4959C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeD", "Editor\TypeD\TypeD.csproj", "{CFE541E4-F5B6-4A0E-AE19-C47B6760145B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeD", "Editor\TypeD\TypeD.csproj", "{CFE541E4-F5B6-4A0E-AE19-C47B6760145B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeDTest", "Tests\TypeDTest\TypeDTest.csproj", "{10550FAA-96A3-40AD-9BC9-9AFE9B32349A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDTest", "Tests\TypeDTest\TypeDTest.csproj", "{10550FAA-96A3-40AD-9BC9-9AFE9B32349A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A1D54755-A8CE-41AC-9B0C-A9F6D0B3C163}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

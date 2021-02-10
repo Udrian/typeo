@@ -19,13 +19,12 @@ namespace TypeDEditor.View.Forms
 
         private void CMD_Output(string output)
         {
-            ThreadHelper.AppendText(this, tbOutput, Environment.NewLine + output);
-        }
-
-        private void tbOutput_TextChanged(object sender, EventArgs e)
-        {
-            //tbOutput.Select(tbOutput.TextLength + 1, 0);
-            //tbOutput.SelectedText = tbOutput.Text.Substring(tbOutput.Text.Length - 2, 1);
+            ThreadHelper.InvokeMainThread(this, () =>
+            {
+                tbOutput.AppendText(Environment.NewLine + output);
+                tbOutput.SelectionStart = tbOutput.TextLength;
+                tbOutput.ScrollToCaret();
+            });
         }
     }
 }

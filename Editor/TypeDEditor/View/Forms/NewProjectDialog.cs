@@ -7,19 +7,19 @@ namespace TypeDEditor.View.Forms
 {
     public partial class NewProjectDialog : Form
     {
-        public FileController FileController { get; set; }
 
         public NewProjectDialog()
         {
             InitializeComponent();
-            FileController = new FileController();
 
+#if DEBUG
             ///DEBUG
-            if(Directory.Exists(@"C:\Users\simon\projects\typeoproj\Test"))
+            if (Directory.Exists(@"C:\Users\simon\projects\typeoproj\Test"))
                 Directory.Delete(@"C:\Users\simon\projects\typeoproj\Test", true);
             tbName.Text = "Test";
             tbLocation.Text = @"C:\Users\simon\projects\typeoproj";
             ///
+#endif
         }
 
         private void tbName_TextChanged(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace TypeDEditor.View.Forms
             }
         }
 
-        private bool IsDirectory(string filePath)
+        private static bool IsDirectory(string filePath)
         {
             return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
         }
