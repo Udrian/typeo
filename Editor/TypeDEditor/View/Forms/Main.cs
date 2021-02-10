@@ -20,6 +20,7 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemBuildProject.Click += ToolStripMenuItemBuildProject_Click;
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
             toolStripMenuItemAddEntity.Click += ToolStripMenuItemAddEntity_Click;
+            toolStripMenuItemAddScene.Click += ToolStripMenuItemAddScene_Click;
 
             OriginalTitle = Text;
 
@@ -35,6 +36,17 @@ namespace TypeDEditor.View.Forms
             if(result == DialogResult.OK)
             {
                 ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace, dialog.Updatable, dialog.Drawable);
+            }
+        }
+
+        private void ToolStripMenuItemAddScene_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new AddNewSceneDialog();
+            var result = dialog.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                ProjectController.AddNewScene(dialog.SceneName, dialog.SceneNamespace);
             }
         }
 
