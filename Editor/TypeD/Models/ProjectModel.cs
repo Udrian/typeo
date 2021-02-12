@@ -8,9 +8,6 @@ using System.Xml.Linq;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.Models.TreeNodes;
-using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeD.Models
 {
@@ -26,17 +23,15 @@ namespace TypeD.Models
         public TreeNode Nodes { get; private set; }
 
         // Loads
-        public Dictionary<string, List<Codalyzer>> Codes { get; private set; }
+        public Dictionary<string, TypeDType> TypeDTypes { get; private set; }
         public Assembly Assembly { get; private set; }
-        public List<TypeInfo> Types { get; private set; }
 
         // Constructors
         internal ProjectModel(string location, ProjectData projectData)
         {
             Location = location;
 
-            Codes = new Dictionary<string, List<Codalyzer>>();
-            Types = new List<TypeInfo>();
+            TypeDTypes = new Dictionary<string, TypeDType>();
 
             ProjectName = projectData.ProjectName;
             CSSolutionPath = projectData.CSSolutionPath;
@@ -58,9 +53,9 @@ namespace TypeD.Models
             if (!File.Exists(path)) return;
             Modules.Add(module);
 
-            var programCode = Codes[$"{ProjectName}.Program"];
+            var programCode = TypeDTypes[$"{ProjectName}.Program"];
             if (module.ModuleTypeInfo != null)
-                programCode.First().Usings.Add(module.ModuleTypeInfo.Namespace);
+                programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
             module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);
@@ -77,7 +72,6 @@ namespace TypeD.Models
             if (Assembly != null)
             {
                 Assembly = null;
-                Types.Clear();
             }
             await CMD.Run($"dotnet build \"{path}\" --output \"{ProjectBuildOutput}\"");
 
@@ -99,18 +93,19 @@ namespace TypeD.Models
 
             foreach (var type in Assembly.DefinedTypes)
             {
-                if (type.IsSubclassOf(typeof(Game)) ||
-                    type.IsSubclassOf(typeof(Scene)) ||
-                    type.IsSubclassOf(typeof(Entity)) ||
-                    type.IsSubclassOf(typeof(Stub)) ||
-                    type.IsSubclassOf(typeof(Logic)) ||
-                    type.IsSubclassOf(typeof(Drawable)) ||
-                    type.IsSubclassOf(typeof(EntityData)))
-                {
-                    Types.Add(type);
-                }
+                var typeDType = TypeDType.SubclasToTypeDType(type);
+                if (!typeDType.HasValue) continue;
+
+                AddType(typeDType.Value, type);
             }
 
+            BuildTree();
+
+            return true;
+        }
+
+        public void BuildTree()
+        {
             if (Nodes == null)
             {
                 Nodes = TreeNode.Create();
@@ -121,30 +116,53 @@ namespace TypeD.Models
             }
             Nodes.AddNode(ProjectName, this);
 
-            foreach (var type in Types)
+            foreach (var type in TypeDTypes.Values)
             {
                 AddTypeToTree(type);
             }
-
-            return true;
         }
 
-        private void AddTypeToTree(TypeInfo type)
+        private void AddTypeToTree(TypeDType typeDType)
         {
-            var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.').ToList();
-            if(namespaces.Count > 0)
-                namespaces.RemoveAt(0);
-
-            var node = Nodes;
-            foreach (var ns in namespaces)
+            if (typeDType.TypeInfo != null)
             {
-                if (string.IsNullOrEmpty(ns)) continue;
-                if (!node.Nodes.ContainsKey(ns))
-                    node.AddNode(ns, null, ns);
-                node = node.Nodes[ns];
-            }
+                var type = typeDType.TypeInfo;
 
-            node.AddNode(type.Name, type, type.FullName);
+                var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.').ToList();
+                if (namespaces.Count > 0)
+                    namespaces.RemoveAt(0);
+
+                var node = Nodes;
+                foreach (var ns in namespaces)
+                {
+                    if (string.IsNullOrEmpty(ns)) continue;
+                    if (!node.Nodes.ContainsKey(ns))
+                        node.AddNode(ns, null, ns);
+                    node = node.Nodes[ns];
+                }
+
+                node.AddNode(type.Name, typeDType, type.FullName);
+            }
+            else
+            {
+                var code = typeDType.Codes.First();
+                if (code.ClassName == "Program") return;
+
+                    var namespaces = (code.Namespace.StartsWith(ProjectName) ? code.Namespace.Remove(0, ProjectName.Length) : code.Namespace).Split('.').ToList();
+                if (namespaces.Count > 0)
+                    namespaces.RemoveAt(0);
+
+                var node = Nodes;
+                foreach (var ns in namespaces)
+                {
+                    if (string.IsNullOrEmpty(ns)) continue;
+                    if (!node.Nodes.ContainsKey(ns))
+                        node.AddNode(ns, null, ns);
+                    node = node.Nodes[ns];
+                }
+
+                node.AddNode($"*{code.ClassName}", typeDType, $"{code.Namespace}.{code.ClassName}");
+            }
         }
 
         public void Run()
@@ -155,11 +173,22 @@ namespace TypeD.Models
         public void AddCode(Codalyzer code)
         {
             var key = $"{code.Namespace}.{code.ClassName}";
-            if (!Codes.ContainsKey(key))
+            if (!TypeDTypes.ContainsKey(key))
             {
-                Codes.Add(key, new List<Codalyzer>());
+                TypeDTypes.Add(key, new TypeDType());
             }
-            Codes[key].Add(code);
+            TypeDTypes[key].Codes.Add(code);
+        }
+
+        public void AddType(TypeDTypeType typeType, TypeInfo typeInfo)
+        {
+            var key = typeInfo.FullName;
+            if (!TypeDTypes.ContainsKey(key))
+            {
+                TypeDTypes.Add(key, new TypeDType());
+            }
+            TypeDTypes[key].TypeInfo = typeInfo;
+            TypeDTypes[key].TypeType = typeType;
         }
 
         public async Task Save()
@@ -174,9 +203,9 @@ namespace TypeD.Models
                     Modules = Modules.Select(m => m.Name).ToList()
                 }, ProjectFilePath);
 
-                foreach (var codes in Codes.Values)
+                foreach (var typeDType in TypeDTypes.Values)
                 {
-                    foreach (var code in codes)
+                    foreach (var code in typeDType.Codes)
                     {
                         code.Generate();
                         code.Save(Location);

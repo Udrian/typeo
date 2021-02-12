@@ -28,6 +28,8 @@ namespace TypeD.Commands.Project
 
             project.AddCode(entityCode);
             project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"));
+
+            project.BuildTree();
         }
     }
 }

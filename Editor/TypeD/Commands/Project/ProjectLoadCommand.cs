@@ -26,14 +26,18 @@ namespace TypeD.Commands.Project
                     project.AddCode(new GameCode(project));
                     project.AddCode(new GameTypeDCode(project));
 
-                    foreach(var type in project.Types)
+                    foreach(var typeDType in project.TypeDTypes.Values)
                     {
+                        var type = typeDType.TypeInfo;
+                        if (type == null) continue;
                         if(type.IsSubclassOf(typeof(Entity)))
                         {
                             project.AddCode(new EntityCode(project, type.Name, type.Namespace));
                             project.AddCode(new EntityTypeDCode(project, type.Name, type.Namespace));
                         }
                     }
+
+                    project.BuildTree();
 
                     return project;
                 });

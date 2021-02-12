@@ -25,7 +25,9 @@ namespace TypeDEditor.View.Forms
 
         private void Clear()
         {
-            treeView.Nodes.Clear();
+            ThreadHelper.InvokeMainThread(this, () => {
+                treeView.Nodes.Clear();
+            });
         }
 
         private void TreeNode_NodeAddedEvent(TypeD.Models.TreeNodes.TreeNode obj)

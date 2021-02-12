@@ -9,6 +9,8 @@ namespace TypeD.Commands.Project
         {
             project.AddCode(new SceneCode(project, className, $"{project.ProjectName}.{@namespace}"));
             project.AddCode(new SceneTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"));
+
+            project.BuildTree();
         }
     }
 }

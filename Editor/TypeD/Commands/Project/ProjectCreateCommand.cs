@@ -45,7 +45,7 @@ namespace TypeD.Commands.Project
 
             project.AddModule(new ModuleModel("TypeOCore"));
 
-            Save(project);
+            await Save(project);
             await project.Build();
             // Return
             return project;
