@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Entities;
 
 namespace TypeD.Commands.Project
 {
-    public static partial class ProjectCommand
+    public partial class ProjectCommand
     {
         public static async Task<ProjectModel> Load(string projectFilePath)
         {

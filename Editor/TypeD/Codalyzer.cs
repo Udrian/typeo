@@ -140,6 +140,7 @@ namespace TypeD
         }
 
         protected CodeWriter Writer { get; private set; }
+        protected Func<List<string>> DynamicUsings { get; set; }
         private List<Function> Functions { get; set; }
         private List<Property> Properties { get; set; }
         private List<string> Interfaces { get; set; }
@@ -198,7 +199,12 @@ namespace TypeD
                 Writer.AddLine();
             }
 
-            var usings = Usings.Distinct().ToList();
+            List<string> dynamicUsings = new List<string>();
+            if(DynamicUsings != null)
+            {
+                dynamicUsings = DynamicUsings();
+            }
+            var usings = Usings.Union(dynamicUsings).Distinct().ToList();
             foreach (var @using in usings)
             {
                 Writer.AddLine($"using {@using};");

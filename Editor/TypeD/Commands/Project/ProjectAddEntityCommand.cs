@@ -3,7 +3,7 @@ using TypeD.Models;
 
 namespace TypeD.Commands.Project
 {
-    public static partial class ProjectCommand
+    public partial class ProjectCommand
     {
         public static void AddEntity(ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
         {

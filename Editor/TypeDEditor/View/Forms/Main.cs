@@ -21,19 +21,28 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
             toolStripMenuItemAddEntity.Click += ToolStripMenuItemAddEntity_Click;
             toolStripMenuItemAddScene.Click += ToolStripMenuItemAddScene_Click;
+            toolStripMenuItemSetStartScene.Click += ToolStripMenuItemSetStartScene_Click;
 
             OriginalTitle = Text;
 
             Hide();
         }
 
+        private void ToolStripMenuItemSetStartScene_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new SetStartSceneDialog();
+            if(dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                ProjectController.SetStartScene(dialog.TypeDType);
+            }
+        }
+
         //Add to Project
         private void ToolStripMenuItemAddEntity_Click(object sender, System.EventArgs e)
         {
             var dialog = new AddNewEntityDialog();
-            var result = dialog.ShowDialog(this);
 
-            if(result == DialogResult.OK)
+            if(dialog.ShowDialog(this) == DialogResult.OK)
             {
                 ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace, dialog.Updatable, dialog.Drawable);
             }
@@ -42,9 +51,8 @@ namespace TypeDEditor.View.Forms
         private void ToolStripMenuItemAddScene_Click(object sender, System.EventArgs e)
         {
             var dialog = new AddNewSceneDialog();
-            var result = dialog.ShowDialog(this);
 
-            if (result == DialogResult.OK)
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
                 ProjectController.AddNewScene(dialog.SceneName, dialog.SceneNamespace);
             }
@@ -58,26 +66,24 @@ namespace TypeDEditor.View.Forms
         private async void ToolStripMenuItemBuildProject_Click(object sender, System.EventArgs e)
         {
             await ProjectController.Build();
-            ProjectLoaded(FileController.LoadedProject);
+            ProjectLoaded(ProjectController.LoadedProject);
         }
 
         private void ToolStripMenuItemNewProject_Click(object sender, System.EventArgs e)
         {
-            var npd = new NewProjectDialog();
-            var result = npd.ShowDialog(this);
-            if (result == DialogResult.OK)
+            var dialog = new NewProjectDialog();
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                ProjectLoaded(FileController.LoadedProject);
+                ProjectLoaded(ProjectController.LoadedProject);
             }
         }
 
         private async void ToolStripMenuItemOpen_Click(object sender, System.EventArgs e)
         {
-            var result = openFileDialog.ShowDialog();
-            if(result == DialogResult.OK)
+            if(openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 await FileController.Open(openFileDialog.FileName);
-                ProjectLoaded(FileController.LoadedProject);
+                ProjectLoaded(ProjectController.LoadedProject);
             }
         }
 

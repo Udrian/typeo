@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using TypeDEditor.Controller;
 
-namespace TypeDEditor.View.Forms
+namespace TypeDEditor.View.Forms.Dialogs
 {
     public partial class NewProjectDialog : Form
     {

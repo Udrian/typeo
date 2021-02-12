@@ -16,7 +16,7 @@ namespace TypeD.Code
                 "TypeOEngine.Typedeaf.Core.Engine"
             };
 
-            AddFunction(new Function($"static void Main(string[] args)", () =>
+            AddFunction(new Function($"static void Main()", () =>
             {
                 Writer.AddLine($"TypeO.Create<{Project.ProjectName}Game>(\"{Project.ProjectName}\")");
                 foreach (var module in Project.Modules)

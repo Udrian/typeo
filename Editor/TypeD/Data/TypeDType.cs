@@ -36,6 +36,9 @@ namespace TypeD.Data
         public List<Codalyzer> Codes { get; private set; }
         public TypeInfo TypeInfo { get; set; }
         public TypeDTypeType TypeType { get; set; }
+        public string Name { get; set; }
+        public string Namespace { get; set; }
+        public string FullName { get { return $"{Namespace}.{Name}"; } }
 
         public TypeDType()
         {

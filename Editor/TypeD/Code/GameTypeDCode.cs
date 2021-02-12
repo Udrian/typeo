@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using TypeD.Data;
 using TypeD.Models;
 
 namespace TypeD.Code
@@ -14,8 +16,40 @@ namespace TypeD.Code
             BaseClass = "Game";
             Usings = new List<string>()
             {
-                "TypeOEngine.Typedeaf.Core"
+                "TypeOEngine.Typedeaf.Core",
+                "TypeOEngine.Typedeaf.Core.Engine"
             };
+            DynamicUsings = () =>
+            {
+                var usings = new List<string>();
+
+                TypeDType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeType == TypeDTypeType.Scene; });
+                usings.Add(defaultScene.Namespace);
+
+                return usings;
+            };
+
+            AddProperty(new Property("protected SceneList Scenes"));
+
+            AddFunction(new Function("public override void Initialize()", () => {
+                Writer.AddLine("Scenes = CreateSceneHandler();");
+                TypeDType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeType == TypeDTypeType.Scene; });
+                if (defaultScene != null)
+                {
+                    Writer.AddLine($"Scenes.SetScene<{defaultScene.Name}>();");
+                }
+                Writer.AddLine("InternalInitialize();");
+            }));
+            AddFunction(new Function("public override void Update(double dt)", () => {
+                Writer.AddLine("Scenes.Update(dt);");
+            }));
+            AddFunction(new Function("public override void Draw()", () => {
+                Writer.AddLine("Scenes.Draw();");
+            }));
+            AddFunction(new Function("public override void Cleanup()", () => {
+                Writer.AddLine("Scenes.Cleanup();");
+                Writer.AddLine("InternalCleanup();");
+            }));
         }
     }
 }

@@ -7,7 +7,7 @@ using TypeD.Models;
 
 namespace TypeD.Commands.Project
 {
-    public static partial class ProjectCommand
+    public partial class ProjectCommand
     {
         public static async Task<ProjectModel> Create(string projectName, string location = null, string csSolutionPath = null, string csProjName = null)
         {

@@ -18,6 +18,7 @@ namespace TypeD.Models
         public string CSSolutionPath { get; private set; }
         public string CSProjName { get; private set; }
         public List<ModuleModel> Modules { get; private set; }
+        public string StartScene { get; set; }
         public string Location { get; private set; }
 
         public TreeNode Nodes { get; private set; }
@@ -37,6 +38,7 @@ namespace TypeD.Models
             CSSolutionPath = projectData.CSSolutionPath;
             CSProjName = projectData.CSProjName;
             Modules = projectData.Modules.Select(m => new ModuleModel(m)).ToList();
+            StartScene = projectData.StartScene;
 
             LoadAssembly();
         }
@@ -60,7 +62,7 @@ namespace TypeD.Models
             module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);
             module.AddToProjectXML(projectX);
-            //Should only save when we press save
+            //TODO: Should only save when we press save
             projectX.Save(path);
         }
 
@@ -124,44 +126,28 @@ namespace TypeD.Models
 
         private void AddTypeToTree(TypeDType typeDType)
         {
+            if (typeDType.Codes.FirstOrDefault()?.ClassName == "Program") return;
+
+            var namespaces = (typeDType.Namespace.StartsWith(ProjectName) ? typeDType.Namespace.Remove(0, ProjectName.Length) : typeDType.Namespace).Split('.').ToList();
+            if (namespaces.Count > 0)
+                namespaces.RemoveAt(0);
+
+            var node = Nodes;
+            foreach (var ns in namespaces)
+            {
+                if (string.IsNullOrEmpty(ns)) continue;
+                if (!node.Nodes.ContainsKey(ns))
+                    node.AddNode(ns, null, ns);
+                node = node.Nodes[ns];
+            }
+
             if (typeDType.TypeInfo != null)
             {
-                var type = typeDType.TypeInfo;
-
-                var namespaces = (type.Namespace.StartsWith(ProjectName) ? type.Namespace.Remove(0, ProjectName.Length) : type.Namespace).Split('.').ToList();
-                if (namespaces.Count > 0)
-                    namespaces.RemoveAt(0);
-
-                var node = Nodes;
-                foreach (var ns in namespaces)
-                {
-                    if (string.IsNullOrEmpty(ns)) continue;
-                    if (!node.Nodes.ContainsKey(ns))
-                        node.AddNode(ns, null, ns);
-                    node = node.Nodes[ns];
-                }
-
-                node.AddNode(type.Name, typeDType, type.FullName);
+                node.AddNode(typeDType.Name, typeDType, typeDType.FullName);
             }
             else
             {
-                var code = typeDType.Codes.First();
-                if (code.ClassName == "Program") return;
-
-                    var namespaces = (code.Namespace.StartsWith(ProjectName) ? code.Namespace.Remove(0, ProjectName.Length) : code.Namespace).Split('.').ToList();
-                if (namespaces.Count > 0)
-                    namespaces.RemoveAt(0);
-
-                var node = Nodes;
-                foreach (var ns in namespaces)
-                {
-                    if (string.IsNullOrEmpty(ns)) continue;
-                    if (!node.Nodes.ContainsKey(ns))
-                        node.AddNode(ns, null, ns);
-                    node = node.Nodes[ns];
-                }
-
-                node.AddNode($"*{code.ClassName}", typeDType, $"{code.Namespace}.{code.ClassName}");
+                node.AddNode($"*{typeDType.Name}", typeDType, typeDType.FullName);
             }
         }
 
@@ -175,7 +161,11 @@ namespace TypeD.Models
             var key = $"{code.Namespace}.{code.ClassName}";
             if (!TypeDTypes.ContainsKey(key))
             {
-                TypeDTypes.Add(key, new TypeDType());
+                TypeDTypes.Add(key, new TypeDType()
+                {
+                    Name = code.ClassName,
+                    Namespace = code.Namespace
+                });
             }
             TypeDTypes[key].Codes.Add(code);
         }
@@ -185,10 +175,36 @@ namespace TypeD.Models
             var key = typeInfo.FullName;
             if (!TypeDTypes.ContainsKey(key))
             {
-                TypeDTypes.Add(key, new TypeDType());
+                TypeDTypes.Add(key, new TypeDType()
+                {
+                    Name = typeInfo.Name,
+                    Namespace = typeInfo.Namespace
+                });
             }
             TypeDTypes[key].TypeInfo = typeInfo;
             TypeDTypes[key].TypeType = typeType;
+        }
+
+        public List<TypeDType> GetTypeFromName(string name)
+        {
+            var types = new List<TypeDType>();
+
+            if(TypeDTypes.ContainsKey(name))
+            {
+                types.Add(TypeDTypes[name]);
+            } 
+            else
+            {
+                foreach (var typeDType in TypeDTypes.Values)
+                {
+                    if (typeDType.Name == name)
+                    {
+                        types.Add(typeDType);
+                    }
+                }
+            }
+
+            return types;
         }
 
         public async Task Save()
@@ -200,7 +216,8 @@ namespace TypeD.Models
                     ProjectName = ProjectName,
                     CSSolutionPath = CSSolutionPath,
                     CSProjName = CSProjName,
-                    Modules = Modules.Select(m => m.Name).ToList()
+                    Modules = Modules.Select(m => m.Name).ToList(),
+                    StartScene = StartScene
                 }, ProjectFilePath);
 
                 foreach (var typeDType in TypeDTypes.Values)

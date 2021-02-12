@@ -1,4 +1,4 @@
-﻿namespace TypeDEditor.View.Forms
+﻿namespace TypeDEditor.View.Forms.Dialogs
 {
     partial class NewProjectDialog
     {

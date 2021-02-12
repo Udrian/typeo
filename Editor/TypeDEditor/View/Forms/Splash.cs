@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using TypeD.Helpers;
 using TypeDEditor.Controller;
 using TypeDEditor.Model;
+using TypeDEditor.View.Forms.Dialogs;
 
 namespace TypeDEditor.View.Forms
 {
@@ -45,7 +46,7 @@ namespace TypeDEditor.View.Forms
             var path = e.Link.LinkData as string;
 
             await FileController.Open(path);
-            Main.ProjectLoaded(FileController.LoadedProject);
+            Main.ProjectLoaded(ProjectController.LoadedProject);
             Main.Show();
             Close();
         }
@@ -62,7 +63,7 @@ namespace TypeDEditor.View.Forms
             var result = npd.ShowDialog(this);
             if (result == DialogResult.OK)
             {
-                Main.ProjectLoaded(FileController.LoadedProject);
+                Main.ProjectLoaded(ProjectController.LoadedProject);
                 Main.Show();
                 Close();
             }
@@ -76,7 +77,7 @@ namespace TypeDEditor.View.Forms
             if (result == DialogResult.OK)
             {
                 await FileController.Open(openFileDialog.FileName);
-                Main.ProjectLoaded(FileController.LoadedProject);
+                Main.ProjectLoaded(ProjectController.LoadedProject);
                 Main.Show();
                 Close();
             }

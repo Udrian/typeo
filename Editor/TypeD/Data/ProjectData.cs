@@ -8,5 +8,6 @@ namespace TypeD.Data
         public string CSSolutionPath { get; set; }
         public string CSProjName { get; set; }
         public List<string> Modules { get; set; } = new List<string>();
+        public string StartScene { get; set; }
     }
 }
