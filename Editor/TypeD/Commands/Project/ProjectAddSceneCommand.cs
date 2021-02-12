@@ -7,8 +7,8 @@ namespace TypeD.Commands.Project
     {
         public static void AddScene(ProjectModel project, string className, string @namespace)
         {
-            project.AddCode(new SceneCode(project, className, @namespace));
-            project.AddCode(new SceneTypeDCode(project, className, @namespace));
+            project.AddCode(new SceneCode(project, className, $"{project.ProjectName}.{@namespace}"));
+            project.AddCode(new SceneTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"));
         }
     }
 }

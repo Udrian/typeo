@@ -7,7 +7,7 @@ namespace TypeD.Commands.Project
     {
         public static void AddEntity(ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
         {
-            var entityCode = new EntityCode(project, className, @namespace);
+            var entityCode = new EntityCode(project, className, $"{project.ProjectName}.{@namespace}");
 
             if (updatable)
             {
@@ -27,7 +27,7 @@ namespace TypeD.Commands.Project
             }
 
             project.AddCode(entityCode);
-            project.AddCode(new EntityTypeDCode(project, className, @namespace));
+            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"));
         }
     }
 }
