@@ -15,4 +15,10 @@
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="View\Forms\Dialogs\CreateDrawable2dDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

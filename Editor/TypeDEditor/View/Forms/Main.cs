@@ -22,6 +22,7 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
             toolStripMenuItemCreateEntity.Click += ToolStripMenuItemCreateEntity_Click;
             toolStripMenuItemCreateScene.Click += ToolStripMenuItemCreateScene_Click;
+            toolStripMenuItemCreateDrawable2d.Click += ToolStripMenuItemCreateDrawable2d_Click;
             toolStripMenuItemSetStartScene.Click += ToolStripMenuItemSetStartScene_Click;
             toolStripMenuItemAddEntityToScene.Click += ToolStripMenuItemAddEntityToScene_Click;
 
@@ -57,7 +58,7 @@ namespace TypeDEditor.View.Forms
             }
         }
 
-        //Add to Project
+        //Create Project
         private void ToolStripMenuItemCreateEntity_Click(object sender, System.EventArgs e)
         {
             var dialog = new CreateEntityDialog();
@@ -75,6 +76,16 @@ namespace TypeDEditor.View.Forms
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
                 ProjectController.CreateScene(dialog.SceneName, dialog.SceneNamespace);
+            }
+        }
+
+        private void ToolStripMenuItemCreateDrawable2d_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new CreateDrawable2dDialog();
+
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                ProjectController.CreateDrawable2d(dialog.SceneName, dialog.SceneNamespace);
             }
         }
 

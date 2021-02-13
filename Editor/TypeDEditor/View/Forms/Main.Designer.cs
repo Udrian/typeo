@@ -51,6 +51,7 @@
             this.explorer = new TypeDEditor.View.Forms.Explorer();
             this.output = new TypeDEditor.View.Forms.Output();
             this.viewer = new TypeDEditor.View.Forms.Viewer();
+            this.toolStripMenuItemCreateDrawable2d = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -125,7 +126,8 @@
             // 
             this.toolStripMenuItemCreate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemCreateEntity,
-            this.toolStripMenuItemCreateScene});
+            this.toolStripMenuItemCreateScene,
+            this.toolStripMenuItemCreateDrawable2d});
             this.toolStripMenuItemCreate.Name = "toolStripMenuItemCreate";
             this.toolStripMenuItemCreate.Size = new System.Drawing.Size(315, 40);
             this.toolStripMenuItemCreate.Text = "Create";
@@ -133,13 +135,13 @@
             // toolStripMenuItemCreateEntity
             // 
             this.toolStripMenuItemCreateEntity.Name = "toolStripMenuItemCreateEntity";
-            this.toolStripMenuItemCreateEntity.Size = new System.Drawing.Size(186, 40);
+            this.toolStripMenuItemCreateEntity.Size = new System.Drawing.Size(241, 40);
             this.toolStripMenuItemCreateEntity.Text = "Entity";
             // 
             // toolStripMenuItemCreateScene
             // 
             this.toolStripMenuItemCreateScene.Name = "toolStripMenuItemCreateScene";
-            this.toolStripMenuItemCreateScene.Size = new System.Drawing.Size(186, 40);
+            this.toolStripMenuItemCreateScene.Size = new System.Drawing.Size(241, 40);
             this.toolStripMenuItemCreateScene.Text = "Scene";
             // 
             // toolStripMenuItemSetStartScene
@@ -230,6 +232,12 @@
             this.viewer.Size = new System.Drawing.Size(1299, 684);
             this.viewer.TabIndex = 4;
             // 
+            // toolStripMenuItemCreateDrawable2d
+            // 
+            this.toolStripMenuItemCreateDrawable2d.Name = "toolStripMenuItemCreateDrawable2d";
+            this.toolStripMenuItemCreateDrawable2d.Size = new System.Drawing.Size(241, 40);
+            this.toolStripMenuItemCreateDrawable2d.Text = "Drawable2d";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
@@ -277,6 +285,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSetStartScene;
         private Viewer viewer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddEntityToScene;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateDrawable2d;
     }
 }
 

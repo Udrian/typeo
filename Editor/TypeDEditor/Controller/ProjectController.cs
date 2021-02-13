@@ -27,6 +27,14 @@ namespace TypeDEditor.Controller
             ProjectCommand.CreateScene(LoadedProject, className, @namespace);
         }
 
+        public static void CreateDrawable2d(string className, string @namespace)
+        {
+            if (LoadedProject == null)
+                return;
+
+            ProjectCommand.CreateDrawable2d(LoadedProject, className, @namespace);
+        }
+
         public static async Task Run()
         {
             await Build();
