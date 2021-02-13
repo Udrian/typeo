@@ -3,12 +3,12 @@ using System.Windows.Forms;
 
 namespace TypeDEditor.View.Forms.Dialogs
 {
-    public partial class AddNewSceneDialog : Form
+    public partial class CreateSceneDialog : Form
     {
         public string SceneName { get; private set; }
         public string SceneNamespace { get; private set; }
 
-        public AddNewSceneDialog()
+        public CreateSceneDialog()
         {
             InitializeComponent();
         }

@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using TypeD.Data;
 using TypeDEditor.Helper;
 
 namespace TypeDEditor.View.Forms
 {
     public partial class Explorer : UserControl
     {
+        public event Action<TypeDType> NodeSelect;
+
         public Explorer()
         {
             InitializeComponent();
@@ -66,6 +70,7 @@ namespace TypeDEditor.View.Forms
                         }
                     }
                     nodes.Add(obj.Key, obj.Name);
+                    nodes[obj.Key].Tag = obj.Object;
                 }
             });
         }
@@ -73,6 +78,13 @@ namespace TypeDEditor.View.Forms
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
             e.Graphics.DrawString(e.Node.Text, treeView.Font, Brushes.Black, Rectangle.Inflate(e.Bounds, 0, 0));
+        }
+
+        private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            var type = e.Node.Tag as TypeDType;
+
+            NodeSelect?.Invoke(type);
         }
     }
 }

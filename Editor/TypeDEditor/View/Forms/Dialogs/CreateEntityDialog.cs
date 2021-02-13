@@ -3,14 +3,14 @@ using System.Windows.Forms;
 
 namespace TypeDEditor.View.Forms.Dialogs
 {
-    public partial class AddNewEntityDialog : Form
+    public partial class CreateEntityDialog : Form
     {
         public string EntityName { get; private set; }
         public string EntityNamespace { get; private set; }
         public bool Updatable { get; private set; }
         public bool Drawable { get; private set; }
 
-        public AddNewEntityDialog()
+        public CreateEntityDialog()
         {
             InitializeComponent();
         }

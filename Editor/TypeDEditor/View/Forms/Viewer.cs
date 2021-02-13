@@ -3,24 +3,28 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using TypeD.Data;
 
 namespace TypeDEditor.View.Forms
 {
     public partial class Viewer : UserControl
     {
-		private IntPtr gameWindow;
+		public event Action<TypeDType> TabSelect;
+		public TabControl TabControl { get { return tabControl; } }
+
+		/*private IntPtr gameWindow;
 		private IntPtr glContext;
 		private delegate void Viewport(int x, int y, int width, int height);
 		private delegate void ClearColor(float r, float g, float b, float a);
 		private delegate void Clear(uint flags);
 		private Viewport glViewport;
 		private ClearColor glClearColor;
-		private Clear glClear;
+		private Clear glClear;*/
 
 		public Viewer()
         {
 			// Make the WinForms window
-			Size = new Size(800, 600);
+			/*Size = new Size(800, 600);
 
 			SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
 			gameWindow = SDL.SDL_CreateWindow(
@@ -67,12 +71,20 @@ namespace TypeDEditor.View.Forms
 
 			// Attach the SDL2 window to the panel
 			SetParent(winHandle, this.Handle);
-			ShowWindow(winHandle, 1); // SHOWNORMAL
+			ShowWindow(winHandle, 1); // SHOWNORMAL*/
 
 			InitializeComponent();
         }
 
-		[DllImport("user32.dll")]
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			if(TabControl.SelectedIndex > 0)
+			{
+				TabSelect?.Invoke(TabControl.SelectedTab.Tag as TypeDType);
+			}
+		}
+
+        /*[DllImport("user32.dll")]
 		private static extern IntPtr SetWindowPos(
 		IntPtr handle,
 		IntPtr handleAfter,
@@ -85,6 +97,6 @@ namespace TypeDEditor.View.Forms
 		[DllImport("user32.dll")]
 		private static extern IntPtr SetParent(IntPtr child, IntPtr newParent);
 		[DllImport("user32.dll")]
-		private static extern IntPtr ShowWindow(IntPtr handle, int command);
-	}
+		private static extern IntPtr ShowWindow(IntPtr handle, int command);*/
+    }
 }

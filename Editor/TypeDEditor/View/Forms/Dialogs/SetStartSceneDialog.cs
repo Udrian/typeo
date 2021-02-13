@@ -34,7 +34,11 @@ namespace TypeDEditor.View.Forms.Dialogs
                 }
             }
 
-            if (cbScene.Items.Count == 0) btnSet.Enabled = false;
+            if (cbScene.Items.Count == 0)
+            {
+                btnSet.Enabled = false;
+                btnSet.Enabled = false;
+            }
         }
 
         private void btnSet_Click(object sender, EventArgs e)

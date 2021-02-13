@@ -36,9 +36,11 @@
             this.toolStripMenuItemSave = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAddEntity = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemAddScene = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCreate = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCreateEntity = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCreateScene = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemSetStartScene = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAddEntityToScene = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemBuildProject = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRunProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,7 +50,7 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.explorer = new TypeDEditor.View.Forms.Explorer();
             this.output = new TypeDEditor.View.Forms.Output();
-            this.toolStripMenuItemSetStartScene = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewer = new TypeDEditor.View.Forms.Viewer();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,32 +114,45 @@
             // toolStripMenuItemProject
             // 
             this.toolStripMenuItemProject.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAdd,
-            this.toolStripMenuItemSetStartScene});
+            this.toolStripMenuItemCreate,
+            this.toolStripMenuItemSetStartScene,
+            this.toolStripMenuItemAddEntityToScene});
             this.toolStripMenuItemProject.Name = "toolStripMenuItemProject";
             this.toolStripMenuItemProject.Size = new System.Drawing.Size(95, 34);
             this.toolStripMenuItemProject.Text = "Project";
             // 
-            // toolStripMenuItemAdd
+            // toolStripMenuItemCreate
             // 
-            this.toolStripMenuItemAdd.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemAddEntity,
-            this.toolStripMenuItemAddScene});
-            this.toolStripMenuItemAdd.Name = "toolStripMenuItemAdd";
-            this.toolStripMenuItemAdd.Size = new System.Drawing.Size(266, 40);
-            this.toolStripMenuItemAdd.Text = "Add";
+            this.toolStripMenuItemCreate.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemCreateEntity,
+            this.toolStripMenuItemCreateScene});
+            this.toolStripMenuItemCreate.Name = "toolStripMenuItemCreate";
+            this.toolStripMenuItemCreate.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemCreate.Text = "Create";
             // 
-            // toolStripMenuItemAddEntity
+            // toolStripMenuItemCreateEntity
             // 
-            this.toolStripMenuItemAddEntity.Name = "toolStripMenuItemAddEntity";
-            this.toolStripMenuItemAddEntity.Size = new System.Drawing.Size(186, 40);
-            this.toolStripMenuItemAddEntity.Text = "Entity";
+            this.toolStripMenuItemCreateEntity.Name = "toolStripMenuItemCreateEntity";
+            this.toolStripMenuItemCreateEntity.Size = new System.Drawing.Size(186, 40);
+            this.toolStripMenuItemCreateEntity.Text = "Entity";
             // 
-            // toolStripMenuItemAddScene
+            // toolStripMenuItemCreateScene
             // 
-            this.toolStripMenuItemAddScene.Name = "toolStripMenuItemAddScene";
-            this.toolStripMenuItemAddScene.Size = new System.Drawing.Size(186, 40);
-            this.toolStripMenuItemAddScene.Text = "Scene";
+            this.toolStripMenuItemCreateScene.Name = "toolStripMenuItemCreateScene";
+            this.toolStripMenuItemCreateScene.Size = new System.Drawing.Size(186, 40);
+            this.toolStripMenuItemCreateScene.Text = "Scene";
+            // 
+            // toolStripMenuItemSetStartScene
+            // 
+            this.toolStripMenuItemSetStartScene.Name = "toolStripMenuItemSetStartScene";
+            this.toolStripMenuItemSetStartScene.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemSetStartScene.Text = "Set start scene";
+            // 
+            // toolStripMenuItemAddEntityToScene
+            // 
+            this.toolStripMenuItemAddEntityToScene.Name = "toolStripMenuItemAddEntityToScene";
+            this.toolStripMenuItemAddEntityToScene.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemAddEntityToScene.Text = "Add Entity To Scene";
             // 
             // toolStripMenuItemBuild
             // 
@@ -205,17 +220,22 @@
             this.output.Size = new System.Drawing.Size(1299, 337);
             this.output.TabIndex = 3;
             // 
-            // toolStripMenuItemSetStartScene
+            // viewer
             // 
-            this.toolStripMenuItemSetStartScene.Name = "toolStripMenuItemSetStartScene";
-            this.toolStripMenuItemSetStartScene.Size = new System.Drawing.Size(266, 40);
-            this.toolStripMenuItemSetStartScene.Text = "Set start scene";
+            this.viewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.viewer.Location = new System.Drawing.Point(381, 41);
+            this.viewer.Name = "viewer";
+            this.viewer.Size = new System.Drawing.Size(1299, 684);
+            this.viewer.TabIndex = 4;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1692, 1093);
+            this.Controls.Add(this.viewer);
             this.Controls.Add(this.output);
             this.Controls.Add(this.explorer);
             this.Controls.Add(this.statusStrip);
@@ -251,10 +271,12 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBuildProject;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRunProject;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemProject;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAdd;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddEntity;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddScene;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateEntity;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateScene;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSetStartScene;
+        private Viewer viewer;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddEntityToScene;
     }
 }
 

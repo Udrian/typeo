@@ -40,6 +40,7 @@
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(240, 359);
             this.treeView.TabIndex = 0;
+            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
             // Explorer
             // 

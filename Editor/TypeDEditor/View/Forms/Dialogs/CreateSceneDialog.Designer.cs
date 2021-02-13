@@ -1,7 +1,7 @@
 ﻿
 namespace TypeDEditor.View.Forms.Dialogs
 {
-    partial class AddNewSceneDialog
+    partial class CreateSceneDialog
     {
         /// <summary>
         /// Required designer variable.

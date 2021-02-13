@@ -222,11 +222,7 @@ namespace TypeD.Models
 
                 foreach (var typeDType in TypeDTypes.Values)
                 {
-                    foreach (var code in typeDType.Codes)
-                    {
-                        code.Generate();
-                        code.Save(Location);
-                    }
+                    typeDType.Save(Location);
                 }
             });
             task.Start();

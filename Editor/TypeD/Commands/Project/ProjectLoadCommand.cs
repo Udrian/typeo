@@ -23,17 +23,35 @@ namespace TypeD.Commands.Project
 
                     // Prepare
                     project.AddCode(new ProgramCode(project));
-                    project.AddCode(new GameCode(project));
-                    project.AddCode(new GameTypeDCode(project));
 
                     foreach(var typeDType in project.TypeDTypes.Values)
                     {
-                        var type = typeDType.TypeInfo;
-                        if (type == null) continue;
-                        if(type.IsSubclassOf(typeof(Entity)))
+                        if (typeDType.TypeInfo == null) continue;
+
+                        switch (typeDType.TypeType)
                         {
-                            project.AddCode(new EntityCode(project, type.Name, type.Namespace));
-                            project.AddCode(new EntityTypeDCode(project, type.Name, type.Namespace));
+                            case TypeDTypeType.Game:
+                                project.AddCode(new GameCode(project));
+                                project.AddCode(new GameTypeDCode(project));
+                                break;
+                            case TypeDTypeType.Scene:
+                                project.AddCode(new SceneCode(project, typeDType.Name, typeDType.Namespace));
+                                project.AddCode(new SceneTypeDCode(project, typeDType.Name, typeDType.Namespace));
+                                break;
+                            case TypeDTypeType.Entity:
+                                project.AddCode(new EntityCode(project, typeDType.Name, typeDType.Namespace));
+                                project.AddCode(new EntityTypeDCode(project, typeDType.Name, typeDType.Namespace));
+                                break;
+                            case TypeDTypeType.Stub:
+                                break;
+                            case TypeDTypeType.Logic:
+                                break;
+                            case TypeDTypeType.Drawable:
+                                break;
+                            case TypeDTypeType.EntityData:
+                                break;
+                            default:
+                                break;
                         }
                     }
 

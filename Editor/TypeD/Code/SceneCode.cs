@@ -17,9 +17,7 @@ namespace TypeD.Code
                 "TypeOEngine.Typedeaf.Core"
             };
 
-            AddFunction(new Function("public override void Initialize()", () => { }));
-            AddFunction(new Function("public override void Update(double dt)", () => { }));
-            AddFunction(new Function("public override void Draw()", () => { }));
+            AddFunction(new Function("protected void InternalInitialize()", () => { }));
             AddFunction(new Function("public override void OnEnter(Scene from)", () => { }));
             AddFunction(new Function("public override void OnExit(Scene to)", () => { }));
         }

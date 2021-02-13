@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TypeD.Commands.Game;
 using TypeD.Commands.Project;
+using TypeD.Commands.Scene;
 using TypeD.Data;
 using TypeD.Models;
 
@@ -10,20 +11,20 @@ namespace TypeDEditor.Controller
     {
         public static ProjectModel LoadedProject { get; set; }
 
-        public static void AddNewEntity(string className, string @namespace, bool updatable, bool drawable)
+        public static void CreateEntity(string className, string @namespace, bool updatable, bool drawable)
         {
             if (LoadedProject == null)
                 return;
 
-            ProjectCommand.AddEntity(LoadedProject, className, @namespace, updatable, drawable);
+            ProjectCommand.CreateEntity(LoadedProject, className, @namespace, updatable, drawable);
         }
 
-        public static void AddNewScene(string className, string @namespace)
+        public static void CreateScene(string className, string @namespace)
         {
             if (LoadedProject == null)
                 return;
 
-            ProjectCommand.AddScene(LoadedProject, className, @namespace);
+            ProjectCommand.CreateScene(LoadedProject, className, @namespace);
         }
 
         public static async Task Run()
@@ -41,6 +42,11 @@ namespace TypeDEditor.Controller
         public static void SetStartScene(TypeDType typeDType)
         {
             GameCommand.SetStartScene(LoadedProject, typeDType);
+        }
+
+        public static void AddEntity(TypeDType baseD, TypeDType childD)
+        {
+            SceneCommand.AddEntity(baseD, childD);
         }
     }
 }

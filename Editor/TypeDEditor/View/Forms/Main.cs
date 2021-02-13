@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using TypeD.Data;
 using TypeD.Models;
 using TypeDEditor.Controller;
 using TypeDEditor.View.Forms.Dialogs;
@@ -19,13 +20,32 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemExit.Click += ToolStripMenuItemExit_Click;
             toolStripMenuItemBuildProject.Click += ToolStripMenuItemBuildProject_Click;
             toolStripMenuItemRunProject.Click += ToolStripMenuItemRunProject_Click;
-            toolStripMenuItemAddEntity.Click += ToolStripMenuItemAddEntity_Click;
-            toolStripMenuItemAddScene.Click += ToolStripMenuItemAddScene_Click;
+            toolStripMenuItemCreateEntity.Click += ToolStripMenuItemCreateEntity_Click;
+            toolStripMenuItemCreateScene.Click += ToolStripMenuItemCreateScene_Click;
             toolStripMenuItemSetStartScene.Click += ToolStripMenuItemSetStartScene_Click;
+            toolStripMenuItemAddEntityToScene.Click += ToolStripMenuItemAddEntityToScene_Click;
 
             OriginalTitle = Text;
 
+            explorer.NodeSelect += Explorer_NodeSelect;
+
             Hide();
+        }
+
+        private void ToolStripMenuItemAddEntityToScene_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new AddEntityDialog();
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                ProjectController.AddEntity(viewer.TabControl.SelectedTab.Tag as TypeDType, dialog.TypeDType);
+            }
+        }
+
+        private void Explorer_NodeSelect(TypeD.Data.TypeDType obj)
+        {
+            viewer.TabControl.TabPages.Add(obj.Name);
+            viewer.TabControl.TabPages[viewer.TabControl.TabCount - 1].Tag = obj;
+            viewer.TabControl.SelectedIndex = viewer.TabControl.TabCount - 1;
         }
 
         private void ToolStripMenuItemSetStartScene_Click(object sender, System.EventArgs e)
@@ -38,23 +58,23 @@ namespace TypeDEditor.View.Forms
         }
 
         //Add to Project
-        private void ToolStripMenuItemAddEntity_Click(object sender, System.EventArgs e)
+        private void ToolStripMenuItemCreateEntity_Click(object sender, System.EventArgs e)
         {
-            var dialog = new AddNewEntityDialog();
+            var dialog = new CreateEntityDialog();
 
             if(dialog.ShowDialog(this) == DialogResult.OK)
             {
-                ProjectController.AddNewEntity(dialog.EntityName, dialog.EntityNamespace, dialog.Updatable, dialog.Drawable);
+                ProjectController.CreateEntity(dialog.EntityName, dialog.EntityNamespace, dialog.Updatable, dialog.Drawable);
             }
         }
 
-        private void ToolStripMenuItemAddScene_Click(object sender, System.EventArgs e)
+        private void ToolStripMenuItemCreateScene_Click(object sender, System.EventArgs e)
         {
-            var dialog = new AddNewSceneDialog();
+            var dialog = new CreateSceneDialog();
 
             if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                ProjectController.AddNewScene(dialog.SceneName, dialog.SceneNamespace);
+                ProjectController.CreateScene(dialog.SceneName, dialog.SceneNamespace);
             }
         }
 

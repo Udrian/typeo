@@ -1,7 +1,7 @@
 ﻿
 namespace TypeDEditor.View.Forms.Dialogs
 {
-    partial class AddNewEntityDialog
+    partial class CreateEntityDialog
     {
         /// <summary>
         /// Required designer variable.

@@ -5,7 +5,7 @@ namespace TypeD.Commands.Project
 {
     public partial class ProjectCommand
     {
-        public static void AddEntity(ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
+        public static void CreateEntity(ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
         {
             var entityCode = new EntityCode(project, className, $"{project.ProjectName}.{@namespace}");
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TypeD.Data;
 using TypeD.Models;
 
@@ -50,6 +49,6 @@ namespace TypeD.Code
                 Writer.AddLine("Scenes.Cleanup();");
                 Writer.AddLine("InternalCleanup();");
             }));
-        }
+        }     
     }
 }
