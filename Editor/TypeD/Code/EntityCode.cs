@@ -11,13 +11,13 @@ namespace TypeD.Code
             PartialClass = true;
             TypeDClass = false;
 
-            BaseClass = "Entity";
+            BaseClass = "Entity2d";
             Usings = new List<string>()
             {
                 "TypeOEngine.Typedeaf.Core.Entities"
             };
 
-            AddFunction(new Function("public override void Initialize()", () => { }));
+            AddFunction(new Function("protected void InternalInitialize()", () => { }));
             AddFunction(new Function("public override void Cleanup()", () => { }));
         }
     }

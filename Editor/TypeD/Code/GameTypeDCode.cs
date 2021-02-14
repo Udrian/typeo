@@ -23,7 +23,10 @@ namespace TypeD.Code
                 var usings = new List<string>();
 
                 TypeDType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeType == TypeDTypeType.Scene; });
-                usings.Add(defaultScene.Namespace);
+                if (defaultScene != null)
+                {
+                    usings.Add(defaultScene.Namespace);
+                }
 
                 return usings;
             };

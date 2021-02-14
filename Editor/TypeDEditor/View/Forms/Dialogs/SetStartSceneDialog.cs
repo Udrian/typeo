@@ -27,16 +27,20 @@ namespace TypeDEditor.View.Forms.Dialogs
                 if(typeDType.TypeType == TypeDTypeType.Scene)
                 {
                     cbScene.Items.Add(new CbItem() { TypeDType = typeDType });
-                    if (typeDType.FullName.EndsWith(ProjectController.LoadedProject.StartScene))
+                    if (ProjectController.LoadedProject.StartScene != null && typeDType.FullName.EndsWith(ProjectController.LoadedProject.StartScene))
                     {
                         cbScene.SelectedIndex = cbScene.Items.Count - 1;
                     }
                 }
             }
 
-            if (cbScene.Items.Count == 0)
+            if(cbScene.Items.Count == 0)
             {
-                btnSet.Enabled = false;
+                cbScene.Enabled = false;
+            }
+
+            if (cbScene.SelectedIndex < 0)
+            {
                 btnSet.Enabled = false;
             }
         }
@@ -47,6 +51,11 @@ namespace TypeDEditor.View.Forms.Dialogs
 
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void cbScene_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            btnSet.Enabled = cbScene.SelectedIndex >= 0;
         }
     }
 }

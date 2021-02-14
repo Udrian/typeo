@@ -25,6 +25,7 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemCreateDrawable2d.Click += ToolStripMenuItemCreateDrawable2d_Click;
             toolStripMenuItemSetStartScene.Click += ToolStripMenuItemSetStartScene_Click;
             toolStripMenuItemAddEntityToScene.Click += ToolStripMenuItemAddEntityToScene_Click;
+            toolStripMenuItemAddDrawable2dToEntity.Click += ToolStripMenuItemAddDrawable2dToEntity_Click;
 
             OriginalTitle = Text;
 
@@ -33,10 +34,19 @@ namespace TypeDEditor.View.Forms
             Hide();
         }
 
+        private void ToolStripMenuItemAddDrawable2dToEntity_Click(object sender, System.EventArgs e)
+        {
+            var dialog = new AddDrawable2dDialog();
+            if (dialog.ShowDialog(this) == DialogResult.OK && viewer.TabControl.SelectedTab != null)
+            {
+                ProjectController.AddDrawable2d(viewer.TabControl.SelectedTab.Tag as TypeDType, dialog.TypeDType);
+            }
+        }
+
         private void ToolStripMenuItemAddEntityToScene_Click(object sender, System.EventArgs e)
         {
             var dialog = new AddEntityDialog();
-            if (dialog.ShowDialog(this) == DialogResult.OK)
+            if (dialog.ShowDialog(this) == DialogResult.OK && viewer.TabControl.SelectedTab != null)
             {
                 ProjectController.AddEntity(viewer.TabControl.SelectedTab.Tag as TypeDType, dialog.TypeDType);
             }

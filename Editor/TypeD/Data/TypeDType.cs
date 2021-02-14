@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using TypeD.Helpers;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -11,6 +9,7 @@ namespace TypeD.Data
 {
     public enum TypeDTypeType
     {
+        None,
         Game,
         Scene,
         Entity,
@@ -47,12 +46,12 @@ namespace TypeD.Data
             Codes = new List<Codalyzer>();
         }
 
-        public void Save(string location)
+        public void Save()
         {
             foreach (var code in Codes)
             {
                 code.Generate();
-                code.Save(location);
+                code.Save();
             }
         }
     }

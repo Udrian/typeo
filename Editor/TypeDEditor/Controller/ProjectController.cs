@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TypeD.Commands.Entity;
 using TypeD.Commands.Game;
 using TypeD.Commands.Project;
 using TypeD.Commands.Scene;
@@ -52,9 +53,14 @@ namespace TypeDEditor.Controller
             GameCommand.SetStartScene(LoadedProject, typeDType);
         }
 
-        public static void AddEntity(TypeDType baseD, TypeDType childD)
+        public static void AddEntity(TypeDType baseType, TypeDType childEntity)
         {
-            SceneCommand.AddEntity(baseD, childD);
+            SceneCommand.AddEntity(baseType, childEntity);
+        }
+
+        public static void AddDrawable2d(TypeDType baseType, TypeDType childDrawable2d)
+        {
+            EntityCommand.AddDrawable2d(baseType, childDrawable2d);
         }
     }
 }

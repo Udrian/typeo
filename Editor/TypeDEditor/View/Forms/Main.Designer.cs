@@ -39,6 +39,7 @@
             this.toolStripMenuItemCreate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCreateEntity = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCreateScene = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemCreateDrawable2d = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSetStartScene = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAddEntityToScene = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemBuild = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,7 @@
             this.explorer = new TypeDEditor.View.Forms.Explorer();
             this.output = new TypeDEditor.View.Forms.Output();
             this.viewer = new TypeDEditor.View.Forms.Viewer();
-            this.toolStripMenuItemCreateDrawable2d = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemAddDrawable2dToEntity = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,7 +118,8 @@
             this.toolStripMenuItemProject.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemCreate,
             this.toolStripMenuItemSetStartScene,
-            this.toolStripMenuItemAddEntityToScene});
+            this.toolStripMenuItemAddEntityToScene,
+            this.toolStripMenuItemAddDrawable2dToEntity});
             this.toolStripMenuItemProject.Name = "toolStripMenuItemProject";
             this.toolStripMenuItemProject.Size = new System.Drawing.Size(95, 34);
             this.toolStripMenuItemProject.Text = "Project";
@@ -129,7 +131,7 @@
             this.toolStripMenuItemCreateScene,
             this.toolStripMenuItemCreateDrawable2d});
             this.toolStripMenuItemCreate.Name = "toolStripMenuItemCreate";
-            this.toolStripMenuItemCreate.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemCreate.Size = new System.Drawing.Size(368, 40);
             this.toolStripMenuItemCreate.Text = "Create";
             // 
             // toolStripMenuItemCreateEntity
@@ -144,16 +146,22 @@
             this.toolStripMenuItemCreateScene.Size = new System.Drawing.Size(241, 40);
             this.toolStripMenuItemCreateScene.Text = "Scene";
             // 
+            // toolStripMenuItemCreateDrawable2d
+            // 
+            this.toolStripMenuItemCreateDrawable2d.Name = "toolStripMenuItemCreateDrawable2d";
+            this.toolStripMenuItemCreateDrawable2d.Size = new System.Drawing.Size(241, 40);
+            this.toolStripMenuItemCreateDrawable2d.Text = "Drawable2d";
+            // 
             // toolStripMenuItemSetStartScene
             // 
             this.toolStripMenuItemSetStartScene.Name = "toolStripMenuItemSetStartScene";
-            this.toolStripMenuItemSetStartScene.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemSetStartScene.Size = new System.Drawing.Size(368, 40);
             this.toolStripMenuItemSetStartScene.Text = "Set start scene";
             // 
             // toolStripMenuItemAddEntityToScene
             // 
             this.toolStripMenuItemAddEntityToScene.Name = "toolStripMenuItemAddEntityToScene";
-            this.toolStripMenuItemAddEntityToScene.Size = new System.Drawing.Size(315, 40);
+            this.toolStripMenuItemAddEntityToScene.Size = new System.Drawing.Size(368, 40);
             this.toolStripMenuItemAddEntityToScene.Text = "Add Entity To Scene";
             // 
             // toolStripMenuItemBuild
@@ -232,11 +240,11 @@
             this.viewer.Size = new System.Drawing.Size(1299, 684);
             this.viewer.TabIndex = 4;
             // 
-            // toolStripMenuItemCreateDrawable2d
+            // toolStripMenuItemAddDrawable2dToEntity
             // 
-            this.toolStripMenuItemCreateDrawable2d.Name = "toolStripMenuItemCreateDrawable2d";
-            this.toolStripMenuItemCreateDrawable2d.Size = new System.Drawing.Size(241, 40);
-            this.toolStripMenuItemCreateDrawable2d.Text = "Drawable2d";
+            this.toolStripMenuItemAddDrawable2dToEntity.Name = "toolStripMenuItemAddDrawable2dToEntity";
+            this.toolStripMenuItemAddDrawable2dToEntity.Size = new System.Drawing.Size(368, 40);
+            this.toolStripMenuItemAddDrawable2dToEntity.Text = "Add Drawable2d to Entity";
             // 
             // Main
             // 
@@ -286,6 +294,7 @@
         private Viewer viewer;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddEntityToScene;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCreateDrawable2d;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemAddDrawable2dToEntity;
     }
 }
 

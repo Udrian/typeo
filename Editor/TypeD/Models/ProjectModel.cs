@@ -156,7 +156,7 @@ namespace TypeD.Models
             Process.Start(Path.Combine(ProjectBuildOutput, $"{CSProjName}.exe"));
         }
 
-        public void AddCode(Codalyzer code)
+        public void AddCode(Codalyzer code, TypeDTypeType typeType = TypeDTypeType.None)
         {
             var key = $"{code.Namespace}.{code.ClassName}";
             if (!TypeDTypes.ContainsKey(key))
@@ -168,6 +168,10 @@ namespace TypeD.Models
                 });
             }
             TypeDTypes[key].Codes.Add(code);
+            if(typeType != TypeDTypeType.None)
+            {
+                TypeDTypes[key].TypeType = typeType;
+            }
         }
 
         public void AddType(TypeDTypeType typeType, TypeInfo typeInfo)
@@ -189,7 +193,7 @@ namespace TypeD.Models
         {
             var types = new List<TypeDType>();
 
-            if(TypeDTypes.ContainsKey(name))
+            if(name != null && TypeDTypes.ContainsKey(name))
             {
                 types.Add(TypeDTypes[name]);
             } 
@@ -222,7 +226,7 @@ namespace TypeD.Models
 
                 foreach (var typeDType in TypeDTypes.Values)
                 {
-                    typeDType.Save(Location);
+                    typeDType.Save();
                 }
             });
             task.Start();

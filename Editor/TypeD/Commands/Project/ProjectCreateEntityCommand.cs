@@ -1,4 +1,5 @@
 ﻿using TypeD.Code;
+using TypeD.Data;
 using TypeD.Models;
 
 namespace TypeD.Commands.Project
@@ -26,8 +27,8 @@ namespace TypeD.Commands.Project
                 entityCode.AddFunction(new Codalyzer.Function("public void Draw(Canvas canvas)", () => { }));
             }
 
-            project.AddCode(entityCode);
-            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"));
+            project.AddCode(entityCode, TypeDTypeType.Entity);
+            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), TypeDTypeType.Entity);
 
             project.BuildTree();
         }

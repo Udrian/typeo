@@ -15,6 +15,7 @@ namespace TypeDEditor.View.Forms.Dialogs
                 return TypeDType.FullName;
             }
         }
+
         public TypeDType TypeDType { get; private set; }
 
         public AddEntityDialog()
@@ -33,6 +34,10 @@ namespace TypeDEditor.View.Forms.Dialogs
             {
                 cbEntity.Enabled = false;
                 btnAdd.Enabled = false;
+            }
+            else
+            {
+                cbEntity.SelectedIndex = 0;
             }
         }
 

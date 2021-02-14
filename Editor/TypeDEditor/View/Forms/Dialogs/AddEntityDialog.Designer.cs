@@ -37,6 +37,7 @@ namespace TypeDEditor.View.Forms.Dialogs
             // 
             // cbEntity
             // 
+            this.cbEntity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbEntity.FormattingEnabled = true;
             this.cbEntity.Location = new System.Drawing.Point(12, 166);
             this.cbEntity.Name = "cbEntity";
@@ -74,7 +75,7 @@ namespace TypeDEditor.View.Forms.Dialogs
             this.label1.TabIndex = 26;
             this.label1.Text = "Add Entity";
             // 
-            // AddEntity
+            // AddEntityDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -83,7 +84,7 @@ namespace TypeDEditor.View.Forms.Dialogs
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.label1);
-            this.Name = "AddEntity";
+            this.Name = "AddEntityDialog";
             this.Text = "Add Entity";
             this.ResumeLayout(false);
             this.PerformLayout();

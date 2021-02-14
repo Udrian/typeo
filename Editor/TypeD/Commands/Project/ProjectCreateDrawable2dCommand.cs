@@ -1,4 +1,5 @@
 ﻿using TypeD.Code;
+using TypeD.Data;
 using TypeD.Models;
 
 namespace TypeD.Commands.Project
@@ -7,7 +8,7 @@ namespace TypeD.Commands.Project
     {
         public static void CreateDrawable2d(ProjectModel project, string className, string @namespace)
         {
-            project.AddCode(new Drawable2dCode(project, className, $"{project.ProjectName}.{@namespace}"));
+            project.AddCode(new Drawable2dCode(project, className, $"{project.ProjectName}.{@namespace}"), TypeDTypeType.Drawable);
 
             project.BuildTree();
         }
