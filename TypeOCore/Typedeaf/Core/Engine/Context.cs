@@ -151,6 +151,7 @@ namespace TypeOEngine.Typedeaf.Core
                 InitializeObject(Game);
                 Game.InternalInitialize();
                 Game.Initialize();
+                Game.Initialized = true;
 
                 Logger.Log($"Game of type '{Game.GetType().FullName}' loaded");
 
@@ -360,6 +361,25 @@ namespace TypeOEngine.Typedeaf.Core
                     property.SetValue(obj, Logger);
                     break;
                 }
+            }
+
+            internal Drawable CreateDrawable(Type type, object obj, DrawStack drawStack, DrawableOption<Drawable> option)
+            {
+                Logger.Log(LogLevel.Ludacris, $"Creating Drawable of type '{type.FullName}' into {obj.GetType().FullName}");
+
+                var drawable = Activator.CreateInstance(type) as Drawable;
+                drawable.Entity = obj as Entity;
+
+                InitializeObject(drawable, obj);
+                option?.Create(drawable);
+                drawable.Initialize();
+
+                if (drawStack != null)
+                {
+                    drawStack.Push(drawable);
+                }
+
+                return drawable;
             }
 
             internal D CreateDrawable<D>(object obj, DrawStack drawStack, DrawableOption<D> option) where D : Drawable, new()

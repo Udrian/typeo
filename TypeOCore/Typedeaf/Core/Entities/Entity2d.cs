@@ -16,8 +16,6 @@ namespace TypeOEngine.Typedeaf.Core
 
             public new Entity2d Parent { get { return base.Parent as Entity2d; } internal set { base.Parent = value as Entity2d; } }
 
-            public DrawableManager<Drawable2d> Drawables { get; private set; }
-
             protected Entity2d() : base()
             {
                 Position = Vec2.Zero;
@@ -25,22 +23,6 @@ namespace TypeOEngine.Typedeaf.Core
                 Rotation = 0;
                 Size     = Vec2.Zero;
                 Origin   = Vec2.Zero;
-            }
-
-            internal override void InternalInitialize()
-            {
-                Drawables = new DrawableManager<Drawable2d>(DrawStack, this);
-                Context.InitializeObject(Drawables, this);
-                base.InternalInitialize();
-            }
-
-            public override void Remove()
-            {
-                foreach(var drawable in Drawables.Drawables)
-                {
-                    DrawStack.Pop(drawable);
-                }
-                base.Remove();
             }
 
             public Rectangle ScreenBounds {

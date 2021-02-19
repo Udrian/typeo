@@ -14,6 +14,8 @@ namespace TypeOEngine.Typedeaf.Core
         public DrawableManager<Drawable> Drawables { get; private set; }
         public LogicManager Logics { get; private set; }
 
+        public bool Initialized { get; internal set; }
+
         protected Game() { }
 
         public SceneList CreateSceneHandler()

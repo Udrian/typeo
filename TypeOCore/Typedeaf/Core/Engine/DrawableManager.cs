@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -23,9 +24,17 @@ namespace TypeOEngine.Typedeaf.Core
                 Parent = parent;
             }
 
+            public Drawable Create(Type type, DrawableOption<Drawable> option = null, bool pushToDrawStack = true)
+            {
+                var drawable = Context.CreateDrawable(type, Parent, pushToDrawStack ? DrawStack : null, option);
+                Drawables.Add(drawable as T);
+
+                return drawable;
+            }
+
             public D Create<D>(DrawableOption<D> option = null, bool pushToDrawStack = true) where D : T, new()
             {
-                var drawable = Context.CreateDrawable<D>(Parent, pushToDrawStack ? DrawStack : null, option);
+                var drawable = Context.CreateDrawable(Parent, pushToDrawStack ? DrawStack : null, option);
                 Drawables.Add(drawable);
 
                 return drawable;
