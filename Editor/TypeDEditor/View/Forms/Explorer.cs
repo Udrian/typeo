@@ -83,6 +83,7 @@ namespace TypeDEditor.View.Forms
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             var type = e.Node.Tag as TypeDType;
+            if (type == null) return;
 
             NodeSelect?.Invoke(type);
         }

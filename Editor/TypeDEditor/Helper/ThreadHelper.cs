@@ -5,13 +5,13 @@ namespace TypeDEditor.Helper
 {
     public static class ThreadHelper
     {
-        delegate void InvokeMainThreadCallback(UserControl uc, Action action);
-        public static void InvokeMainThread(UserControl uc, Action action)
+        delegate void InvokeMainThreadCallback(Control uc, Action action);
+        public static void InvokeMainThread(Control control, Action action)
         {
-            if (uc.InvokeRequired)
+            if (control.InvokeRequired)
             {
                 var callback = new InvokeMainThreadCallback(InvokeMainThread);
-                uc.Invoke(callback, new object[] { uc, action });
+                control.Invoke(callback, new object[] { control, action });
             }
             else
             {

@@ -1,6 +1,9 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.IO;
+using System.Windows.Forms;
 using TypeD.Data;
 using TypeD.Models;
+using TypeD.Viewer;
 using TypeDEditor.Controller;
 using TypeDEditor.View.Forms.Dialogs;
 
@@ -52,10 +55,37 @@ namespace TypeDEditor.View.Forms
             }
         }
 
-        private void Explorer_NodeSelect(TypeD.Data.TypeDType obj)
+        private void Explorer_NodeSelect(TypeDType obj)
         {
             viewer.TabControl.TabPages.Add(obj.Name);
-            viewer.TabControl.TabPages[viewer.TabControl.TabCount - 1].Tag = obj;
+            var tab = viewer.TabControl.TabPages[viewer.TabControl.TabCount - 1];
+            tab.Tag = obj;
+            if(obj.TypeType == TypeDTypeType.Drawable)
+            {
+                var defaultStream = Console.OpenStandardInput();
+                int i = 0;
+                var cw = new ConsoleWriter();
+                cw.WriteLineEvent += (object sender, ConsoleWriterEventArgs e) =>
+                {
+                    Helper.ThreadHelper.InvokeMainThread(this, () =>
+                    {
+                        if(tab.Controls.Count >= 25)
+                        {
+                            tab.Controls.Clear();
+                            i = 0;
+                        }
+
+                        var label = new Label();
+                        label.Text = e.Value;
+                        label.Location = new System.Drawing.Point(0, i * 32);
+                        i++;
+                        tab.Controls.Add(label);
+                    });
+                };
+                Console.SetOut(cw);
+
+                var drawableViewer = new DrawableViewer(obj);
+            }
             viewer.TabControl.SelectedIndex = viewer.TabControl.TabCount - 1;
         }
 
