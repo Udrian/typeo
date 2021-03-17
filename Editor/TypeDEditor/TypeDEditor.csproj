@@ -11,7 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
-    <ProjectReference Include="..\..\TypeOSDL\TypeOSDL.csproj" />
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>
 

@@ -29,15 +29,20 @@ def main():
         build_all(args.build, args.output)
     if not args.skip_packing:
         package_modules = pack_modules(args.build, args.output)
-        package_typeo = pack_typeo(args.build, args.output) 
+        package_typeo = pack_typeo(args.build, args.output)
+        package_typed = pack_typed(args.build, args.output) 
 
         if not args.skip_uploading:
             upload_modules(args.key, args.secret, package_modules, args.deploy_path_prefix)
             upload_package(args.key, args.secret, package_typeo, "typeo/releases{}/TypeO".format(args.deploy_path_prefix))
+            upload_package(args.key, args.secret, package_typed, "typeo/releases{}/TypeD".format(args.deploy_path_prefix))
 
 def build_all(build_number, output=".."):
     for module in modules:
         build.build(module.name, build_number, "Release", output)
+    
+    build.build("Editor/TypeD", build_number, "Release", output)
+    build.build("Editor/TypeDEditor", build_number, "Release", output)
 
 def pack_modules(build_number, output=".."):
     packages = []
@@ -50,6 +55,12 @@ def pack_typeo(build_number, output=".."):
     dependencies = sum([module.external for module in modules if module.external], [])
 
     return package.pack("TypeO", projects, build_number, dependencies, output)
+
+def pack_typed(build_number, output=".."):
+    projects = ["Editor/TypeD", "Editor/TypeDEditor", "TypeOCore"]
+    dependencies = []
+
+    return package.pack("Editor/TypeD", projects, build_number, dependencies, output)
 
 def upload_modules(key, secret, packages, deploy_path_prefix):
     for package in packages:
