@@ -1,6 +1,7 @@
 import argparse, os
 import zipfile
 from os.path import basename
+from os.path import isfile
  
 def main():
     parser = argparse.ArgumentParser()
@@ -11,44 +12,44 @@ def main():
 
     pack(args.project, [args.project], args.build, args.output)
 
-def pack(project_name, projects, build_number, externals=[], output_prefix=".."):
-    version = getVersion(project_name, build_number)
-    output = "{}/bin/package/{}".format(output_prefix, project_name)
-    print("Packing '{}' '{}' to output '{}'".format(project_name, version, output))
+def pack(package, projects, build_number, externals=[], output_prefix=".."):
+    version = getVersion(package, build_number)
+    package_name = basename(package)
+    output = "{}/bin/package/{}".format(output_prefix, package_name)
+    print("Packing '{}' '{}' to output '{}'".format(package_name, version, output))
 
-    zipfilename = "{}/{}-v{}.zip".format(output, project_name, version)
+    zipfilename = "{}/{}-v{}.zip".format(output, package_name, version)
 
     os.makedirs(output, exist_ok=True)
     with zipfile.ZipFile(zipfilename, 'w') as zipObj:
         for project in projects:
+            project_name = basename(project)
             print("Adding project '{}' to zip".format(project))
-            path = "{}/bin/builds/{}".format(output_prefix, project)
-            addFileToZip(zipObj, "{}.deps.json".format(project), "Debug", path, project_name)
-            addFileToZip(zipObj, "{}.dll".format(project)      , "Debug", path, project_name)
-            addFileToZip(zipObj, "{}.pdb".format(project)      , "Debug", path, project_name)
-            addFileToZip(zipObj, "{}.deps.json".format(project), "Release", path, project_name)
-            addFileToZip(zipObj, "{}.dll".format(project)      , "Release", path, project_name)
+            path = "{}/bin/builds/{}/Release".format(output_prefix, project)
+            
+            addFileToZip(zipObj, "{}/{}.runtimeconfig.json".format(path, project_name), package_name)
+            addFileToZip(zipObj, "{}/{}.deps.json"         .format(path, project_name), package_name)
+            addFileToZip(zipObj, "{}/{}.dll"               .format(path, project_name), package_name)
+            addFileToZip(zipObj, "{}/{}.exe"               .format(path, project_name), package_name)
 
         for external in externals:
             print("Adding external '{}' to zip".format(external))
-            externalDir = "{}/{}/debug".format(output_prefix, external)
-            for filename in os.listdir(externalDir):
-                addFileToZip(zipObj, filename, "", externalDir, "{}/Debug/external/{}".format(project_name, external))
-                
+            
             externalDir = "{}/{}/release".format(output_prefix, external)
             for filename in os.listdir(externalDir):
-                addFileToZip(zipObj, filename, "", externalDir, "{}/Release/external/{}".format(project_name, external))
+                addFileToZip(zipObj, "{}/{}".format(externalDir, filename), package_name)
         
         #Add readme and releasenotes
-        addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Debug".format(project_name))
-        addFileToZip(zipObj, "Readme-TypeO.txt", "", output_prefix, "{}/Release".format(project_name))
-        if os.path.isfile("{}/{}/ReleaseNotes-{}.txt".format(output_prefix, project_name, project_name)):
-            addFileToZip(zipObj, "ReleaseNotes-{}.txt".format(project_name), project_name, output_prefix, "")
+        addFileToZip(zipObj, "./../Readme-TypeO.txt", package_name)
+        addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(package, package_name), package_name)
     return zipfilename
-    
-def addFileToZip(zipObj, filename, directory, pathFrom, pathTo):
-    print("... Adding file: {}/{}/{}".format(pathFrom, directory, filename))
-    zipObj.write("{}/{}/{}".format(pathFrom, directory, filename), "./{}/{}/{}".format(pathTo, directory, filename), zipfile.ZIP_DEFLATED)
+
+def addFileToZip(zipObj, filepath, pathTo):
+    if isfile(filepath):
+        filename = basename(filepath)
+        filepathTo = "./{}/{}".format(pathTo, filename)
+        print("... Adding file: {}".format(filepathTo))
+        zipObj.write(filepath, filepathTo, zipfile.ZIP_DEFLATED)
 
 def getVersion(project, build_number):
     path = "../{0}/version".format(project)
