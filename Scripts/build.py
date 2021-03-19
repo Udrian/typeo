@@ -2,10 +2,10 @@ import argparse, os
  
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--project', type=str, required=True,   help="Project name to build")
-    parser.add_argument('-b', '--build',   type=int, required=True,   help="Build number to append to versioning")
-    parser.add_argument('-c', '--config',  type=str, default="Debug", help="Debug|Release defaults to Debug")
-    parser.add_argument('-o', '--output',  type=str, default="..",    help="Output folder")
+    parser.add_argument('-p', '--project',      type=str, required=True,     help="Project name to build")
+    parser.add_argument('-b', '--build_number', type=int, required=True,     help="Build number to append to versioning")
+    parser.add_argument('-c', '--config',       type=str, default="Release", help="Debug|Release defaults to Release")
+    parser.add_argument('-o', '--output',       type=str, default="..",      help="Output folder")
     args = parser.parse_args()
 
     build(args.project, args.build, args.config, args.output)
