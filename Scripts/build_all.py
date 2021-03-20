@@ -59,10 +59,18 @@ def main():
         if not args.skip_uploading:
             upload_package(args.key, args.secret, package_project, "typeo/releases{}{}/{}".format(args.deploy_path_prefix, ("/modules" if project["module"] else ""), args.project))
 
+    return getVersion(args.project)
+
 def upload_package(key, secret, package, dir):
     path = "{}/{}".format(dir, basename(package))
 
     upload.upload(key, secret, "typedeaf", path, package)
+
+def getVersion(project):
+    path = "../{0}/version".format(project)
+
+    with open(path) as f:
+        return "{}".format(f.readline().replace("\n", "").replace("\r", "").replace("v", ""))
 
 if __name__ == "__main__":
     main()
