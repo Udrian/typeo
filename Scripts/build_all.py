@@ -3,6 +3,11 @@ import argparse
 from os.path import basename
 
 projects = {
+    "TypeDitor" : {
+        "projects" : ["Editor/TypeD", "Editor/TypeDEditor", "TypeOCore"],
+        "external" : [],
+        "module"   : False
+    },
     "TypeO" : {
         "projects" : ["TypeOCore", "TypeOBasic2d", "TypeODesktop", "TypeOSDL"],
         "external" : [],
@@ -52,7 +57,7 @@ def main():
 
     if not args.skip_packing:
         subprojects = project["projects"]
-        dependencies = sum([projects[subproject]["external"] for subproject in subprojects], [])
+        dependencies = sum([projects[subproject]["external"] for subproject in subprojects if subproject in projects], [])
 
         package_project = package.pack(args.project, subprojects, args.build_number, dependencies, args.output)
 
