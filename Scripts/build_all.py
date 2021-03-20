@@ -4,12 +4,17 @@ from os.path import basename
 
 projects = {
     "TypeO" : {
-        "projects" : ["TypeOCore", "TypeODesktop", "TypeOSDL"],
+        "projects" : ["TypeOCore", "TypeOBasic2d", "TypeODesktop", "TypeOSDL"],
         "external" : [],
         "module"   : False
     },
     "TypeOCore" : {
         "projects" : ["TypeOCore"],
+        "external" : [],
+        "module"   : True
+    },
+    "TypeOBasic2d" : {
+        "projects" : ["TypeOBasic2d"],
         "external" : [],
         "module"   : True
     },
