@@ -1,6 +1,7 @@
 import build, package, upload
 import argparse
 from os.path import basename
+import subprocess
 
 projects = {
     "TypeO" : {
@@ -39,9 +40,12 @@ def main():
     parser.add_argument('-sb', '--skip_building',      type=bool, default=False,     help="Skip building")
     parser.add_argument('-sp', '--skip_packing',       type=bool, default=False,     help="Skip packing")
     parser.add_argument('-su', '--skip_uploading',     type=bool, default=False,     help="Skip uploading")
+    parser.add_argument('-st', '--skip_tag',           type=bool, default=False,     help="Skip git tag")
     parser.add_argument('-k',  '--key',                type=str,  required=True,     help="Space key")
     parser.add_argument('-s',  '--secret',             type=str,  required=True,     help="Space secret")
     parser.add_argument('-d',  '--deploy_path_prefix', type=str,  default="",        help="deploy path configuration prefix")
+    parser.add_argument('-t',  '--tag_commit_hash',    type=str,  default="develop", help="Git commit hash for tag")
+    
     args = parser.parse_args()
 
     project = projects[args.project]
@@ -59,7 +63,16 @@ def main():
         if not args.skip_uploading:
             upload_package(args.key, args.secret, package_project, "typeo/releases{}{}/{}".format(args.deploy_path_prefix, ("/modules" if project["module"] else ""), args.project))
 
-    return getVersion(args.project)
+    if not args.skip_tag:
+        version = getVersion(args.project)
+        print("Tagging git commit with tag {}".format(version))
+
+        try:
+            subprocess.run(["git", "tag", "-a", "-f", "-m", version, version], check=True)
+            subprocess.run(["git", "push", "origin", "-f", version], check=True)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            raise e
 
 def upload_package(key, secret, package, dir):
     path = "{}/{}".format(dir, basename(package))
@@ -70,7 +83,7 @@ def getVersion(project):
     path = "../{0}/version".format(project)
 
     with open(path) as f:
-        return "{}".format(f.readline().replace("\n", "").replace("\r", "").replace("v", ""))
+        return "{}-{}".format(f.readline().replace("\n", "").replace("\r", ""), project)
 
 if __name__ == "__main__":
     main()
