@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
 
@@ -8,38 +9,31 @@ namespace TypeD.Models
     {
         // Data
         public string Name { get; set; }
+        public string Version { get; set; }
 
         // Loads
         private Assembly Assembly { get; set; }
         public TypeInfo ModuleTypeInfo { get; set; }
         
         // Constructors
-        public ModuleModel(string name)
+        public ModuleModel(string name, string version)
         {
             Name = name;
-            var path = Path.Combine(ModulePath, "Debug", $"{Name}.dll");
-            Assembly = Assembly.LoadFrom(path);
+            Version = version;
+            Assembly = Assembly.LoadFrom(ModuleDLLPath);
 
             ModuleTypeInfo = GetModuleType();
         }
 
         // Paths
-        private string ModulePath { get { return Path.Combine(Directory.GetCurrentDirectory(), "modules", Name); } }
-
-        // Public functions
-        public void CopyProject(string location)
-        {
-            foreach (string dirPath in Directory.GetDirectories(ModulePath, "*", SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(ModulePath, Path.Combine(location, "modules", Name)));
-
-            foreach (string newPath in Directory.GetFiles(ModulePath, "*.*", SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(ModulePath, Path.Combine(location, "modules", Name)), true);
-        }
+        public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
+        private string ModulePath { get { return Path.Combine(ModuleCachePath, Name, Version, Name); } }
+        private string ModuleDLLPath { get { return Path.Combine(ModulePath, $"{Name}.dll"); } }
 
         public void AddToProjectXML(XElement project)
         {
-            AddReference(GetItemGroup(project, "Debug"), "Debug");
-            AddReference(GetItemGroup(project, "Release"), "Release");
+            AddReference(GetItemGroup(project, "Debug"));
+            AddReference(GetItemGroup(project, "Release"));
         }
 
         // Private functions
@@ -59,7 +53,7 @@ namespace TypeD.Models
             return moduleType;
         }
 
-        private XElement GetItemGroup(XElement project, string configuration)
+        private static XElement GetItemGroup(XElement project, string configuration)
         {
             var configString = $"'$(Configuration)' == '{configuration}'";
             var itemGroups = project.Elements("ItemGroup");
@@ -81,7 +75,7 @@ namespace TypeD.Models
             return itemGroup;
         }
 
-        private void AddReference(XElement itemGroup, string configuration)
+        private void AddReference(XElement itemGroup)
         {
             var foundModule = false;
             foreach (var referenceElement in itemGroup.Elements("Reference"))
@@ -97,7 +91,7 @@ namespace TypeD.Models
                 var referenceElement = new XElement("Reference");
                 referenceElement.Add(new XAttribute("Include", Name));
 
-                referenceElement.Add(new XElement("HintPath", @$"..\typeo\modules\{Name}\{configuration}\{Name}.dll"));
+                referenceElement.Add(new XElement("HintPath", ModuleDLLPath));
 
                 itemGroup.Add(referenceElement);
             }

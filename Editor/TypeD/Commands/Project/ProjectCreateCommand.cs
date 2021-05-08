@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using TypeD.Code;
+using TypeD.Commands.Module;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.Models;
@@ -43,7 +44,12 @@ namespace TypeD.Commands.Project
             project.AddCode(new GameCode(project), TypeDTypeType.Game);
             project.AddCode(new GameTypeDCode(project), TypeDTypeType.Game);
 
-            project.AddModule(new ModuleModel("TypeOCore"));
+            var data = await ModuleCommand.List();
+            var coreModuleName = "TypeOCore";
+            var coreModuleVersion = data.Modules["TypeOCore"][0];
+
+            await ModuleCommand.Download(coreModuleName, coreModuleVersion);
+            ModuleCommand.Add(coreModuleName, coreModuleVersion, project);
 
             await Save(project);
             await project.Build();

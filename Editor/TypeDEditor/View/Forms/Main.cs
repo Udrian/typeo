@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 using TypeD.Data;
 using TypeD.Models;
@@ -29,12 +28,19 @@ namespace TypeDEditor.View.Forms
             toolStripMenuItemSetStartScene.Click += ToolStripMenuItemSetStartScene_Click;
             toolStripMenuItemAddEntityToScene.Click += ToolStripMenuItemAddEntityToScene_Click;
             toolStripMenuItemAddDrawable2dToEntity.Click += ToolStripMenuItemAddDrawable2dToEntity_Click;
+            toolStripMenuItemModules.Click += ToolStripMenuItemModules_Click;
 
             OriginalTitle = Text;
 
             explorer.NodeSelect += Explorer_NodeSelect;
 
             Hide();
+        }
+
+        private void ToolStripMenuItemModules_Click(object sender, EventArgs e)
+        {
+            var dialog = new ModulesDialog();
+            dialog.Show();
         }
 
         private void ToolStripMenuItemAddDrawable2dToEntity_Click(object sender, System.EventArgs e)

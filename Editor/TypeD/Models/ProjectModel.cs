@@ -37,7 +37,7 @@ namespace TypeD.Models
             ProjectName = projectData.ProjectName;
             CSSolutionPath = projectData.CSSolutionPath;
             CSProjName = projectData.CSProjName;
-            Modules = projectData.Modules.Select(m => new ModuleModel(m)).ToList();
+            Modules = projectData.Modules.Select(m => new ModuleModel(m.Name, m.Version)).ToList();
             StartScene = projectData.StartScene;
 
             LoadAssembly();
@@ -59,7 +59,6 @@ namespace TypeD.Models
             if (module.ModuleTypeInfo != null)
                 programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
-            module.CopyProject(ProjectTypeO);
             var projectX = XElement.Load(path);
             module.AddToProjectXML(projectX);
             //TODO: Should only save when we press save
@@ -220,7 +219,7 @@ namespace TypeD.Models
                     ProjectName = ProjectName,
                     CSSolutionPath = CSSolutionPath,
                     CSProjName = CSProjName,
-                    Modules = Modules.Select(m => m.Name).ToList(),
+                    Modules = Modules.Select(m => new ModuleData() { Name = m.Name, Version = m.Version }).ToList(),
                     StartScene = StartScene
                 }, ProjectFilePath);
 

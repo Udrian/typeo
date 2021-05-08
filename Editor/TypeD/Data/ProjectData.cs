@@ -7,7 +7,7 @@ namespace TypeD.Data
         public string ProjectName { get; set; }
         public string CSSolutionPath { get; set; }
         public string CSProjName { get; set; }
-        public List<string> Modules { get; set; } = new List<string>();
+        public List<ModuleData> Modules { get; set; } = new List<ModuleData>();
         public string StartScene { get; set; }
     }
 }
