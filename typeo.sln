@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOBasic2d", "TypeOBasic2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeOBasic2dTest", "Tests\TypeOBasic2dTest\TypeOBasic2dTest.csproj", "{1EFEB5D2-326B-4C10-BC9C-095BC1E86CFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDEditor", "Editor\TypeDEditor\TypeDEditor.csproj", "{1DD83329-CE30-4161-88BE-0B3D89F9DBA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDitor", "Editor\TypeDitor\TypeDitor.csproj", "{1DD83329-CE30-4161-88BE-0B3D89F9DBA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{4AEAA7A4-8925-4687-AF58-8C6DAF4959C2}"
 EndProject
@@ -42,7 +42,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextAdventure", "Samples\TextAdventure\TextAdventure.csproj", "{44B0AC25-BE18-4C4C-BC1C-7DA6D1DE9A9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextAdventure", "Samples\TextAdventure\TextAdventure.csproj", "{44B0AC25-BE18-4C4C-BC1C-7DA6D1DE9A9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,8 +4,8 @@ from os.path import basename
 import subprocess
 
 projects = {
-    "TypeDitor" : {
-        "projects" : ["Editor/TypeD", "Editor/TypeDEditor", "TypeOCore"],
+    "TypeD" : {
+        "projects" : ["Editor/TypeD", "Editor/TypeDitor", "TypeOCore"],
         "external" : [],
         "module"   : False
     },
