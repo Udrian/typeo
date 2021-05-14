@@ -18,7 +18,7 @@ namespace TypeD.Helpers
         {
             var process = new Process();
             var info = new ProcessStartInfo();
-            info.FileName = "cmd.exe";
+            info.FileName = "powershell.exe";
             info.RedirectStandardInput = true;
             info.UseShellExecute = false;
             info.RedirectStandardOutput = true;
