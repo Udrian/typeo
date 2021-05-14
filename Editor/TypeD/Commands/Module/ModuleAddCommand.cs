@@ -8,7 +8,7 @@ namespace TypeD.Commands.Module
         public static bool Add(string name, string version, ProjectModel project)
         {
             var modulePath = $"{ModuleModel.ModuleCachePath}/{name}/{version}";
-            if (!Directory.Exists($"{modulePath}/{name}")) return false;
+            if (!Directory.Exists($"{modulePath}")) return false;
 
             project.AddModule(new ModuleModel(name, version));
             return true;

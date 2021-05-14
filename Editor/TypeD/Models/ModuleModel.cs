@@ -27,7 +27,7 @@ namespace TypeD.Models
 
         // Paths
         public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
-        private string ModulePath { get { return Path.Combine(ModuleCachePath, Name, Version, Name); } }
+        private string ModulePath { get { return Path.Combine(ModuleCachePath, Name, Version); } }
         private string ModuleDLLPath { get { return Path.Combine(ModulePath, $"{Name}.dll"); } }
 
         public void AddToProjectXML(XElement project)

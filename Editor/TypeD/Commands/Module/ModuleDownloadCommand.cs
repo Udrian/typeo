@@ -12,7 +12,7 @@ namespace TypeD.Commands.Module
         public static async Task<bool> Download(string name, string version)
         {
             var modulePath = $"{ModuleModel.ModuleCachePath}/{name}/{version}";
-            if (Directory.Exists($"{modulePath}/{name}")) return false;
+            if (Directory.Exists($"{modulePath}")) return false;
 
             Directory.CreateDirectory(modulePath);
             var moduleUrl = new Uri($"https://typedeaf.nyc3.cdn.digitaloceanspaces.com/typeo/releases/modules/{name}/{name}-{version}.zip");

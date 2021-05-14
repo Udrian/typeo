@@ -27,21 +27,21 @@ def pack(package, projects, build_number, externals=[], output_prefix=".."):
             print("Adding project '{}' to zip".format(project))
             path = "{}/bin/builds/{}/Release".format(output_prefix, project)
             
-            addFileToZip(zipObj, "{}/{}.runtimeconfig.json".format(path, project_name), package_name)
-            addFileToZip(zipObj, "{}/{}.deps.json"         .format(path, project_name), package_name)
-            addFileToZip(zipObj, "{}/{}.dll"               .format(path, project_name), package_name)
-            addFileToZip(zipObj, "{}/{}.exe"               .format(path, project_name), package_name)
+            addFileToZip(zipObj, "{}/{}.runtimeconfig.json".format(path, project_name), "")
+            addFileToZip(zipObj, "{}/{}.deps.json"         .format(path, project_name), "")
+            addFileToZip(zipObj, "{}/{}.dll"               .format(path, project_name), "")
+            addFileToZip(zipObj, "{}/{}.exe"               .format(path, project_name), "")
 
         for external in externals:
             print("Adding external '{}' to zip".format(external))
             
             externalDir = "{}/{}/release".format(output_prefix, external)
             for filename in os.listdir(externalDir):
-                addFileToZip(zipObj, "{}/{}".format(externalDir, filename), package_name)
+                addFileToZip(zipObj, "{}/{}".format(externalDir, filename), "")
         
         #Add readme and releasenotes
-        addFileToZip(zipObj, "./../Readme-TypeO.txt", package_name)
-        addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(package, package_name), package_name)
+        addFileToZip(zipObj, "./../Readme-TypeO.txt", "")
+        addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(package, package_name), "")
     return zipfilename
 
 def addFileToZip(zipObj, filepath, pathTo):
