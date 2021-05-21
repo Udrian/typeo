@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using TypeD.Commands.Entity;
-using TypeD.Commands.Game;
-using TypeD.Commands.Project;
-using TypeD.Commands.Scene;
+using TypeD;
 using TypeD.Data;
 using TypeD.Models;
+using TypeDCore.Commands.Project;
+using TypeDCore.Commands.Scene;
+using TypeDCore.Commands.Entity;
 
 namespace TypeDEditor.Controller
 {
@@ -17,7 +17,7 @@ namespace TypeDEditor.Controller
             if (LoadedProject == null)
                 return;
 
-            ProjectCommand.CreateEntity(LoadedProject, className, @namespace, updatable, drawable);
+            Command.Project.CreateEntity(LoadedProject, className, @namespace, updatable, drawable);
         }
 
         public static void CreateScene(string className, string @namespace)
@@ -25,7 +25,7 @@ namespace TypeDEditor.Controller
             if (LoadedProject == null)
                 return;
 
-            ProjectCommand.CreateScene(LoadedProject, className, @namespace);
+            Command.Project.CreateScene(LoadedProject, className, @namespace);
         }
 
         public static void CreateDrawable2d(string className, string @namespace)
@@ -33,7 +33,7 @@ namespace TypeDEditor.Controller
             if (LoadedProject == null)
                 return;
 
-            ProjectCommand.CreateDrawable2d(LoadedProject, className, @namespace);
+            Command.Project.CreateDrawable2d(LoadedProject, className, @namespace);
         }
 
         public static async Task Run()
@@ -50,17 +50,17 @@ namespace TypeDEditor.Controller
 
         public static void SetStartScene(TypeDType typeDType)
         {
-            GameCommand.SetStartScene(LoadedProject, typeDType);
+            Command.Game.SetStartScene(LoadedProject, typeDType);
         }
 
         public static void AddEntity(TypeDType baseType, TypeDType childEntity)
         {
-            SceneCommand.AddEntity(baseType, childEntity);
+            Command.Scene.AddEntity(baseType, childEntity);
         }
 
         public static void AddDrawable2d(TypeDType baseType, TypeDType childDrawable2d)
         {
-            EntityCommand.AddDrawable2d(baseType, childDrawable2d);
+            Command.Entity.AddDrawable2d(baseType, childDrawable2d);
         }
     }
 }

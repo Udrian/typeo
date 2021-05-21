@@ -1,6 +1,6 @@
 ﻿namespace TypeD.Commands.Module
 {
-    public static partial class ModuleCommand
+    public partial class ModuleCommand : Command
     {
     }
 }

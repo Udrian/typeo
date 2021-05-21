@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using TypeD.Data;
 using TypeD.Models;
-using TypeD.Viewer;
+using TypeDCore.Viewer;
 using TypeDEditor.Controller;
 using TypeDEditor.View.Forms.Dialogs;
 

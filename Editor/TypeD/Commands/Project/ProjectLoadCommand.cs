@@ -4,13 +4,12 @@ using TypeD.Code;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.Models;
-using TypeOEngine.Typedeaf.Core.Entities;
 
 namespace TypeD.Commands.Project
 {
     public partial class ProjectCommand
     {
-        public static async Task<ProjectModel> Load(string projectFilePath)
+        public async Task<ProjectModel> Load(string projectFilePath)
         {
             if (!projectFilePath.EndsWith(".typeo")) return null;
 
@@ -35,12 +34,12 @@ namespace TypeD.Commands.Project
                                 project.AddCode(new GameTypeDCode(project));
                                 break;
                             case TypeDTypeType.Scene:
-                                project.AddCode(new SceneCode(project, typeDType.Name, typeDType.Namespace));
-                                project.AddCode(new SceneTypeDCode(project, typeDType.Name, typeDType.Namespace));
+                                //TODO: Fix project.AddCode(new SceneCode(project, typeDType.Name, typeDType.Namespace));
+                                //TODO: Fix project.AddCode(new SceneTypeDCode(project, typeDType.Name, typeDType.Namespace));
                                 break;
                             case TypeDTypeType.Entity:
-                                project.AddCode(new EntityCode(project, typeDType.Name, typeDType.Namespace));
-                                project.AddCode(new EntityTypeDCode(project, typeDType.Name, typeDType.Namespace));
+                                //TODO: Fix project.AddCode(new EntityCode(project, typeDType.Name, typeDType.Namespace));
+                                //TODO: Fix project.AddCode(new EntityTypeDCode(project, typeDType.Name, typeDType.Namespace));
                                 break;
                             case TypeDTypeType.Stub:
                                 break;

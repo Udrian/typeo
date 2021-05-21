@@ -1,6 +1,6 @@
 ﻿namespace TypeD.Commands.Game
 {
-    public static partial class GameCommand
+    public partial class GameCommand : Command
     {
     }
 }

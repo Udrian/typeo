@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
+    <ProjectReference Include="..\TypeDCore\TypeDCore.csproj" />
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>
 

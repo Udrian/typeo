@@ -1,6 +1,6 @@
 ﻿namespace TypeD.Commands.Project
 {
-    public static partial class ProjectCommand
+    public partial class ProjectCommand : Command
     {
     }
 }

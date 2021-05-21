@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Data;
 using TypeD.Helpers;
-using TypeD.Models.TreeNodes;
+using TypeD.TreeNodes;
 
 namespace TypeD.Models
 {
@@ -21,7 +21,7 @@ namespace TypeD.Models
         public string StartScene { get; set; }
         public string Location { get; private set; }
 
-        public TreeNode Nodes { get; private set; }
+        public Tree Tree { get; private set; }
 
         // Loads
         public Dictionary<string, TypeDType> TypeDTypes { get; private set; }
@@ -107,15 +107,15 @@ namespace TypeD.Models
 
         public void BuildTree()
         {
-            if (Nodes == null)
+            if (Tree == null)
             {
-                Nodes = TreeNode.Create();
+                Tree = new Tree();
             }
             else
             {
-                Nodes.Clear();
+                Tree.Clear();
             }
-            Nodes.AddNode(ProjectName, this);
+            Tree.AddNode(ProjectName, null);
 
             foreach (var type in TypeDTypes.Values)
             {
@@ -131,22 +131,24 @@ namespace TypeD.Models
             if (namespaces.Count > 0)
                 namespaces.RemoveAt(0);
 
-            var node = Nodes;
+            TreeNode treeNode = Tree;
             foreach (var ns in namespaces)
             {
                 if (string.IsNullOrEmpty(ns)) continue;
-                if (!node.Nodes.ContainsKey(ns))
-                    node.AddNode(ns, null, ns);
-                node = node.Nodes[ns];
+                if(!treeNode.Contains(ns))
+                {
+                    treeNode.AddNode(ns, null);
+                }
+                treeNode = treeNode.Get(ns);
             }
 
             if (typeDType.TypeInfo != null)
             {
-                node.AddNode(typeDType.Name, typeDType, typeDType.FullName);
+                treeNode.AddNode(typeDType.Name, null);//TODO: typeDType as Item
             }
             else
             {
-                node.AddNode($"*{typeDType.Name}", typeDType, typeDType.FullName);
+                treeNode.AddNode($"*{typeDType.Name}", null);//TODO: typeDType as Item
             }
         }
 

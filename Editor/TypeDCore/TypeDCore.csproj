@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
+    <ProjectReference Include="..\TypeD\TypeD.csproj" />
+  </ItemGroup>
+
+</Project>

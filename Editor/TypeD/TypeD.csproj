@@ -7,8 +7,4 @@
     <Product>TypeO</Product>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
-  </ItemGroup>
-
 </Project>

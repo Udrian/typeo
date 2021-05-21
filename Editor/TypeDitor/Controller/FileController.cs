@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using TypeD.Commands.Project;
+using TypeD;
 using TypeDEditor.Model;
 
 namespace TypeDEditor.Controller
@@ -9,8 +9,8 @@ namespace TypeDEditor.Controller
         public static async Task Create(string projectName, string location, string csSolutionPath, string csProjName)
         {
             if (ProjectController.LoadedProject != null)
-                ProjectCommand.Clear(ProjectController.LoadedProject);
-            ProjectController.LoadedProject = await ProjectCommand.Create(projectName, location, csSolutionPath, csProjName);
+                Command.Project.Clear(ProjectController.LoadedProject);
+            ProjectController.LoadedProject = await Command.Project.Create(projectName, location, csSolutionPath, csProjName);
 
             RecentModel.SaveRecent(ProjectController.LoadedProject.ProjectFilePath, ProjectController.LoadedProject.ProjectName);
         }
@@ -18,8 +18,8 @@ namespace TypeDEditor.Controller
         public static async Task Open(string projectFilePath)
         {
             if (ProjectController.LoadedProject != null)
-                ProjectCommand.Clear(ProjectController.LoadedProject);
-            ProjectController.LoadedProject = await ProjectCommand.Load(projectFilePath);
+                Command.Project.Clear(ProjectController.LoadedProject);
+            ProjectController.LoadedProject = await Command.Project.Load(projectFilePath);
 
             RecentModel.SaveRecent(ProjectController.LoadedProject.ProjectFilePath, ProjectController.LoadedProject.ProjectName);
         }
@@ -27,7 +27,7 @@ namespace TypeDEditor.Controller
         public static async Task Save()
         {
             if (ProjectController.LoadedProject == null) return;
-                await ProjectCommand.Save(ProjectController.LoadedProject);
+                await Command.Project.Save(ProjectController.LoadedProject);
         }
     }
 }

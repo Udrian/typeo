@@ -5,7 +5,7 @@ namespace TypeD.Commands.Module
 {
     public partial class ModuleCommand
     {
-        public static bool Add(string name, string version, ProjectModel project)
+        public bool Add(string name, string version, ProjectModel project)
         {
             var modulePath = $"{ModuleModel.ModuleCachePath}/{name}/{version}";
             if (!Directory.Exists($"{modulePath}")) return false;

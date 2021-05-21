@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using TypeD.Data;
+using TypeDEditor.Controller;
 using TypeDEditor.Helper;
 
 namespace TypeDEditor.View.Forms
@@ -18,11 +19,11 @@ namespace TypeDEditor.View.Forms
             treeView.DrawNode += TreeView_DrawNode;
             treeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
 
-            TypeD.Models.TreeNodes.TreeNode.NodeAddedEvent += TreeNode_NodeAddedEvent;
-            TypeD.Models.TreeNodes.TreeNode.ClearEvent += TreeNode_ClearEvent;
+            TypeD.TreeNodes.Tree.NodeAddedEvent += TreeNode_NodeAddedEvent;
+            TypeD.TreeNodes.Tree.ClearTreeEvent += TreeNode_ClearEvent;
         }
 
-        private void TreeNode_ClearEvent(TypeD.Models.TreeNodes.TreeNode obj)
+        private void TreeNode_ClearEvent(TypeD.TreeNodes.TreeNode obj)
         {
             Clear();
         }
@@ -34,19 +35,19 @@ namespace TypeDEditor.View.Forms
             });
         }
 
-        private void TreeNode_NodeAddedEvent(TypeD.Models.TreeNodes.TreeNode obj)
+        private void TreeNode_NodeAddedEvent(TypeD.TreeNodes.Node node)
         {
             ThreadHelper.InvokeMainThread(this, () =>
             {
-                if (obj.Parent == null)
+                if (node.Parent == null)
                 {
-                    treeView.Nodes.Add(obj.Key, obj.Name);
+                    treeView.Nodes.Add(node.Name);
                 }
                 else
                 {
-                    var parents = new Stack<TypeD.Models.TreeNodes.TreeNode>();
+                    var parents = new Stack<TypeD.TreeNodes.Node>();
                     {
-                        var parent = obj.Parent;
+                        var parent = node.Parent;
                         while(parent != null)
                         {
                             parents.Push(parent);
@@ -61,7 +62,7 @@ namespace TypeDEditor.View.Forms
                             var parent = parents.Pop();
                             foreach(TreeNode node in nodes)
                             {
-                                if(node.Name == parent.Key)
+                                if(node.Name == parent.Name)
                                 {
                                     nodes = node.Nodes;
                                     break;
@@ -69,8 +70,8 @@ namespace TypeDEditor.View.Forms
                             }
                         }
                     }
-                    nodes.Add(obj.Key, obj.Name);
-                    nodes[obj.Key].Tag = obj.Object;
+                    var addedNode = nodes.Add(node.Name);
+                    addedNode.Tag = node;
                 }
             });
         }

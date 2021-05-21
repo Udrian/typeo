@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using TypeD;
 using TypeD.Commands.Module;
 using TypeDEditor.Controller;
 
@@ -21,7 +22,7 @@ namespace TypeDEditor.View.Forms.Dialogs
         {
             if (ProjectController.LoadedProject == null) return;
 
-            var modules = await ModuleCommand.List();
+            var modules = await Command.Module.List();
 
             if (modules != null)
             {
@@ -43,7 +44,7 @@ namespace TypeDEditor.View.Forms.Dialogs
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            var modules = await ModuleCommand.List();
+            var modules = await Command.Module.List();
 
             if (modules == null) return;
             
@@ -51,8 +52,8 @@ namespace TypeDEditor.View.Forms.Dialogs
             {
                 if(module.Key == clbModules.GetItemText(clbModules.SelectedItem))
                 {
-                    await ModuleCommand.Download(module.Key, module.Value[0]);
-                    ModuleCommand.Add(module.Key, module.Value[0], ProjectController.LoadedProject);
+                    await Command.Module.Download(module.Key, module.Value[0]);
+                    Command.Module.Add(module.Key, module.Value[0], ProjectController.LoadedProject);
                 }
             }
             Close();

@@ -9,7 +9,7 @@ namespace TypeD.Commands.Module
 {
     public partial class ModuleCommand
     {
-        public static async Task<bool> Download(string name, string version)
+        public async Task<bool> Download(string name, string version)
         {
             var modulePath = $"{ModuleModel.ModuleCachePath}/{name}/{version}";
             if (Directory.Exists($"{modulePath}")) return false;

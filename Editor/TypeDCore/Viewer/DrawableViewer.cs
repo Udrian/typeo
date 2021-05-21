@@ -7,7 +7,7 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeD.Viewer
+namespace TypeDCore.Viewer
 {
     public class ConsoleWriterEventArgs : EventArgs
     {

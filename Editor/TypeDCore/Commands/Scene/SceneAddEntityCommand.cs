@@ -1,11 +1,11 @@
-﻿using TypeD.Code;
-using TypeD.Data;
+﻿using TypeD.Data;
+using TypeDCore.Code;
 
-namespace TypeD.Commands.Scene
+namespace TypeDCore.Commands.Scene
 {
-    public partial class SceneCommand
+    public static partial class SceneCommand
     {
-        public static void AddEntity(TypeDType scene, TypeDType entity)
+        public static void AddEntity(this TypeD.Commands.Scene.SceneCommand _, TypeDType scene, TypeDType entity)
         {
             if (scene?.TypeType != TypeDTypeType.Scene) return;
             if (entity?.TypeType != TypeDTypeType.Entity) return;

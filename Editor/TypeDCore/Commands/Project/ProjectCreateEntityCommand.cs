@@ -1,12 +1,13 @@
-﻿using TypeD.Code;
+﻿using TypeDCore.Code;
 using TypeD.Data;
 using TypeD.Models;
+using TypeD;
 
-namespace TypeD.Commands.Project
+namespace TypeDCore.Commands.Project
 {
-    public partial class ProjectCommand
+    public static partial class ProjectCommand
     {
-        public static void CreateEntity(ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
+        public static void CreateEntity(this TypeD.Commands.Project.ProjectCommand _, ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
         {
             var entityCode = new EntityCode(project, className, $"{project.ProjectName}.{@namespace}");
 

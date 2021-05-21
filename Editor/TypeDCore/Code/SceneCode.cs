@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using TypeD;
 using TypeD.Models;
 
-namespace TypeD.Code
+namespace TypeDCore.Code
 {
     class SceneCode : Codalyzer
     {

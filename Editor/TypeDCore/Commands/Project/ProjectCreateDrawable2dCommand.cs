@@ -1,0 +1,16 @@
+﻿using TypeDCore.Code;
+using TypeD.Data;
+using TypeD.Models;
+
+namespace TypeDCore.Commands.Project
+{
+    public static partial class ProjectCommand
+    {
+        public static void CreateDrawable2d(this TypeD.Commands.Project.ProjectCommand _, ProjectModel project, string className, string @namespace)
+        {
+            project.AddCode(new Drawable2dCode(project, className, $"{project.ProjectName}.{@namespace}"), TypeDTypeType.Drawable);
+
+            project.BuildTree();
+        }
+    }
+}

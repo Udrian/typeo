@@ -5,7 +5,7 @@ namespace TypeD.Commands.Project
 {
     public partial class ProjectCommand
     {
-        public static async Task Save(ProjectModel project)
+        public async Task Save(ProjectModel project)
         {
             await project.Save();
         }

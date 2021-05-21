@@ -1,11 +1,11 @@
-﻿using TypeD.Code;
-using TypeD.Data;
+﻿using TypeD.Data;
+using TypeDCore.Code;
 
-namespace TypeD.Commands.Entity
+namespace TypeDCore.Commands.Entity
 {
-    public partial class EntityCommand
+    public static partial class EntityCommand
     {
-        public static void AddDrawable2d(TypeDType entity, TypeDType drawable2d)
+        public static void AddDrawable2d(this TypeD.Commands.Entity.EntityCommand _, TypeDType entity, TypeDType drawable2d)
         {
             if (entity?.TypeType != TypeDTypeType.Entity) return;
             if (drawable2d?.TypeType != TypeDTypeType.Drawable) return;
