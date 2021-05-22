@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using TypeD;
-using TypeD.Data;
 using TypeD.Models;
 using TypeDCore.Commands.Project;
 using TypeDCore.Commands.Scene;
 using TypeDCore.Commands.Entity;
+using TypeD.Types;
 
 namespace TypeDEditor.Controller
 {
@@ -48,17 +48,17 @@ namespace TypeDEditor.Controller
             await LoadedProject.Build();
         }
 
-        public static void SetStartScene(TypeDType typeDType)
+        public static void SetStartScene(TypeOType typeOType)
         {
-            Command.Game.SetStartScene(LoadedProject, typeDType);
+            Command.Game.SetStartScene(LoadedProject, typeOType);
         }
 
-        public static void AddEntity(TypeDType baseType, TypeDType childEntity)
+        public static void AddEntity(TypeOType baseType, TypeOType childEntity)
         {
             Command.Scene.AddEntity(baseType, childEntity);
         }
 
-        public static void AddDrawable2d(TypeDType baseType, TypeDType childDrawable2d)
+        public static void AddDrawable2d(TypeOType baseType, TypeOType childDrawable2d)
         {
             Command.Entity.AddDrawable2d(baseType, childDrawable2d);
         }

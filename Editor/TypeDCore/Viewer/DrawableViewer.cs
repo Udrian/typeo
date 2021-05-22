@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using TypeD.Data;
+using TypeD.Types;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -24,13 +24,13 @@ namespace TypeDCore.Viewer
 
         public override void Write(string value)
         {
-            if (WriteEvent != null) WriteEvent(this, new ConsoleWriterEventArgs(value));
+            WriteEvent?.Invoke(this, new ConsoleWriterEventArgs(value));
             base.Write(value);
         }
 
         public override void WriteLine(string value)
         {
-            if (WriteLineEvent != null) WriteLineEvent(this, new ConsoleWriterEventArgs(value));
+            WriteLineEvent?.Invoke(this, new ConsoleWriterEventArgs(value));
             base.WriteLine(value);
         }
 
@@ -40,7 +40,7 @@ namespace TypeDCore.Viewer
 
     public class DrawableViewer
     {
-        TypeO FakeTypeO;
+        readonly TypeO FakeTypeO;
 
         private class FakeGame : Game
         {
@@ -67,9 +67,9 @@ namespace TypeDCore.Viewer
 
         private FakeGame Game { get; set; }
 
-        public DrawableViewer(TypeDType drawable)
+        public DrawableViewer(TypeOType drawable)
         {
-            if (drawable.TypeType != TypeDTypeType.Drawable) return;
+            if (drawable.TypeOBaseType != "Drawable") return;
             if (drawable.TypeInfo == null) return;
 
             FakeTypeO = TypeO.Create<FakeGame>("Drawable Viewer") as TypeO;

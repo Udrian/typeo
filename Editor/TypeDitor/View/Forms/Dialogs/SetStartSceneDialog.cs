@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using TypeD.Data;
+using TypeD.Types;
 using TypeDEditor.Controller;
 
 namespace TypeDEditor.View.Forms.Dialogs
@@ -9,25 +9,25 @@ namespace TypeDEditor.View.Forms.Dialogs
     {
         private class CbItem
         {
-            public TypeDType TypeDType { get; set; }
+            public TypeOType TypeOType { get; set; }
             public override string ToString()
             {
-                return TypeDType.FullName;
+                return TypeOType.FullName;
             }
         }
 
-        public TypeDType TypeDType { get; private set; }
+        public TypeOType TypeOType { get; private set; }
 
         public SetStartSceneDialog()
         {
             InitializeComponent();
 
-            foreach(var typeDType in ProjectController.LoadedProject.TypeDTypes.Values)
+            foreach(var typeOType in ProjectController.LoadedProject.TypeOTypes.Values)
             {
-                if(typeDType.TypeType == TypeDTypeType.Scene)
+                if(typeOType.TypeOBaseType == "Scene")
                 {
-                    cbScene.Items.Add(new CbItem() { TypeDType = typeDType });
-                    if (ProjectController.LoadedProject.StartScene != null && typeDType.FullName.EndsWith(ProjectController.LoadedProject.StartScene))
+                    cbScene.Items.Add(new CbItem() { TypeOType = typeOType });
+                    if (ProjectController.LoadedProject.StartScene != null && typeOType.FullName.EndsWith(ProjectController.LoadedProject.StartScene))
                     {
                         cbScene.SelectedIndex = cbScene.Items.Count - 1;
                     }
@@ -47,7 +47,7 @@ namespace TypeDEditor.View.Forms.Dialogs
 
         private void btnSet_Click(object sender, EventArgs e)
         {
-            TypeDType = (cbScene.SelectedItem as CbItem).TypeDType;
+            TypeOType = (cbScene.SelectedItem as CbItem).TypeOType;
 
             DialogResult = DialogResult.OK;
             Close();

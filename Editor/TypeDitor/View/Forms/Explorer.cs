@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using TypeD.Data;
-using TypeDEditor.Controller;
+using TypeD.Types;
 using TypeDEditor.Helper;
 
 namespace TypeDEditor.View.Forms
 {
     public partial class Explorer : UserControl
     {
-        public event Action<TypeDType> NodeSelect;
+        public event Action<TypeOType> NodeSelect;
 
         public Explorer()
         {
@@ -83,7 +82,7 @@ namespace TypeDEditor.View.Forms
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var type = e.Node.Tag as TypeDType;
+            var type = e.Node.Tag as TypeOType;
             if (type == null) return;
 
             NodeSelect?.Invoke(type);

@@ -1,28 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using TypeD.Types;
 
 namespace TypeD.TreeNodes
 {
-    public abstract class ItemCode : Item
+    public class ItemCode : Item
     {
-        public string Namespace { get; set; }
-        public string FullName { get { return $"{Namespace}.{Name}"; } }
+        public TypeOType TypeOType { get; set; }
 
-        public List<Codalyzer> Codes { get; private set; }
-        public TypeInfo TypeInfo { get; set; }
-
-        public ItemCode()
+        public ItemCode(TypeOType typeOType)
         {
-            Codes = new List<Codalyzer>();
+            TypeOType = typeOType;
         }
 
         public override void Save()
         {
-            foreach(var code in Codes)
-            {
-                code.Generate();
-                code.Save();
-            }
+            TypeOType.Save();
         }
     }
 }

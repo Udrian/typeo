@@ -1,15 +1,13 @@
 ﻿//using SDL2;
 using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using TypeD.Data;
+using TypeD.Types;
 
 namespace TypeDEditor.View.Forms
 {
     public partial class Viewer : UserControl
     {
-		public event Action<TypeDType> TabSelect;
+		public event Action<TypeOType> TabSelect;
 		public TabControl TabControl { get { return tabControl; } }
 
 		/*private IntPtr gameWindow;
@@ -80,7 +78,7 @@ namespace TypeDEditor.View.Forms
         {
 			if(TabControl.SelectedIndex > 0)
 			{
-				TabSelect?.Invoke(TabControl.SelectedTab.Tag as TypeDType);
+				TabSelect?.Invoke(TabControl.SelectedTab.Tag as TypeOType);
 			}
 		}
 

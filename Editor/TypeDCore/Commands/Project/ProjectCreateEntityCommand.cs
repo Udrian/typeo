@@ -28,8 +28,8 @@ namespace TypeDCore.Commands.Project
                 entityCode.AddFunction(new Codalyzer.Function("public void Draw(Canvas canvas)", () => { }));
             }
 
-            project.AddCode(entityCode, TypeDTypeType.Entity);
-            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), TypeDTypeType.Entity);
+            project.AddCode(entityCode, "Entity");
+            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Entity");
 
             project.BuildTree();
         }

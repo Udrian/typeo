@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using TypeD.Data;
+using TypeD.Types;
 using TypeDEditor.Controller;
 
 namespace TypeDEditor.View.Forms.Dialogs
@@ -9,24 +9,24 @@ namespace TypeDEditor.View.Forms.Dialogs
     {
         private class CbItem
         {
-            public TypeDType TypeDType { get; set; }
+            public TypeOType TypeOType { get; set; }
             public override string ToString()
             {
-                return TypeDType.FullName;
+                return TypeOType.FullName;
             }
         }
 
-        public TypeDType TypeDType { get; private set; }
+        public TypeOType TypeOType { get; private set; }
 
         public AddEntityDialog()
         {
             InitializeComponent();
 
-            foreach (var typeDType in ProjectController.LoadedProject.TypeDTypes.Values)
+            foreach (var typeDType in ProjectController.LoadedProject.TypeOTypes.Values)
             {
-                if (typeDType.TypeType == TypeDTypeType.Entity)
+                if (typeDType.TypeOBaseType == "Entity")
                 {
-                    cbEntity.Items.Add(new CbItem() { TypeDType = typeDType });
+                    cbEntity.Items.Add(new CbItem() { TypeOType = typeDType });
                 }
             }
 
@@ -43,7 +43,7 @@ namespace TypeDEditor.View.Forms.Dialogs
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            TypeDType = (cbEntity.SelectedItem as CbItem).TypeDType;
+            TypeOType = (cbEntity.SelectedItem as CbItem).TypeOType;
 
             DialogResult = DialogResult.OK;
             Close();

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
-using TypeD.Data;
 using TypeD.Models;
+using TypeD.Types;
 using TypeDCore.Viewer;
 using TypeDEditor.Controller;
 using TypeDEditor.View.Forms.Dialogs;
+using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDEditor.View.Forms
 {
@@ -14,6 +17,16 @@ namespace TypeDEditor.View.Forms
 
         public Main()
         {
+            //TODO: Should not be here, should be moved over to TypeDCore
+            TypeOType.TypeOTypeTypes.Add(typeof(Scene));
+            TypeOType.TypeOTypeTypes.Add(typeof(Entity));
+            TypeOType.TypeOTypeTypes.Add(typeof(Stub));
+            TypeOType.TypeOTypeTypes.Add(typeof(Logic));
+            TypeOType.TypeOTypeTypes.Add(typeof(Drawable));
+            TypeOType.TypeOTypeTypes.Add(typeof(EntityData));
+            //
+
+
             InitializeComponent();
 
             toolStripMenuItemNewProject.Click += ToolStripMenuItemNewProject_Click;
@@ -48,7 +61,7 @@ namespace TypeDEditor.View.Forms
             var dialog = new AddDrawable2dDialog();
             if (dialog.ShowDialog(this) == DialogResult.OK && viewer.TabControl.SelectedTab != null)
             {
-                ProjectController.AddDrawable2d(viewer.TabControl.SelectedTab.Tag as TypeDType, dialog.TypeDType);
+                ProjectController.AddDrawable2d(viewer.TabControl.SelectedTab.Tag as TypeOType, dialog.TypeOType);
             }
         }
 
@@ -57,16 +70,16 @@ namespace TypeDEditor.View.Forms
             var dialog = new AddEntityDialog();
             if (dialog.ShowDialog(this) == DialogResult.OK && viewer.TabControl.SelectedTab != null)
             {
-                ProjectController.AddEntity(viewer.TabControl.SelectedTab.Tag as TypeDType, dialog.TypeDType);
+                ProjectController.AddEntity(viewer.TabControl.SelectedTab.Tag as TypeOType, dialog.TypeOType);
             }
         }
 
-        private void Explorer_NodeSelect(TypeDType obj)
+        private void Explorer_NodeSelect(TypeOType obj)
         {
-            viewer.TabControl.TabPages.Add(obj.Name);
+            viewer.TabControl.TabPages.Add(obj.ClassName);
             var tab = viewer.TabControl.TabPages[viewer.TabControl.TabCount - 1];
             tab.Tag = obj;
-            if(obj.TypeType == TypeDTypeType.Drawable)
+            if(obj.TypeOBaseType == "Drawable")
             {
                 var defaultStream = Console.OpenStandardInput();
                 int i = 0;
@@ -100,7 +113,7 @@ namespace TypeDEditor.View.Forms
             var dialog = new SetStartSceneDialog();
             if(dialog.ShowDialog(this) == DialogResult.OK)
             {
-                ProjectController.SetStartScene(dialog.TypeDType);
+                ProjectController.SetStartScene(dialog.TypeOType);
             }
         }
 

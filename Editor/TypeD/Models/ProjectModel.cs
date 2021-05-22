@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.TreeNodes;
+using TypeD.Types;
 
 namespace TypeD.Models
 {
@@ -24,7 +25,7 @@ namespace TypeD.Models
         public Tree Tree { get; private set; }
 
         // Loads
-        public Dictionary<string, TypeDType> TypeDTypes { get; private set; }
+        public Dictionary<string, TypeOType> TypeOTypes { get; private set; }
         public Assembly Assembly { get; private set; }
 
         // Constructors
@@ -32,7 +33,7 @@ namespace TypeD.Models
         {
             Location = location;
 
-            TypeDTypes = new Dictionary<string, TypeDType>();
+            TypeOTypes = new Dictionary<string, TypeOType>();
 
             ProjectName = projectData.ProjectName;
             CSSolutionPath = projectData.CSSolutionPath;
@@ -55,7 +56,7 @@ namespace TypeD.Models
             if (!File.Exists(path)) return;
             Modules.Add(module);
 
-            var programCode = TypeDTypes[$"{ProjectName}.Program"];
+            var programCode = TypeOTypes[$"{ProjectName}.Program"];
             if (module.ModuleTypeInfo != null)
                 programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
@@ -94,10 +95,10 @@ namespace TypeD.Models
 
             foreach (var type in Assembly.DefinedTypes)
             {
-                var typeDType = TypeDType.SubclasToTypeDType(type);
-                if (!typeDType.HasValue) continue;
+                var typeDType = TypeOType.GetBaseTypeOClassName(type);
+                if (typeDType == "") continue;
 
-                AddType(typeDType.Value, type);
+                AddType(typeDType, type);
             }
 
             BuildTree();
@@ -117,17 +118,17 @@ namespace TypeD.Models
             }
             Tree.AddNode(ProjectName, null);
 
-            foreach (var type in TypeDTypes.Values)
+            foreach (var type in TypeOTypes.Values)
             {
                 AddTypeToTree(type);
             }
         }
 
-        private void AddTypeToTree(TypeDType typeDType)
+        private void AddTypeToTree(TypeOType typeOType)
         {
-            if (typeDType.Codes.FirstOrDefault()?.ClassName == "Program") return;
+            if (typeOType.Codes.FirstOrDefault()?.ClassName == "Program") return;
 
-            var namespaces = (typeDType.Namespace.StartsWith(ProjectName) ? typeDType.Namespace.Remove(0, ProjectName.Length) : typeDType.Namespace).Split('.').ToList();
+            var namespaces = (typeOType.Namespace.StartsWith(ProjectName) ? typeOType.Namespace.Remove(0, ProjectName.Length) : typeOType.Namespace).Split('.').ToList();
             if (namespaces.Count > 0)
                 namespaces.RemoveAt(0);
 
@@ -142,13 +143,13 @@ namespace TypeD.Models
                 treeNode = treeNode.Get(ns);
             }
 
-            if (typeDType.TypeInfo != null)
+            if (typeOType.TypeInfo != null)
             {
-                treeNode.AddNode(typeDType.Name, null);//TODO: typeDType as Item
+                treeNode.AddNode(typeOType.ClassName, new ItemCode(typeOType));
             }
             else
             {
-                treeNode.AddNode($"*{typeDType.Name}", null);//TODO: typeDType as Item
+                treeNode.AddNode($"*{typeOType.ClassName}", new ItemCode(typeOType));
             }
         }
 
@@ -157,52 +158,52 @@ namespace TypeD.Models
             Process.Start(Path.Combine(ProjectBuildOutput, $"{CSProjName}.exe"));
         }
 
-        public void AddCode(Codalyzer code, TypeDTypeType typeType = TypeDTypeType.None)
+        public void AddCode(Codalyzer code, string typeOBaseType = "")
         {
             var key = $"{code.Namespace}.{code.ClassName}";
-            if (!TypeDTypes.ContainsKey(key))
+            if (!TypeOTypes.ContainsKey(key))
             {
-                TypeDTypes.Add(key, new TypeDType()
+                TypeOTypes.Add(key, new TypeOType()
                 {
-                    Name = code.ClassName,
+                    ClassName = code.ClassName,
                     Namespace = code.Namespace
                 });
             }
-            TypeDTypes[key].Codes.Add(code);
-            if(typeType != TypeDTypeType.None)
+            TypeOTypes[key].Codes.Add(code);
+            if(typeOBaseType != "")
             {
-                TypeDTypes[key].TypeType = typeType;
+                TypeOTypes[key].TypeOBaseType = typeOBaseType;
             }
         }
 
-        public void AddType(TypeDTypeType typeType, TypeInfo typeInfo)
+        public void AddType(string typeOBaseType, TypeInfo typeInfo)
         {
             var key = typeInfo.FullName;
-            if (!TypeDTypes.ContainsKey(key))
+            if (!TypeOTypes.ContainsKey(key))
             {
-                TypeDTypes.Add(key, new TypeDType()
+                TypeOTypes.Add(key, new TypeOType()
                 {
-                    Name = typeInfo.Name,
+                    ClassName = typeInfo.Name,
                     Namespace = typeInfo.Namespace
                 });
             }
-            TypeDTypes[key].TypeInfo = typeInfo;
-            TypeDTypes[key].TypeType = typeType;
+            TypeOTypes[key].TypeInfo = typeInfo;
+            TypeOTypes[key].TypeOBaseType = typeOBaseType;
         }
 
-        public List<TypeDType> GetTypeFromName(string name)
+        public List<TypeOType> GetTypeFromName(string name)
         {
-            var types = new List<TypeDType>();
+            var types = new List<TypeOType>();
 
-            if(name != null && TypeDTypes.ContainsKey(name))
+            if(name != null && TypeOTypes.ContainsKey(name))
             {
-                types.Add(TypeDTypes[name]);
+                types.Add(TypeOTypes[name]);
             } 
             else
             {
-                foreach (var typeDType in TypeDTypes.Values)
+                foreach (var typeDType in TypeOTypes.Values)
                 {
-                    if (typeDType.Name == name)
+                    if (typeDType.ClassName == name)
                     {
                         types.Add(typeDType);
                     }
@@ -225,7 +226,7 @@ namespace TypeD.Models
                     StartScene = StartScene
                 }, ProjectFilePath);
 
-                foreach (var typeDType in TypeDTypes.Values)
+                foreach (var typeDType in TypeOTypes.Values)
                 {
                     typeDType.Save();
                 }

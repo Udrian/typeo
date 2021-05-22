@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using TypeD.Data;
+using TypeD.Types;
 using TypeDEditor.Controller;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
@@ -12,14 +12,14 @@ namespace TypeDEditor.View.Forms.Dialogs
     {
         private class CbItem
         {
-            public TypeDType TypeDType { get; set; }
+            public TypeOType TypeOType { get; set; }
             public override string ToString()
             {
-                return TypeDType.FullName;
+                return TypeOType.FullName;
             }
         }
 
-        public TypeDType TypeDType { get; private set; }
+        public TypeOType TypeOType { get; private set; }
 
         public AddDrawable2dDialog()
         {
@@ -28,19 +28,19 @@ namespace TypeDEditor.View.Forms.Dialogs
             var typelist = Assembly.GetAssembly(typeof(Drawable2d)).GetTypes()
               .Where(t => t.Namespace == "TypeOEngine.Typedeaf.Core.Entities.Drawables")
               .Where(t => t.IsSubclassOf(typeof(Drawable2d)))
-              .Select(t => new TypeDType() { Name = t.Name, Namespace = t.Namespace, TypeInfo = t.GetTypeInfo(), TypeType = TypeDTypeType.Drawable})
+              .Select(t => new TypeOType() { ClassName = t.Name, Namespace = t.Namespace, TypeInfo = t.GetTypeInfo(), TypeOBaseType = "Drawable"})
               .ToList();
 
             foreach (var type in typelist)
             {
-                cbDrawable2d.Items.Add(new CbItem() { TypeDType = type });
+                cbDrawable2d.Items.Add(new CbItem() { TypeOType = type });
             }
 
-            foreach (var typeDType in ProjectController.LoadedProject.TypeDTypes.Values)
+            foreach (var typeDType in ProjectController.LoadedProject.TypeOTypes.Values)
             {
-                if (typeDType.TypeType == TypeDTypeType.Drawable)
+                if (typeDType.TypeOBaseType == "Drawable")
                 {
-                    cbDrawable2d.Items.Add(new CbItem() { TypeDType = typeDType });
+                    cbDrawable2d.Items.Add(new CbItem() { TypeOType = typeDType });
                 }
             }
 
@@ -57,7 +57,7 @@ namespace TypeDEditor.View.Forms.Dialogs
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            TypeDType = (cbDrawable2d.SelectedItem as CbItem).TypeDType;
+            TypeOType = (cbDrawable2d.SelectedItem as CbItem).TypeOType;
 
             DialogResult = DialogResult.OK;
             Close();

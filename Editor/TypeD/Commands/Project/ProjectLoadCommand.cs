@@ -23,31 +23,32 @@ namespace TypeD.Commands.Project
                     // Prepare
                     project.AddCode(new ProgramCode(project));
 
-                    foreach(var typeDType in project.TypeDTypes.Values)
+                    foreach(var typeDType in project.TypeOTypes.Values)
                     {
                         if (typeDType.TypeInfo == null) continue;
 
-                        switch (typeDType.TypeType)
+                        switch (typeDType.TypeOBaseType)
                         {
-                            case TypeDTypeType.Game:
+                            //TODO: Fix, this should be handled in modules
+                            case "Game":
                                 project.AddCode(new GameCode(project));
                                 project.AddCode(new GameTypeDCode(project));
                                 break;
-                            case TypeDTypeType.Scene:
+                            case "Scene":
                                 //TODO: Fix project.AddCode(new SceneCode(project, typeDType.Name, typeDType.Namespace));
                                 //TODO: Fix project.AddCode(new SceneTypeDCode(project, typeDType.Name, typeDType.Namespace));
                                 break;
-                            case TypeDTypeType.Entity:
+                            case "Entity":
                                 //TODO: Fix project.AddCode(new EntityCode(project, typeDType.Name, typeDType.Namespace));
                                 //TODO: Fix project.AddCode(new EntityTypeDCode(project, typeDType.Name, typeDType.Namespace));
                                 break;
-                            case TypeDTypeType.Stub:
+                            case "Stub":
                                 break;
-                            case TypeDTypeType.Logic:
+                            case "Logic":
                                 break;
-                            case TypeDTypeType.Drawable:
+                            case "Drawable":
                                 break;
-                            case TypeDTypeType.EntityData:
+                            case "EntityData":
                                 break;
                             default:
                                 break;

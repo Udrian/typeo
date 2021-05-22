@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using TypeD.Data;
 using TypeD.Models;
+using TypeD.Types;
 
 namespace TypeD.Code
 {
@@ -22,7 +22,7 @@ namespace TypeD.Code
             {
                 var usings = new List<string>();
 
-                TypeDType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeType == TypeDTypeType.Scene; });
+                TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
                 if (defaultScene != null)
                 {
                     usings.Add(defaultScene.Namespace);
@@ -35,10 +35,10 @@ namespace TypeD.Code
 
             AddFunction(new Function("public override void Initialize()", () => {
                 Writer.AddLine("Scenes = CreateSceneHandler();");
-                TypeDType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeType == TypeDTypeType.Scene; });
+                TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
                 if (defaultScene != null)
                 {
-                    Writer.AddLine($"Scenes.SetScene<{defaultScene.Name}>();");
+                    Writer.AddLine($"Scenes.SetScene<{defaultScene.ClassName}>();");
                 }
                 Writer.AddLine("InternalInitialize();");
             }));

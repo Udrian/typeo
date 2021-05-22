@@ -40,8 +40,8 @@ namespace TypeD.Commands.Project
 
             // Prepare
             project.AddCode(new ProgramCode(project));
-            project.AddCode(new GameCode(project), TypeDTypeType.Game);
-            project.AddCode(new GameTypeDCode(project), TypeDTypeType.Game);
+            project.AddCode(new GameCode(project), "Game");
+            project.AddCode(new GameTypeDCode(project), "Game");
 
             var data = await Module.List();
             var coreModuleName = "TypeOCore";
