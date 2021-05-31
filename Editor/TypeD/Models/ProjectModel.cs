@@ -160,20 +160,24 @@ namespace TypeD.Models
 
         public void AddCode(Codalyzer code, string typeOBaseType = "")
         {
-            var key = $"{code.Namespace}.{code.ClassName}";
+            //TODO: Fix This
+            /*var key = $"{code.Namespace}.{code.ClassName}";
             if (!TypeOTypes.ContainsKey(key))
             {
-                TypeOTypes.Add(key, new TypeOType()
+                //TypeOTypes.Add(key, 
+                    
+                    
+                    /*new TypeOType()
                 {
                     ClassName = code.ClassName,
                     Namespace = code.Namespace
-                });
-            }
+                }*///);
+            /*}
             TypeOTypes[key].Codes.Add(code);
             if(typeOBaseType != "")
             {
                 TypeOTypes[key].TypeOBaseType = typeOBaseType;
-            }
+            }*/
         }
 
         public void AddType(string typeOBaseType, TypeInfo typeInfo)
@@ -181,14 +185,8 @@ namespace TypeD.Models
             var key = typeInfo.FullName;
             if (!TypeOTypes.ContainsKey(key))
             {
-                TypeOTypes.Add(key, new TypeOType()
-                {
-                    ClassName = typeInfo.Name,
-                    Namespace = typeInfo.Namespace
-                });
+                TypeOTypes.Add(key, TypeOType.InstantiateTypeOType(typeOBaseType, typeInfo.Name, typeInfo.Namespace, typeOBaseType, typeInfo, this));
             }
-            TypeOTypes[key].TypeInfo = typeInfo;
-            TypeOTypes[key].TypeOBaseType = typeOBaseType;
         }
 
         public List<TypeOType> GetTypeFromName(string name)

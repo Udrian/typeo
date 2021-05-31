@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using TypeD.Code;
 using TypeD.Data;
@@ -9,6 +10,9 @@ namespace TypeD.Commands.Project
 {
     public partial class ProjectCommand
     {
+        //TODO: Remove
+        public static  Action<ProjectModel> InitProject;
+
         public async Task<ProjectModel> Create(string projectName, string location = null, string csSolutionPath = null, string csProjName = null)
         {
             // Validate
@@ -40,8 +44,7 @@ namespace TypeD.Commands.Project
 
             // Prepare
             project.AddCode(new ProgramCode(project));
-            project.AddCode(new GameCode(project), "Game");
-            project.AddCode(new GameTypeDCode(project), "Game");
+            InitProject(project);
 
             var data = await Module.List();
             var coreModuleName = "TypeOCore";

@@ -3,7 +3,7 @@ using TypeD;
 using TypeD.Helpers;
 using TypeD.Models;
 
-namespace TypeDCore.Code
+namespace TypeDCore.Code.Entity
 {
     class EntityTypeDCode : Codalyzer
     {

@@ -1,6 +1,5 @@
-﻿using TypeD.Data;
-using TypeD.Models;
-using TypeDCore.Code;
+﻿using TypeD.Models;
+using TypeDCore.Code.Scene;
 
 namespace TypeDCore.Commands.Project
 {

@@ -2,7 +2,7 @@
 using TypeD;
 using TypeD.Models;
 
-namespace TypeDCore.Code
+namespace TypeDCore.Code.Drawable2d
 {
     class Drawable2dCode : Codalyzer
     {

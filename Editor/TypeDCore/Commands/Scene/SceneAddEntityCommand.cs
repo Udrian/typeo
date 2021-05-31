@@ -1,5 +1,5 @@
 ﻿using TypeD.Types;
-using TypeDCore.Code;
+using TypeDCore.Code.Scene;
 
 namespace TypeDCore.Commands.Scene
 {

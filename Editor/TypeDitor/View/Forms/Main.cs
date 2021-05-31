@@ -2,12 +2,10 @@
 using System.Windows.Forms;
 using TypeD.Models;
 using TypeD.Types;
+using TypeDCore.Code;
 using TypeDCore.Viewer;
 using TypeDEditor.Controller;
 using TypeDEditor.View.Forms.Dialogs;
-using TypeOEngine.Typedeaf.Core;
-using TypeOEngine.Typedeaf.Core.Entities;
-using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDEditor.View.Forms
 {
@@ -18,12 +16,7 @@ namespace TypeDEditor.View.Forms
         public Main()
         {
             //TODO: Should not be here, should be moved over to TypeDCore
-            TypeOType.TypeOTypeTypes.Add(typeof(Scene));
-            TypeOType.TypeOTypeTypes.Add(typeof(Entity));
-            TypeOType.TypeOTypeTypes.Add(typeof(Stub));
-            TypeOType.TypeOTypeTypes.Add(typeof(Logic));
-            TypeOType.TypeOTypeTypes.Add(typeof(Drawable));
-            TypeOType.TypeOTypeTypes.Add(typeof(EntityData));
+            TempInit.Init();
             //
 
 

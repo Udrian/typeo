@@ -1,7 +1,6 @@
-﻿using TypeDCore.Code;
-using TypeD.Data;
-using TypeD.Models;
+﻿using TypeD.Models;
 using TypeD;
+using TypeDCore.Code.Entity;
 
 namespace TypeDCore.Commands.Project
 {

@@ -1,5 +1,5 @@
 ﻿using TypeD.Types;
-using TypeDCore.Code;
+using TypeDCore.Code.Entity;
 
 namespace TypeDCore.Commands.Entity
 {

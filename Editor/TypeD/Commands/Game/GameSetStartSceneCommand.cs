@@ -1,5 +1,4 @@
-﻿using TypeD.Data;
-using TypeD.Models;
+﻿using TypeD.Models;
 using TypeD.Types;
 
 namespace TypeD.Commands.Game

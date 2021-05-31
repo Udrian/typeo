@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using TypeD;
 using TypeD.Models;
 using TypeD.Types;
 
-namespace TypeD.Code
+namespace TypeDCore.Code.Game
 {
     class GameTypeDCode : Codalyzer
     {

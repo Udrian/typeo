@@ -1,6 +1,5 @@
-﻿using TypeDCore.Code;
-using TypeD.Data;
-using TypeD.Models;
+﻿using TypeD.Models;
+using TypeDCore.Code.Drawable2d;
 
 namespace TypeDCore.Commands.Project
 {

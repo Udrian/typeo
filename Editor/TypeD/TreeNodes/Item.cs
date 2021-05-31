@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TypeD.TreeNodes
+﻿namespace TypeD.TreeNodes
 {
     public abstract class Item
     {

@@ -2,7 +2,7 @@
 using TypeD;
 using TypeD.Models;
 
-namespace TypeDCore.Code
+namespace TypeDCore.Code.Scene
 {
     class SceneCode : Codalyzer
     {
