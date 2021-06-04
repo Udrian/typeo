@@ -28,7 +28,7 @@ namespace TypeDEditor.View.Forms.Dialogs
             var typelist = Assembly.GetAssembly(typeof(Drawable2d)).GetTypes()
               .Where(t => t.Namespace == "TypeOEngine.Typedeaf.Core.Entities.Drawables")
               .Where(t => t.IsSubclassOf(typeof(Drawable2d)))
-              .Select(t => TypeOType.InstantiateTypeOType("Drawable", t.Name, t.Namespace, "Drawable", t.GetTypeInfo(), ProjectController.LoadedProject))
+              .Select(t => TypeOType.InstantiateTypeOType("Drawable", t.GetTypeInfo(), ProjectController.LoadedProject))
               .ToList();
 
             foreach (var type in typelist)

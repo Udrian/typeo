@@ -1,12 +1,10 @@
-﻿using System.Reflection;
-using TypeD.Models;
-using TypeD.Types;
+﻿using TypeD.Types;
 
 namespace TypeDCore.Code.Drawable2d
 {
     class Drawable2dTypeOType : TypeOType
     {
-        public Drawable2dTypeOType(string className, string @namespace, string typeOBaseType, TypeInfo typeInfo, ProjectModel project) : base(className, @namespace, typeOBaseType, typeInfo, project)
+        public override void Init()
         {
             Codes.Add(new Drawable2dCode(Project, ClassName, Namespace));
         }

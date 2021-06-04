@@ -24,18 +24,32 @@ namespace TypeD.Types
             return "";
         }
 
-        public static TypeOType InstantiateTypeOType(string baseTypeName, string className, string @namespace, string typeOBaseType, TypeInfo typeInfo, ProjectModel project)
+        public static TypeOType InstantiateTypeOType(string typeOBaseType, TypeInfo typeInfo, ProjectModel project)
         {
             Type baseType = null;
             foreach(var type in TypeOTypeTypes.Keys)
             {
-                if(type.Name == baseTypeName)
+                if(type.Name == typeOBaseType)
                 {
                     baseType = type;
                 }
             }
             if(baseType == null) return null;
-            return (TypeOType)Activator.CreateInstance(baseType, new object[] { className, @namespace, typeOBaseType, typeInfo, project });
+            var retObj = (TypeOType)Activator.CreateInstance(baseType);
+            retObj.TypeOBaseType = typeOBaseType;
+            retObj.Project = project;
+            if(typeInfo != null)
+            {
+                retObj.TypeInfo = typeInfo;
+                retObj.ClassName = typeInfo.Name;
+                retObj.Namespace = typeInfo.Namespace;
+            }
+            retObj.Init();
+            if(typeInfo == null)
+            {
+                retObj.InitNew();
+            }
+            return retObj;
         }
 
         public string ClassName { get; internal set; }
@@ -47,15 +61,16 @@ namespace TypeD.Types
         public TypeInfo TypeInfo { get; internal set; }
         public ProjectModel Project { get; internal set; }
 
-        public TypeOType(string className, string @namespace, string typeOBaseType, TypeInfo typeInfo, ProjectModel project)
+        public TypeOType()
         {
             Codes = new List<Codalyzer>();
+        }
 
-            ClassName = className;
-            Namespace = @namespace;
-            TypeOBaseType = typeOBaseType;
-            TypeInfo = typeInfo;
-            Project = project;
+        public abstract void Init();
+        public virtual void InitNew()
+        {
+            ClassName = $"{Project.ProjectName}{TypeOBaseType}";
+            Namespace = $"{Project.ProjectName}"; ;
         }
 
         public void Save()

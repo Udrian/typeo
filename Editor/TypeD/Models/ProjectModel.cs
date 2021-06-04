@@ -98,7 +98,7 @@ namespace TypeD.Models
                 var typeDType = TypeOType.GetBaseTypeOClassName(type);
                 if (typeDType == "") continue;
 
-                AddType(typeDType, type);
+                RegisterType(typeDType, type);
             }
 
             BuildTree();
@@ -180,12 +180,13 @@ namespace TypeD.Models
             }*/
         }
 
-        public void AddType(string typeOBaseType, TypeInfo typeInfo)
+        public void RegisterType(string typeOBaseType, TypeInfo typeInfo)
         {
-            var key = typeInfo.FullName;
+            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, typeInfo, this);
+            var key = typeOType.FullName;
             if (!TypeOTypes.ContainsKey(key))
             {
-                TypeOTypes.Add(key, TypeOType.InstantiateTypeOType(typeOBaseType, typeInfo.Name, typeInfo.Namespace, typeOBaseType, typeInfo, this));
+                TypeOTypes.Add(key, typeOType);
             }
         }
 
