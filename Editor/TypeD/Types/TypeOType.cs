@@ -24,14 +24,14 @@ namespace TypeD.Types
             return "";
         }
 
-        public static TypeOType InstantiateTypeOType(string typeOBaseType, TypeInfo typeInfo, ProjectModel project)
+        public static TypeOType InstantiateTypeOType(string typeOBaseType, string classname, string @namespace, TypeInfo typeInfo, ProjectModel project)
         {
             Type baseType = null;
-            foreach(var type in TypeOTypeTypes.Keys)
+            foreach(var keyValuePair in TypeOTypeTypes)
             {
-                if(type.Name == typeOBaseType)
+                if(keyValuePair.Key.Name == typeOBaseType)
                 {
-                    baseType = type;
+                    baseType = keyValuePair.Value;
                 }
             }
             if(baseType == null) return null;
@@ -43,11 +43,12 @@ namespace TypeD.Types
                 retObj.TypeInfo = typeInfo;
                 retObj.ClassName = typeInfo.Name;
                 retObj.Namespace = typeInfo.Namespace;
+                retObj.Init();
             }
-            retObj.Init();
-            if(typeInfo == null)
+            else
             {
-                retObj.InitNew();
+                retObj.ClassName = classname;
+                retObj.Namespace = @namespace;
             }
             return retObj;
         }
@@ -67,11 +68,6 @@ namespace TypeD.Types
         }
 
         public abstract void Init();
-        public virtual void InitNew()
-        {
-            ClassName = $"{Project.ProjectName}{TypeOBaseType}";
-            Namespace = $"{Project.ProjectName}"; ;
-        }
 
         public void Save()
         {

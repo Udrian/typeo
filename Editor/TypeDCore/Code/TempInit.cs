@@ -26,10 +26,8 @@ namespace TypeDCore.Code
 
         public static void ProjectCreateCommand(ProjectModel project)
         {
-            project.RegisterType("Game", null);
-
-            //project.AddCode(new GameCode(project), "Game");
-            //project.AddCode(new GameTypeDCode(project), "Game");
+            project.AddCode(new GameCode(project), "Game");
+            project.AddCode(new GameTypeDCode(project), "Game");
         }
     }
 }

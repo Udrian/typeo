@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TypeD.Code;
 using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.TreeNodes;
@@ -98,7 +99,7 @@ namespace TypeD.Models
                 var typeDType = TypeOType.GetBaseTypeOClassName(type);
                 if (typeDType == "") continue;
 
-                RegisterType(typeDType, type);
+                RegisterType(typeDType, null, null, type);
             }
 
             BuildTree();
@@ -160,29 +161,22 @@ namespace TypeD.Models
 
         public void AddCode(Codalyzer code, string typeOBaseType = "")
         {
-            //TODO: Fix This
-            /*var key = $"{code.Namespace}.{code.ClassName}";
+            var key = $"{code.Namespace}.{code.ClassName}";
             if (!TypeOTypes.ContainsKey(key))
             {
-                //TypeOTypes.Add(key, 
-                    
-                    
-                    /*new TypeOType()
-                {
-                    ClassName = code.ClassName,
-                    Namespace = code.Namespace
-                }*///);
-            /*}
+                RegisterType(code.BaseClass, code.ClassName, code.Namespace, null);
+            }
             TypeOTypes[key].Codes.Add(code);
             if(typeOBaseType != "")
             {
                 TypeOTypes[key].TypeOBaseType = typeOBaseType;
-            }*/
+            }
         }
 
-        public void RegisterType(string typeOBaseType, TypeInfo typeInfo)
+        public void RegisterType(string typeOBaseType, string classname, string @namespace, TypeInfo typeInfo)
         {
-            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, typeInfo, this);
+            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, classname, @namespace, typeInfo, this);
+            if (typeOType == null) typeOType = new ProgramTypeOType() { ClassName = classname, Namespace = @namespace, Project = this, TypeOBaseType = typeOBaseType };//TODO: Remove this
             var key = typeOType.FullName;
             if (!TypeOTypes.ContainsKey(key))
             {
