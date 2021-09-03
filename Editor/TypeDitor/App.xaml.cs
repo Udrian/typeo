@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using TypeDitor.View.Windows;
 
 namespace TypeDitor
 {
@@ -8,9 +7,5 @@ namespace TypeDitor
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-        }
     }
 }

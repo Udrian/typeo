@@ -6,18 +6,12 @@
     <Authors>Simon Haggren</Authors>
     <Company>Typedeaf</Company>
     <Product>TypeO</Product>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TypeDCore\TypeDCore.csproj" />
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="View\Forms\Dialogs\CreateDrawable2dDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 
 </Project>
