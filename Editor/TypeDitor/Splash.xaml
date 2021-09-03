@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TypeDitor"
+        xmlns:commands="clr-namespace:TypeDitor.Commands"
         mc:Ignorable="d"
         Title="Splash" Height="400" Width="600"
         WindowStartupLocation="CenterScreen"
@@ -14,8 +15,8 @@
         <Separator DockPanel.Dock="Top" Margin="0,0,0,25"/>
 
         <StackPanel DockPanel.Dock="Right" VerticalAlignment="Bottom">
-            <Button x:Name="OpenButton" Content="_Open a existing project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Click="OpenButton_Click"/>
-            <Button x:Name="NewButton" Content="_Create a new project"  Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Click="NewButton_Click"/>
+            <Button Content="_Open a existing project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Command="{x:Static commands:ProjectCommands.OpenProject}" />
+            <Button Content="_Create a new project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Command="{x:Static commands:ProjectCommands.NewProject}" />
         </StackPanel>
 
         <StackPanel Orientation="Vertical" Margin="0, 0, 10, 0">
