@@ -8,28 +8,42 @@ namespace TypeDitor.Commands
     static class ProjectCommands
     {
         public static readonly CustomCommands OpenProject = new(async (sender) => {
-            //Open project
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.DefaultExt = ".typeo";
-            openFileDialog.Filter = "TypeO projects (.typeo)|*.typeo";
-            if (openFileDialog.ShowDialog() == true)
+
+            var path = "";
+            if (sender is RecentModel)
             {
-                var loadedProject = await Command.Project.Load(openFileDialog.FileName);
+                path = (sender as RecentModel).Path;
+            }
+            else
+            {
+                var openFileDialog = new OpenFileDialog();
+                openFileDialog.DefaultExt = ".typeo";
+                openFileDialog.Filter = "TypeO projects (.typeo)|*.typeo";
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    path = openFileDialog.FileName;
+                }
+            }
+
+            //Open project
+            if (!string.IsNullOrEmpty(path))
+            {
+                var loadedProject = await Command.Project.Load(path);
                 RecentModel.SaveRecents(loadedProject.ProjectFilePath, loadedProject.ProjectName);
 
-                OpenMainWindow();
+                OpenMainWindow(loadedProject);
             }
         });
 
         public static readonly CustomCommands NewProject = new((sender) => {
             //New project
-            OpenMainWindow();
+            OpenMainWindow(null);
         });
 
-        private static void OpenMainWindow()
+        private static void OpenMainWindow(ProjectModel loadedProject)
         {
             var currentMainWindow = Application.Current.MainWindow;
-            var mainWindow = new MainWindow();
+            var mainWindow = new MainWindow(loadedProject);
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
             currentMainWindow.Close();
