@@ -19,10 +19,8 @@ namespace TypeDitor
 
         private void RecentList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var lbRecent = sender as ListBox;
-            if (lbRecent == null) return;
-            var recent = lbRecent.SelectedItem as RecentModel;
-            if (recent == null) return;
+            if (sender is not ListBox lbRecent) return;
+            if (lbRecent.SelectedItem is not RecentModel recent) return;
             ProjectCommands.OpenProject.Execute(recent);
         }
     }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
+using System.IO;
 using System.Windows;
 using TypeD;
 using TypeD.Models;
+using TypeDitor.View.Project;
 
 namespace TypeDitor.Commands
 {
@@ -36,9 +38,39 @@ namespace TypeDitor.Commands
         });
 
         public static readonly CustomCommands NewProject = new((sender) => {
-            //New project
-            OpenMainWindow(null);
+            var newProjectDialog = new NewProjectDialog();
+            if(newProjectDialog.ShowDialog() == true)
+            {
+                var name = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectName);
+                var location = IsDirectory(newProjectDialog.ProjectLocation) ? newProjectDialog.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ProjectLocation);
+                var solution = @$".\{newProjectDialog.ProjectCSSolutionName}.sln";
+                var project = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectCSProjectName);
+
+                //New project
+                var progressDialog = new ProjectCreationProgressDialog();
+                var newProjectTask = Command.Project.Create(name,
+                                                              location,
+                                                              solution,
+                                                              project,
+                                                              (progress) =>
+                                                              {
+                                                                  progressDialog.Progress = progress;
+                                                                  if(progress >= 100)
+                                                                  {
+                                                                      progressDialog.Close();
+                                                                  }
+                                                              });
+                progressDialog.ShowDialog();
+                var newProject = newProjectTask.Result;
+                RecentModel.SaveRecents(newProject.ProjectFilePath, newProject.ProjectName);
+                OpenMainWindow(newProject);
+            }
         });
+
+        private static bool IsDirectory(string filePath)
+        {
+            return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
+        }
 
         private static void OpenMainWindow(ProjectModel loadedProject)
         {

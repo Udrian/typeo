@@ -13,7 +13,7 @@ namespace TypeD.Commands.Project
         //TODO: Remove
         public static  Action<ProjectModel> InitProject;
 
-        public async Task<ProjectModel> Create(string projectName, string location = null, string csSolutionPath = null, string csProjName = null)
+        public async Task<ProjectModel> Create(string projectName, string location, string csSolutionPath, string csProjName, Action<int> progress)
         {
             // Validate
             if (string.IsNullOrEmpty(location)) location = @".\";
@@ -24,6 +24,7 @@ namespace TypeD.Commands.Project
             {
                 location = Path.Combine(location, projectName);
             }
+            progress(5);
 
             // Create
             var project = new ProjectModel(location, new ProjectData()
@@ -34,27 +35,35 @@ namespace TypeD.Commands.Project
                 }
             );
 
+            progress(10);
+
             if (!Directory.Exists(project.Location))
             {
                 Directory.CreateDirectory(project.Location);
             }
 
             await CreateSolution(project);
+            progress(30);
             await CreateProject(project);
+            progress(50);
 
             // Prepare
             project.AddCode(new ProgramCode(project));
-            InitProject(project);
+            //InitProject(project);
 
             var data = await Module.List();
             var coreModuleName = "TypeOCore";
             var coreModuleVersion = data.Modules["TypeOCore"][0];
+            progress(60);
 
             await Module.Download(coreModuleName, coreModuleVersion);
             Module.Add(coreModuleName, coreModuleVersion, project);
+            progress(80);
 
             await Save(project);
+            progress(90);
             await project.Build();
+            progress(100);
             // Return
             return project;
         }
