@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="{Binding LoadedProject.ProjectName}" Height="768" Width="1024">
     <DockPanel>
-        <Menu>
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Project" Command="{x:Static commands:ProjectCommands.NewProject}"/>
                 <MenuItem Header="_Open Project" Command="{x:Static commands:ProjectCommands.OpenProject}"/>
@@ -17,5 +17,14 @@
                 <MenuItem Header="_Exit" Command="{x:Static commands:ProjectCommands.Exit}"/>
             </MenuItem>
         </Menu>
+        <ToolBar DockPanel.Dock="Top">
+            
+        </ToolBar>
+        <StatusBar DockPanel.Dock="Bottom">
+            <Label Content="{Binding LoadedProject.Location}"/>
+        </StatusBar>
+        <DockPanel>
+            
+        </DockPanel>
     </DockPanel>
 </Window>
