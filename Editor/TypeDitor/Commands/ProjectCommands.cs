@@ -67,6 +67,19 @@ namespace TypeDitor.Commands
             }
         });
 
+        public static readonly CustomCommands SaveProject = new((sender) =>
+        {
+
+        }, (_) =>
+        {
+            return false;
+        });
+
+        public static readonly CustomCommands Exit = new((sender) =>
+        {
+            Application.Current.Shutdown();
+        });
+
         private static bool IsDirectory(string filePath)
         {
             return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);

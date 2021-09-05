@@ -4,9 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TypeDitor"
+        xmlns:commands="clr-namespace:TypeDitor.Commands"
         mc:Ignorable="d"
-        Title="{Binding LoadedProject.ProjectName}" Height="450" Width="800">
+        Title="{Binding LoadedProject.ProjectName}" Height="768" Width="1024">
     <DockPanel>
-        
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_New Project" Command="{x:Static commands:ProjectCommands.NewProject}"/>
+                <MenuItem Header="_Open Project" Command="{x:Static commands:ProjectCommands.OpenProject}"/>
+                <MenuItem Header="_Save Project" Command="{x:Static commands:ProjectCommands.SaveProject}"/>
+                <Separator/>
+                <MenuItem Header="_Exit" Command="{x:Static commands:ProjectCommands.Exit}"/>
+            </MenuItem>
+        </Menu>
     </DockPanel>
 </Window>
