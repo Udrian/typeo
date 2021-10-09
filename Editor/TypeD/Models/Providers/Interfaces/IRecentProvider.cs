@@ -6,6 +6,6 @@ namespace TypeD.Models.Providers.Interfaces
     public interface IRecentProvider
     {
         public void Add(string projectFilePath, string projectName);
-        public IList<Recent> Get();
+        public IEnumerable<Recent> Get();
     }
 }

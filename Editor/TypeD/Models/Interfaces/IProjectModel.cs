@@ -7,7 +7,7 @@ namespace TypeD.Models.Interfaces
 {
     public interface IProjectModel
     {
-        public void AddModule(Project project, ModuleModel module);
+        public void AddModule(Project project, Module module);
         public Task<bool> Build(Project project);
         public void Run(Project project);
         public void AddCode(Project project, Codalyzer code, string typeOBaseType = "");

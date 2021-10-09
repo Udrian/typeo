@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TypeD.Code;
-using TypeD.Commands.Module;
-using TypeD.Data;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.DTO;
@@ -20,11 +18,20 @@ namespace TypeD.Models.Providers
 
         // Models
         private ProjectModel ProjectModel { get; set; }
+        private ModuleModel ModuleModel { get; set; }
+
+        // Providers
+        private ModuleProvider ModuleProvider { get; set; }
 
         // Constructors
-        public ProjectProvider(IProjectModel projectModel)
+        public ProjectProvider(
+            IProjectModel projectModel, IModuleModel moduleModel,
+                                        IModuleProvider moduleProvider
+            )
         {
             ProjectModel = projectModel as ProjectModel;
+            ModuleModel = moduleModel as ModuleModel;
+            ModuleProvider = moduleProvider as ModuleProvider;
         }
 
         // Functions
@@ -66,13 +73,16 @@ namespace TypeD.Models.Providers
             ProjectModel.AddCode(project, new ProgramCode(project));
             //InitProject(project);
 
-            var data = await Command.Get<ModuleCommand>().List();
+            var moduleList = await ModuleProvider.List();
             var coreModuleName = "TypeOCore";
-            var coreModuleVersion = data.Modules["TypeOCore"][0];
+            var coreModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == coreModuleName; })?.Versions[0];
             progress(60);
 
-            await Command.Get<ModuleCommand>().Download(coreModuleName, coreModuleVersion);
-            Command.Get<ModuleCommand>().Add(coreModuleName, coreModuleVersion, ProjectModel, project);
+            var module = ModuleProvider.Add(coreModuleName, coreModuleVersion);
+            await ModuleModel.Download(module);
+
+            ProjectModel.AddModule(project, module);
+
             progress(80);
 
             await Save(project);
@@ -121,7 +131,7 @@ namespace TypeD.Models.Providers
                     ProjectName = project.ProjectName,
                     CSSolutionPath = project.CSSolutionPath,
                     CSProjName = project.CSProjName,
-                    Modules = project.Modules.Select(m => new ModuleData() { Name = m.Name, Version = m.Version }).ToList(),
+                    Modules = project.Modules.Select(m => new ModuleDTO() { Name = m.Name, Version = m.Version }).ToList(),
                     StartScene = project.StartScene
                 }, project.ProjectFilePath);
 

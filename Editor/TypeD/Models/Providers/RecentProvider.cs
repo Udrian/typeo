@@ -24,6 +24,7 @@ namespace TypeD.Models.Providers
             Load();
         }
 
+        // Functions
         public void Add(string projectFilePath, string projectName)
         {
             for(int i = Recents.Count - 1; i >= 0; i--)
@@ -47,12 +48,12 @@ namespace TypeD.Models.Providers
             Save();
         }
 
-        public IList<Recent> Get()
+        public IEnumerable<Recent> Get()
         {
             return Recents;
         }
 
-        //Internal functions
+        // Internal functions
         private void Load()
         {
             Recents.Clear();

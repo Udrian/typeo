@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Code;
@@ -16,13 +15,17 @@ namespace TypeD.Models
 {
     public class ProjectModel : IProjectModel
     {
+        // Models
+        public ModuleModel ModuleModel { get; set; }
+
         // Constructors
-        public ProjectModel()
+        public ProjectModel(IModuleModel moduleModel)
         {
+            ModuleModel = moduleModel as ModuleModel;
         }
 
         // Functions
-        public void AddModule(Project project, ModuleModel module)
+        public void AddModule(Project project, Module module)
         {
             var path = Path.Combine(project.Location, project.CSProjName, $"{project.CSProjName}.csproj");
             if (!File.Exists(path)) return;
@@ -33,7 +36,7 @@ namespace TypeD.Models
                 programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
             var projectX = XElement.Load(path);
-            module.AddToProjectXML(projectX);
+            ModuleModel.AddToProjectXML(module, projectX);
             //TODO: Should only save when we press save
             projectX.Save(path);
         }
@@ -115,7 +118,7 @@ namespace TypeD.Models
                 byte[] bytes = new byte[fs.Length];
                 fs.Read(bytes, 0, (int)fs.Length);
 
-                project.Assembly = Assembly.Load(bytes);
+                project.Assembly = System.Reflection.Assembly.Load(bytes);
             }
 
             foreach (var type in project.Assembly.DefinedTypes)
@@ -178,7 +181,7 @@ namespace TypeD.Models
             }
         }
 
-        private void RegisterType(Project project, string typeOBaseType, string classname, string @namespace, TypeInfo typeInfo)
+        private void RegisterType(Project project, string typeOBaseType, string classname, string @namespace, System.Reflection.TypeInfo typeInfo)
         {
             var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, classname, @namespace, typeInfo, this);
             if (typeOType == null) typeOType = new ProgramTypeOType() { ClassName = classname, Namespace = @namespace, Project = this, TypeOBaseType = typeOBaseType };//TODO: Remove this

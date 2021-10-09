@@ -24,7 +24,7 @@ namespace TypeDitor.ViewModel
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
         }
 
-        public IList<Recent> GetRecents()
+        public IEnumerable<Recent> GetRecents()
         {
             return RecentProvider.Get();
         }

@@ -1,6 +1,6 @@
-﻿namespace TypeD.Data
+﻿namespace TypeD.Models.DTO
 {
-    public class ModuleData
+    class ModuleDTO
     {
         public string Name { get; set; }
         public string Version { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TypeD.Data
+namespace TypeD.Models.DTO
 {
-    public class ModuleListData
+    class ModuleListDTO
     {
         public Dictionary<string, List<string>> Modules { get; set; }
     }
