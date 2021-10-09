@@ -183,8 +183,8 @@ namespace TypeD.Models
 
         private void RegisterType(Project project, string typeOBaseType, string classname, string @namespace, System.Reflection.TypeInfo typeInfo)
         {
-            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, classname, @namespace, typeInfo, this);
-            if (typeOType == null) typeOType = new ProgramTypeOType() { ClassName = classname, Namespace = @namespace, Project = this, TypeOBaseType = typeOBaseType };//TODO: Remove this
+            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, classname, @namespace, typeInfo, project);
+            if (typeOType == null) typeOType = new ProgramTypeOType() { ClassName = classname, Namespace = @namespace, Project = project, TypeOBaseType = typeOBaseType };//TODO: Remove this
             var key = typeOType.FullName;
             if (!project.TypeOTypes.ContainsKey(key))
             {

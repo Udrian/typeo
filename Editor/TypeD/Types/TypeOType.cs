@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using TypeD.Models;
+using TypeD.Models.Data;
 
 namespace TypeD.Types
 {
@@ -24,7 +24,7 @@ namespace TypeD.Types
             return "";
         }
 
-        public static TypeOType InstantiateTypeOType(string typeOBaseType, string classname, string @namespace, TypeInfo typeInfo, ProjectModel project)
+        public static TypeOType InstantiateTypeOType(string typeOBaseType, string classname, string @namespace, TypeInfo typeInfo, Project project)
         {
             Type baseType = null;
             foreach(var keyValuePair in TypeOTypeTypes)
@@ -60,7 +60,7 @@ namespace TypeD.Types
 
         public List<Codalyzer> Codes { get; private set; }
         public TypeInfo TypeInfo { get; internal set; }
-        public ProjectModel Project { get; internal set; }
+        public Project Project { get; internal set; }
 
         public TypeOType()
         {

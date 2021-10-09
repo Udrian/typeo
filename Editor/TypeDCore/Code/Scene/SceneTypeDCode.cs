@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TypeD;
 using TypeD.Helpers;
-using TypeD.Models;
+using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Scene
 {
@@ -9,7 +9,7 @@ namespace TypeDCore.Code.Scene
     {
         public List<string> Entities { get; set; } = new List<string>();
 
-        public SceneTypeDCode(ProjectModel project, string className, string @namespace) : base(project, className, @namespace)
+        public SceneTypeDCode(Project project, string className, string @namespace) : base(project, className, @namespace)
         {
             var entityStartBlock = "//Entity start block";
             var entityEndBlock = "//Entity end block";

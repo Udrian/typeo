@@ -184,7 +184,7 @@ namespace TypeD
 
         public void Generate()
         {
-            List<string> inheritance = new List<string>();
+            var inheritance = new List<string>();
             if(!string.IsNullOrEmpty(BaseClass))
             {
                 inheritance.Add(BaseClass);
@@ -199,7 +199,7 @@ namespace TypeD
                 Writer.AddLine();
             }
 
-            List<string> dynamicUsings = new List<string>();
+            var dynamicUsings = new List<string>();
             if(DynamicUsings != null)
             {
                 dynamicUsings = DynamicUsings();

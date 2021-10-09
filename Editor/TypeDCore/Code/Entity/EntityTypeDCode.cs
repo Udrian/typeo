@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TypeD;
 using TypeD.Helpers;
-using TypeD.Models;
+using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Entity
 {
@@ -9,7 +9,7 @@ namespace TypeDCore.Code.Entity
     {
         public List<string> Drawables { get; set; } = new List<string>();
 
-        public EntityTypeDCode(ProjectModel project, string className, string @namespace) : base(project, className, @namespace)
+        public EntityTypeDCode(Project project, string className, string @namespace) : base(project, className, @namespace)
         {
             var drawablesStartBlock = "//Drawables start block";
             var drawablesEndBlock = "//Drawables end block";

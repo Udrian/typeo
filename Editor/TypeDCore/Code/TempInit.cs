@@ -1,5 +1,4 @@
-﻿using TypeD.Commands.Project;
-using TypeD.Models;
+﻿using TypeD.Models.Data;
 using TypeD.Types;
 using TypeDCore.Code.Drawable2d;
 using TypeDCore.Code.Entity;
@@ -24,7 +23,7 @@ namespace TypeDCore.Code
             ProjectCommand.InitProject = ProjectCreateCommand;
         }
 
-        public static void ProjectCreateCommand(ProjectModel project)
+        public static void ProjectCreateCommand(Project project)
         {
             project.AddCode(new GameCode(project), "Game");
             project.AddCode(new GameTypeDCode(project), "Game");
