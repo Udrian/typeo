@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using TypeD.Models;
-using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
+﻿using TypeD.Models;
+using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Commands.Project;
 
 namespace TypeDitor.ViewModel
 {
     class MainWindowViewModel
     {
-        //Models
-        private IRecentModel RecentModel { get; set; }
+        //Providers
+        private IRecentProvider RecentProvider { get; set; }
 
         //Commands
         public OpenProjectCommand OpenProjectCommand { get; set; }
@@ -17,19 +15,14 @@ namespace TypeDitor.ViewModel
         public SaveProjectCommand SaveProjectCommand { get; set; }
         public ExitProjectCommand ExitProjectCommand { get; set; }
 
-        public MainWindowViewModel(IRecentModel recentModel)
+        public MainWindowViewModel(IRecentProvider recentProvider)
         {
-            RecentModel = recentModel;
+            RecentProvider = recentProvider;
 
-            OpenProjectCommand = new OpenProjectCommand(RecentModel);
-            NewProjectCommand = new NewProjectCommand(RecentModel);
+            OpenProjectCommand = new OpenProjectCommand(RecentProvider);
+            NewProjectCommand = new NewProjectCommand(RecentProvider);
             SaveProjectCommand = new SaveProjectCommand();
             ExitProjectCommand = new ExitProjectCommand();
-        }
-
-        public IList<Recent> GetRecents()
-        {
-            return RecentModel.Get();
         }
 
         public ProjectModel LoadedProject { get; set; }

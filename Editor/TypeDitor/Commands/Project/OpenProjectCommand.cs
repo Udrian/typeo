@@ -1,17 +1,18 @@
 ﻿using Microsoft.Win32;
 using TypeD;
 using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 
 namespace TypeDitor.Commands.Project
 {
     class OpenProjectCommand : ProjectCommands
     {
-        private IRecentModel RecentModel { get; set; }
+        // Providers
+        private IRecentProvider RecentProvider { get; set; }
 
-        public OpenProjectCommand(IRecentModel recentModel)
+        public OpenProjectCommand(IRecentProvider recentProvider)
         {
-            RecentModel = recentModel;
+            RecentProvider = recentProvider;
         }
 
         public async override void Execute(object param)
@@ -36,7 +37,7 @@ namespace TypeDitor.Commands.Project
             if (!string.IsNullOrEmpty(path))
             {
                 var loadedProject = await Command.Project.Load(path);
-                RecentModel.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
+                RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
 
                 this.OpenMainWindow(loadedProject);
             }

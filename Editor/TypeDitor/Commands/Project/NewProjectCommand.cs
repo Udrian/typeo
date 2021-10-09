@@ -1,17 +1,18 @@
 ﻿using System.IO;
 using TypeD;
-using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Dialog.Project;
 
 namespace TypeDitor.Commands.Project
 {
     class NewProjectCommand : ProjectCommands
     {
-        private IRecentModel RecentModel { get; set; }
+        // Providers
+        private IRecentProvider RecentProvider { get; set; }
 
-        public NewProjectCommand(IRecentModel recentModel)
+        public NewProjectCommand(IRecentProvider recentProvider)
         {
-            RecentModel = recentModel;
+            RecentProvider = recentProvider;
         }
 
         public override void Execute(object param)
@@ -40,7 +41,7 @@ namespace TypeDitor.Commands.Project
                                                               });
                 progressDialog.ShowDialog();
                 var newProject = newProjectTask.Result;
-                RecentModel.Add(newProject.ProjectFilePath, newProject.ProjectName);
+                RecentProvider.Add(newProject.ProjectFilePath, newProject.ProjectName);
                 this.OpenMainWindow(newProject);
             }
         }

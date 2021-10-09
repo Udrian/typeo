@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using TypeD.Models;
-using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeDitor.ViewModel;
 
 namespace TypeDitor.View
@@ -16,7 +16,7 @@ namespace TypeDitor.View
         {
             InitializeComponent();
 
-            MainWindowViewModel = new MainWindowViewModel(FindResource("RecentModel") as IRecentModel);
+            MainWindowViewModel = new MainWindowViewModel(FindResource("RecentProvider") as IRecentProvider);
             MainWindowViewModel.LoadedProject = loadedProject;
             DataContext = MainWindowViewModel;
         }

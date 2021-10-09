@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
 using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Commands.Project;
 
 namespace TypeDitor.ViewModel
 {
     class SplashViewModel
     {
-        //Models
-        private IRecentModel RecentModel { get; set; }
+        // Providers
+        private IRecentProvider RecentProvider { get; set; }
 
-        //Commands
+        // Commands
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public NewProjectCommand NewProjectCommand { get; set; }
 
-        public SplashViewModel(IRecentModel recentModel)
+        public SplashViewModel(IRecentProvider recentProvider)
         {
-            RecentModel = recentModel;
+            RecentProvider = recentProvider;
 
-            OpenProjectCommand = new OpenProjectCommand(RecentModel);
-            NewProjectCommand = new NewProjectCommand(RecentModel);
+            OpenProjectCommand = new OpenProjectCommand(RecentProvider);
+            NewProjectCommand = new NewProjectCommand(RecentProvider);
         }
 
         public IList<Recent> GetRecents()
         {
-            return RecentModel.Get();
+            return RecentProvider.Get();
         }
     }
 }

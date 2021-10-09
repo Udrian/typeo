@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeDitor.ViewModel;
 
 namespace TypeDitor.View
@@ -16,7 +16,7 @@ namespace TypeDitor.View
         public Splash()
         {
             InitializeComponent();
-            SplashViewModel = new SplashViewModel(FindResource("RecentModel") as IRecentModel);
+            SplashViewModel = new SplashViewModel(FindResource("RecentProvider") as IRecentProvider);
             DataContext = SplashViewModel;
 
             RecentList.ItemsSource = SplashViewModel.GetRecents();
