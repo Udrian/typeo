@@ -10,6 +10,10 @@ namespace TypeDitor.Commands
 
         public event EventHandler CanExecuteChanged;
 
+        public CustomCommands() : this(null, null)
+        {
+        }
+
         public CustomCommands(Action<object> execute) : this(execute, null)
         {
         }
@@ -20,7 +24,7 @@ namespace TypeDitor.Commands
             this.canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object parameter)
         {
             if (canExecute == null)
             {
@@ -30,7 +34,7 @@ namespace TypeDitor.Commands
             return canExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public virtual void Execute(object parameter)
         {
             execute(parameter);
         }

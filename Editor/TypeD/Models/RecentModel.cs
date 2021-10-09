@@ -1,38 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using TypeD.Helpers;
+using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class RecentModel
+    public class RecentModel : IRecentModel
     {
-        public static string RecentFilePath { get { return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", "recent"); } }
-        public static int RecentLength { get; set; } = 5;
+        public ObservableCollection<Recent> Recents { get; set; }
+        protected string RecentFilePath { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", "recent"); } }
+        protected int RecentLength { get { return 5; } }
 
-        public static void SaveRecents(string projectFilePath, string projectName)
+        public RecentModel()
         {
-            var recents = JSON.Deserialize<List<RecentModel>>(RecentFilePath) ?? new List<RecentModel>();
+            Recents = new ObservableCollection<Recent>();
+            Load();
+        }
 
-            recents.RemoveAll((recent) => { return recent.Path == projectFilePath || !File.Exists(recent.Path); });
-            recents.Insert(0, new RecentModel() { Name = projectName, Path = projectFilePath, DateTime = DateTime.Now });
-
-            if (recents.Count > RecentLength)
+        public void Add(string projectFilePath, string projectName)
+        {
+            for(int i = Recents.Count - 1; i >= 0; i--)
             {
-                recents.RemoveRange(RecentLength, recents.Count - RecentLength);
+                var recent = Recents[i];
+                if(recent.Path == projectFilePath || !File.Exists(recent.Path))
+                {
+                    Recents.RemoveAt(i);
+                }
             }
-            JSON.Serialize(recents, RecentFilePath);
+            Recents.Insert(0, new Recent() { Name = projectName, Path = projectFilePath, DateTime = DateTime.Now });
+
+            if (Recents.Count > RecentLength)
+            {
+                for(int i = RecentLength; i < Recents.Count - RecentLength; i++)
+                {
+                    Recents.RemoveAt(i);
+                }
+            }
+
+            Save();
         }
 
-        public static List<RecentModel> LoadRecents()
+        public IList<Recent> Get()
         {
-            var recents = JSON.Deserialize<List<RecentModel>>(RecentFilePath) ?? new List<RecentModel>();
-            recents.RemoveAll((recent) => { return !File.Exists(recent.Path); });
-            return recents;
+            return Recents;
         }
 
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public DateTime DateTime { get; set; }
+        private void Load()
+        {
+            Recents.Clear();
+            var recents = JSON.Deserialize<List<Recent>>(RecentFilePath) ?? new List<Recent>();
+            recents.RemoveAll((recent) => { return !File.Exists(recent.Path); });
+
+            recents.ForEach(x => Recents.Add(x));
+        }
+
+        private void Save()
+        {
+            JSON.Serialize(Recents, RecentFilePath);
+        }
     }
 }
