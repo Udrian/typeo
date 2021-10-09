@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using TypeD;
 using TypeD.Models.Interfaces;
-using TypeDitor.View.Project;
+using TypeDitor.Dialog.Project;
 
 namespace TypeDitor.Commands.Project
 {

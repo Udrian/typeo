@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 
-namespace TypeDitor.View.Project
+namespace TypeDitor.Dialog.Project
 {
     /// <summary>
     /// Interaction logic for NewProjectDialog.xaml
