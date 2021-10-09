@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TypeD.Models.Data;
 using TypeD.Types;
@@ -14,5 +13,6 @@ namespace TypeD.Models.Interfaces
         public void AddCode(Project project, Codalyzer code, string typeOBaseType = "");
         public List<TypeOType> GetTypeFromName(Project project, string name);
         public void Clear(Project project);
+        public void SetStartScene(Project project, TypeOType scene);
     }
 }

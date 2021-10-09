@@ -98,6 +98,12 @@ namespace TypeD.Models
             project.Tree.Clear();
         }
 
+        public void SetStartScene(Project project, TypeOType scene)
+        {
+            if (scene.TypeOBaseType != "Scene") return;
+            project.StartScene = scene.FullName;
+        }
+
         //Internal functions
         internal bool LoadAssembly(Project project)
         {

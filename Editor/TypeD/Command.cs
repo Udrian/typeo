@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using TypeD.Commands.Game;
 using TypeD.Commands.Module;
 
 namespace TypeD
 {
     public class Command
     {
-        public static GameCommand Game    { get { return Get<GameCommand>();    } }
         public static ModuleCommand Module  { get { return Get<ModuleCommand>();  } }
 
         private static Dictionary<Type, Command> Commands { get; set; } = new Dictionary<Type, Command>();
