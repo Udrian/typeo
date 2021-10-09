@@ -16,7 +16,10 @@ namespace TypeDitor.View
         public Splash()
         {
             InitializeComponent();
-            SplashViewModel = new SplashViewModel(FindResource("RecentProvider") as IRecentProvider);
+            SplashViewModel = new SplashViewModel(
+                FindResource("RecentProvider") as IRecentProvider,
+                FindResource("ProjectProvider") as IProjectProvider
+            );
             DataContext = SplashViewModel;
 
             RecentList.ItemsSource = SplashViewModel.GetRecents();

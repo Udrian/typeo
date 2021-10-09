@@ -9,17 +9,19 @@ namespace TypeDitor.ViewModel
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }
+        private IProjectProvider ProjectProvider { get; set; }
 
         // Commands
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public NewProjectCommand NewProjectCommand { get; set; }
 
-        public SplashViewModel(IRecentProvider recentProvider)
+        public SplashViewModel(IRecentProvider recentProvider, IProjectProvider projectProvider)
         {
             RecentProvider = recentProvider;
+            ProjectProvider = projectProvider;
 
-            OpenProjectCommand = new OpenProjectCommand(RecentProvider);
-            NewProjectCommand = new NewProjectCommand(RecentProvider);
+            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
+            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
         }
 
         public IList<Recent> GetRecents()

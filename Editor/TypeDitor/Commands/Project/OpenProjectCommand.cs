@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using TypeD;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 
@@ -9,10 +8,12 @@ namespace TypeDitor.Commands.Project
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }
+        private IProjectProvider ProjectProvider { get; set; }
 
-        public OpenProjectCommand(IRecentProvider recentProvider)
+        public OpenProjectCommand(IRecentProvider recentProvider, IProjectProvider projectProvider)
         {
             RecentProvider = recentProvider;
+            ProjectProvider = projectProvider;
         }
 
         public async override void Execute(object param)
@@ -36,7 +37,7 @@ namespace TypeDitor.Commands.Project
             //Open project
             if (!string.IsNullOrEmpty(path))
             {
-                var loadedProject = await Command.Project.Load(path);
+                var loadedProject = await ProjectProvider.Load(path);
                 RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
 
                 this.OpenMainWindow(loadedProject);

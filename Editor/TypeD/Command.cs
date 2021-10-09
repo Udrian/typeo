@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TypeD.Commands.Entity;
 using TypeD.Commands.Game;
 using TypeD.Commands.Module;
-using TypeD.Commands.Project;
 using TypeD.Commands.Scene;
 
 namespace TypeD
@@ -13,7 +12,6 @@ namespace TypeD
         public static EntityCommand  Entity  { get { return Get<EntityCommand>();  } }
         public static GameCommand Game    { get { return Get<GameCommand>();    } }
         public static ModuleCommand Module  { get { return Get<ModuleCommand>();  } }
-        public static ProjectCommand Project { get { return Get<ProjectCommand>(); } }
         public static SceneCommand Scene   { get { return Get<SceneCommand>();   } }
 
         private static Dictionary<Type, Command> Commands { get; set; } = new Dictionary<Type, Command>();

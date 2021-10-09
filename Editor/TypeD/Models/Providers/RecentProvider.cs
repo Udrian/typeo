@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
@@ -15,9 +16,10 @@ namespace TypeD.Models.Providers
         // Models
         private RecentModel RecentModel { get; set; }
 
-        public RecentProvider(RecentModel recentModel)
+        // Constructors
+        public RecentProvider(IRecentModel recentModel)
         {
-            RecentModel = recentModel;
+            RecentModel = recentModel as RecentModel;
             Recents = new ObservableCollection<Recent>();
             Load();
         }

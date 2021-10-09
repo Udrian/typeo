@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using TypeD.Data;
 
-namespace TypeD.Data
+namespace TypeD.Models.DTO
 {
-    public class ProjectData
+    public class ProjectDTO
     {
         public string ProjectName { get; set; }
         public string CSSolutionPath { get; set; }

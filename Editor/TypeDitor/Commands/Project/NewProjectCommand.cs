@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using TypeD;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Dialog.Project;
 
@@ -9,10 +8,12 @@ namespace TypeDitor.Commands.Project
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }
+        private IProjectProvider ProjectProvider { get; set; }
 
-        public NewProjectCommand(IRecentProvider recentProvider)
+        public NewProjectCommand(IRecentProvider recentProvider, IProjectProvider projectProvider)
         {
             RecentProvider = recentProvider;
+            ProjectProvider = projectProvider;
         }
 
         public override void Execute(object param)
@@ -27,7 +28,7 @@ namespace TypeDitor.Commands.Project
 
                 //New project
                 var progressDialog = new ProjectCreationProgressDialog();
-                var newProjectTask = Command.Project.Create(name,
+                var newProjectTask = ProjectProvider.Create(name,
                                                               location,
                                                               solution,
                                                               project,

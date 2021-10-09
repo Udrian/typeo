@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Windows;
-using TypeD.Models;
 using TypeDitor.View;
 
 namespace TypeDitor.Commands.Project
@@ -12,7 +11,7 @@ namespace TypeDitor.Commands.Project
             return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
         }
 
-        protected void OpenMainWindow(ProjectModel loadedProject)
+        protected void OpenMainWindow(TypeD.Models.Data.Project loadedProject)
         {
             var currentMainWindow = Application.Current.MainWindow;
             var mainWindow = new MainWindow(loadedProject);

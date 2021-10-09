@@ -13,9 +13,11 @@ namespace TypeDitor
     {
         // Models
         public IRecentModel RecentModel { get; set; }
+        public IProjectModel ProjectModel { get; set; }
         
         // Providers
         public IRecentProvider RecentProvider { get; set; }
+        public IProjectProvider ProjectProvider { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -23,16 +25,20 @@ namespace TypeDitor
 
             // Models
             RecentModel = new RecentModel();
+            ProjectModel = new ProjectModel();
 
             var modelResource = new ResourceDictionary();
             modelResource.Add("RecentModel", RecentModel);
+            modelResource.Add("ProjectModel", ProjectModel);
             Resources = modelResource;
 
             // Providers
-            RecentProvider = new RecentProvider(RecentModel as RecentModel);
+            RecentProvider = new RecentProvider(RecentModel);
+            ProjectProvider = new ProjectProvider(ProjectModel);
 
             var providerResource = new ResourceDictionary();
             providerResource.Add("RecentProvider", RecentProvider);
+            providerResource.Add("ProjectProvider", ProjectProvider);
             Resources.MergedDictionaries.Add(providerResource);
         }
     }

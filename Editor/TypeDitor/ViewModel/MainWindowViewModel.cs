@@ -1,4 +1,4 @@
-﻿using TypeD.Models;
+﻿using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Commands.Project;
 
@@ -8,6 +8,7 @@ namespace TypeDitor.ViewModel
     {
         //Providers
         private IRecentProvider RecentProvider { get; set; }
+        private IProjectProvider ProjectProvider { get; set; }
 
         //Commands
         public OpenProjectCommand OpenProjectCommand { get; set; }
@@ -15,16 +16,17 @@ namespace TypeDitor.ViewModel
         public SaveProjectCommand SaveProjectCommand { get; set; }
         public ExitProjectCommand ExitProjectCommand { get; set; }
 
-        public MainWindowViewModel(IRecentProvider recentProvider)
+        public MainWindowViewModel(IRecentProvider recentProvider, IProjectProvider projectProvider)
         {
             RecentProvider = recentProvider;
+            ProjectProvider = projectProvider;
 
-            OpenProjectCommand = new OpenProjectCommand(RecentProvider);
-            NewProjectCommand = new NewProjectCommand(RecentProvider);
+            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
+            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
             SaveProjectCommand = new SaveProjectCommand();
             ExitProjectCommand = new ExitProjectCommand();
         }
 
-        public ProjectModel LoadedProject { get; set; }
+        public Project LoadedProject { get; set; }
     }
 }
