@@ -109,6 +109,24 @@ namespace TypeD.Models
             project.StartScene = scene.FullName;
         }
 
+        public void BuildTree(Project project)
+        {
+            if (project.Tree == null)
+            {
+                project.Tree = new Tree();
+            }
+            else
+            {
+                project.Tree.Clear();
+            }
+            project.Tree.AddNode(project.ProjectName, null);
+
+            foreach (var type in project.TypeOTypes.Values)
+            {
+                AddTypeToTree(project, type);
+            }
+        }
+
         //Internal functions
         internal bool LoadAssembly(Project project)
         {
@@ -134,24 +152,6 @@ namespace TypeD.Models
             BuildTree(project);
 
             return true;
-        }
-
-        internal void BuildTree(Project project)
-        {
-            if (project.Tree == null)
-            {
-                project.Tree = new Tree();
-            }
-            else
-            {
-                project.Tree.Clear();
-            }
-            project.Tree.AddNode(project.ProjectName, null);
-
-            foreach (var type in project.TypeOTypes.Values)
-            {
-                AddTypeToTree(project, type);
-            }
         }
 
         private void AddTypeToTree(Project project, TypeOType typeOType)

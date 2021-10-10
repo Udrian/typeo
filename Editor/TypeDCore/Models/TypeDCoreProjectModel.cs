@@ -1,12 +1,24 @@
-﻿using TypeD.Models;
-using TypeD;
+﻿using TypeD;
+using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 using TypeDCore.Code.Entity;
+using TypeDCore.Models.Interfaces;
 
-namespace TypeDCore.Commands.Project
+namespace TypeDCore.Models
 {
-    public static partial class ProjectCommand
+    class TypeDCoreProjectModel : ITypeDCoreProjectModel
     {
-       /* public static void CreateEntity(this TypeD.Commands.Project.ProjectCommand _, ProjectModel project, string className, string @namespace, bool updatable, bool drawable)
+        // Models
+        IProjectModel ProjectModel { get; set; }
+
+        // Constructors
+        public TypeDCoreProjectModel(IProjectModel projectModel)
+        {
+            ProjectModel = projectModel;
+        }
+
+        // Functions
+        public void CreateEntity(Project project, string className, string @namespace, bool updatable, bool drawable)
         {
             var entityCode = new EntityCode(project, className, $"{project.ProjectName}.{@namespace}");
 
@@ -17,7 +29,7 @@ namespace TypeDCore.Commands.Project
                 entityCode.AddProperty(new Codalyzer.Property("public bool Pause"));
                 entityCode.AddFunction(new Codalyzer.Function("public void Update(double dt)", () => { }));
             }
-            if(drawable)
+            if (drawable)
             {
                 entityCode.Usings.Add("TypeOEngine.Typedeaf.Core.Entities.Interfaces");
                 entityCode.Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
@@ -27,10 +39,10 @@ namespace TypeDCore.Commands.Project
                 entityCode.AddFunction(new Codalyzer.Function("public void Draw(Canvas canvas)", () => { }));
             }
 
-            project.AddCode(entityCode, "Entity");
-            project.AddCode(new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Entity");
+            ProjectModel.AddCode(project, entityCode, "Entity");
+            ProjectModel.AddCode(project, new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Entity");
 
-            project.BuildTree();
-        }*/
+            ProjectModel.BuildTree(project);
+        }
     }
 }

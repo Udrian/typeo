@@ -21,7 +21,7 @@ namespace TypeDitor.View
             InitializeComponent();
 
             MainWindowViewModel = new MainWindowViewModel(
-                FindResource("ProjectModel") as IProjectModel,
+                FindResource("ProjectModel") as IProjectModel, FindResource("HookModel") as IHookModel,
                 FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider
             );
             MainWindowViewModel.LoadedProject = loadedProject;
@@ -30,6 +30,10 @@ namespace TypeDitor.View
             DockRoot.AddPanel(new EmptyDocument());
             DockRoot.AddPanel(new OutputPanel(), Dock.Bottom);
             DockRoot.AddPanel(new EmptyDocument(), Dock.Left);
+
+            MainWindowViewModel.InitUI(this);
         }
+
+        public Menu TopMenu { get { return _TopMenu; } }
     }
 }

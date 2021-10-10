@@ -14,5 +14,6 @@ namespace TypeD.Models.Interfaces
         public List<TypeOType> GetTypeFromName(Project project, string name);
         public void Clear(Project project);
         public void SetStartScene(Project project, TypeOType scene);
+        public void BuildTree(Project project);
     }
 }

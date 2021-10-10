@@ -1,7 +1,11 @@
-﻿using TypeD.Models.Data;
+﻿using System;
+using TypeD.Models.Data;
+using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeD.View;
 using TypeDitor.Commands.Project;
+using TypeDitor.View;
 
 namespace TypeDitor.ViewModel
 {
@@ -9,6 +13,7 @@ namespace TypeDitor.ViewModel
     {
         // Models
         private IProjectModel ProjectModel { get; set; }
+        private IHookModel HookModel { get; set; }
 
         // Providers
         private IRecentProvider RecentProvider { get; set; }
@@ -24,11 +29,12 @@ namespace TypeDitor.ViewModel
 
         // Constructors
         public MainWindowViewModel(
-                                            IProjectModel projectModel,
+                                            IProjectModel projectModel, IHookModel hookModel,
             IRecentProvider recentProvider, IProjectProvider projectProvider
         )
         {
             ProjectModel = projectModel;
+            HookModel = hookModel;
             RecentProvider = recentProvider;
             ProjectProvider = projectProvider;
 
@@ -38,6 +44,27 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand();
+        }
+
+        public void InitUI(MainWindow mainWindow)
+        {
+            var initUIHook = new InitUIHook();
+            HookModel.Shoot("InitUI", initUIHook);
+
+            foreach(var menu in initUIHook.Menu.Items)
+            {
+                InitMenu(mainWindow, menu);
+            }
+        }
+
+        private void InitMenu(MainWindow mainWindow, MenuItem item)
+        {
+            mainWindow.TopMenu.Items.Add(new System.Windows.Controls.MenuItem() { Header = item.Name });
+
+            foreach (var menu in item.Items)
+            {
+                InitMenu(mainWindow, menu);
+            }
         }
 
         public Project LoadedProject { get; set; }

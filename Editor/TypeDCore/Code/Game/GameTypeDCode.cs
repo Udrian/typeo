@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TypeD;
 using TypeD.Models.Data;
+using TypeD.Types;
 
 namespace TypeDCore.Code.Game
 {
@@ -21,8 +22,7 @@ namespace TypeDCore.Code.Game
             DynamicUsings = () =>
             {
                 var usings = new List<string>();
-                /*
-                TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
+                /*TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
                 if (defaultScene != null)
                 {
                     usings.Add(defaultScene.Namespace);
