@@ -1,4 +1,5 @@
 ﻿using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Commands.Project;
 
@@ -6,25 +7,35 @@ namespace TypeDitor.ViewModel
 {
     class MainWindowViewModel
     {
-        //Providers
+        // Models
+        private IProjectModel ProjectModel { get; set; }
+
+        // Providers
         private IRecentProvider RecentProvider { get; set; }
         private IProjectProvider ProjectProvider { get; set; }
 
-        //Commands
-        public OpenProjectCommand OpenProjectCommand { get; set; }
-        public NewProjectCommand NewProjectCommand { get; set; }
-        public SaveProjectCommand SaveProjectCommand { get; set; }
+        // Commands
+        public BuildProjectCommand BuildProjectCommand { get; set; }
         public ExitProjectCommand ExitProjectCommand { get; set; }
+        public NewProjectCommand NewProjectCommand { get; set; }
+        public OpenProjectCommand OpenProjectCommand { get; set; }
+        public SaveProjectCommand SaveProjectCommand { get; set; }
 
-        public MainWindowViewModel(IRecentProvider recentProvider, IProjectProvider projectProvider)
+        // Constructors
+        public MainWindowViewModel(
+                                            IProjectModel projectModel,
+            IRecentProvider recentProvider, IProjectProvider projectProvider
+        )
         {
+            ProjectModel = projectModel;
             RecentProvider = recentProvider;
             ProjectProvider = projectProvider;
 
-            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
-            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
-            SaveProjectCommand = new SaveProjectCommand();
+            BuildProjectCommand = new BuildProjectCommand(projectModel);
             ExitProjectCommand = new ExitProjectCommand();
+            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
+            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
+            SaveProjectCommand = new SaveProjectCommand();
         }
 
         public Project LoadedProject { get; set; }

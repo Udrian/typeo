@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeDitor.View.Panels;
 using TypeDitor.ViewModel;
 
 namespace TypeDitor.View
@@ -17,11 +19,13 @@ namespace TypeDitor.View
             InitializeComponent();
 
             MainWindowViewModel = new MainWindowViewModel(
-                FindResource("RecentProvider") as IRecentProvider,
-                FindResource("ProjectProvider") as IProjectProvider
+                FindResource("ProjectModel") as IProjectModel,
+                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider
             );
             MainWindowViewModel.LoadedProject = loadedProject;
             DataContext = MainWindowViewModel;
+
+            DockRoot.AddPanel(new OutputPanel(), System.Windows.Controls.Dock.Bottom);
         }
     }
 }
