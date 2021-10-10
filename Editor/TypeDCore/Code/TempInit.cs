@@ -20,13 +20,13 @@ namespace TypeDCore.Code
             //TypeOType.AddTypeOType(typeof(Logic), typeof());
             //TypeOType.AddTypeOType(typeof(EntityData), typeof());
 
-            ProjectCommand.InitProject = ProjectCreateCommand;
+            //ProjectCommand.InitProject = ProjectCreateCommand;
         }
 
         public static void ProjectCreateCommand(Project project)
         {
-            project.AddCode(new GameCode(project), "Game");
-            project.AddCode(new GameTypeDCode(project), "Game");
+            //project.AddCode(new GameCode(project), "Game");
+            //project.AddCode(new GameTypeDCode(project), "Game");
         }
     }
 }

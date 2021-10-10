@@ -22,12 +22,12 @@ namespace TypeDCore.Code.Game
             DynamicUsings = () =>
             {
                 var usings = new List<string>();
-
+                /*
                 TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
                 if (defaultScene != null)
                 {
                     usings.Add(defaultScene.Namespace);
-                }
+                }*/
 
                 return usings;
             };
@@ -36,11 +36,11 @@ namespace TypeDCore.Code.Game
 
             AddFunction(new Function("public override void Initialize()", () => {
                 Writer.AddLine("Scenes = CreateSceneHandler();");
-                TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
+                /*TypeOType defaultScene = project.GetTypeFromName(project.StartScene).Find(t => { return t.TypeOBaseType == "Scene"; });
                 if (defaultScene != null)
                 {
                     Writer.AddLine($"Scenes.SetScene<{defaultScene.ClassName}>();");
-                }
+                }*/
                 Writer.AddLine("InternalInitialize();");
             }));
             AddFunction(new Function("public override void Update(double dt)", () => {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -73,15 +74,20 @@ namespace TypeD.Models.Providers
             ProjectModel.AddCode(project, new ProgramCode(project));
             //InitProject(project);
 
+            var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
             var moduleList = await ModuleProvider.List();
-            var coreModuleName = "TypeOCore";
-            var coreModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == coreModuleName; })?.Versions[0];
+
             progress(60);
 
-            var module = ModuleProvider.Add(coreModuleName, coreModuleVersion);
-            await ModuleModel.Download(module);
+            foreach(var moduleToAdd in modulesToAdd)
+            {
+                var addModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
-            ProjectModel.AddModule(project, module);
+                var module = ModuleProvider.Add(moduleToAdd, addModuleVersion);
+                await ModuleModel.Download(module);
+
+                ProjectModel.AddModule(project, module);
+            }
 
             progress(80);
 

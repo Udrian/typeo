@@ -22,9 +22,28 @@ namespace TypeD.Models
         // Functions
         public async Task<bool> Download(Module module)
         {
+
+#if DEBUG
+            if (Directory.Exists($"{module.ModulePath}")) Directory.Delete($"{module.ModulePath}", true);
+
+            Directory.CreateDirectory(module.ModulePath);
+
+            await Task.Run(() =>
+            {
+                var current = Directory.GetCurrentDirectory();
+                var currentEditorPath = current.Replace("\\TypeDitor\\", $"\\{module.Name}\\");
+                var currentTypeOPath = currentEditorPath.Replace("\\net5.0-windows", "\\net5.0").Replace("\\Editor\\", "\\\\");
+
+                var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
+
+                File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll");
+                File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json");
+            });
+#else
             if (Directory.Exists($"{module.ModulePath}")) return false;
 
             Directory.CreateDirectory(module.ModulePath);
+
             var zipName = $"{module.Name}-{module.Version}.zip";
             var moduleUrl = new Uri($"https://typedeaf.nyc3.cdn.digitaloceanspaces.com/typeo/releases/modules/{module.Name}/{zipName}");
             var downloadZipPath = $"{module.ModulePath}/{zipName}";
@@ -42,6 +61,7 @@ namespace TypeD.Models
             {
                 File.Delete(downloadZipPath);
             });
+#endif
 
             LoadAssembly(module);
             return true;

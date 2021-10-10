@@ -27,9 +27,19 @@ namespace TypeD.Models.Providers
         // Functions
         public async Task<IEnumerable<ModuleList>> List()
         {
+#if DEBUG
+            return await Task.Run(() =>
+            {
+                return new List<ModuleList>(){
+                    new ModuleList() { Name = "TypeOCore", Versions = new List<string>() { "local" } },
+                    new ModuleList() { Name = "TypeDCore", Versions = new List<string>() { "local" } }
+                };
+            });
+#else
             var data = await APICaller.GetJsonObject<ModuleListDTO>("module/list");
             var moduleList = data.Modules.Select(m => { return new ModuleList() { Name = m.Key, Versions = m.Value }; });
             return moduleList;
+#endif
         }
 
         public Module Add(string name, string version)
