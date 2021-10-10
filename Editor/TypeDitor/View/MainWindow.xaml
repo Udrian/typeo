@@ -17,11 +17,20 @@
             </MenuItem>
             <MenuItem Header="_Build">
                 <MenuItem Header="B_uild Project" Command="{Binding BuildProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
-                <MenuItem Header="_Run Project" Command="{Binding RunProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
+                <MenuItem Header="_Run Project" Command="{Binding RunProjectCommand}" CommandParameter="{Binding LoadedProject}">
+                    <MenuItem.Icon>
+                        <Image Source="/Icons/Run.png" Width="8" Height="8"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">
-            
+            <Button Command="{Binding RunProjectCommand}" CommandParameter="{Binding LoadedProject}">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Icons/Run.png" Width="8" Height="8"/>
+                    <TextBlock Margin="5,0,0,0">Run</TextBlock>
+                </StackPanel>
+            </Button>
         </ToolBar>
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content="{Binding LoadedProject.Location}"/>
