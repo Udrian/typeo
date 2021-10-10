@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
-using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Models.Data;
@@ -22,11 +21,9 @@ namespace TypeD.Models
         // Functions
         public async Task<bool> Download(Module module)
         {
-
 #if DEBUG
-            if (Directory.Exists($"{module.ModulePath}")) Directory.Delete($"{module.ModulePath}", true);
-
-            Directory.CreateDirectory(module.ModulePath);
+            if (!Directory.Exists($"{module.ModulePath}"))
+                Directory.CreateDirectory(module.ModulePath);
 
             await Task.Run(() =>
             {
@@ -36,8 +33,13 @@ namespace TypeD.Models
 
                 var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
 
-                File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll");
-                File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json");
+                try
+                {
+                    File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll", true);
+                    File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json", true);
+                    File.Copy(@$"{pathUsed}\{module.Name}.pdb", $@"{module.ModulePath}\{module.Name}.pdb", true);
+                }
+                catch {}
             });
 #else
             if (Directory.Exists($"{module.ModulePath}")) return false;
@@ -75,6 +77,17 @@ namespace TypeD.Models
             module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
 
             module.ModuleTypeInfo = GetModuleType(module);
+        }
+
+        internal void InitializeTypeD(Module module)
+        {
+            if (!module.IsTypeD) return;
+
+            var typeDInitType = module.Assembly.GetTypes().FirstOrDefault(t => { return t.IsSubclassOf(typeof(TypeDModuleInitializer)); });
+            if (typeDInitType == null) return;
+
+            var typeDInit = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
+            typeDInit.Initializer();
         }
 
         internal void AddToProjectXML(Module module, XElement project)

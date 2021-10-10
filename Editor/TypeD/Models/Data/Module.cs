@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace TypeD.Models.Data
@@ -16,5 +17,20 @@ namespace TypeD.Models.Data
         // Loaded data
         internal Assembly Assembly { get; set; }
         public TypeInfo ModuleTypeInfo { get; set; }
+        public bool IsTypeD { get
+            {
+                if(Assembly == null)
+                    return false;
+
+                var types = Assembly.GetTypes();
+                var retType = types.FirstOrDefault(
+                    t =>
+                    {
+                        return t.IsSubclassOf(typeof(TypeDModuleInitializer));
+                    });
+                return retType != null;
+            }
+        }
+
     }
 }

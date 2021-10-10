@@ -94,6 +94,11 @@ namespace TypeD.Models.Providers
             await Save(project);
             progress(90);
             await ProjectModel.Build(project);
+            progress(95);
+            foreach (var module in project.Modules)
+            {
+                ModuleModel.InitializeTypeD(module);
+            }
             progress(100);
             // Return
             return project;
@@ -105,7 +110,7 @@ namespace TypeD.Models.Providers
 
             try
             {
-                var task = new Task<Project>(() =>
+                return await Task.Run(async () =>
                 {
                     var projectData = JSON.Deserialize<ProjectDTO>(projectFilePath);
                     var project = new Project(Path.GetDirectoryName(projectFilePath), projectData);
@@ -115,11 +120,15 @@ namespace TypeD.Models.Providers
                     ProjectModel.LoadAssembly(project);
                     ProjectModel.BuildTree(project);
 
+                    foreach(var module in project.Modules)
+                    {
+                        await ModuleModel.Download(module);
+                        ModuleModel.LoadAssembly(module);
+                        ModuleModel.InitializeTypeD(module);
+                    }
+
                     return project;
                 });
-
-                task.Start();
-                return await task;
             }
             catch
             {
