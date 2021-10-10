@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.Data.Hooks;
 using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
@@ -14,24 +15,23 @@ namespace TypeD.Models.Providers
 {
     public class ProjectProvider : IProjectProvider
     {
-        //TODO: Remove
-        public static Action<ProjectModel> InitProject;
-
         // Models
         private ProjectModel ProjectModel { get; set; }
         private ModuleModel ModuleModel { get; set; }
+        private HookModel HookModel { get; set; }
 
         // Providers
         private ModuleProvider ModuleProvider { get; set; }
 
         // Constructors
         public ProjectProvider(
-            IProjectModel projectModel, IModuleModel moduleModel,
+            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel,
                                         IModuleProvider moduleProvider
             )
         {
             ProjectModel = projectModel as ProjectModel;
             ModuleModel = moduleModel as ModuleModel;
+            HookModel = hookModel as HookModel;
             ModuleProvider = moduleProvider as ModuleProvider;
         }
 
@@ -72,7 +72,6 @@ namespace TypeD.Models.Providers
 
             // Prepare
             ProjectModel.AddCode(project, new ProgramCode(project));
-            //InitProject(project);
 
             var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
             var moduleList = await ModuleProvider.List();
@@ -87,18 +86,16 @@ namespace TypeD.Models.Providers
                 await ModuleModel.Download(module);
 
                 ProjectModel.AddModule(project, module);
+                ModuleModel.InitializeTypeD(module);
             }
 
+            progress(75);
+            HookModel.Shoot("ProjectCreate", new ProjectCreateHook() { Project = project });
             progress(80);
 
             await Save(project);
             progress(90);
             await ProjectModel.Build(project);
-            progress(95);
-            foreach (var module in project.Modules)
-            {
-                ModuleModel.InitializeTypeD(module);
-            }
             progress(100);
             // Return
             return project;

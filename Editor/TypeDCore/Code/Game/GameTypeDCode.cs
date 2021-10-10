@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using TypeD;
 using TypeD.Models.Data;
-using TypeD.Types;
 
 namespace TypeDCore.Code.Game
 {

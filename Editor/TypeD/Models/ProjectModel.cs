@@ -17,11 +17,13 @@ namespace TypeD.Models
     {
         // Models
         public ModuleModel ModuleModel { get; set; }
+        public HookModel HookModel { get; set; }
 
         // Constructors
-        public ProjectModel(IModuleModel moduleModel)
+        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel)
         {
             ModuleModel = moduleModel as ModuleModel;
+            HookModel = hookModel as HookModel;
         }
 
         // Functions

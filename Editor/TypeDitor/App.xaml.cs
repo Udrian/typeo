@@ -3,6 +3,7 @@ using TypeD.Models;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.Models.Providers;
+using TypeDitor.Models;
 
 namespace TypeDitor
 {
@@ -15,7 +16,9 @@ namespace TypeDitor
         public IRecentModel RecentModel { get; set; }
         public IModuleModel ModuleModel { get; set; }
         public IProjectModel ProjectModel { get; set; }
-        
+        public IHookModel HookModel { get; set; }
+        public IResourceModel ResourceModel { get; set; }
+
         // Providers
         public IRecentProvider RecentProvider { get; set; }
         public IModuleProvider ModuleProvider { get; set; }
@@ -27,24 +30,34 @@ namespace TypeDitor
 
             // Models
             RecentModel = new RecentModel();
-            ModuleModel = new ModuleModel();
-            ProjectModel = new ProjectModel(ModuleModel);
+            HookModel = new HookModel();
+            ResourceModel = new ResourceModel();
+            ModuleModel = new ModuleModel(HookModel, ResourceModel);
+            ProjectModel = new ProjectModel(ModuleModel, HookModel);
 
-            var modelResource = new ResourceDictionary();
-            modelResource.Add("RecentModel", RecentModel);
-            modelResource.Add("ModuleModel", ModuleModel);
-            modelResource.Add("ProjectModel", ProjectModel);
+            var modelResource = new ResourceDictionary
+            {
+                { "RecentModel", RecentModel },
+                { "ModuleModel", ModuleModel },
+                { "ProjectModel", ProjectModel },
+                { "HookModel", HookModel },
+                { "ResourceModel", ResourceModel }
+            };
             Resources = modelResource;
 
             // Providers
             RecentProvider = new RecentProvider(RecentModel);
             ModuleProvider = new ModuleProvider(ModuleModel);
-            ProjectProvider = new ProjectProvider(ProjectModel, ModuleModel, ModuleProvider);
+            ProjectProvider = new ProjectProvider(ProjectModel, ModuleModel, HookModel, ModuleProvider);
 
-            var providerResource = new ResourceDictionary();
-            providerResource.Add("RecentProvider", RecentProvider);
-            providerResource.Add("ProjectProvider", ProjectProvider);
+            var providerResource = new ResourceDictionary
+            {
+                { "RecentProvider", RecentProvider },
+                { "ProjectProvider", ProjectProvider }
+            };
             Resources.MergedDictionaries.Add(providerResource);
+
+            (ResourceModel as ResourceModel).Resources = Resources;
         }
     }
 }

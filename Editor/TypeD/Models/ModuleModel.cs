@@ -10,12 +10,18 @@ namespace TypeD.Models
 {
     public class ModuleModel : IModuleModel
     {
+        // Models
+        public HookModel HookModel { get; set; }
+        public IResourceModel ResourceModel { get; set; }
+
         // Paths
         public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
 
         // Constructors
-        public ModuleModel()
+        public ModuleModel(IHookModel hookModel, IResourceModel resourceModel)
         {
+            HookModel = hookModel as HookModel;
+            ResourceModel = resourceModel;
         }
 
         // Functions
@@ -87,6 +93,8 @@ namespace TypeD.Models
             if (typeDInitType == null) return;
 
             var typeDInit = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
+            typeDInit.Hooks = HookModel;
+            typeDInit.Resources = ResourceModel;
             typeDInit.Initializer();
         }
 

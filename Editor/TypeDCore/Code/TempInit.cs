@@ -1,5 +1,4 @@
-﻿using TypeD.Models.Data;
-using TypeD.Types;
+﻿using TypeD.Types;
 using TypeDCore.Code.Drawable2d;
 using TypeDCore.Code.Entity;
 using TypeDCore.Code.Game;
@@ -21,12 +20,6 @@ namespace TypeDCore.Code
             //TypeOType.AddTypeOType(typeof(EntityData), typeof());
 
             //ProjectCommand.InitProject = ProjectCreateCommand;
-        }
-
-        public static void ProjectCreateCommand(Project project)
-        {
-            //project.AddCode(new GameCode(project), "Game");
-            //project.AddCode(new GameTypeDCode(project), "Game");
         }
     }
 }
