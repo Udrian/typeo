@@ -16,6 +16,10 @@ namespace TypeDitor.TypeDock
         public void AddPanel(UIElement ui, Dock dock)
         {
             DockPanel.SetDock(ui, dock);
+            AddPanel(ui);
+        }
+        public void AddPanel(UIElement ui)
+        {
             DockRoot.Children.Add(ui);
         }
     }
