@@ -16,7 +16,8 @@
                 <MenuItem Header="_Exit" Command="{Binding ExitProjectCommand}"/>
             </MenuItem>
             <MenuItem Header="_Build">
-                <MenuItem Header="Build _Project" Command="{Binding BuildProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
+                <MenuItem Header="B_uild Project" Command="{Binding BuildProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
+                <MenuItem Header="_Run Project" Command="{Binding RunProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
             </MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">
