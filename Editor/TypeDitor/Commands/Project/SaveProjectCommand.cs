@@ -1,19 +1,26 @@
-﻿namespace TypeDitor.Commands.Project
+﻿using TypeD.Models.Interfaces;
+
+namespace TypeDitor.Commands.Project
 {
     class SaveProjectCommand : ProjectCommands
     {
-        public SaveProjectCommand()
+        // Models
+        public ISaveModel SaveModel { get; set; }
+
+        // Constructors
+        public SaveProjectCommand(ISaveModel saveModel)
         {
+            SaveModel = saveModel;
         }
 
-        public override void Execute(object param)
+        public override async void Execute(object param)
         {
-            
+            await SaveModel.Save();
         }
 
         public override bool CanExecute(object parameter)
         {
-            return false;
+            return SaveModel.AnythingToSave;
         }
     }
 }

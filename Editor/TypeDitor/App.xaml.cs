@@ -18,6 +18,7 @@ namespace TypeDitor
         public IProjectModel ProjectModel { get; set; }
         public IHookModel HookModel { get; set; }
         public IResourceModel ResourceModel { get; set; }
+        public ISaveModel SaveModel { get; set; }
 
         // Providers
         public IRecentProvider RecentProvider { get; set; }
@@ -34,6 +35,7 @@ namespace TypeDitor
             ResourceModel = new ResourceModel();
             ModuleModel = new ModuleModel(HookModel, ResourceModel);
             ProjectModel = new ProjectModel(ModuleModel, HookModel);
+            SaveModel = new SaveModel();
 
             var modelResource = new ResourceDictionary
             {
@@ -41,7 +43,8 @@ namespace TypeDitor
                 { "ModuleModel", ModuleModel },
                 { "ProjectModel", ProjectModel },
                 { "HookModel", HookModel },
-                { "ResourceModel", ResourceModel }
+                { "ResourceModel", ResourceModel },
+                { "SaveModel", SaveModel }
             };
             Resources = modelResource;
 

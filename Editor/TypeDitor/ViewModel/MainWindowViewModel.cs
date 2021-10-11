@@ -14,6 +14,7 @@ namespace TypeDitor.ViewModel
         // Models
         private IProjectModel ProjectModel { get; set; }
         private IHookModel HookModel { get; set; }
+        private ISaveModel SaveModel { get; set; }
 
         // Providers
         private IRecentProvider RecentProvider { get; set; }
@@ -29,21 +30,22 @@ namespace TypeDitor.ViewModel
 
         // Constructors
         public MainWindowViewModel(
-                                            IProjectModel projectModel, IHookModel hookModel,
+                                            IProjectModel projectModel, IHookModel hookModel, ISaveModel saveModel,
             IRecentProvider recentProvider, IProjectProvider projectProvider
         )
         {
             ProjectModel = projectModel;
             HookModel = hookModel;
+            SaveModel = saveModel;
             RecentProvider = recentProvider;
             ProjectProvider = projectProvider;
 
-            BuildProjectCommand = new BuildProjectCommand(ProjectModel);
+            BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
             ExitProjectCommand = new ExitProjectCommand();
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
-            SaveProjectCommand = new SaveProjectCommand();
+            SaveProjectCommand = new SaveProjectCommand(SaveModel);
         }
 
         public void InitUI(MainWindow mainWindow)
