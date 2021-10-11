@@ -1,4 +1,5 @@
-﻿using TypeD;
+﻿using System.Collections.Generic;
+using TypeD;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Types;
@@ -54,7 +55,22 @@ namespace TypeDCore
         {
             var hookParam = param as InitUIHook;
 
-            hookParam.Menu.Items.Add(new MenuItem() { Name = "Project" });
+            hookParam.Menu.Items.Add(
+                new MenuItem() {
+                    Name = "_Project",
+                    Items = new List<MenuItem>()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "_Create",
+                            Items = new List<MenuItem>()
+                            {
+                                new MenuItem() { Name = "_Entity" }
+                            }
+                        }
+                    }
+                }
+            );
         }
     }
 }

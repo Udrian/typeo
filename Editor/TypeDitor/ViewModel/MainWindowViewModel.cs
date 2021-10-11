@@ -53,17 +53,19 @@ namespace TypeDitor.ViewModel
 
             foreach(var menu in initUIHook.Menu.Items)
             {
-                InitMenu(mainWindow, menu);
+                InitMenu(mainWindow.TopMenu, menu);
             }
         }
 
-        private void InitMenu(MainWindow mainWindow, MenuItem item)
+        private void InitMenu(System.Windows.Controls.ItemsControl currentMenu, MenuItem item)
         {
-            mainWindow.TopMenu.Items.Add(new System.Windows.Controls.MenuItem() { Header = item.Name });
+            var newMenuItem = new System.Windows.Controls.MenuItem() { Header = item.Name };
+            currentMenu.Items.Add(newMenuItem);
+            currentMenu = newMenuItem;
 
             foreach (var menu in item.Items)
             {
-                InitMenu(mainWindow, menu);
+                InitMenu(currentMenu, menu);
             }
         }
 
