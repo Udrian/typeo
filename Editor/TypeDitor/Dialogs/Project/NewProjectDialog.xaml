@@ -34,8 +34,15 @@
             <Label FontSize="16" Content="CS _Project name:" Target="{Binding ElementName=txtCSProjectName}" />
             <TextBox Name="txtCSProjectName" Margin="5,0,75,0"  Text="{Binding ProjectCSProjectName}" IsEnabled="{Binding Path=IsChecked, ElementName=cbAdvanced}" />
 
-            <Label FontSize="16" Content="_Advanced settings:" Target="{Binding ElementName=cbAdvanced}" />
-            <CheckBox Name="cbAdvanced" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Name="cbAdvanced" VerticalAlignment="Center" Grid.Column="1"/>
+                <Label FontSize="16" Content="_Advanced settings" Target="{Binding ElementName=cbAdvanced}" Grid.Column="2"/>
+            </Grid>
         </StackPanel>
     </DockPanel>
 </Window>

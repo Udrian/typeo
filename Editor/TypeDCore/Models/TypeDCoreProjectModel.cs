@@ -1,6 +1,7 @@
 ﻿using TypeD;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Code.Entity;
 using TypeDCore.Models.Interfaces;
 
@@ -10,11 +11,20 @@ namespace TypeDCore.Models
     {
         // Models
         IProjectModel ProjectModel { get; set; }
+        ISaveModel SaveModel { get; set; }
+
+        // Providers
+        IProjectProvider ProjectProvider { get; set; }
 
         // Constructors
-        public TypeDCoreProjectModel(IProjectModel projectModel)
+        public TypeDCoreProjectModel(
+            IProjectModel projectModel, ISaveModel saveModel,
+            IProjectProvider projectProvider
+        )
         {
             ProjectModel = projectModel;
+            SaveModel = saveModel;
+            ProjectProvider = projectProvider;
         }
 
         // Functions
@@ -43,6 +53,8 @@ namespace TypeDCore.Models
             ProjectModel.AddCode(project, new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Entity");
 
             ProjectModel.BuildTree(project);
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
     }
 }

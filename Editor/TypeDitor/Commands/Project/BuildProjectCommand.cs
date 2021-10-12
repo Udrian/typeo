@@ -16,12 +16,13 @@ namespace TypeDitor.Commands.Project
 
         public async override void Execute(object param)
         {
+            var project = param as TypeD.Models.Data.Project;
+
             if (SaveModel.AnythingToSave)
             {
                 await SaveModel.Save();
             }
-            if(param is TypeD.Models.Data.Project)
-                await ProjectModel.Build(param as TypeD.Models.Data.Project);
+            await ProjectModel.Build(project);
         }
     }
 }

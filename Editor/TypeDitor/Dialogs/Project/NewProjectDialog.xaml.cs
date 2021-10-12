@@ -13,8 +13,8 @@ namespace TypeDitor.Dialogs.Project
     {
         public NewProjectDialog()
         {
-            this.DataContext = this;
             InitializeComponent();
+            this.DataContext = this;
 
             ProjectLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "TypeD");
         }

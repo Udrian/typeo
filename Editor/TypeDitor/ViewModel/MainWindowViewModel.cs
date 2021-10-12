@@ -50,7 +50,7 @@ namespace TypeDitor.ViewModel
 
         public void InitUI(MainWindow mainWindow)
         {
-            var initUIHook = new InitUIHook();
+            var initUIHook = new InitUIHook(LoadedProject);
             HookModel.Shoot("InitUI", initUIHook);
 
             foreach(var menu in initUIHook.Menu.Items)
@@ -67,10 +67,10 @@ namespace TypeDitor.ViewModel
                 newMenuItem.Click += (object sender, System.Windows.RoutedEventArgs e) =>
                 {
                     object param = null;
-                    if(!string.IsNullOrEmpty(item.ClickBinding))
+                    if(!string.IsNullOrEmpty(item.ClickParameter))
                     {
                         var type = GetType();
-                        param = type.GetProperties().FirstOrDefault(p => p.Name == item.ClickBinding);
+                        param = type.GetProperties().FirstOrDefault(p => p.Name == item.ClickParameter).GetValue(this);
                     }
                     item.Click(param);
                 };

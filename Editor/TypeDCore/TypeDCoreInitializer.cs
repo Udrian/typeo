@@ -4,12 +4,14 @@ using TypeD;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeD.Types;
 using TypeD.View;
 using TypeDCore.Code.Drawable2d;
 using TypeDCore.Code.Entity;
 using TypeDCore.Code.Game;
 using TypeDCore.Code.Scene;
+using TypeDCore.Commands.Project;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 
@@ -18,11 +20,17 @@ namespace TypeDCore
     public class TypeDCoreInitializer : TypeDModuleInitializer
     {
         // Models
-        private IProjectModel ProjectModel { get; set; }
-        private ISaveModel SaveModel { get; set; }
+        IProjectModel ProjectModel { get; set; }
+        ISaveModel SaveModel { get; set; }
+
+        // Providers
+        IProjectProvider ProjectProvider { get; set; }
 
         // Internal Models
-        private ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
+        ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
+
+        // Commands
+        private CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
 
         public override void Initializer()
         {
@@ -30,8 +38,14 @@ namespace TypeDCore
             ProjectModel = Resources.Get<IProjectModel>("ProjectModel");
             SaveModel = Resources.Get<ISaveModel>("SaveModel");
 
+            // Providers
+            ProjectProvider = Resources.Get<IProjectProvider>("ProjectProvider");
+
             // Internal Models
-            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel);
+            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider);
+
+            // Commands
+            CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
 
             // Hooks
             Hooks.AddHook("ProjectCreate", ProjectCreate);
@@ -71,12 +85,9 @@ namespace TypeDCore
                             {
                                 new MenuItem() {
                                     Name = "_Entity",
-                                    ClickBinding = "LoadedProject",
+                                    ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        var project = param as Project;
-
-                                        //TypeDCoreProjectModel.CreateEntity()
-                                        SaveModel.AddSave("Kalle Anka", () => { return Task.Delay(10); });
+                                        CreateEntityTypeCommand.Execute(param);
                                     }
                                 }
                             }

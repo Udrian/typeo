@@ -7,7 +7,7 @@ namespace TypeD.View
     {
         public string Name { get; set; }
         public Action<object> Click { get; set; }
-        public string ClickBinding { get; set; }
+        public string ClickParameter { get; set; }
         public List<MenuItem> Items;
 
         public MenuItem()
