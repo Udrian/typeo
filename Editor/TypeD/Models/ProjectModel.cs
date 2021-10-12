@@ -8,6 +8,7 @@ using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
 using TypeD.Types;
 
@@ -17,13 +18,19 @@ namespace TypeD.Models
     {
         // Models
         public ModuleModel ModuleModel { get; set; }
-        public HookModel HookModel { get; set; }
+        public IHookModel HookModel { get; set; }
+        public ISaveModel SaveModel { get; set; }
+
+        // Providers
+        public IProjectProvider ProjectProvider { get; set; }
 
         // Constructors
-        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel)
+        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel, IProjectProvider projectProvider)
         {
             ModuleModel = moduleModel as ModuleModel;
-            HookModel = hookModel as HookModel;
+            HookModel = hookModel;
+            SaveModel = saveModel;
+            ProjectProvider = projectProvider;
         }
 
         // Functions
@@ -37,10 +44,20 @@ namespace TypeD.Models
             if (module.ModuleTypeInfo != null)
                 programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
 
-            var projectX = XElement.Load(path);
-            ModuleModel.AddToProjectXML(module, projectX);
-            //TODO: Should only save when we press save
-            projectX.Save(path);
+            if(project.CSProj == null)
+            {
+                project.CSProj = XElement.Load(path);
+            }
+            ModuleModel.AddToProjectXML(module, project.CSProj);
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            SaveModel.AddSave("ProjectCSProj", () => {
+                return Task.Run(() =>
+                {
+                    project.CSProj.Save(path);
+                    project.CSProj = null;
+                });
+            });
         }
 
         public async Task<bool> Build(Project project)
@@ -107,6 +124,8 @@ namespace TypeD.Models
         {
             if (scene.TypeOBaseType != "Scene") return;
             project.StartScene = scene.FullName;
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
 
         public void BuildTree(Project project)

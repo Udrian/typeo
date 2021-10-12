@@ -8,27 +8,28 @@ namespace TypeD.Models
     public class SaveModel : ISaveModel
     {
         // Data
-        public List<Func<Task>> SaveActions { get; set; }
+        public Dictionary<string, Func<Task>> SaveActions { get; set; }
 
         // Constructors
         public SaveModel()
         {
-            SaveActions = new List<Func<Task>>();
+            SaveActions = new Dictionary<string, Func<Task>>();
         }
 
         // Functions
-        public bool AnythingToSave { get; set; }
+        public bool AnythingToSave { get { return SaveActions.Count != 0; } }
 
-        public void AddSave(Func<Task> action)
+        public void AddSave(string context, Func<Task> action)
         {
-            AnythingToSave = true;
-            SaveActions.Add(action);
+            if (!SaveActions.ContainsKey(context))
+            {
+                SaveActions.Add(context, action);
+            }
         }
 
         public async Task Save()
         {
-            AnythingToSave = false;
-            foreach(var saveAction in SaveActions)
+            foreach(var saveAction in SaveActions.Values)
             {
                 await saveAction();
             }

@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TypeD.View
 {
     public class MenuItem
     {
         public string Name { get; set; }
+        public Action<object> Click { get; set; }
+        public string ClickBinding { get; set; }
         public List<MenuItem> Items;
 
         public MenuItem()

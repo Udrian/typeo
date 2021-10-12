@@ -18,21 +18,23 @@ namespace TypeD.Models.Providers
         // Models
         private ProjectModel ProjectModel { get; set; }
         private ModuleModel ModuleModel { get; set; }
-        private HookModel HookModel { get; set; }
+        private IHookModel HookModel { get; set; }
+        private ISaveModel SaveModel { get; set; }
 
         // Providers
-        private ModuleProvider ModuleProvider { get; set; }
+        private IModuleProvider ModuleProvider { get; set; }
 
         // Constructors
         public ProjectProvider(
-            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel,
+            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel,
                                         IModuleProvider moduleProvider
             )
         {
             ProjectModel = projectModel as ProjectModel;
             ModuleModel = moduleModel as ModuleModel;
-            HookModel = hookModel as HookModel;
-            ModuleProvider = moduleProvider as ModuleProvider;
+            HookModel = hookModel;
+            SaveModel = saveModel;
+            ModuleProvider = moduleProvider;
         }
 
         // Functions
@@ -93,7 +95,7 @@ namespace TypeD.Models.Providers
             HookModel.Shoot("ProjectCreate", new ProjectCreateHook() { Project = project });
             progress(80);
 
-            await Save(project);
+            await SaveModel.Save();
             progress(90);
             await ProjectModel.Build(project);
             progress(100);

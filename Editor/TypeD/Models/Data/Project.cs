@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 using TypeD.Models.DTO;
 using TypeD.TreeNodes;
 using TypeD.Types;
@@ -30,6 +31,7 @@ namespace TypeD.Models.Data
         // Loaded data
         internal Dictionary<string, TypeOType> TypeOTypes { get; private set; }
         internal Assembly Assembly { get; set; }
+        internal XElement CSProj { get; set; }
 
         // Constructor
         internal Project(string location, ProjectDTO projectData)

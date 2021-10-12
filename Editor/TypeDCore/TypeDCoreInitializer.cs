@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TypeD;
+using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Types;
@@ -17,6 +19,7 @@ namespace TypeDCore
     {
         // Models
         private IProjectModel ProjectModel { get; set; }
+        private ISaveModel SaveModel { get; set; }
 
         // Internal Models
         private ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
@@ -25,6 +28,7 @@ namespace TypeDCore
         {
             // Models
             ProjectModel = Resources.Get<IProjectModel>("ProjectModel");
+            SaveModel = Resources.Get<ISaveModel>("SaveModel");
 
             // Internal Models
             TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel);
@@ -65,7 +69,16 @@ namespace TypeDCore
                             Name = "_Create",
                             Items = new List<MenuItem>()
                             {
-                                new MenuItem() { Name = "_Entity" }
+                                new MenuItem() {
+                                    Name = "_Entity",
+                                    ClickBinding = "LoadedProject",
+                                    Click = (param) => {
+                                        var project = param as Project;
+
+                                        //TypeDCoreProjectModel.CreateEntity()
+                                        SaveModel.AddSave("Kalle Anka", () => { return Task.Delay(10); });
+                                    }
+                                }
                             }
                         }
                     }

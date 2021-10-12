@@ -33,9 +33,9 @@ namespace TypeDitor
             RecentModel = new RecentModel();
             HookModel = new HookModel();
             ResourceModel = new ResourceModel();
-            ModuleModel = new ModuleModel(HookModel, ResourceModel);
-            ProjectModel = new ProjectModel(ModuleModel, HookModel);
             SaveModel = new SaveModel();
+            ModuleModel = new ModuleModel(HookModel, ResourceModel, SaveModel);
+            ProjectModel = new ProjectModel(ModuleModel, HookModel, SaveModel, null);//TODO: Not really the way to go 1/2
 
             var modelResource = new ResourceDictionary
             {
@@ -51,7 +51,8 @@ namespace TypeDitor
             // Providers
             RecentProvider = new RecentProvider(RecentModel);
             ModuleProvider = new ModuleProvider(ModuleModel);
-            ProjectProvider = new ProjectProvider(ProjectModel, ModuleModel, HookModel, ModuleProvider);
+            ProjectProvider = new ProjectProvider(ProjectModel, ModuleModel, HookModel, SaveModel, ModuleProvider);
+            (ProjectModel as ProjectModel).ProjectProvider = ProjectProvider;//TODO: Not really the way to go 2/2
 
             var providerResource = new ResourceDictionary
             {

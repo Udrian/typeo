@@ -11,17 +11,19 @@ namespace TypeD.Models
     public class ModuleModel : IModuleModel
     {
         // Models
-        public HookModel HookModel { get; set; }
+        public IHookModel HookModel { get; set; }
         public IResourceModel ResourceModel { get; set; }
+        public ISaveModel SaveModel { get; set; }
 
         // Paths
         public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
 
         // Constructors
-        public ModuleModel(IHookModel hookModel, IResourceModel resourceModel)
+        public ModuleModel(IHookModel hookModel, IResourceModel resourceModel, ISaveModel saveModel)
         {
-            HookModel = hookModel as HookModel;
+            HookModel = hookModel;
             ResourceModel = resourceModel;
+            SaveModel = saveModel;
         }
 
         // Functions

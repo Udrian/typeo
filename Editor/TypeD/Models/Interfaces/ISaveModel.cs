@@ -5,7 +5,7 @@ namespace TypeD.Models.Interfaces
 {
     public interface ISaveModel
     {
-        public void AddSave(Func<Task> action);
+        public void AddSave(string context, Func<Task> action);
         public Task Save();
         public bool AnythingToSave { get; }
     }

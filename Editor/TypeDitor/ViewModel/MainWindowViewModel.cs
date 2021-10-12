@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
@@ -62,6 +62,19 @@ namespace TypeDitor.ViewModel
         private void InitMenu(System.Windows.Controls.ItemsControl currentMenu, MenuItem item)
         {
             var newMenuItem = new System.Windows.Controls.MenuItem() { Header = item.Name };
+            if(item.Click != null)
+            {
+                newMenuItem.Click += (object sender, System.Windows.RoutedEventArgs e) =>
+                {
+                    object param = null;
+                    if(!string.IsNullOrEmpty(item.ClickBinding))
+                    {
+                        var type = GetType();
+                        param = type.GetProperties().FirstOrDefault(p => p.Name == item.ClickBinding);
+                    }
+                    item.Click(param);
+                };
+            }
             currentMenu.Items.Add(newMenuItem);
             currentMenu = newMenuItem;
 
