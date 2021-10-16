@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TypeDCore.Dialogs.Project"
         mc:Ignorable="d"
-        Title="CreateEntityTypeDialog" Height="450" Width="800">
+        Title="Create new Entity Type" Height="450" Width="800">
     <Grid>
         <DockPanel Margin="25,25,25,25">
             <TextBlock DockPanel.Dock="Top" FontSize="32"><Run Text="Create new Entity Type"/></TextBlock>
@@ -43,6 +43,5 @@
                 </Grid>
             </StackPanel>
         </DockPanel>
-
     </Grid>
 </Window>

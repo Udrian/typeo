@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using TypeD;
-using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
@@ -30,7 +28,8 @@ namespace TypeDCore
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Commands
-        private CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
+        CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
+        CreateSceneCommand CreateSceneCommand { get; set; }
 
         public override void Initializer()
         {
@@ -46,6 +45,7 @@ namespace TypeDCore
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
+            CreateSceneCommand = new CreateSceneCommand(TypeDCoreProjectModel);
 
             // Hooks
             Hooks.AddHook("ProjectCreate", ProjectCreate);
@@ -88,6 +88,13 @@ namespace TypeDCore
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
                                         CreateEntityTypeCommand.Execute(param);
+                                    }
+                                },
+                                new MenuItem() {
+                                    Name = "_Scene",
+                                    ClickParameter = "LoadedProject",
+                                    Click = (param) => {
+                                        CreateSceneCommand.Execute(param);
                                     }
                                 }
                             }

@@ -3,6 +3,7 @@ using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Code.Entity;
+using TypeDCore.Code.Scene;
 using TypeDCore.Models.Interfaces;
 
 namespace TypeDCore.Models
@@ -51,6 +52,16 @@ namespace TypeDCore.Models
 
             ProjectModel.AddCode(project, entityCode, "Entity");
             ProjectModel.AddCode(project, new EntityTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Entity");
+
+            ProjectModel.BuildTree(project);
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+        }
+
+        public void CreateScene(Project project, string className, string @namespace)
+        {
+            ProjectModel.AddCode(project, new SceneCode(project, className, $"{project.ProjectName}.{@namespace}"), "Scene");
+            ProjectModel.AddCode(project, new SceneTypeDCode(project, className, $"{project.ProjectName}.{@namespace}"), "Scene");
 
             ProjectModel.BuildTree(project);
 
