@@ -2,6 +2,11 @@
 {
     public class ProjectCreateHook
     {
-        public Project Project { get; set; }
+        public Project Project { get; private set; }
+
+        public ProjectCreateHook(Project project)
+        {
+            Project = project;
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
@@ -140,7 +141,7 @@ namespace TypeD.Models
                 AddTypeToTree(project, type);
             }
 
-            HookModel.Shoot("TypeTreeBuilt", project.Tree);
+            HookModel.Shoot("TypeTreeBuilt", new TypeTreeBuiltHook(project.Tree));
         }
 
         //Internal functions

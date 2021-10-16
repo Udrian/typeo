@@ -65,7 +65,7 @@ namespace TypeDCore
 
         void ProjectCreate(object param)
         {
-            var hookParam = param as ProjectCreateHook;
+            if (param is not ProjectCreateHook hookParam) return;
 
             ProjectModel.AddCode(hookParam.Project, new GameCode(hookParam.Project), "Game");
             ProjectModel.AddCode(hookParam.Project, new GameTypeDCode(hookParam.Project), "Game");
@@ -73,7 +73,7 @@ namespace TypeDCore
 
         void InitUI(object param)
         {
-            var hookParam = param as InitUIHook;
+            if (param is not InitUIHook hookParam) return;
 
             hookParam.Menu.Items.Add(
                 new MenuItem() {

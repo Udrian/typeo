@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.TreeNodes;
 
@@ -9,7 +10,7 @@ namespace TypeDitor.ViewModel.Panels
         // Models
         IHookModel HookModel { get; set; }
 
-        TreeView TreeView;
+        TreeView TreeView { get; set; }
 
         // Constructors
         public TypeBrowserViewModel(IHookModel hookModel, TreeView treeView)
@@ -18,13 +19,15 @@ namespace TypeDitor.ViewModel.Panels
 
             TreeView = treeView;
 
-            HookModel.AddHook("TypeTreeBuilt", (param) => { BuildTree(param as Tree); });
+            HookModel.AddHook("TypeTreeBuilt", BuildTree);
         }
 
-        private void BuildTree(Tree tree)
+        private void BuildTree(object param)
         {
+            if (param is not TypeTreeBuiltHook hookParam) return;
+
             TreeView.Items.Clear();
-            foreach(var node in tree.Nodes)
+            foreach(var node in hookParam.Tree.Nodes)
             {
                 AddNode(TreeView.Items, node);
             }
