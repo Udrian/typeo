@@ -115,11 +115,6 @@ namespace TypeD.Models
             return types;
         }
 
-        public void Clear(Project project)
-        {
-            project.Tree.Clear();
-        }
-
         public void SetStartScene(Project project, TypeOType scene)
         {
             if (scene.TypeOBaseType != "Scene") return;
@@ -144,6 +139,8 @@ namespace TypeD.Models
             {
                 AddTypeToTree(project, type);
             }
+
+            HookModel.Shoot("TypeTreeBuilt", project.Tree);
         }
 
         //Internal functions

@@ -12,7 +12,6 @@ namespace TypeD.Models.Interfaces
         public void Run(Project project);
         public void AddCode(Project project, Codalyzer code, string typeOBaseType = "");
         public List<TypeOType> GetTypeFromName(Project project, string name);
-        public void Clear(Project project);
         public void SetStartScene(Project project, TypeOType scene);
         public void BuildTree(Project project);
     }

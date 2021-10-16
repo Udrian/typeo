@@ -14,8 +14,10 @@ namespace TypeDitor.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        // ViewModel
         MainWindowViewModel MainWindowViewModel { get; set; }
 
+        // Constructors
         public MainWindow(Project loadedProject)
         {
             InitializeComponent();
@@ -27,9 +29,9 @@ namespace TypeDitor.View
             MainWindowViewModel.LoadedProject = loadedProject;
             DataContext = MainWindowViewModel;
 
-            DockRoot.AddPanel(new EmptyDocument());
+            DockRoot.AddPanel(new TypeBrowserPanel(), Dock.Left);
             DockRoot.AddPanel(new OutputPanel(), Dock.Bottom);
-            DockRoot.AddPanel(new EmptyDocument(), Dock.Left);
+            DockRoot.AddPanel(new EmptyDocument());
 
             MainWindowViewModel.InitUI(this);
         }
