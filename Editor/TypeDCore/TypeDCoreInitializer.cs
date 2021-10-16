@@ -30,6 +30,7 @@ namespace TypeDCore
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
         CreateSceneCommand CreateSceneCommand { get; set; }
+        CreateDrawable2dCommand CreateDrawable2dCommand { get; set; }
 
         public override void Initializer()
         {
@@ -46,6 +47,7 @@ namespace TypeDCore
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
             CreateSceneCommand = new CreateSceneCommand(TypeDCoreProjectModel);
+            CreateDrawable2dCommand = new CreateDrawable2dCommand(TypeDCoreProjectModel);
 
             // Hooks
             Hooks.AddHook("ProjectCreate", ProjectCreate);
@@ -95,6 +97,13 @@ namespace TypeDCore
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
                                         CreateSceneCommand.Execute(param);
+                                    }
+                                },
+                                new MenuItem() {
+                                    Name = "_Drawable2d",
+                                    ClickParameter = "LoadedProject",
+                                    Click = (param) => {
+                                        CreateDrawable2dCommand.Execute(param);
                                     }
                                 }
                             }

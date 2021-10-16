@@ -2,6 +2,7 @@
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeDCore.Code.Drawable2d;
 using TypeDCore.Code.Entity;
 using TypeDCore.Code.Scene;
 using TypeDCore.Models.Interfaces;
@@ -66,6 +67,13 @@ namespace TypeDCore.Models
             ProjectModel.BuildTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+        }
+
+        public void CreateDrawable2d(Project project, string className, string @namespace)
+        {
+            ProjectModel.AddCode(project, new Drawable2dCode(project, className, $"{project.ProjectName}.{@namespace}"), "Drawable");
+
+            ProjectModel.BuildTree(project);
         }
     }
 }
