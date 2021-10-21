@@ -24,12 +24,12 @@ namespace TypeDitor.View
 
             MainWindowViewModel = new MainWindowViewModel(
                 FindResource("ProjectModel") as IProjectModel, FindResource("HookModel") as IHookModel, FindResource("SaveModel") as ISaveModel,
-                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider
+                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider,
+                loadedProject
             );
-            MainWindowViewModel.LoadedProject = loadedProject;
             DataContext = MainWindowViewModel;
 
-            DockRoot.AddPanel(new TypeBrowserPanel(), Dock.Left);
+            DockRoot.AddPanel(new TypeBrowserPanel(loadedProject), Dock.Left);
             DockRoot.AddPanel(new OutputPanel(), Dock.Bottom);
             DockRoot.AddPanel(new EmptyDocument());
 

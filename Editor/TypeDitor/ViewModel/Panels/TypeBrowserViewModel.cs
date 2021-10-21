@@ -1,7 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.TreeNodes;
+using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
@@ -10,39 +14,43 @@ namespace TypeDitor.ViewModel.Panels
         // Models
         IHookModel HookModel { get; set; }
 
+        // View
         TreeView TreeView { get; set; }
 
+        // Data
+        public Project LoadedProject { get; private set; }
+        ObservableCollection<Node> Nodes { get; set; }
+
         // Constructors
-        public TypeBrowserViewModel(IHookModel hookModel, TreeView treeView)
+        public TypeBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView)
         {
             HookModel = hookModel;
-
+            LoadedProject = loadedProject;
             TreeView = treeView;
 
             HookModel.AddHook("TypeTreeBuilt", BuildTree);
+            Nodes = new ObservableCollection<Node>(LoadedProject.Tree.Nodes);
+            TreeView.ItemsSource = Nodes;
+        }
+
+        public void ContextMenuOpened(ContextMenu contextMenu, Node node)
+        {
+            var typeContextMenuOpenedHook = new TypeContextMenuOpenedHook(node);
+            HookModel.Shoot("TypeContextMenuOpened", typeContextMenuOpenedHook);
+
+            contextMenu.Items.Clear();
+            foreach (var menu in typeContextMenuOpenedHook.Menu.Items)
+            {
+                ViewHelper.InitMenu(contextMenu, menu, this);
+            }
         }
 
         private void BuildTree(object param)
         {
             if (param is not TypeTreeBuiltHook hookParam) return;
 
-            TreeView.Items.Clear();
-            foreach(var node in hookParam.Tree.Nodes)
-            {
-                AddNode(TreeView.Items, node);
-            }
-        }
-
-        private void AddNode(ItemCollection itemCollection, Node node)
-        {
-            var tvi = new TreeViewItem();
-            tvi.Header = node.Name;
-
-            itemCollection.Add(tvi);
-            foreach(var innerNode in node.Nodes)
-            {
-                AddNode(tvi.Items, innerNode);
-            }
+            Nodes = new ObservableCollection<Node>(hookParam.Tree.Nodes);
+            TreeView.ItemsSource = Nodes;
         }
     }
 }

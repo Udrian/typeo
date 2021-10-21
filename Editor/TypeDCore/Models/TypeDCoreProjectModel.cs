@@ -74,6 +74,8 @@ namespace TypeDCore.Models
             ProjectModel.AddCode(project, new Drawable2dCode(project, className, $"{project.ProjectName}.{@namespace}"), "Drawable");
 
             ProjectModel.BuildTree(project);
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
     }
 }

@@ -4,7 +4,7 @@ namespace TypeD.TreeNodes
 {
     public interface TreeNode
     {
-        List<Node> Nodes { get; set; }
+        IList<Node> Nodes { get; set; }
         void AddNode(string name, Item item);
         bool Contains(string name);
         Node Get(string name);

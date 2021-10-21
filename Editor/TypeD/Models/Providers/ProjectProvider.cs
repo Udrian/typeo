@@ -116,8 +116,6 @@ namespace TypeD.Models.Providers
 
                     // Prepare
                     ProjectModel.AddCode(project, new ProgramCode(project));
-                    ProjectModel.LoadAssembly(project);
-                    ProjectModel.BuildTree(project);
 
                     foreach(var module in project.Modules)
                     {
@@ -125,6 +123,8 @@ namespace TypeD.Models.Providers
                         ModuleModel.LoadAssembly(module);
                         ModuleModel.InitializeTypeD(module);
                     }
+
+                    ProjectModel.LoadAssembly(project);
 
                     return project;
                 });

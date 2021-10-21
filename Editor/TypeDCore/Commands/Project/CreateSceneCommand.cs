@@ -1,4 +1,6 @@
-﻿using TypeDCore.Dialogs.Project;
+﻿using TypeD.Commands;
+using TypeDCore.Commands.Project.Data;
+using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
 
 namespace TypeDCore.Commands.Project
@@ -6,7 +8,7 @@ namespace TypeDCore.Commands.Project
     class CreateSceneCommand : CustomCommands 
     {
         // Models
-        public ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
+        ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
         public CreateSceneCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
@@ -16,12 +18,13 @@ namespace TypeDCore.Commands.Project
 
         public override void Execute(object parameter)
         {
-            var project = parameter as TypeD.Models.Data.Project;
+            var data = parameter as CreateTypeCommandData;
 
             var dialog = new CreateSceneDialog();
+            dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateScene(project, dialog.EntityName, dialog.EntityNamespace);
+                TypeDCoreProjectModel.CreateScene(data.Project, dialog.EntityName, dialog.EntityNamespace);
             }
         }
     }

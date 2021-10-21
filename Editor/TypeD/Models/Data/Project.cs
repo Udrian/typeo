@@ -26,7 +26,7 @@ namespace TypeD.Models.Data
         public string ProjectBuildOutput { get { return Path.Combine(ProjectTypeO, "build", CSProjName); } }
 
         // Tree
-        internal Tree Tree { get; set; }
+        public Tree Tree { get; set; }
 
         // Loaded data
         internal Dictionary<string, TypeOType> TypeOTypes { get; private set; }

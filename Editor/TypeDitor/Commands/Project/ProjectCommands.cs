@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using TypeD.Commands;
 using TypeDitor.View;
 
 namespace TypeDitor.Commands.Project

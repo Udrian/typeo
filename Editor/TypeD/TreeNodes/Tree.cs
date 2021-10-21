@@ -8,7 +8,7 @@ namespace TypeD.TreeNodes
         public static event Action<Node> NodeAddedEvent;
         public static event Action<TreeNode> ClearTreeEvent;
 
-        public List<Node> Nodes { get; set; }
+        public IList<Node> Nodes { get; set; }
 
         public Tree()
         {

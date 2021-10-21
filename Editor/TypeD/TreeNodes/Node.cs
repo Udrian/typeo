@@ -8,7 +8,12 @@ namespace TypeD.TreeNodes
         public Item Item { get; set; }
         public Tree Tree { get; private set; }
         public Node Parent { get; private set; }
-        public List<Node> Nodes { get; set; }
+        public IList<Node> Nodes { get; set; }
+
+        public Node(string name)
+        {
+            Name = name;
+        }
 
         internal Node(string name, Item item, Tree tree, Node parent)
         {

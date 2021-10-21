@@ -1,4 +1,6 @@
-﻿using TypeDCore.Dialogs.Project;
+﻿using TypeD.Commands;
+using TypeDCore.Commands.Project.Data;
+using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
 
 namespace TypeDCore.Commands.Project
@@ -6,7 +8,7 @@ namespace TypeDCore.Commands.Project
     class CreateEntityTypeCommand : CustomCommands 
     {
         // Models
-        public ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
+        ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
         public CreateEntityTypeCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
@@ -16,12 +18,13 @@ namespace TypeDCore.Commands.Project
 
         public override void Execute(object parameter)
         {
-            var project = parameter as TypeD.Models.Data.Project;
+            var data = parameter as CreateTypeCommandData;
 
             var dialog = new CreateEntityTypeDialog();
+            dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateEntity(project, dialog.EntityName, dialog.EntityNamespace, dialog.EntityUpdatable, dialog.EntityDrawable);
+                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.EntityName, dialog.EntityNamespace, dialog.EntityUpdatable, dialog.EntityDrawable);
             }
         }
     }

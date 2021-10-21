@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using TypeD.Models.Data;
+﻿using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeD.View;
 using TypeDitor.Commands.Project;
+using TypeDitor.Helpers;
 using TypeDitor.View;
 
 namespace TypeDitor.ViewModel
@@ -28,10 +27,14 @@ namespace TypeDitor.ViewModel
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
 
+        // Data
+        public Project LoadedProject { get; private set; }
+
         // Constructors
         public MainWindowViewModel(
                                             IProjectModel projectModel, IHookModel hookModel, ISaveModel saveModel,
-            IRecentProvider recentProvider, IProjectProvider projectProvider
+            IRecentProvider recentProvider, IProjectProvider projectProvider,
+            Project loadedProject
         )
         {
             ProjectModel = projectModel;
@@ -46,6 +49,8 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand(SaveModel);
+
+            LoadedProject = loadedProject;
         }
 
         public void InitUI(MainWindow mainWindow)
@@ -55,35 +60,8 @@ namespace TypeDitor.ViewModel
 
             foreach(var menu in initUIHook.Menu.Items)
             {
-                InitMenu(mainWindow.TopMenu, menu);
+                ViewHelper.InitMenu(mainWindow.TopMenu, menu, this);
             }
         }
-
-        private void InitMenu(System.Windows.Controls.ItemsControl currentMenu, MenuItem item)
-        {
-            var newMenuItem = new System.Windows.Controls.MenuItem() { Header = item.Name };
-            if(item.Click != null)
-            {
-                newMenuItem.Click += (object sender, System.Windows.RoutedEventArgs e) =>
-                {
-                    object param = null;
-                    if(!string.IsNullOrEmpty(item.ClickParameter))
-                    {
-                        var type = GetType();
-                        param = type.GetProperties().FirstOrDefault(p => p.Name == item.ClickParameter).GetValue(this);
-                    }
-                    item.Click(param);
-                };
-            }
-            currentMenu.Items.Add(newMenuItem);
-            currentMenu = newMenuItem;
-
-            foreach (var menu in item.Items)
-            {
-                InitMenu(currentMenu, menu);
-            }
-        }
-
-        public Project LoadedProject { get; set; }
     }
 }
