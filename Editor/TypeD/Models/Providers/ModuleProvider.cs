@@ -9,8 +9,6 @@ namespace TypeD.Models.Providers
 {
     public class ModuleProvider : IModuleProvider
     {
-        public ObservableCollection<Module> Modules { get; set; }
-
         // Models
         private ModuleModel ModuleModel { get; set; }
 
@@ -18,7 +16,6 @@ namespace TypeD.Models.Providers
         public ModuleProvider(IModuleModel moduleModel)
         {
             ModuleModel = moduleModel as ModuleModel;
-            Modules = new ObservableCollection<Module>();
         }
 
         // Functions
@@ -28,8 +25,11 @@ namespace TypeD.Models.Providers
             return await Task.Run(() =>
             {
                 return new List<ModuleList>(){
-                    new ModuleList() { Name = "TypeOCore", Versions = new List<string>() { "local" } },
-                    new ModuleList() { Name = "TypeDCore", Versions = new List<string>() { "local" } }
+                    new ModuleList() { Name = "TypeOCore", Versions = new List<string>() { "local", "local" } },
+                    new ModuleList() { Name = "TypeDCore", Versions = new List<string>() { "local", "local" } },
+                    new ModuleList() { Name = "TypeOBasic2d", Versions = new List<string>() { "local", "local" } },
+                    new ModuleList() { Name = "TypeODesktop", Versions = new List<string>() { "local", "local" } },
+                    new ModuleList() { Name = "TypeOSDL", Versions = new List<string>() { "local", "local" } }
                 };
             });
 #else
@@ -39,7 +39,7 @@ namespace TypeD.Models.Providers
 #endif
         }
 
-        public Module Add(string name, string version)
+        public Module Create(string name, string version)
         {
             var module = new Module() { Name = name, Version = version };
 

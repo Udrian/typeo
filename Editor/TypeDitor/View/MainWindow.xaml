@@ -23,6 +23,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="_Project">
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Modules" Click="ModulesMenuItem_Click"/>
+            </MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">
             <Button Command="{Binding RunProjectCommand}" CommandParameter="{Binding LoadedProject}">

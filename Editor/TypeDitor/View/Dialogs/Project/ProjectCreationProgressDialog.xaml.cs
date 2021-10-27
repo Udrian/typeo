@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using TypeD.Helpers;
 
-namespace TypeDitor.Dialogs.Project
+namespace TypeDitor.View.Dialogs.Project
 {
     /// <summary>
     /// Interaction logic for ProjectCreationProgressDialog.xaml

@@ -5,19 +5,22 @@ using TypeD.Models.Providers.Interfaces;
 using TypeDitor.Commands.Project;
 using TypeDitor.Helpers;
 using TypeDitor.View;
+using TypeDitor.View.Dialogs.Tools;
 
 namespace TypeDitor.ViewModel
 {
     class MainWindowViewModel
     {
         // Models
-        private IProjectModel ProjectModel { get; set; }
-        private IHookModel HookModel { get; set; }
-        private ISaveModel SaveModel { get; set; }
+        IProjectModel ProjectModel { get; set; }
+        IModuleModel ModuleModel { get; set; }
+        IHookModel HookModel { get; set; }
+        ISaveModel SaveModel { get; set; }
 
         // Providers
-        private IRecentProvider RecentProvider { get; set; }
-        private IProjectProvider ProjectProvider { get; set; }
+        IRecentProvider RecentProvider { get; set; }
+        IProjectProvider ProjectProvider { get; set; }
+        IModuleProvider ModuleProvider { get; set; }
 
         // Commands
         public BuildProjectCommand BuildProjectCommand { get; set; }
@@ -32,16 +35,18 @@ namespace TypeDitor.ViewModel
 
         // Constructors
         public MainWindowViewModel(
-                                            IProjectModel projectModel, IHookModel hookModel, ISaveModel saveModel,
-            IRecentProvider recentProvider, IProjectProvider projectProvider,
+                                            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel,
+            IRecentProvider recentProvider, IProjectProvider projectProvider, IModuleProvider moduleProvider,
             Project loadedProject
         )
         {
             ProjectModel = projectModel;
+            ModuleModel = moduleModel;
             HookModel = hookModel;
             SaveModel = saveModel;
             RecentProvider = recentProvider;
             ProjectProvider = projectProvider;
+            ModuleProvider = moduleProvider;
 
             BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
             ExitProjectCommand = new ExitProjectCommand();
@@ -62,6 +67,12 @@ namespace TypeDitor.ViewModel
             {
                 ViewHelper.InitMenu(mainWindow.TopMenu, menu, this);
             }
+        }
+
+        public void OpenModulesWindow()
+        {
+            var modulesDialog = new ModulesDialog(ModuleModel, ProjectModel, SaveModel, ModuleProvider, LoadedProject);
+            modulesDialog.Show();
         }
     }
 }

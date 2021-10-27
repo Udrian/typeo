@@ -57,7 +57,8 @@ namespace TypeDitor
             var providerResource = new ResourceDictionary
             {
                 { "RecentProvider", RecentProvider },
-                { "ProjectProvider", ProjectProvider }
+                { "ProjectProvider", ProjectProvider },
+                { "ModuleProvider", ModuleProvider }
             };
             Resources.MergedDictionaries.Add(providerResource);
 

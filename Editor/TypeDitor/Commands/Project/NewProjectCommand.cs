@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using TypeD.Models.Providers.Interfaces;
-using TypeDitor.Dialogs.Project;
+using TypeDitor.View.Dialogs.Project;
 
 namespace TypeDitor.Commands.Project
 {

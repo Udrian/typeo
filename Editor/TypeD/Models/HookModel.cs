@@ -11,6 +11,11 @@ namespace TypeD.Models
         // Constructions
         public HookModel()
         {
+            ClearHooks();
+        }
+
+        public void ClearHooks()
+        {
             Hooks = new Dictionary<string, List<Action<object>>>();
         }
 

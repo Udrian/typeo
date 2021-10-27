@@ -84,7 +84,7 @@ namespace TypeD.Models.Providers
             {
                 var addModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
-                var module = ModuleProvider.Add(moduleToAdd, addModuleVersion);
+                var module = ModuleProvider.Create(moduleToAdd, addModuleVersion);
                 await ModuleModel.Download(module);
 
                 ProjectModel.AddModule(project, module);

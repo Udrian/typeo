@@ -23,8 +23,8 @@ namespace TypeDitor.View
             InitializeComponent();
 
             MainWindowViewModel = new MainWindowViewModel(
-                FindResource("ProjectModel") as IProjectModel, FindResource("HookModel") as IHookModel, FindResource("SaveModel") as ISaveModel,
-                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider,
+                FindResource("ProjectModel") as IProjectModel, FindResource("ModuleModel") as IModuleModel, FindResource("HookModel") as IHookModel, FindResource("SaveModel") as ISaveModel,
+                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider, FindResource("ModuleProvider") as IModuleProvider,
                 loadedProject
             );
             DataContext = MainWindowViewModel;
@@ -37,5 +37,10 @@ namespace TypeDitor.View
         }
 
         public Menu TopMenu { get { return _TopMenu; } }
+
+        private void ModulesMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindowViewModel.OpenModulesWindow();
+        }
     }
 }
