@@ -1,7 +1,7 @@
 import argparse, os
 import zipfile
 from os.path import basename
-from os.path import isfile
+from os.path import isfile, isdir
  
 def main():
     parser = argparse.ArgumentParser()
@@ -10,10 +10,10 @@ def main():
     parser.add_argument('-o', '--output', type=str, default="..", help="Output folder")
     args = parser.parse_args()
 
-    pack(args.project, [args.project], args.build, args.output)
+    pack(args.project, [args.project], args.build, [], args.output)
 
 def pack(package, projects, build_number, externals=[], output_prefix=".."):
-    version = getVersion(package, build_number)
+    version = getVersion(projects[0], build_number)
     package_name = basename(package)
     output = "{}/bin/package/{}".format(output_prefix, package_name)
     print("Packing '{}' '{}' to output '{}'".format(package_name, version, output))
@@ -32,17 +32,26 @@ def pack(package, projects, build_number, externals=[], output_prefix=".."):
             addFileToZip(zipObj, "{}/{}.dll"               .format(path, project_name), "")
             addFileToZip(zipObj, "{}/{}.exe"               .format(path, project_name), "")
 
-        for external in externals:
-            print("Adding external '{}' to zip".format(external))
-            
-            externalDir = "{}/{}/release".format(output_prefix, external)
-            for filename in os.listdir(externalDir):
-                addFileToZip(zipObj, "{}/{}".format(externalDir, filename), "")
+            addExternal(externals, zipObj, path)
+        addExternal(externals, zipObj, output_prefix)
         
         #Add readme and releasenotes
         addFileToZip(zipObj, "./../Readme-TypeO.txt", "")
         addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(package, package_name), "")
     return zipfilename
+
+def addExternal(externals, zipObj, path):
+    for external in externals:
+        externalPath = "{}/{}".format(path, external)
+        if isdir(externalPath):
+            print("Checking project external '{}' to zip".format(external))
+        
+        if isfile(externalPath):
+            addFileToZip(zipObj, "{}".format(externalPath), "")
+        
+        if isdir(externalPath):
+            for filename in os.listdir(externalPath):
+                addFileToZip(zipObj, "{}/{}".format(externalPath, filename), "")
 
 def addFileToZip(zipObj, filepath, pathTo):
     if isfile(filepath):

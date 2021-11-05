@@ -20,5 +20,10 @@ namespace TypeDitor.Commands.Project
             mainWindow.Show();
             currentMainWindow.Close();
         }
+
+        protected void ShowError(string error)
+        {
+            MessageBox.Show(error);
+        }
     }
 }

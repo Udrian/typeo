@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 
@@ -37,10 +38,20 @@ namespace TypeDitor.Commands.Project
             //Open project
             if (!string.IsNullOrEmpty(path))
             {
-                var loadedProject = await ProjectProvider.Load(path);
-                RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
+                try
+                {
+                    var loadedProject = await ProjectProvider.Load(path);
+                    if (loadedProject != null)
+                    {
+                        RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
 
-                this.OpenMainWindow(loadedProject);
+                        this.OpenMainWindow(loadedProject);
+                    }
+                }
+                catch (Exception e)
+                {
+                    this.ShowError("Error loading project:" + Environment.NewLine + e.Message);
+                }
             }
         }
     }

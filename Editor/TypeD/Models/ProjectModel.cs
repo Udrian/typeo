@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -158,13 +159,16 @@ namespace TypeD.Models
                 project.Assembly = System.Reflection.Assembly.Load(bytes);
             }
 
-            foreach (var type in project.Assembly.DefinedTypes)
+            try
             {
-                var typeDType = TypeOType.GetBaseTypeOClassName(type);
-                if (typeDType == "") continue;
+                foreach (var type in project.Assembly.DefinedTypes)
+                {
+                    var typeDType = TypeOType.GetBaseTypeOClassName(type);
+                    if (typeDType == "") continue;
 
-                RegisterType(project, typeDType, null, null, type);
-            }
+                    RegisterType(project, typeDType, null, null, type);
+                }
+            } catch(Exception e) {}
 
             BuildTree(project);
 

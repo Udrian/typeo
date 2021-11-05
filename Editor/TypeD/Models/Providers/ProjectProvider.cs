@@ -131,7 +131,7 @@ namespace TypeD.Models.Providers
             }
             catch
             {
-                return null;
+                throw;
             }
         }
 

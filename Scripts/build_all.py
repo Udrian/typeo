@@ -5,8 +5,8 @@ import subprocess
 
 projects = {
     "TypeD" : {
-        "projects" : ["Editor/TypeD", "Editor/TypeDitor", "TypeOCore"],
-        "external" : [],
+        "projects" : ["Editor/TypeD", "Editor/TypeDitor"],
+        "external" : ["Ookii.Dialogs.Wpf.dll"],
         "module"   : False
     },
     "TypeO" : {
@@ -16,6 +16,11 @@ projects = {
     },
     "TypeOCore" : {
         "projects" : ["TypeOCore"],
+        "external" : [],
+        "module"   : True
+    },
+    "TypeDCore" : {
+        "projects" : ["Editor/TypeDCore"],
         "external" : [],
         "module"   : True
     },
@@ -31,7 +36,7 @@ projects = {
     },
     "TypeOSDL" : {
         "projects" : ["TypeOSDL"],
-        "external" : ["SDL2"],
+        "external" : ["SDL2/release"],
         "module"   : True
     },
 }
@@ -61,7 +66,9 @@ def main():
 
     if not args.skip_packing:
         subprojects = project["projects"]
-        dependencies = sum([projects[subproject]["external"] for subproject in subprojects if subproject in projects], [])
+        dependencies = sum([projects[subproject]["external"] for subproject in subprojects if subproject in projects], project["external"])
+
+        print(dependencies)
 
         package_project = package.pack(args.project, subprojects, args.build_number, dependencies, args.output)
 
