@@ -5,7 +5,7 @@ import subprocess
 
 projects = {
     "TypeD" : {
-        "projects" : ["Editor/TypeD", "Editor/TypeDitor"],
+        "projects" : ["Editor/TypeD", "Editor/TypeDitor", "TypeOCore"],
         "external" : ["Ookii.Dialogs.Wpf.dll"],
         "module"   : False
     },

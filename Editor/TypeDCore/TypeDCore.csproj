@@ -6,6 +6,7 @@
     <Company>Typedeaf</Company>
     <Product>TypeO</Product>
     <UseWPF>true</UseWPF>
+    <PreserveCompilationContext>false</PreserveCompilationContext>
   </PropertyGroup>
 
   <ItemGroup>

@@ -28,7 +28,7 @@ def pack(package, projects, build_number, externals=[], output_prefix=".."):
             path = "{}/bin/builds/{}/Release".format(output_prefix, project)
             
             addFileToZip(zipObj, "{}/{}.runtimeconfig.json".format(path, project_name), "")
-            addFileToZip(zipObj, "{}/{}.deps.json"         .format(path, project_name), "")
+            #addFileToZip(zipObj, "{}/{}.deps.json"         .format(path, project_name), "")
             addFileToZip(zipObj, "{}/{}.dll"               .format(path, project_name), "")
             addFileToZip(zipObj, "{}/{}.exe"               .format(path, project_name), "")
 
@@ -36,6 +36,7 @@ def pack(package, projects, build_number, externals=[], output_prefix=".."):
         addExternal(externals, zipObj, output_prefix)
         
         #Add readme and releasenotes
+        print("Adding extra files to zip")
         addFileToZip(zipObj, "./../Readme-TypeO.txt", "")
         addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(package, package_name), "")
     return zipfilename
