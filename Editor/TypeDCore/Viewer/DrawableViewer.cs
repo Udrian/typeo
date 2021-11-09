@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using TypeD.Types;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
@@ -67,7 +66,8 @@ namespace TypeDCore.Viewer
 
         private FakeGame Game { get; set; }
 
-        public DrawableViewer(TypeOType drawable)
+        //TODO: Fix
+        /*public DrawableViewer(TypeOType drawable)
         {
             if (drawable.TypeOBaseType != "Drawable") return;
             if (drawable.TypeInfo == null) return;
@@ -85,7 +85,7 @@ namespace TypeDCore.Viewer
             }
             Game = FakeTypeO.Context.Game as FakeGame;
             Game.Drawables.Create(drawable.TypeInfo.AsType());
-        }
+        }*/
 
         public void Close()
         {

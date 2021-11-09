@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TypeD.TreeNodes
 {
     public class Tree : TreeNode
     {
-        public static event Action<Node> NodeAddedEvent;
-        public static event Action<TreeNode> ClearTreeEvent;
-
         public IList<Node> Nodes { get; set; }
 
         public Tree()
@@ -15,18 +11,16 @@ namespace TypeD.TreeNodes
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name, Item item)
+        public void AddNode(string name)
         {
-            var node = new Node(name, item, this, null);
+            var node = new Node(name, this, null);
             Nodes.Add(node);
-            NodeAddedEvent?.Invoke(node);
         }
 
-        internal void AddNode(Node parent, string name, Item item)
+        internal void AddNode(Node parent, string name)
         {
-            var node = new Node(name, item, this, parent);
+            var node = new Node(name, this, parent);
             parent.Nodes.Add(node);
-            NodeAddedEvent?.Invoke(node);
         }
 
         public bool Contains(string name)
@@ -46,13 +40,11 @@ namespace TypeD.TreeNodes
         public void Clear()
         {
             InternalClear();
-            ClearTreeEvent?.Invoke(this);
         }
 
         internal void Clear(Node node)
         {
             node.InternalClear();
-            ClearTreeEvent?.Invoke(node);
         }
 
         internal void InternalClear()

@@ -4,12 +4,8 @@ using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeD.Types;
 using TypeD.View;
-using TypeDCore.Code.Drawable2d;
-using TypeDCore.Code.Entity;
 using TypeDCore.Code.Game;
-using TypeDCore.Code.Scene;
 using TypeDCore.Commands.Project;
 using TypeDCore.Commands.Project.Data;
 using TypeDCore.Models;
@@ -25,6 +21,7 @@ namespace TypeDCore
 
         // Providers
         IProjectProvider ProjectProvider { get; set; }
+        ITypeOTypeProvider TypeOTypeProvider { get; set; }
 
         // Internal Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
@@ -42,9 +39,10 @@ namespace TypeDCore
 
             // Providers
             ProjectProvider = Resources.Get<IProjectProvider>("ProjectProvider");
+            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>("TypeOTypeProvider");
 
             // Internal Models
-            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider);
+            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider, TypeOTypeProvider);
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
@@ -55,23 +53,26 @@ namespace TypeDCore
             Hooks.AddHook("ProjectCreate", ProjectCreate);
             Hooks.AddHook("InitUI", InitUI);
             Hooks.AddHook("TypeContextMenuOpened", TypeContextMenuOpened);
-
-            // Init
-            TypeOType.AddTypeOType(typeof(TypeOEngine.Typedeaf.Core.Game), typeof(GameTypeOType));
-            TypeOType.AddTypeOType(typeof(TypeOEngine.Typedeaf.Core.Scene), typeof(SceneTypeOType));
-            TypeOType.AddTypeOType(typeof(TypeOEngine.Typedeaf.Core.Entities.Entity), typeof(EntityTypeOType));
-            TypeOType.AddTypeOType(typeof(TypeOEngine.Typedeaf.Core.Entities.Drawables.Drawable), typeof(Drawable2dTypeOType));
-            //TypeOType.AddTypeOType(typeof(Stub), typeof());
-            //TypeOType.AddTypeOType(typeof(Logic), typeof());
-            //TypeOType.AddTypeOType(typeof(EntityData), typeof());
         }
 
         void ProjectCreate(object param)
         {
             if (param is not ProjectCreateHook hookParam) return;
 
-            ProjectModel.AddCode(hookParam.Project, new GameCode(hookParam.Project), "Game");
-            ProjectModel.AddCode(hookParam.Project, new GameTypeDCode(hookParam.Project), "Game");
+            var gameCode = new GameCode();
+            ProjectModel.AddCode(hookParam.Project, gameCode);
+            ProjectModel.AddCode(hookParam.Project, new GameTypeDCode());
+            TypeOTypeProvider.Save(hookParam.Project, new TypeOType()
+            {
+                ClassName = gameCode.ClassName,
+                Namespace = gameCode.Namespace,
+                TemplateClass = new List<string>()
+                {
+                    typeof(GameCode).FullName,
+                    typeof(GameTypeDCode).FullName
+                },
+                TypeOBaseType = "Game"
+            });
         }
 
         void InitUI(object param)
@@ -93,21 +94,21 @@ namespace TypeDCore
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
 
-                                        CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, $"{(param as Project).ProjectName}.Entities"));
+                                        CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, $"Entities"));
                                     }
                                 },
                                 new MenuItem() {
                                     Name = "_Scene",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, $"{(param as Project).ProjectName}.Scenes"));
+                                        CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, $"Scenes"));
                                     }
                                 },
                                 new MenuItem() {
                                     Name = "_Drawable2d",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, $"{(param as Project).ProjectName}.Drawables"));
+                                        CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, $"Drawables"));
                                     }
                                 }
                             }
@@ -131,21 +132,21 @@ namespace TypeDCore
                             Name = "_Entity",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Item?.Name ?? $"{(param as Project).ProjectName}.Entities"));
+                                CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Entities"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Scene",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Item?.Name ?? $"{(param as Project).ProjectName}.Scenes"));
+                                CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Scenes"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Drawable2d",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Item?.Name ?? $"{(param as Project).ProjectName}.Drawables"));
+                                CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Drawables"));
                             }
                         }
                     }

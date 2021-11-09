@@ -1,7 +1,4 @@
-﻿using TypeD.Types;
-using TypeDCore.Code.Scene;
-
-namespace TypeDCore.Commands.Scene
+﻿namespace TypeDCore.Commands.Scene
 {
     public static partial class SceneCommand
     {

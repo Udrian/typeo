@@ -9,6 +9,7 @@ namespace TypeD.Helpers
         {
             var json = JsonSerializer.Serialize(obj, obj.GetType());
             if (string.IsNullOrEmpty(json)) return false;
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             File.WriteAllText(filePath, json);
 
             return true;

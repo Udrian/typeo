@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Models.Data;
@@ -75,19 +73,18 @@ namespace TypeD.Models
             });
 #endif
 
-            LoadAssembly(module);
             return true;
             //TODO progress bar
         }
-
-        // Internal functions
-        internal void LoadAssembly(Module module)
+        public void LoadAssembly(Module module)
         {
             if (!File.Exists(module.ModuleDLLPath)) return;
             module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
 
             module.ModuleTypeInfo = GetModuleType(module);
         }
+
+        // Internal functions
 
         internal void InitializeTypeD(Module module)
         {

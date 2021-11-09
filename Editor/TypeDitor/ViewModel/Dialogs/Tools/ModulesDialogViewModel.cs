@@ -103,8 +103,11 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             foreach(var module in added)
             {
                 var createdModule = ModuleProvider.Create(module.Name, module.Version);
-                await ModuleModel.Download(createdModule);
                 ProjectModel.AddModule(LoadedProject, createdModule);
+                await ModuleModel.Download(createdModule);
+                ModuleModel.LoadAssembly(createdModule);
+                //TODO: Fix InitializeTypeD when downloading module
+                //ModuleModel.InitializeTypeD(module);
             }
         }
     }

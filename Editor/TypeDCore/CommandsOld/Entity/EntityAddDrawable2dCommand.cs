@@ -1,7 +1,4 @@
-﻿using TypeD.Types;
-using TypeDCore.Code.Entity;
-
-namespace TypeDCore.Commands.Entity
+﻿namespace TypeDCore.Commands.Entity
 {
     public static partial class EntityCommand
     {

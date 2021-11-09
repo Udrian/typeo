@@ -6,5 +6,6 @@ namespace TypeD.Models.Interfaces
     public interface IModuleModel
     {
         public Task<bool> Download(Module module);
+        public void LoadAssembly(Module module);
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
@@ -29,7 +29,7 @@ namespace TypeDitor.ViewModel.Panels
             TreeView = treeView;
 
             HookModel.AddHook("TypeTreeBuilt", BuildTree);
-            Nodes = new ObservableCollection<Node>(LoadedProject.Tree.Nodes);
+            Nodes = new ObservableCollection<Node>(LoadedProject.TypeOTypeTree.Nodes);
             TreeView.ItemsSource = Nodes;
         }
 
@@ -47,10 +47,15 @@ namespace TypeDitor.ViewModel.Panels
 
         private void BuildTree(object param)
         {
+            //TODO: Tree shouldn't colapse
             if (param is not TypeTreeBuiltHook hookParam) return;
 
             Nodes = new ObservableCollection<Node>(hookParam.Tree.Nodes);
-            TreeView.ItemsSource = Nodes;
+
+            TreeView.Dispatcher.Invoke(() =>
+            {
+                TreeView.ItemsSource = Nodes;
+            });
         }
     }
 }

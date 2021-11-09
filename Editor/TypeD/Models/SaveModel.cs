@@ -7,33 +7,58 @@ namespace TypeD.Models
 {
     public class SaveModel : ISaveModel
     {
+        private class SaveContext
+        {
+            public Func<object, Task> SaveAction { get; set; }
+            public object Context { get; set; }
+        }
+
         // Data
-        public Dictionary<string, Func<Task>> SaveActions { get; set; }
+        private Dictionary<string, SaveContext> SaveContexts { get; set; }
 
         // Constructors
         public SaveModel()
         {
-            SaveActions = new Dictionary<string, Func<Task>>();
+            SaveContexts = new Dictionary<string, SaveContext>();
         }
 
         // Functions
-        public bool AnythingToSave { get { return SaveActions.Count != 0; } }
+        public bool AnythingToSave { get { return SaveContexts.Count != 0; } }
 
-        public void AddSave(string context, Func<Task> action)
+        public void AddSave(string contextId, Func<Task> saveAction)
         {
-            if (!SaveActions.ContainsKey(context))
+            if (!SaveContextExists(contextId))
             {
-                SaveActions.Add(context, action);
+                SaveContexts.Add(contextId, new SaveContext() { Context = null, SaveAction = (o) => { return saveAction(); } });
             }
+        }
+
+        public void AddSave(string contextId, object context, Func<object, Task> saveAction)
+        {
+            if(!SaveContextExists(contextId))
+            {
+                SaveContexts.Add(contextId, new SaveContext() { Context = context, SaveAction = saveAction });
+            }
+        }
+
+        public bool SaveContextExists(string contextId)
+        {
+            return SaveContexts.ContainsKey(contextId);
+        }
+
+        public T GetSaveContext<T>(string contextId)
+        {
+            if (!SaveContextExists(contextId)) return default(T);
+            return (T)SaveContexts[contextId].Context;
         }
 
         public async Task Save()
         {
-            foreach(var saveAction in SaveActions.Values)
+            foreach(var saveContext in SaveContexts.Values)
             {
-                await saveAction();
+                await saveContext.SaveAction(saveContext.Context);
             }
-            SaveActions.Clear();
+            SaveContexts.Clear();
         }
     }
 }

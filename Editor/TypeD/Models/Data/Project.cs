@@ -2,10 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Linq;
 using TypeD.Models.DTO;
 using TypeD.TreeNodes;
-using TypeD.Types;
 
 namespace TypeD.Models.Data
 {
@@ -22,23 +20,21 @@ namespace TypeD.Models.Data
 
         // Paths
         public string ProjectFilePath { get { return $@"{Location}\{ProjectName}.typeo"; } }
-        public string ProjectTypeO { get { return Path.Combine(Location, "typeo"); } }
-        public string ProjectBuildOutput { get { return Path.Combine(ProjectTypeO, "build", CSProjName); } }
+        public string ProjectTypeOPath { get { return Path.Combine(Location, "typeo"); } }
+        public string ProjectBuildOutputPath { get { return Path.Combine(ProjectTypeOPath, "build", CSProjName); } }
 
         // Tree
-        public Tree Tree { get; set; }
+        public Tree TypeOTypeTree { get; set; }
 
         // Loaded data
-        internal Dictionary<string, TypeOType> TypeOTypes { get; private set; }
         internal Assembly Assembly { get; set; }
-        internal XElement CSProj { get; set; }
 
         // Constructor
         internal Project(string location, ProjectDTO projectData)
         {
             Location = location;
 
-            TypeOTypes = new Dictionary<string, TypeOType>();
+            TypeOTypeTree = new Tree();
 
             ProjectName = projectData.ProjectName;
             CSSolutionPath = projectData.CSSolutionPath;

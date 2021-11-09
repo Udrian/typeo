@@ -40,6 +40,7 @@ namespace TypeD.Models.Providers
         // Functions
         public async Task<Project> Create(string projectName, string location, string csSolutionPath, string csProjName, Action<int> progress)
         {
+            progress(0);
             // Validate
             if (string.IsNullOrEmpty(location)) location = @".\";
             if (string.IsNullOrEmpty(csSolutionPath)) csSolutionPath = @$".\{projectName}.sln";
@@ -49,7 +50,7 @@ namespace TypeD.Models.Providers
             {
                 location = Path.Combine(location, projectName);
             }
-            progress(5);
+            progress(1);
 
             // Create
             var project = new Project(location, new ProjectDTO()
@@ -60,7 +61,7 @@ namespace TypeD.Models.Providers
             }
             );
 
-            progress(10);
+            progress(2);
 
             if (!Directory.Exists(project.Location))
             {
@@ -68,30 +69,33 @@ namespace TypeD.Models.Providers
             }
 
             await CreateSolution(project);
-            progress(30);
+            progress(20);
             await CreateProject(project);
-            progress(50);
+            progress(30);
 
             // Prepare
-            ProjectModel.AddCode(project, new ProgramCode(project));
+            ProjectModel.AddCode(project, new ProgramCode());
 
             var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
             var moduleList = await ModuleProvider.List();
 
-            progress(60);
+            progress(35);
 
             foreach(var moduleToAdd in modulesToAdd)
             {
                 var addModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
                 var module = ModuleProvider.Create(moduleToAdd, addModuleVersion);
-                await ModuleModel.Download(module);
-
                 ProjectModel.AddModule(project, module);
-                ModuleModel.InitializeTypeD(module);
             }
 
+            progress(50);
+            //Save and load the module first so we can call the project creation hook
+            await SaveModel.Save();
+            progress(65);
+            project = await Load(project.ProjectFilePath);
             progress(75);
+
             HookModel.Shoot("ProjectCreate", new ProjectCreateHook(project));
             progress(80);
 
@@ -105,6 +109,7 @@ namespace TypeD.Models.Providers
 
         public async Task<Project> Load(string projectFilePath)
         {
+            //TODO: Add progress bar to loading
             if (!projectFilePath.EndsWith(".typeo")) return null;
 
             try
@@ -115,8 +120,6 @@ namespace TypeD.Models.Providers
                     var project = new Project(Path.GetDirectoryName(projectFilePath), projectData);
 
                     // Prepare
-                    ProjectModel.AddCode(project, new ProgramCode(project));
-
                     foreach(var module in project.Modules)
                     {
                         await ModuleModel.Download(module);
@@ -125,6 +128,7 @@ namespace TypeD.Models.Providers
                     }
 
                     ProjectModel.LoadAssembly(project);
+                    ProjectModel.BuildTypeOTypeTree(project);
 
                     return project;
                 });
@@ -135,10 +139,9 @@ namespace TypeD.Models.Providers
             }
         }
 
-
         public async Task Save(Project project)
         {
-            var task = new Task(() =>
+           await Task.Run(() =>
             {
                 JSON.Serialize(new ProjectDTO()
                 {
@@ -148,14 +151,7 @@ namespace TypeD.Models.Providers
                     Modules = project.Modules.Select(m => new ModuleDTO() { Name = m.Name, Version = m.Version }).ToList(),
                     StartScene = project.StartScene
                 }, project.ProjectFilePath);
-
-                foreach (var typeDType in project.TypeOTypes.Values)
-                {
-                    typeDType.Save();
-                }
             });
-            task.Start();
-            await task;
         }
 
         // Internal

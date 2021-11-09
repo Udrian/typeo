@@ -5,34 +5,36 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
-using TypeD.Types;
 
 namespace TypeD.Models
 {
     public class ProjectModel : IProjectModel
     {
         // Models
-        public ModuleModel ModuleModel { get; set; }
-        public IHookModel HookModel { get; set; }
-        public ISaveModel SaveModel { get; set; }
+        ModuleModel ModuleModel { get; set; }
+        IHookModel HookModel { get; set; }
+        ISaveModel SaveModel { get; set; }
+        IResourceModel Resources { get; set; }
 
         // Providers
-        public IProjectProvider ProjectProvider { get; set; }
+        public IProjectProvider ProjectProvider { get; set; } //TODO: Should not be public
+        public ITypeOTypeProvider TypeOTypeProvider { get; set; } //TODO: Should not be public
 
         // Constructors
-        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel, IProjectProvider projectProvider)
+        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel, IResourceModel resources, IProjectProvider projectProvider, ITypeOTypeProvider typeOTypeProvider)
         {
             ModuleModel = moduleModel as ModuleModel;
             HookModel = hookModel;
             SaveModel = saveModel;
+            Resources = resources;
             ProjectProvider = projectProvider;
+            TypeOTypeProvider = typeOTypeProvider;
         }
 
         // Functions
@@ -42,22 +44,14 @@ namespace TypeD.Models
             if (!File.Exists(path)) return;
             project.Modules.Add(module);
 
-            var programCode = project.TypeOTypes[$"{project.ProjectName}.Program"];
-            if (module.ModuleTypeInfo != null)
-                programCode.Codes.First().Usings.Add(module.ModuleTypeInfo.Namespace);
-
-            if(project.CSProj == null)
-            {
-                project.CSProj = XElement.Load(path);
-            }
-            ModuleModel.AddToProjectXML(module, project.CSProj);
+            var CSProj = SaveModel.GetSaveContext<XElement>("ProjectCSProj") ?? XElement.Load(path);
+            ModuleModel.AddToProjectXML(module, CSProj);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
-            SaveModel.AddSave("ProjectCSProj", () => {
+            SaveModel.AddSave("ProjectCSProj", CSProj, (context) => {
                 return Task.Run(() =>
                 {
-                    project.CSProj.Save(path);
-                    project.CSProj = null;
+                    (context as XElement).Save(path);
                 });
             });
         }
@@ -71,84 +65,65 @@ namespace TypeD.Models
             {
                 project.Assembly = null;
             }
-            await CMD.Run($"dotnet build \"{path}\" --output \"{project.ProjectBuildOutput}\"");
+            await CMD.Run($"dotnet build \"{path}\" --output \"{project.ProjectBuildOutputPath}\"");
 
             return LoadAssembly(project);
         }
 
         public void Run(Project project)
         {
-            Process.Start(Path.Combine(project.ProjectBuildOutput, $"{project.CSProjName}.exe"));
+            Process.Start(Path.Combine(project.ProjectBuildOutputPath, $"{project.CSProjName}.exe"));
         }
 
-        public void AddCode(Project project, Codalyzer code, string typeOBaseType = "")
+        public void AddCode(Project project, Codalyzer code)
         {
-            var key = $"{code.Namespace}.{code.ClassName}";
-            if (!project.TypeOTypes.ContainsKey(key))
-            {
-                RegisterType(project, code.BaseClass, code.ClassName, code.Namespace, null);
-            }
-            project.TypeOTypes[key].Codes.Add(code);
-            if (typeOBaseType != "")
-            {
-                project.TypeOTypes[key].TypeOBaseType = typeOBaseType;
-            }
-        }
+            code.Project = project;
+            code.Resources = Resources;
+            code.Init();
+            if (!code.Initialized) throw new Exception($"Codalyzer '{code.GetType().FullName}' not initialized");
 
-        public List<TypeOType> GetTypeFromName(Project project, string name)
-        {
-            var types = new List<TypeOType>();
-
-            if (name != null && project.TypeOTypes.ContainsKey(name))
-            {
-                types.Add(project.TypeOTypes[name]);
-            }
-            else
-            {
-                foreach (var typeDType in project.TypeOTypes.Values)
-                {
-                    if (typeDType.ClassName == name)
+            var codes = SaveModel.GetSaveContext<List<Codalyzer>>("Code") ?? new List<Codalyzer>();
+            codes.Add(code);
+            SaveModel.AddSave("Code", codes, 
+                (context) => {
+                    return Task.Run(() =>
                     {
-                        types.Add(typeDType);
-                    }
-                }
-            }
-
-            return types;
+                        foreach(var saveCode in context as List<Codalyzer>)
+                        {
+                            saveCode.Generate();
+                            saveCode.Save();
+                        }
+                    });
+                });
         }
 
         public void SetStartScene(Project project, TypeOType scene)
         {
+            //TODO: Fix
+            /*
             if (scene.TypeOBaseType != "Scene") return;
             project.StartScene = scene.FullName;
 
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });*/
         }
 
-        public void BuildTree(Project project)
+        public void BuildTypeOTypeTree(Project project)
         {
-            if (project.Tree == null)
-            {
-                project.Tree = new Tree();
-            }
-            else
-            {
-                project.Tree.Clear();
-            }
-            project.Tree.AddNode(project.ProjectName, null);
+            project.TypeOTypeTree.Clear();
 
-            foreach (var type in project.TypeOTypes.Values)
+            var typeOTypes = TypeOTypeProvider.ListAll(project);
+            foreach (var type in typeOTypes)
             {
                 AddTypeToTree(project, type);
             }
 
-            HookModel.Shoot("TypeTreeBuilt", new TypeTreeBuiltHook(project.Tree));
+            HookModel.Shoot("TypeTreeBuilt", new TypeTreeBuiltHook(project.TypeOTypeTree));
         }
 
         //Internal functions
         internal bool LoadAssembly(Project project)
         {
-            var path = Path.Combine(project.ProjectBuildOutput, $"{project.CSProjName}.dll");
+            var path = Path.Combine(project.ProjectBuildOutputPath, $"{project.CSProjName}.dll");
             if (!File.Exists(path)) return false;
 
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -159,59 +134,34 @@ namespace TypeD.Models
                 project.Assembly = System.Reflection.Assembly.Load(bytes);
             }
 
-            try
-            {
-                foreach (var type in project.Assembly.DefinedTypes)
-                {
-                    var typeDType = TypeOType.GetBaseTypeOClassName(type);
-                    if (typeDType == "") continue;
-
-                    RegisterType(project, typeDType, null, null, type);
-                }
-            } catch(Exception e) {}
-
-            BuildTree(project);
-
             return true;
         }
 
         private void AddTypeToTree(Project project, TypeOType typeOType)
         {
-            if (typeOType.Codes.FirstOrDefault()?.ClassName == "Program") return;
-
             var namespaces = (typeOType.Namespace.StartsWith(project.ProjectName) ? typeOType.Namespace.Remove(0, project.ProjectName.Length) : typeOType.Namespace).Split('.').ToList();
             if (namespaces.Count > 0)
                 namespaces.RemoveAt(0);
 
-            TreeNode treeNode = project.Tree;
+            TreeNode treeNode = project.TypeOTypeTree;
+            //TODO: Need to display folder or namespace nodes in a specific way
             foreach (var ns in namespaces)
             {
                 if (string.IsNullOrEmpty(ns)) continue;
                 if (!treeNode.Contains(ns))
                 {
-                    treeNode.AddNode(ns, null);
+                    treeNode.AddNode(ns);
                 }
                 treeNode = treeNode.Get(ns);
             }
 
-            if (typeOType.TypeInfo != null)
+            if(TypeOTypeProvider.Exists(project, typeOType))
             {
-                treeNode.AddNode(typeOType.ClassName, new ItemCode(typeOType));
+                treeNode.AddNode(typeOType.ClassName);
             }
             else
             {
-                treeNode.AddNode($"*{typeOType.ClassName}", new ItemCode(typeOType));
-            }
-        }
-
-        private void RegisterType(Project project, string typeOBaseType, string classname, string @namespace, System.Reflection.TypeInfo typeInfo)
-        {
-            var typeOType = TypeOType.InstantiateTypeOType(typeOBaseType, classname, @namespace, typeInfo, project);
-            if (typeOType == null) typeOType = new ProgramTypeOType() { ClassName = classname, Namespace = @namespace, Project = project, TypeOBaseType = typeOBaseType };//TODO: Remove this
-            var key = typeOType.FullName;
-            if (!project.TypeOTypes.ContainsKey(key))
-            {
-                project.TypeOTypes.Add(key, typeOType);
+                treeNode.AddNode($"*{typeOType.ClassName}");
             }
         }
     }

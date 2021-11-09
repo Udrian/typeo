@@ -5,7 +5,6 @@ namespace TypeD.TreeNodes
     public class Node : TreeNode
     {
         public string Name { get; set; }
-        public Item Item { get; set; }
         public Tree Tree { get; private set; }
         public Node Parent { get; private set; }
         public IList<Node> Nodes { get; set; }
@@ -15,18 +14,17 @@ namespace TypeD.TreeNodes
             Name = name;
         }
 
-        internal Node(string name, Item item, Tree tree, Node parent)
+        internal Node(string name, Tree tree, Node parent)
         {
             Name = name;
-            Item = item;
             Tree = tree;
             Parent = parent;
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name, Item item)
+        public void AddNode(string name)
         {
-            Tree.AddNode(this, name, item);
+            Tree.AddNode(this, name);
         }
 
         public bool Contains(string name)
