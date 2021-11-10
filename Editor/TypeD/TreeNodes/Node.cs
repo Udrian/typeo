@@ -5,26 +5,25 @@ namespace TypeD.TreeNodes
     public class Node : TreeNode
     {
         public string Name { get; set; }
+        public string Type { get; set; }
         public Tree Tree { get; private set; }
         public Node Parent { get; private set; }
         public IList<Node> Nodes { get; set; }
 
-        public Node(string name)
-        {
-            Name = name;
-        }
+        public string IconPath { get { return $"/Icons/{Type}.png"; } }
 
-        internal Node(string name, Tree tree, Node parent)
+        internal Node(string name, string type, Tree tree, Node parent)
         {
             Name = name;
+            Type = type;
             Tree = tree;
             Parent = parent;
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name)
+        public void AddNode(string name, string type)
         {
-            Tree.AddNode(this, name);
+            Tree.AddNode(this, type, name);
         }
 
         public bool Contains(string name)

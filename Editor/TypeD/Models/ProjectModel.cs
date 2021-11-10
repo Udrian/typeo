@@ -150,18 +150,18 @@ namespace TypeD.Models
                 if (string.IsNullOrEmpty(ns)) continue;
                 if (!treeNode.Contains(ns))
                 {
-                    treeNode.AddNode(ns);
+                    treeNode.AddNode(ns, "namespace");
                 }
                 treeNode = treeNode.Get(ns);
             }
 
             if(TypeOTypeProvider.Exists(project, typeOType))
             {
-                treeNode.AddNode(typeOType.ClassName);
+                treeNode.AddNode(typeOType.ClassName, typeOType.TypeOBaseType);
             }
             else
             {
-                treeNode.AddNode($"*{typeOType.ClassName}");
+                treeNode.AddNode($"*{typeOType.ClassName}", typeOType.TypeOBaseType);
             }
         }
     }
