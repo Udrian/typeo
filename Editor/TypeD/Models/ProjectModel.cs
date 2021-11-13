@@ -144,7 +144,6 @@ namespace TypeD.Models
                 namespaces.RemoveAt(0);
 
             TreeNode treeNode = project.TypeOTypeTree;
-            //TODO: Need to display folder or namespace nodes in a specific way
             foreach (var ns in namespaces)
             {
                 if (string.IsNullOrEmpty(ns)) continue;

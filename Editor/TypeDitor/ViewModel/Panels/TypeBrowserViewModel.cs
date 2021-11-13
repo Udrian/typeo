@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using TypeD.Models.Data;
@@ -11,6 +12,15 @@ namespace TypeDitor.ViewModel.Panels
 {
     class TypeBrowserViewModel
     {
+        public class Node
+        {
+            public string IconPath { get { return $"/Icons/{Type}.png"; } }
+            public string Name { get { return Context.Name; } }
+            public string Type { get { return Context.Type; } }
+            public TypeD.TreeNodes.Node Context { get; set; }
+            public ObservableCollection<Node> Nodes { get; set; }
+        }
+
         // Models
         IHookModel HookModel { get; set; }
 
@@ -29,13 +39,29 @@ namespace TypeDitor.ViewModel.Panels
             TreeView = treeView;
 
             HookModel.AddHook("TypeTreeBuilt", BuildTree);
-            Nodes = new ObservableCollection<Node>(LoadedProject.TypeOTypeTree.Nodes);
+            Nodes = TreeToNodeList(LoadedProject.TypeOTypeTree.Nodes);
             TreeView.ItemsSource = Nodes;
+        }
+
+        private ObservableCollection<Node> TreeToNodeList(IList<TypeD.TreeNodes.Node> treeNodes)
+        {
+            var nodes = new ObservableCollection<Node>();
+
+            foreach(var treeNode in treeNodes)
+            {
+                nodes.Add(new Node()
+                {
+                    Context = treeNode,
+                    Nodes = TreeToNodeList(treeNode.Nodes)
+                });
+            }
+
+            return nodes;
         }
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
         {
-            var typeContextMenuOpenedHook = new TypeContextMenuOpenedHook(node);
+            var typeContextMenuOpenedHook = new TypeContextMenuOpenedHook(node.Context);
             HookModel.Shoot("TypeContextMenuOpened", typeContextMenuOpenedHook);
 
             contextMenu.Items.Clear();
@@ -47,15 +73,57 @@ namespace TypeDitor.ViewModel.Panels
 
         private void BuildTree(object param)
         {
-            //TODO: Tree shouldn't colapse
             if (param is not TypeTreeBuiltHook hookParam) return;
-
-            Nodes = new ObservableCollection<Node>(hookParam.Tree.Nodes);
-
             TreeView.Dispatcher.Invoke(() =>
             {
-                TreeView.ItemsSource = Nodes;
+                var treeNodes = TreeToNodeList(LoadedProject.TypeOTypeTree.Nodes);
+                Buildtree(treeNodes, Nodes);
             });
+        }
+
+        private void Buildtree(IList<Node> treeNodes, IList<Node> nodes)
+        {
+            var shouldBeDeleted = new List<Node>();
+            var i = 0;
+            foreach (var treeNode in treeNodes)
+            {
+                Node foundNode = null;
+                foreach (var node in nodes)
+                {
+                    if (node.Name == treeNode.Name)
+                    {
+                        foundNode = node;
+                        break;
+                    }
+
+                    var delFound = false;
+                    foreach(var delTreeNode in treeNodes)
+                    {
+                        if(delTreeNode.Name == node.Name)
+                        {
+                            delFound = true;
+                            break;
+                        }
+                    }
+                    if(!delFound)
+                    {
+                        shouldBeDeleted.Add(node);
+                    }
+                }
+                if (foundNode == null)
+                {
+                    nodes.Insert(i, treeNode);
+                }
+                else
+                {
+                    Buildtree(treeNode.Nodes, foundNode.Nodes);
+                }
+                i++;
+            }
+            foreach(var delNode in shouldBeDeleted)
+            {
+                nodes.Remove(delNode);
+            }
         }
     }
 }

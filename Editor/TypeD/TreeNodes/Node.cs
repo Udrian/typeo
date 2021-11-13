@@ -10,8 +10,6 @@ namespace TypeD.TreeNodes
         public Node Parent { get; private set; }
         public IList<Node> Nodes { get; set; }
 
-        public string IconPath { get { return $"/Icons/{Type}.png"; } }
-
         internal Node(string name, string type, Tree tree, Node parent)
         {
             Name = name;
@@ -23,7 +21,7 @@ namespace TypeD.TreeNodes
 
         public void AddNode(string name, string type)
         {
-            Tree.AddNode(this, type, name);
+            Tree.AddNode(this, name, type);
         }
 
         public bool Contains(string name)
@@ -52,11 +50,6 @@ namespace TypeD.TreeNodes
                 node.InternalClear();
             }
             Nodes.Clear();
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

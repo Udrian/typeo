@@ -17,10 +17,15 @@
 
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding IconPath}" Width="8" Height="8"/>
-                    <TextBlock Text="{Binding Name}"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="{Binding IconPath}" Width="8" Height="8"/>
+                    <TextBlock Grid.Column="2" Text="{Binding Name}"/>
+                </Grid>
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
         

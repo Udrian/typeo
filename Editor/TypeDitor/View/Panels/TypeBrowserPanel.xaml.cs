@@ -4,7 +4,6 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
-using TypeD.TreeNodes;
 using TypeDitor.ViewModel.Panels;
 
 namespace TypeDitor.View.Panels
@@ -36,7 +35,7 @@ namespace TypeDitor.View.Panels
 
         private void ContextMenu_Opened(object sender, System.Windows.RoutedEventArgs e)
         {
-            TypeBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as Node);
+            TypeBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as TypeBrowserViewModel.Node);
         }
 
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

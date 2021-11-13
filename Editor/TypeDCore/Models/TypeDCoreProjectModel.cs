@@ -65,7 +65,7 @@ namespace TypeDCore.Models
                     typeof(EntityCode).FullName,
                     typeof(EntityTypeDCode).FullName
                 },
-                TypeOBaseType = "Entity"
+                TypeOBaseType = "Entity2D"
             });
 
             ProjectModel.BuildTypeOTypeTree(project);
