@@ -16,6 +16,10 @@ namespace TypeD.Models
         // Data
         private Dictionary<string, SaveContext> SaveContexts { get; set; }
 
+        // Models
+        IResourceModel ResourceModel { get; set; }
+        IUINotifyModel UINotifyModel { get; set; }
+
         // Constructors
         public SaveModel()
         {
@@ -24,7 +28,9 @@ namespace TypeD.Models
 
         public void Init(IResourceModel resourceModel)
         {
+            ResourceModel = resourceModel;
 
+            UINotifyModel = ResourceModel.Get<IUINotifyModel>();
         }
 
         // Functions
@@ -32,10 +38,7 @@ namespace TypeD.Models
 
         public void AddSave(string contextId, Func<Task> saveAction)
         {
-            if (!SaveContextExists(contextId))
-            {
-                SaveContexts.Add(contextId, new SaveContext() { Context = null, SaveAction = (o) => { return saveAction(); } });
-            }
+            AddSave(contextId, null, (o) => { return saveAction(); });
         }
 
         public void AddSave(string contextId, object context, Func<object, Task> saveAction)
@@ -43,6 +46,8 @@ namespace TypeD.Models
             if(!SaveContextExists(contextId))
             {
                 SaveContexts.Add(contextId, new SaveContext() { Context = context, SaveAction = saveAction });
+
+                UINotifyModel.Notify("AnythingToSave");
             }
         }
 
@@ -64,6 +69,7 @@ namespace TypeD.Models
                 await saveContext.SaveAction(saveContext.Context);
             }
             SaveContexts.Clear();
+            UINotifyModel.Notify("AnythingToSave");
         }
     }
 }

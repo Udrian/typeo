@@ -23,8 +23,7 @@ namespace TypeDitor.View
             InitializeComponent();
 
             MainWindowViewModel = new MainWindowViewModel(
-                FindResource("ProjectModel") as IProjectModel, FindResource("ModuleModel") as IModuleModel, FindResource("HookModel") as IHookModel, FindResource("SaveModel") as ISaveModel,
-                FindResource("RecentProvider") as IRecentProvider, FindResource("ProjectProvider") as IProjectProvider, FindResource("ModuleProvider") as IModuleProvider,
+                FindResource("ResourceModel") as IResourceModel,
                 loadedProject
             );
             DataContext = MainWindowViewModel;

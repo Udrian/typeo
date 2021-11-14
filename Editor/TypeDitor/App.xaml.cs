@@ -14,11 +14,12 @@ namespace TypeDitor
     public partial class App : Application
     {
         // Models
+        public IResourceModel ResourceModel { get; set; }
         public IModuleModel ModuleModel { get; set; }
         public IProjectModel ProjectModel { get; set; }
         public IHookModel HookModel { get; set; }
-        public IResourceModel ResourceModel { get; set; }
         public ISaveModel SaveModel { get; set; }
+        public IUINotifyModel UINotifyModel { get; set; }
 
         // Providers
         public IRecentProvider RecentProvider { get; set; }
@@ -30,21 +31,22 @@ namespace TypeDitor
         {
             base.OnStartup(e);
 
-
             // Models
             ResourceModel = new ResourceModel(Resources);
-            HookModel = new HookModel();
-            SaveModel = new SaveModel();
             ModuleModel = new ModuleModel();
             ProjectModel = new ProjectModel();
+            HookModel = new HookModel();
+            SaveModel = new SaveModel();
+            UINotifyModel = new UINotifyModel();
 
             var modelResource = new ResourceDictionary
             {
+                { "ResourceModel", ResourceModel },
                 { "ModuleModel", ModuleModel },
                 { "ProjectModel", ProjectModel },
                 { "HookModel", HookModel },
-                { "ResourceModel", ResourceModel },
-                { "SaveModel", SaveModel }
+                { "SaveModel", SaveModel },
+                { "UINotifyModel", UINotifyModel }
             };
             Resources.MergedDictionaries.Add(modelResource);
             

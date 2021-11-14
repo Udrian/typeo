@@ -8,7 +8,12 @@ namespace TypeD.Commands
         private readonly Predicate<object> canExecute;
         private readonly Action<object> execute;
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
 
         public CustomCommands() : this(null, null)
         {
@@ -41,7 +46,7 @@ namespace TypeD.Commands
 
         public void RaiseCanExecuteChanged()
         {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            CommandManager.InvalidateRequerySuggested();
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using TypeD.Models.Data;
+﻿using System.Windows.Input;
+using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeD.ViewModel;
 using TypeDitor.Commands.Project;
 using TypeDitor.Helpers;
 using TypeDitor.View;
@@ -9,13 +11,15 @@ using TypeDitor.View.Dialogs.Tools;
 
 namespace TypeDitor.ViewModel
 {
-    class MainWindowViewModel
+    class MainWindowViewModel : ViewModelBase
     {
         // Models
+        IResourceModel ResourceModel { get; set; }
         IProjectModel ProjectModel { get; set; }
         IModuleModel ModuleModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
+        IUINotifyModel UINotifyModel { get; set; }
 
         // Providers
         IRecentProvider RecentProvider { get; set; }
@@ -34,19 +38,19 @@ namespace TypeDitor.ViewModel
         public Project LoadedProject { get; private set; }
 
         // Constructors
-        public MainWindowViewModel(
-                                            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel,
-            IRecentProvider recentProvider, IProjectProvider projectProvider, IModuleProvider moduleProvider,
-            Project loadedProject
-        )
+        public MainWindowViewModel(IResourceModel resourceModel, Project loadedProject)
         {
-            ProjectModel = projectModel;
-            ModuleModel = moduleModel;
-            HookModel = hookModel;
-            SaveModel = saveModel;
-            RecentProvider = recentProvider;
-            ProjectProvider = projectProvider;
-            ModuleProvider = moduleProvider;
+            ResourceModel = resourceModel;
+
+            ProjectModel = ResourceModel.Get<IProjectModel>();
+            ModuleModel = ResourceModel.Get<IModuleModel>();
+            HookModel = ResourceModel.Get<IHookModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
+            UINotifyModel = ResourceModel.Get<IUINotifyModel>();
+
+            RecentProvider = ResourceModel.Get<IRecentProvider>();
+            ProjectProvider = ResourceModel.Get<IProjectProvider>();
+            ModuleProvider = ResourceModel.Get<IModuleProvider>();
 
             BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
             ExitProjectCommand = new ExitProjectCommand();
@@ -56,6 +60,11 @@ namespace TypeDitor.ViewModel
             SaveProjectCommand = new SaveProjectCommand(SaveModel);
 
             LoadedProject = loadedProject;
+
+            UINotifyModel.Attach("MainWindowViewModel", (name) => {
+                CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
+                OnPropertyChanged(name);
+            });
         }
 
         public void InitUI(MainWindow mainWindow)
