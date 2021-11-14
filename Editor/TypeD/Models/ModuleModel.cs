@@ -8,7 +8,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class ModuleModel : IModuleModel
+    public class ModuleModel : IModuleModel, IModelProvider
     {
         // Models
         public IHookModel HookModel { get; set; }
@@ -19,11 +19,16 @@ namespace TypeD.Models
         public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
 
         // Constructors
-        public ModuleModel(IHookModel hookModel, IResourceModel resourceModel, ISaveModel saveModel)
+        public ModuleModel()
         {
-            HookModel = hookModel;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
             ResourceModel = resourceModel;
-            SaveModel = saveModel;
+
+            HookModel = ResourceModel.Get<IHookModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
         }
 
         // Functions

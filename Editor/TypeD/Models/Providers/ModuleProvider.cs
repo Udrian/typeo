@@ -10,15 +10,22 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ModuleProvider : IModuleProvider
+    public class ModuleProvider : IModuleProvider, IModelProvider
     {
         // Models
-        private ModuleModel ModuleModel { get; set; }
+        IResourceModel ResourceModel { get; set; }
+        private ModuleModel ModuleModel { get; set; } //TODO: Should be Interface?
 
         // Constructors
-        public ModuleProvider(IModuleModel moduleModel)
+        public ModuleProvider()
         {
-            ModuleModel = moduleModel as ModuleModel;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            ResourceModel = resourceModel;
+
+            ModuleModel = ResourceModel.Get<ModuleModel>();
         }
 
         // Functions

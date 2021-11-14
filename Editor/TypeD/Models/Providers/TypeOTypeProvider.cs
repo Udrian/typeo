@@ -9,20 +9,29 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class TypeOTypeProvider : ITypeOTypeProvider
+    public class TypeOTypeProvider : ITypeOTypeProvider, IModelProvider
     {
         private static string TypeOTypeFileEnding = "type";
 
         // Model
+        IResourceModel ResourceModel { get; set; }
         IProjectModel ProjectModel { get; set; }
         ISaveModel SaveModel { get; set; }
 
-        public TypeOTypeProvider(IProjectModel projectModel, ISaveModel saveModel)
+        // Constructors
+        public TypeOTypeProvider()
         {
-            ProjectModel = projectModel;
-            SaveModel = saveModel;
         }
 
+        public void Init(IResourceModel resourceModel)
+        {
+            ResourceModel = resourceModel;
+
+            ProjectModel = ResourceModel.Get<IProjectModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
+        }
+
+        // Functions
         public TypeOType Load(Project project, string fullName)
         {
             if (string.IsNullOrEmpty(fullName)) return null;

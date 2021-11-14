@@ -9,18 +9,26 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class RecentProvider : IRecentProvider
+    public class RecentProvider : IRecentProvider, IModelProvider
     {
         public ObservableCollection<Recent> Recents { get; set; }
 
         // Models
-        private RecentModel RecentModel { get; set; }
+        IResourceModel ResourceModel { get; set; }
+        RecentModel RecentModel { get; set; } //TODO: Should be Interface
 
         // Constructors
-        public RecentProvider(IRecentModel recentModel)
+        public RecentProvider()
         {
-            RecentModel = recentModel as RecentModel;
             Recents = new ObservableCollection<Recent>();
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            ResourceModel = resourceModel;
+
+            RecentModel = ResourceModel.Get<RecentModel>();
+
             Load();
         }
 

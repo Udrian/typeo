@@ -5,7 +5,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class SaveModel : ISaveModel
+    public class SaveModel : ISaveModel, IModelProvider
     {
         private class SaveContext
         {
@@ -20,6 +20,11 @@ namespace TypeD.Models
         public SaveModel()
         {
             SaveContexts = new Dictionary<string, SaveContext>();
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+
         }
 
         // Functions

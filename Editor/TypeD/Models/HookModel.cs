@@ -4,7 +4,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class HookModel : IHookModel
+    public class HookModel : IHookModel, IModelProvider
     {
         private Dictionary<string, List<Action<object>>> Hooks { get; set; }
 
@@ -12,6 +12,10 @@ namespace TypeD.Models
         public HookModel()
         {
             ClearHooks();
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
         }
 
         public void ClearHooks()

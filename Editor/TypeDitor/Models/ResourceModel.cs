@@ -5,11 +5,12 @@ namespace TypeDitor.Models
 {
     public class ResourceModel : IResourceModel
     {
-        internal ResourceDictionary Resources { get; set; }
+        ResourceDictionary Resources { get; set; }
 
         // Constructors
-        public ResourceModel()
+        public ResourceModel(ResourceDictionary resources)
         {
+            Resources = resources;
         }
 
         // Functions
@@ -27,6 +28,16 @@ namespace TypeDitor.Models
             if(!Resources.Contains(key))
                 return null;
             return Resources[key] as T;
+        }
+
+        public T Get<T>() where T : class
+        {
+            var type = typeof(T);
+            if(type.IsInterface && type.Name.StartsWith("I"))
+            {
+                return Get<T>(type.Name.Remove(0));
+            }
+            return Get<T>(type.Name);
         }
     }
 }

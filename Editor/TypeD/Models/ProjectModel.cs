@@ -14,27 +14,32 @@ using TypeD.TreeNodes;
 
 namespace TypeD.Models
 {
-    public class ProjectModel : IProjectModel
+    public class ProjectModel : IProjectModel, IModelProvider
     {
         // Models
-        ModuleModel ModuleModel { get; set; }
+        ModuleModel ModuleModel { get; set; } //TODO: Should be interface?
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
-        IResourceModel Resources { get; set; }
+        IResourceModel ResourceModel { get; set; }
 
         // Providers
-        public IProjectProvider ProjectProvider { get; set; } //TODO: Should not be public
-        public ITypeOTypeProvider TypeOTypeProvider { get; set; } //TODO: Should not be public
+        IProjectProvider ProjectProvider { get; set; }
+        ITypeOTypeProvider TypeOTypeProvider { get; set; }
 
         // Constructors
-        public ProjectModel(IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel, IResourceModel resources, IProjectProvider projectProvider, ITypeOTypeProvider typeOTypeProvider)
+        public ProjectModel()
         {
-            ModuleModel = moduleModel as ModuleModel;
-            HookModel = hookModel;
-            SaveModel = saveModel;
-            Resources = resources;
-            ProjectProvider = projectProvider;
-            TypeOTypeProvider = typeOTypeProvider;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            ResourceModel = resourceModel;
+
+            ModuleModel = ResourceModel.Get<ModuleModel>();
+            HookModel = ResourceModel.Get<IHookModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
+            ProjectProvider = ResourceModel.Get<IProjectProvider>();
+            TypeOTypeProvider = ResourceModel.Get<ITypeOTypeProvider>();
         }
 
         // Functions
@@ -78,7 +83,7 @@ namespace TypeD.Models
         public void AddCode(Project project, Codalyzer code)
         {
             code.Project = project;
-            code.Resources = Resources;
+            code.Resources = ResourceModel;
             code.Init();
             if (!code.Initialized) throw new Exception($"Codalyzer '{code.GetType().FullName}' not initialized");
 

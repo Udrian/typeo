@@ -30,13 +30,14 @@ namespace TypeDitor
         {
             base.OnStartup(e);
 
+
             // Models
+            ResourceModel = new ResourceModel(Resources);
             RecentModel = new RecentModel();
             HookModel = new HookModel();
-            ResourceModel = new ResourceModel();
             SaveModel = new SaveModel();
-            ModuleModel = new ModuleModel(HookModel, ResourceModel, SaveModel);
-            ProjectModel = new ProjectModel(ModuleModel, HookModel, SaveModel, ResourceModel, null, null);//TODO: Not really the way to go 1/2
+            ModuleModel = new ModuleModel();
+            ProjectModel = new ProjectModel();
 
             var modelResource = new ResourceDictionary
             {
@@ -47,15 +48,13 @@ namespace TypeDitor
                 { "ResourceModel", ResourceModel },
                 { "SaveModel", SaveModel }
             };
-            Resources = modelResource;
-
+            Resources.MergedDictionaries.Add(modelResource);
+            
             // Providers
-            RecentProvider = new RecentProvider(RecentModel);
-            ModuleProvider = new ModuleProvider(ModuleModel);
-            ProjectProvider = new ProjectProvider(ProjectModel, ModuleModel, HookModel, SaveModel, ModuleProvider);
-            TypeOTypeProvider = new TypeOTypeProvider(ProjectModel, SaveModel);
-            (ProjectModel as ProjectModel).ProjectProvider = ProjectProvider;//TODO: Not really the way to go 2/2
-            (ProjectModel as ProjectModel).TypeOTypeProvider = TypeOTypeProvider;//TODO: Not really the way to go 2/2
+            RecentProvider = new RecentProvider();
+            ModuleProvider = new ModuleProvider();
+            ProjectProvider = new ProjectProvider();
+            TypeOTypeProvider = new TypeOTypeProvider();
 
             var providerResource = new ResourceDictionary
             {
@@ -66,7 +65,16 @@ namespace TypeDitor
             };
             Resources.MergedDictionaries.Add(providerResource);
 
-            (ResourceModel as ResourceModel).Resources = Resources;
+            // Init
+            foreach(IModelProvider resouce in modelResource)
+            {
+                resouce.Init(ResourceModel);
+            }
+
+            foreach (IModelProvider resouce in providerResource)
+            {
+                resouce.Init(ResourceModel);
+            }
         }
     }
 }

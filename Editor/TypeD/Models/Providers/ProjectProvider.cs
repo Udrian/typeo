@@ -13,28 +13,32 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ProjectProvider : IProjectProvider
+    public class ProjectProvider : IProjectProvider, IModelProvider
     {
         // Models
-        private ProjectModel ProjectModel { get; set; }
-        private ModuleModel ModuleModel { get; set; }
-        private IHookModel HookModel { get; set; }
-        private ISaveModel SaveModel { get; set; }
+        IResourceModel ResourceModel { get; set; }
+        ProjectModel ProjectModel { get; set; } //TODO: Should be interface?
+        ModuleModel ModuleModel { get; set; } //TODO: Should be interface?
+        IHookModel HookModel { get; set; }
+        ISaveModel SaveModel { get; set; }
 
         // Providers
-        private IModuleProvider ModuleProvider { get; set; }
+        IModuleProvider ModuleProvider { get; set; }
 
         // Constructors
-        public ProjectProvider(
-            IProjectModel projectModel, IModuleModel moduleModel, IHookModel hookModel, ISaveModel saveModel,
-                                        IModuleProvider moduleProvider
-            )
+        public ProjectProvider()
         {
-            ProjectModel = projectModel as ProjectModel;
-            ModuleModel = moduleModel as ModuleModel;
-            HookModel = hookModel;
-            SaveModel = saveModel;
-            ModuleProvider = moduleProvider;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            ResourceModel = resourceModel;
+
+            ProjectModel = ResourceModel.Get<ProjectModel>();
+            ModuleModel = ResourceModel.Get<ModuleModel>();
+            HookModel = ResourceModel.Get<IHookModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
+            ModuleProvider = ResourceModel.Get<IModuleProvider>();
         }
 
         // Functions
