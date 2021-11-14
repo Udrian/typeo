@@ -34,12 +34,12 @@ namespace TypeDCore
         public override void Initializer()
         {
             // Models
-            ProjectModel = Resources.Get<IProjectModel>("ProjectModel");
-            SaveModel = Resources.Get<ISaveModel>("SaveModel");
+            ProjectModel = Resources.Get<IProjectModel>();
+            SaveModel = Resources.Get<ISaveModel>();
 
             // Providers
-            ProjectProvider = Resources.Get<IProjectProvider>("ProjectProvider");
-            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>("TypeOTypeProvider");
+            ProjectProvider = Resources.Get<IProjectProvider>();
+            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>();
 
             // Internal Models
             TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider, TypeOTypeProvider);

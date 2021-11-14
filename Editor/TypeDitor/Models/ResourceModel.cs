@@ -3,7 +3,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Models
 {
-    public class ResourceModel : IResourceModel
+    public class ResourceModel : IResourceModel, IModel
     {
         ResourceDictionary Resources { get; set; }
 
@@ -11,6 +11,11 @@ namespace TypeDitor.Models
         public ResourceModel(ResourceDictionary resources)
         {
             Resources = resources;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            // This is not used
         }
 
         // Functions
@@ -35,7 +40,7 @@ namespace TypeDitor.Models
             var type = typeof(T);
             if(type.IsInterface && type.Name.StartsWith("I"))
             {
-                return Get<T>(type.Name.Remove(0));
+                return Get<T>(type.Name.Substring(1));
             }
             return Get<T>(type.Name);
         }

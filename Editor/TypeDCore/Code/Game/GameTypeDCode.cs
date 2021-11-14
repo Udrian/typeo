@@ -22,7 +22,7 @@ namespace TypeDCore.Code.Game
         public override void Init()
         {
             Init($"{Project.ProjectName}Game", $"{Project.ProjectName}");
-            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>("TypeOTypeProvider");
+            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>();
 
             Usings.AddRange(new List<string>()
             {

@@ -11,5 +11,6 @@ namespace TypeD.Models.Interfaces
         public void AddCode(Project project, Codalyzer code);
         public void SetStartScene(Project project, TypeOType scene);
         public void BuildTypeOTypeTree(Project project);
+        public bool LoadAssembly(Project project);
     }
 }

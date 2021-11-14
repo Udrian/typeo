@@ -13,12 +13,12 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ProjectProvider : IProjectProvider, IModelProvider
+    public class ProjectProvider : IProjectProvider, IProvider
     {
         // Models
         IResourceModel ResourceModel { get; set; }
-        ProjectModel ProjectModel { get; set; } //TODO: Should be interface?
-        ModuleModel ModuleModel { get; set; } //TODO: Should be interface?
+        IProjectModel ProjectModel { get; set; }
+        IModuleModel ModuleModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
 
@@ -34,8 +34,8 @@ namespace TypeD.Models.Providers
         {
             ResourceModel = resourceModel;
 
-            ProjectModel = ResourceModel.Get<ProjectModel>();
-            ModuleModel = ResourceModel.Get<ModuleModel>();
+            ProjectModel = ResourceModel.Get<IProjectModel>();
+            ModuleModel = ResourceModel.Get<IModuleModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
@@ -128,7 +128,6 @@ namespace TypeD.Models.Providers
                     {
                         await ModuleModel.Download(module);
                         ModuleModel.LoadAssembly(module);
-                        ModuleModel.InitializeTypeD(module);
                     }
 
                     ProjectModel.LoadAssembly(project);

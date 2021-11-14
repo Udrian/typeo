@@ -9,13 +9,9 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class RecentProvider : IRecentProvider, IModelProvider
+    public class RecentProvider : IRecentProvider, IProvider
     {
         public ObservableCollection<Recent> Recents { get; set; }
-
-        // Models
-        IResourceModel ResourceModel { get; set; }
-        RecentModel RecentModel { get; set; } //TODO: Should be Interface
 
         // Constructors
         public RecentProvider()
@@ -25,10 +21,6 @@ namespace TypeD.Models.Providers
 
         public void Init(IResourceModel resourceModel)
         {
-            ResourceModel = resourceModel;
-
-            RecentModel = ResourceModel.Get<RecentModel>();
-
             Load();
         }
 
@@ -45,9 +37,9 @@ namespace TypeD.Models.Providers
             }
             Recents.Insert(0, new Recent() { Name = projectName, Path = projectFilePath, DateTime = DateTime.Now });
 
-            if (Recents.Count > RecentModel.RecentLength)
+            if (Recents.Count > RecentLength)
             {
-                for(int i = RecentModel.RecentLength; i < Recents.Count - RecentModel.RecentLength; i++)
+                for(int i = RecentLength; i < Recents.Count - RecentLength; i++)
                 {
                     Recents.RemoveAt(i);
                 }
@@ -61,11 +53,14 @@ namespace TypeD.Models.Providers
             return Recents;
         }
 
-        // Internal functions
+        // Internal
+        private string RecentFilePath { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", "recent"); } }
+        private int RecentLength { get { return 5; } }
+
         private void Load()
         {
             Recents.Clear();
-            var recents = JSON.Deserialize<List<Recent>>(RecentModel.RecentFilePath) ?? new List<Recent>();
+            var recents = JSON.Deserialize<List<Recent>>(RecentFilePath) ?? new List<Recent>();
             recents.RemoveAll((recent) => { return !File.Exists(recent.Path); });
 
             recents.ForEach(x => Recents.Add(x));
@@ -73,7 +68,7 @@ namespace TypeD.Models.Providers
 
         private void Save()
         {
-            JSON.Serialize(Recents, RecentModel.RecentFilePath);
+            JSON.Serialize(Recents, RecentFilePath);
         }
     }
 }

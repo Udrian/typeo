@@ -1,8 +1,8 @@
 ﻿using TypeD.Models.Interfaces;
 
-namespace TypeD.Models
+namespace TypeD.Models.Providers.Interfaces
 {
-    public interface IModelProvider //TODO: Change name
+    public interface IProvider
     {
         void Init(IResourceModel resourceModel);
     }

@@ -1,20 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using TypeD.Helpers;
-using TypeD.Models.DTO;
 using System.Threading.Tasks;
+using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ModuleProvider : IModuleProvider, IModelProvider
+    public class ModuleProvider : IModuleProvider, IProvider
     {
         // Models
         IResourceModel ResourceModel { get; set; }
-        private ModuleModel ModuleModel { get; set; } //TODO: Should be Interface?
 
         // Constructors
         public ModuleProvider()
@@ -24,8 +22,6 @@ namespace TypeD.Models.Providers
         public void Init(IResourceModel resourceModel)
         {
             ResourceModel = resourceModel;
-
-            ModuleModel = ResourceModel.Get<ModuleModel>();
         }
 
         // Functions

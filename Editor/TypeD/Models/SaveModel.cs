@@ -5,7 +5,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class SaveModel : ISaveModel, IModelProvider
+    public class SaveModel : ISaveModel, IModel
     {
         private class SaveContext
         {

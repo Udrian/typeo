@@ -14,10 +14,10 @@ using TypeD.TreeNodes;
 
 namespace TypeD.Models
 {
-    public class ProjectModel : IProjectModel, IModelProvider
+    public class ProjectModel : IProjectModel, IModel
     {
         // Models
-        ModuleModel ModuleModel { get; set; } //TODO: Should be interface?
+        IModuleModel ModuleModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
         IResourceModel ResourceModel { get; set; }
@@ -35,7 +35,7 @@ namespace TypeD.Models
         {
             ResourceModel = resourceModel;
 
-            ModuleModel = ResourceModel.Get<ModuleModel>();
+            ModuleModel = ResourceModel.Get<IModuleModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
@@ -125,8 +125,7 @@ namespace TypeD.Models
             HookModel.Shoot("TypeTreeBuilt", new TypeTreeBuiltHook(project.TypeOTypeTree));
         }
 
-        //Internal functions
-        internal bool LoadAssembly(Project project)
+        public bool LoadAssembly(Project project)
         {
             var path = Path.Combine(project.ProjectBuildOutputPath, $"{project.CSProjName}.dll");
             if (!File.Exists(path)) return false;
@@ -141,6 +140,8 @@ namespace TypeD.Models
 
             return true;
         }
+
+        // Internal
 
         private void AddTypeToTree(Project project, TypeOType typeOType)
         {

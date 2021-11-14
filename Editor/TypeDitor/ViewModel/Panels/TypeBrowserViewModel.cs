@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
-using TypeD.TreeNodes;
 using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels

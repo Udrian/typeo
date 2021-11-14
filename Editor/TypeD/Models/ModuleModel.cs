@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TypeD.Models.Data;
@@ -8,7 +10,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class ModuleModel : IModuleModel, IModelProvider
+    public class ModuleModel : IModuleModel, IModel
     {
         // Models
         public IHookModel HookModel { get; set; }
@@ -81,17 +83,25 @@ namespace TypeD.Models
             return true;
             //TODO progress bar
         }
+
         public void LoadAssembly(Module module)
         {
             if (!File.Exists(module.ModuleDLLPath)) return;
             module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
 
             module.ModuleTypeInfo = GetModuleType(module);
+            
+            InitializeTypeD(module);
+        }
+
+        public void AddToProjectXML(Module module, XElement project)
+        {
+            AddReference(module, GetItemGroup(project, "Debug"));
+            AddReference(module, GetItemGroup(project, "Release"));
         }
 
         // Internal functions
-
-        internal void InitializeTypeD(Module module)
+        private void InitializeTypeD(Module module)
         {
             if (!module.IsTypeD) return;
 
@@ -102,12 +112,6 @@ namespace TypeD.Models
             typeDInit.Hooks = HookModel;
             typeDInit.Resources = ResourceModel;
             typeDInit.Initializer();
-        }
-
-        internal void AddToProjectXML(Module module, XElement project)
-        {
-            AddReference(module, GetItemGroup(project, "Debug"));
-            AddReference(module, GetItemGroup(project, "Release"));
         }
 
         private System.Reflection.TypeInfo GetModuleType(Module module)
@@ -126,7 +130,7 @@ namespace TypeD.Models
             return moduleType;
         }
 
-        private static XElement GetItemGroup(XElement project, string configuration)
+        private XElement GetItemGroup(XElement project, string configuration)
         {
             var configString = $"'$(Configuration)' == '{configuration}'";
             var itemGroups = project.Elements("ItemGroup");

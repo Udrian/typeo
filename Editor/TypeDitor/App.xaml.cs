@@ -4,6 +4,7 @@ using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.Models.Providers;
 using TypeDitor.Models;
+using System.Collections;
 
 namespace TypeDitor
 {
@@ -13,7 +14,6 @@ namespace TypeDitor
     public partial class App : Application
     {
         // Models
-        public IRecentModel RecentModel { get; set; }
         public IModuleModel ModuleModel { get; set; }
         public IProjectModel ProjectModel { get; set; }
         public IHookModel HookModel { get; set; }
@@ -33,7 +33,6 @@ namespace TypeDitor
 
             // Models
             ResourceModel = new ResourceModel(Resources);
-            RecentModel = new RecentModel();
             HookModel = new HookModel();
             SaveModel = new SaveModel();
             ModuleModel = new ModuleModel();
@@ -41,7 +40,6 @@ namespace TypeDitor
 
             var modelResource = new ResourceDictionary
             {
-                { "RecentModel", RecentModel },
                 { "ModuleModel", ModuleModel },
                 { "ProjectModel", ProjectModel },
                 { "HookModel", HookModel },
@@ -66,14 +64,16 @@ namespace TypeDitor
             Resources.MergedDictionaries.Add(providerResource);
 
             // Init
-            foreach(IModelProvider resouce in modelResource)
+            foreach(DictionaryEntry resouce in modelResource)
             {
-                resouce.Init(ResourceModel);
+                var model = resouce.Value as IModel;
+                model.Init(ResourceModel);
             }
 
-            foreach (IModelProvider resouce in providerResource)
+            foreach (DictionaryEntry resouce in providerResource)
             {
-                resouce.Init(ResourceModel);
+                var provider = resouce.Value as IProvider;
+                provider.Init(ResourceModel);
             }
         }
     }

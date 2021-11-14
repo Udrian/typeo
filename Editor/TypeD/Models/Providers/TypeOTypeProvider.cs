@@ -9,7 +9,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class TypeOTypeProvider : ITypeOTypeProvider, IModelProvider
+    public class TypeOTypeProvider : ITypeOTypeProvider, IProvider
     {
         private static string TypeOTypeFileEnding = "type";
 
