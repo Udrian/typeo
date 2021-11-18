@@ -1,18 +1,19 @@
 ﻿using System.IO;
 using System.Windows;
 using TypeD.Commands;
+using TypeD.Models.Data;
 using TypeDitor.View;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
-    class ProjectCommands : CustomCommands
+    class ProjectCommands : CustomCommand
     {
         protected bool IsDirectory(string filePath)
         {
             return Path.GetFileName(filePath) == Path.GetFileNameWithoutExtension(filePath);
         }
 
-        protected void OpenMainWindow(TypeD.Models.Data.Project loadedProject)
+        protected void OpenMainWindow(Project loadedProject)
         {
             var currentMainWindow = Application.Current.MainWindow;
             var mainWindow = new MainWindow(loadedProject);

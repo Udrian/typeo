@@ -162,11 +162,11 @@ namespace TypeD.Models
 
             if(TypeOTypeProvider.Exists(project, typeOType))
             {
-                treeNode.AddNode(typeOType.ClassName, typeOType.TypeOBaseType);
+                treeNode.AddNode(typeOType.ClassName, typeOType);
             }
             else
             {
-                treeNode.AddNode($"*{typeOType.ClassName}", typeOType.TypeOBaseType);
+                treeNode.AddNode($"*{typeOType.ClassName}", typeOType);
             }
         }
     }

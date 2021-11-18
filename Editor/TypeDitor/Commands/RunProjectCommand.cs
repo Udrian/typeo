@@ -1,6 +1,7 @@
-﻿using TypeD.Models.Interfaces;
+﻿using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class RunProjectCommand : ProjectCommands
     {
@@ -14,8 +15,8 @@ namespace TypeDitor.Commands.Project
 
         public override void Execute(object param)
         {
-            if (param is TypeD.Models.Data.Project)
-                ProjectModel.Run(param as TypeD.Models.Data.Project);
+            if (param is Project)
+                ProjectModel.Run(param as Project);
         }
     }
 }

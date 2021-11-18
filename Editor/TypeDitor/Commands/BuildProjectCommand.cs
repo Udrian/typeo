@@ -1,6 +1,7 @@
-﻿using TypeD.Models.Interfaces;
+﻿using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class BuildProjectCommand : ProjectCommands
     {
@@ -16,7 +17,7 @@ namespace TypeDitor.Commands.Project
 
         public async override void Execute(object param)
         {
-            var project = param as TypeD.Models.Data.Project;
+            var project = param as Project;
 
             if (SaveModel.AnythingToSave)
             {

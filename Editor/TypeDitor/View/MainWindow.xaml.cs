@@ -2,8 +2,6 @@
 using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
-using TypeD.Models.Providers.Interfaces;
-using TypeDitor.View.Documents;
 using TypeDitor.View.Panels;
 using TypeDitor.ViewModel;
 
@@ -17,6 +15,8 @@ namespace TypeDitor.View
         // ViewModel
         MainWindowViewModel MainWindowViewModel { get; set; }
 
+        public TabControl Tabs { get; set; }
+
         // Constructors
         public MainWindow(Project loadedProject)
         {
@@ -24,13 +24,18 @@ namespace TypeDitor.View
 
             MainWindowViewModel = new MainWindowViewModel(
                 FindResource("ResourceModel") as IResourceModel,
-                loadedProject
+                loadedProject,
+                this
             );
             DataContext = MainWindowViewModel;
 
+            Application.Current.Resources.Add("MainWindowViewModel", MainWindowViewModel);
+
+            Tabs = new TabControl();
+
             DockRoot.AddPanel(new TypeBrowserPanel(loadedProject), Dock.Left);
             DockRoot.AddPanel(new OutputPanel(), Dock.Bottom);
-            DockRoot.AddPanel(new EmptyDocument());
+            DockRoot.AddPanel(Tabs);
 
             MainWindowViewModel.InitUI(this);
         }

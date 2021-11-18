@@ -1,10 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.ViewModel;
-using TypeDitor.Commands.Project;
+using TypeDitor.Commands;
 using TypeDitor.Helpers;
 using TypeDitor.View;
 using TypeDitor.View.Dialogs.Tools;
@@ -33,12 +34,14 @@ namespace TypeDitor.ViewModel
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
+        public OpenTypeOTypeCommand OpenTypeOTypeCommand { get; set; }
 
         // Data
         public Project LoadedProject { get; private set; }
+        MainWindow MainWindow { get; set; }
 
         // Constructors
-        public MainWindowViewModel(IResourceModel resourceModel, Project loadedProject)
+        public MainWindowViewModel(IResourceModel resourceModel, Project loadedProject, MainWindow mainWindow)
         {
             ResourceModel = resourceModel;
 
@@ -58,8 +61,10 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand(SaveModel);
+            OpenTypeOTypeCommand = new OpenTypeOTypeCommand(this);
 
             LoadedProject = loadedProject;
+            MainWindow = mainWindow;
 
             UINotifyModel.Attach("MainWindowViewModel", (name) => {
                 CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
@@ -82,6 +87,11 @@ namespace TypeDitor.ViewModel
         {
             var modulesDialog = new ModulesDialog(ModuleModel, ProjectModel, SaveModel, ModuleProvider, LoadedProject);
             modulesDialog.Show();
+        }
+
+        public void OpenDocument(string header, object content)
+        {
+            MainWindow.Tabs.Items.Add(new TabItem() { Header = header, Content = content });
         }
     }
 }

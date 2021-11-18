@@ -1,6 +1,6 @@
 ﻿using TypeD.Models.Interfaces;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class SaveProjectCommand : ProjectCommands
     {

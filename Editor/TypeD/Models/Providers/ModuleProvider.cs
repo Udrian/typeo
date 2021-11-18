@@ -35,7 +35,8 @@ namespace TypeD.Models.Providers
                     new ModuleList() { Name = "TypeDCore", Versions = new List<string>() { "local", "local" } },
                     new ModuleList() { Name = "TypeOBasic2d", Versions = new List<string>() { "local", "local" } },
                     new ModuleList() { Name = "TypeODesktop", Versions = new List<string>() { "local", "local" } },
-                    new ModuleList() { Name = "TypeOSDL", Versions = new List<string>() { "local", "local" } }
+                    new ModuleList() { Name = "TypeOSDL", Versions = new List<string>() { "local", "local" } },
+                    new ModuleList() { Name = "TypeDSDL", Versions = new List<string>() { "local", "local" } }
                 };
             });
 #else

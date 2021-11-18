@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class ExitProjectCommand : ProjectCommands
     {

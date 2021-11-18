@@ -4,6 +4,8 @@ using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
+using TypeDitor.Commands;
+using TypeDitor.Commands.Data;
 using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
@@ -14,7 +16,12 @@ namespace TypeDitor.ViewModel.Panels
         {
             public string IconPath { get { return $"/Icons/{Type}.png"; } }
             public string Name { get { return Context.Name; } }
-            public string Type { get { return Context.Type; } }
+            public string Type { 
+                get {
+                    var typeOType = Context.Item as TypeOType;
+                    return typeOType == null ? Context.Item.ToString() : typeOType.TypeOBaseType; 
+                } 
+            }
             public TypeD.TreeNodes.Node Context { get; set; }
             public ObservableCollection<Node> Nodes { get; set; }
         }
@@ -29,8 +36,11 @@ namespace TypeDitor.ViewModel.Panels
         public Project LoadedProject { get; private set; }
         ObservableCollection<Node> Nodes { get; set; }
 
+        // Commands
+        public OpenTypeOTypeCommand OpenTypeOTypeCommand { get; set; }
+
         // Constructors
-        public TypeBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView)
+        public TypeBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel)
         {
             HookModel = hookModel;
             LoadedProject = loadedProject;
@@ -39,6 +49,8 @@ namespace TypeDitor.ViewModel.Panels
             HookModel.AddHook("TypeTreeBuilt", BuildTree);
             Nodes = TreeToNodeList(LoadedProject.TypeOTypeTree.Nodes);
             TreeView.ItemsSource = Nodes;
+
+            OpenTypeOTypeCommand = new OpenTypeOTypeCommand(mainWindowViewModel);
         }
 
         private ObservableCollection<Node> TreeToNodeList(IList<TypeD.TreeNodes.Node> treeNodes)
@@ -55,6 +67,13 @@ namespace TypeDitor.ViewModel.Panels
             }
 
             return nodes;
+        }
+
+        public void DoubleClickItem(Node node)
+        {
+            var typeOType = node.Context.Item as TypeOType;
+            if (typeOType == null) return;
+            OpenTypeOTypeCommand.Execute(new OpenTypeOTypeCommandData() { Project = LoadedProject, TypeOType = typeOType });
         }
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)

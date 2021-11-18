@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
-using TypeDitor.Commands.Project;
+using TypeDitor.Commands;
 
 namespace TypeDitor.ViewModel
 {

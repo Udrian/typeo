@@ -39,6 +39,11 @@ projects = {
         "external" : ["SDL2/release"],
         "module"   : True
     },
+    "TypeDSDL" : {
+        "projects" : ["Editor/TypeDSDL"],
+        "external" : [],
+        "module"   : True
+    },
 }
 
 def main():

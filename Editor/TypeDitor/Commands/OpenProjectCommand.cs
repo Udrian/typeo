@@ -3,7 +3,7 @@ using System;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class OpenProjectCommand : ProjectCommands
     {

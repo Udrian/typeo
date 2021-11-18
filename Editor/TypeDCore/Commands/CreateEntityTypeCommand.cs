@@ -1,17 +1,17 @@
 ﻿using TypeD.Commands;
-using TypeDCore.Commands.Project.Data;
+using TypeDCore.Commands.Data;
 using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
 
-namespace TypeDCore.Commands.Project
+namespace TypeDCore.Commands
 {
-    class CreateDrawable2dCommand : CustomCommands 
+    class CreateEntityTypeCommand : CustomCommand 
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
-        public CreateDrawable2dCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
+        public CreateEntityTypeCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
         {
             TypeDCoreProjectModel = typeDCoreProjectModel;
         }
@@ -20,11 +20,11 @@ namespace TypeDCore.Commands.Project
         {
             var data = parameter as CreateTypeCommandData;
 
-            var dialog = new CreateDrawable2dDialog();
+            var dialog = new CreateEntityTypeDialog();
             dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.EntityName, dialog.EntityNamespace);
+                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.EntityName, dialog.EntityNamespace, dialog.EntityUpdatable, dialog.EntityDrawable);
             }
         }
     }

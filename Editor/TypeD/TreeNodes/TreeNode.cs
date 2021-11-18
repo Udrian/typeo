@@ -5,7 +5,7 @@ namespace TypeD.TreeNodes
     public interface TreeNode
     {
         IList<Node> Nodes { get; set; }
-        void AddNode(string name, string type);
+        void AddNode(string name, object item);
         bool Contains(string name);
         Node Get(string name);
         void Clear();

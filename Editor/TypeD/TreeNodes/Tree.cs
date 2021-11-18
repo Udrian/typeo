@@ -11,15 +11,15 @@ namespace TypeD.TreeNodes
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name, string type)
+        public void AddNode(string name, object item)
         {
-            var node = new Node(name, type, this, null);
+            var node = new Node(name, item, this, null);
             Nodes.Add(node);
         }
 
-        internal void AddNode(Node parent, string name, string type)
+        internal void AddNode(Node parent, string name, object item)
         {
-            var node = new Node(name, type, this, parent);
+            var node = new Node(name, item, this, parent);
             parent.Nodes.Add(node);
         }
 

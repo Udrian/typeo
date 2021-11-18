@@ -6,8 +6,8 @@ using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.View;
 using TypeDCore.Code.Game;
-using TypeDCore.Commands.Project;
-using TypeDCore.Commands.Project.Data;
+using TypeDCore.Commands;
+using TypeDCore.Commands.Data;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 

@@ -1,17 +1,17 @@
 ﻿using TypeD.Commands;
-using TypeDCore.Commands.Project.Data;
+using TypeDCore.Commands.Data;
 using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
 
-namespace TypeDCore.Commands.Project
+namespace TypeDCore.Commands
 {
-    class CreateSceneCommand : CustomCommands 
+    class CreateDrawable2dCommand : CustomCommand 
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
-        public CreateSceneCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
+        public CreateDrawable2dCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
         {
             TypeDCoreProjectModel = typeDCoreProjectModel;
         }
@@ -20,11 +20,11 @@ namespace TypeDCore.Commands.Project
         {
             var data = parameter as CreateTypeCommandData;
 
-            var dialog = new CreateSceneDialog();
+            var dialog = new CreateDrawable2dDialog();
             dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateScene(data.Project, dialog.EntityName, dialog.EntityNamespace);
+                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.EntityName, dialog.EntityNamespace);
             }
         }
     }

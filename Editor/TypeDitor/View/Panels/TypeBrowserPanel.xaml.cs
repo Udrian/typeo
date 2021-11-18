@@ -1,9 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
+using TypeDitor.ViewModel;
 using TypeDitor.ViewModel.Panels;
 
 namespace TypeDitor.View.Panels
@@ -28,17 +30,18 @@ namespace TypeDitor.View.Panels
             TypeBrowserViewModel = new TypeBrowserViewModel(
                 FindResource("HookModel") as IHookModel,
                 LoadedProject,
-                TreeView
+                TreeView,
+                FindResource("MainWindowViewModel") as MainWindowViewModel
             );
             DataContext = TypeBrowserViewModel;
         }
 
-        private void ContextMenu_Opened(object sender, System.Windows.RoutedEventArgs e)
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
             TypeBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as TypeBrowserViewModel.Node);
         }
 
-        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem treeViewItem =
               VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject);
@@ -48,6 +51,12 @@ namespace TypeDitor.View.Panels
                 treeViewItem.IsSelected = true;
                 e.Handled = true;
             }
+        }
+
+        private void TreeViewItem_MouseDoubleClickEvent(object sender, MouseButtonEventArgs e)
+        {
+            if(((TreeViewItem)sender).Header == TreeView.SelectedItem)
+                TypeBrowserViewModel.DoubleClickItem(TreeView.SelectedItem as TypeBrowserViewModel.Node);
         }
 
         static T VisualUpwardSearch<T>(DependencyObject source) where T : DependencyObject

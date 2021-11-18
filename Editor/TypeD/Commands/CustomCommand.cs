@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace TypeD.Commands
 {
-    public class CustomCommands : ICommand
+    public class CustomCommand : ICommand
     {
         private readonly Predicate<object> canExecute;
         private readonly Action<object> execute;
@@ -15,15 +15,15 @@ namespace TypeD.Commands
         }
 
 
-        public CustomCommands() : this(null, null)
+        public CustomCommand() : this(null, null)
         {
         }
 
-        public CustomCommands(Action<object> execute) : this(execute, null)
+        public CustomCommand(Action<object> execute) : this(execute, null)
         {
         }
 
-        public CustomCommands(Action<object> execute, Predicate<object> canExecute)
+        public CustomCommand(Action<object> execute, Predicate<object> canExecute)
         {
             this.execute = execute;
             this.canExecute = canExecute;

@@ -2,7 +2,7 @@
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.View.Dialogs.Project;
 
-namespace TypeDitor.Commands.Project
+namespace TypeDitor.Commands
 {
     class NewProjectCommand : ProjectCommands
     {
