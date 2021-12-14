@@ -2,6 +2,7 @@
 using TypeDitor.Commands.Data;
 using TypeDitor.View.Documents;
 using TypeDitor.ViewModel;
+using TypeDSDL.View.Documents;
 
 namespace TypeDitor.Commands
 {
@@ -19,7 +20,9 @@ namespace TypeDitor.Commands
         {
             var data = parameter as OpenTypeOTypeCommandData;
 
-            MainWindowViewModel.OpenDocument($"{data.TypeOType.ClassName}.{data.TypeOType.TypeOBaseType}", new ConsoleViewerDocument(data.Project, data.TypeOType));
+            //TODO: Fix this, TypeDitor shouldnt have access to SDL
+            MainWindowViewModel.OpenDocument($"{data.TypeOType.ClassName}.{data.TypeOType.TypeOBaseType}", new SDLViewerDocument(data.Project, data.TypeOType));
+            //MainWindowViewModel.OpenDocument($"{data.TypeOType.ClassName}.{data.TypeOType.TypeOBaseType}", new ConsoleViewerDocument(data.Project, data.TypeOType));
         }
     }
 }

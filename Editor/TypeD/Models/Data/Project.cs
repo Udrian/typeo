@@ -27,7 +27,7 @@ namespace TypeD.Models.Data
         public Tree TypeOTypeTree { get; set; }
 
         // Loaded data
-        internal Assembly Assembly { get; set; }
+        public Assembly Assembly { get; internal set; }
 
         // Constructor
         internal Project(string location, ProjectDTO projectData)

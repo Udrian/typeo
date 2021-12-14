@@ -1,20 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TypeD.Models.Data;
 using TypeOEngine.Typedeaf.Core;
+using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
+using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
+using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.Desktop.Engine.Services;
+using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 
-namespace TypeD.Viewer
+namespace TypeDSDL.Viewer
 {
-    public class DrawableViewer
+    class SDLFakeGameViewer
     {
         readonly TypeO FakeTypeO;
 
         private class FakeGame : Game
         {
+            private WindowService WindowService { get; set; }
+            public Window Window { get; set; }
+            public Canvas Canvas { get; set; }
+
             public override void Initialize()
             {
+                Window = WindowService.CreateWindow("Test", new Vec2(0, 0), new Vec2(640, 480), false, true);
+                Canvas = WindowService.CreateCanvas(Window);
             }
 
             public override void Cleanup()
@@ -23,10 +35,12 @@ namespace TypeD.Viewer
 
             public override void Draw()
             {
-                foreach(var drawable in Drawables.Get<Drawable>())
+                Canvas.Clear(Color.Black);
+                foreach (var drawable in Drawables.Get<Drawable>())
                 {
-                    drawable.Draw(null);
+                    drawable.Draw(Canvas);
                 }
+                Canvas.Present();
             }
 
             public override void Update(double dt)
@@ -36,7 +50,10 @@ namespace TypeD.Viewer
 
         private FakeGame Game { get; set; }
 
-        public DrawableViewer(Project project, TypeOType drawable, List<TypeOEngine.Typedeaf.Core.Engine.Module> modules = null)
+        public IntPtr WindowHandler { get { return ((SDLWindow)Game.Window).SDL_Window; } }
+        public IntPtr CanvasHandler { get { return ((SDLCanvas)Game.Canvas).SDLRenderer; } }
+
+        public SDLFakeGameViewer(Project project, TypeOType drawable, List<TypeOEngine.Typedeaf.Core.Engine.Module> modules = null)
         {
             if (drawable.TypeOBaseType != "Drawable2d") return;
             var typeInfo = project.Assembly.GetType(drawable.FullName);
@@ -56,7 +73,7 @@ namespace TypeD.Viewer
             });
             task.Start();
 
-            while(!(FakeTypeO?.Context?.Game?.Initialized == true))
+            while (!(FakeTypeO?.Context?.Game?.Initialized == true))
             {
                 Task.Delay(100);
             }

@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDitor", "Editor\TypeDit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDCore", "Editor\TypeDCore\TypeDCore.csproj", "{27C08B26-DDC7-4081-A8E0-E74D7A50113A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeDSDL", "Editor\TypeDSDL\TypeDSDL.csproj", "{886B3E45-1088-4FD9-A2CB-0469B6940BA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypeDSDL", "Editor\TypeDSDL\TypeDSDL.csproj", "{886B3E45-1088-4FD9-A2CB-0469B6940BA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

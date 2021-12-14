@@ -74,11 +74,9 @@ namespace TypeOEngine.Typedeaf.Core
                 return this;
             }
 
-            public ITypeO LoadModule<M>(ModuleOption option = null, bool loadExtensions = true) where M : Module, new()
+            public ITypeO LoadModule(Module module, ModuleOption option = null, bool loadExtensions = true)
             {
-                var module = new M();
-
-                if(option == null)
+                if (option == null)
                 {
                     module.CreateOption();
                 }
@@ -92,6 +90,11 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Context.Modules.Add(module);
                 return this;
+            }
+
+            public ITypeO LoadModule<M>(ModuleOption option = null, bool loadExtensions = true) where M : Module, new()
+            {
+                return LoadModule(new M(), option, loadExtensions);
             }
 
             public ITypeO RequireModule<M>(Version version) where M : Module, new()
