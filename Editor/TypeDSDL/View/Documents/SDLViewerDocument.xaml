@@ -6,5 +6,5 @@
              xmlns:local="clr-namespace:TypeDSDL.View.Documents"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Unloaded="UserControl_Unloaded">
-    <Canvas x:Name="Canvas"/>
+    <Grid x:Name="Canvas"/>
 </UserControl>
