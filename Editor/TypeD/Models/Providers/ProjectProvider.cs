@@ -131,7 +131,7 @@ namespace TypeD.Models.Providers
                     }
 
                     ProjectModel.LoadAssembly(project);
-                    ProjectModel.BuildTypeOTypeTree(project);
+                    ProjectModel.BuildComponentTree(project);
 
                     return project;
                 });

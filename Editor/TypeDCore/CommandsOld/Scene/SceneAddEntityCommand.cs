@@ -2,7 +2,7 @@
 {
     public static partial class SceneCommand
     {
-        /*public static void AddEntity(this TypeD.Commands.Scene.SceneCommand _, TypeOType scene, TypeOType entity)
+        /*public static void AddEntity(this TypeD.Commands.Scene.SceneCommand _, Component scene, Component entity)
         {
             if (scene?.TypeOBaseType != "Scene") return;
             if (entity?.TypeOBaseType != "Entity") return;

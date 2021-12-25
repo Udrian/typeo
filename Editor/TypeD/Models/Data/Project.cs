@@ -24,7 +24,7 @@ namespace TypeD.Models.Data
         public string ProjectBuildOutputPath { get { return Path.Combine(ProjectTypeOPath, "build", CSProjName); } }
 
         // Tree
-        public Tree TypeOTypeTree { get; set; }
+        public Tree ComponentTree { get; set; }
 
         // Loaded data
         public Assembly Assembly { get; internal set; }
@@ -34,7 +34,7 @@ namespace TypeD.Models.Data
         {
             Location = location;
 
-            TypeOTypeTree = new Tree();
+            ComponentTree = new Tree();
 
             ProjectName = projectData.ProjectName;
             CSSolutionPath = projectData.CSSolutionPath;

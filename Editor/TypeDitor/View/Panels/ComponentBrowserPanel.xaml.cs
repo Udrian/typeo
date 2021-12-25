@@ -11,40 +11,39 @@ using TypeDitor.ViewModel.Panels;
 namespace TypeDitor.View.Panels
 {
     /// <summary>
-    /// Interaction logic for TypeBrowserPanel.xaml
+    /// Interaction logic for ComponentBrowserPanel.xaml
     /// </summary>
-    public partial class TypeBrowserPanel : UserControl
+    public partial class ComponentBrowserPanel : UserControl
     {
         // ViewModel
-        TypeBrowserViewModel TypeBrowserViewModel { get; set; }
+        ComponentBrowserViewModel ComponentBrowserViewModel { get; set; }
 
         // Data
         Project LoadedProject { get; set; }
 
         // Constructors
-        public TypeBrowserPanel(Project loadedProject)
+        public ComponentBrowserPanel(Project loadedProject)
         {
             InitializeComponent();
             LoadedProject = loadedProject;
 
-            TypeBrowserViewModel = new TypeBrowserViewModel(
+            ComponentBrowserViewModel = new ComponentBrowserViewModel(
                 FindResource("HookModel") as IHookModel,
                 LoadedProject,
                 TreeView,
                 FindResource("MainWindowViewModel") as MainWindowViewModel
             );
-            DataContext = TypeBrowserViewModel;
+            DataContext = ComponentBrowserViewModel;
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            TypeBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as TypeBrowserViewModel.Node);
+            ComponentBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as ComponentBrowserViewModel.Node);
         }
 
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            TreeViewItem treeViewItem =
-              VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject);
+            TreeViewItem treeViewItem = VisualUpwardSearch<TreeViewItem>(e.OriginalSource as DependencyObject);
 
             if (treeViewItem != null)
             {
@@ -56,7 +55,7 @@ namespace TypeDitor.View.Panels
         private void TreeViewItem_MouseDoubleClickEvent(object sender, MouseButtonEventArgs e)
         {
             if(((TreeViewItem)sender).Header == TreeView.SelectedItem)
-                TypeBrowserViewModel.DoubleClickItem(TreeView.SelectedItem as TypeBrowserViewModel.Node);
+                ComponentBrowserViewModel.DoubleClickItem(TreeView.SelectedItem as ComponentBrowserViewModel.Node);
         }
 
         static T VisualUpwardSearch<T>(DependencyObject source) where T : DependencyObject

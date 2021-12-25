@@ -2,11 +2,11 @@
 
 namespace TypeD.Models.Data.Hooks
 {
-    public class TypeTreeBuiltHook
+    public class ComponentTreeBuiltHook
     {
         public Tree Tree { get; private set; }
 
-        public TypeTreeBuiltHook(Tree tree)
+        public ComponentTreeBuiltHook(Tree tree)
         {
             Tree = tree;
         }

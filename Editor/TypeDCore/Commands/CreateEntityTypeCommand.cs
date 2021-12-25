@@ -18,7 +18,7 @@ namespace TypeDCore.Commands
 
         public override void Execute(object parameter)
         {
-            var data = parameter as CreateTypeCommandData;
+            var data = parameter as CreateComponentCommandData;
 
             var dialog = new CreateEntityTypeDialog();
             dialog.EntityNamespace = data.Namespace;

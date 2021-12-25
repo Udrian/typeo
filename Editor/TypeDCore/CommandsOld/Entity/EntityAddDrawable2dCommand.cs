@@ -2,7 +2,7 @@
 {
     public static partial class EntityCommand
     {
-        /*public static void AddDrawable2d(this TypeD.Commands.Entity.EntityCommand _, TypeOType entity, TypeOType drawable2d)
+        /*public static void AddDrawable2d(this TypeD.Commands.Entity.EntityCommand _, Component entity, Component drawable2d)
         {
             if (entity?.TypeOBaseType != "Entity") return;
             if (drawable2d?.TypeOBaseType != "Drawable") return;

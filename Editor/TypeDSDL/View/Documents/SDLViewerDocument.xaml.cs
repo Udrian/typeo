@@ -23,17 +23,17 @@ namespace TypeDSDL.View.Documents
 		WindowsFormsHost WindowsFormsHostGamePanel { get; set; }
 
 		Project Project { get; set; }
-		TypeOType TypeOType { get; set; }
+		Component Component { get; set; }
 
 		[DllImport("user32.dll")]
 		private static extern IntPtr SetParent(IntPtr child, IntPtr newParent);
 
-		public SDLViewerDocument(Project project, TypeOType typeOType)
+		public SDLViewerDocument(Project project, Component component)
         {
             InitializeComponent();
 
 			Project = project;
-			TypeOType = typeOType;
+			Component = component;
 			Viewer = new SDLFakeGameViewer(Project, new List<Tuple<TypeOEngine.Typedeaf.Core.Engine.Module, TypeOEngine.Typedeaf.Core.Engine.ModuleOption>>()
             {
 				new Tuple<TypeOEngine.Typedeaf.Core.Engine.Module, TypeOEngine.Typedeaf.Core.Engine.ModuleOption>(
@@ -72,7 +72,7 @@ namespace TypeDSDL.View.Documents
 			Canvas.Children.Add(WindowsFormsHostGamePanel);
 
 			Viewer.Start();
-			Viewer.AddTypeOType(Project, TypeOType);
+			Viewer.AddComponent(Project, Component);
 			SetWindowSize(new Size(ActualWidth, ActualHeight));
 
 			var windowPtr = Viewer.WindowHandler;

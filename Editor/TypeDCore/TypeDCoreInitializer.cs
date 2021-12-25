@@ -21,7 +21,7 @@ namespace TypeDCore
 
         // Providers
         IProjectProvider ProjectProvider { get; set; }
-        ITypeOTypeProvider TypeOTypeProvider { get; set; }
+        IComponentProvider ComponentProvider { get; set; }
 
         // Internal Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
@@ -39,10 +39,10 @@ namespace TypeDCore
 
             // Providers
             ProjectProvider = Resources.Get<IProjectProvider>();
-            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>();
+            ComponentProvider = Resources.Get<IComponentProvider>();
 
             // Internal Models
-            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider, TypeOTypeProvider);
+            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider, ComponentProvider);
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
@@ -52,7 +52,7 @@ namespace TypeDCore
             // Hooks
             Hooks.AddHook("ProjectCreate", ProjectCreate);
             Hooks.AddHook("InitUI", InitUI);
-            Hooks.AddHook("TypeContextMenuOpened", TypeContextMenuOpened);
+            Hooks.AddHook("ComponentContextMenuOpened", ComponentContextMenuOpened);
         }
 
         void ProjectCreate(object param)
@@ -62,7 +62,7 @@ namespace TypeDCore
             var gameCode = new GameCode();
             ProjectModel.AddCode(hookParam.Project, gameCode);
             ProjectModel.AddCode(hookParam.Project, new GameTypeDCode());
-            TypeOTypeProvider.Save(hookParam.Project, new TypeOType()
+            ComponentProvider.Save(hookParam.Project, new Component()
             {
                 ClassName = gameCode.ClassName,
                 Namespace = gameCode.Namespace,
@@ -86,7 +86,7 @@ namespace TypeDCore
                     {
                         new MenuItem()
                         {
-                            Name = "_Create",
+                            Name = "_Create Component",
                             Items = new List<MenuItem>()
                             {
                                 new MenuItem() {
@@ -94,21 +94,21 @@ namespace TypeDCore
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
 
-                                        CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, $"Entities"));
+                                        CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, $"Entities"));
                                     }
                                 },
                                 new MenuItem() {
                                     Name = "_Scene",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, $"Scenes"));
+                                        CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, $"Scenes"));
                                     }
                                 },
                                 new MenuItem() {
                                     Name = "_Drawable2d",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, $"Drawables"));
+                                        CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, $"Drawables"));
                                     }
                                 }
                             }
@@ -118,35 +118,35 @@ namespace TypeDCore
             );
         }
 
-        void TypeContextMenuOpened(object param)
+        void ComponentContextMenuOpened(object param)
         {
-            if (param is not TypeContextMenuOpenedHook hookParam) return;
+            if (param is not ComponentContextMenuOpenedHook hookParam) return;
 
             hookParam.Menu.Items.Add(
                 new MenuItem()
                 {
-                    Name = "_Create",
+                    Name = "_Create Component",
                     Items = new List<MenuItem>()
                     {
                         new MenuItem() {
                             Name = "_Entity",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateEntityTypeCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Entities"));
+                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Entities"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Scene",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateSceneCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Scenes"));
+                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Scenes"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Drawable2d",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateDrawable2dCommand.Execute(new CreateTypeCommandData(param as Project, hookParam.Node.Name ?? $"Drawables"));
+                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Drawables"));
                             }
                         }
                     }

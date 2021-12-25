@@ -8,7 +8,7 @@ namespace TypeDCore.Code.Game
     class GameTypeDCode : Codalyzer
     {
         // Provider
-        ITypeOTypeProvider TypeOTypeProvider { get; set; }
+        IComponentProvider ComponentProvider { get; set; }
 
         public GameTypeDCode() : base()
         {
@@ -22,7 +22,7 @@ namespace TypeDCore.Code.Game
         public override void Init()
         {
             Init($"{Project.ProjectName}Game", $"{Project.ProjectName}");
-            TypeOTypeProvider = Resources.Get<ITypeOTypeProvider>();
+            ComponentProvider = Resources.Get<IComponentProvider>();
 
             Usings.AddRange(new List<string>()
             {
@@ -32,7 +32,7 @@ namespace TypeDCore.Code.Game
             DynamicUsings = () =>
             {
                 var usings = new List<string>();
-                TypeOType defaultScene = TypeOTypeProvider.Load(Project, Project.StartScene);
+                Component defaultScene = ComponentProvider.Load(Project, Project.StartScene);
                 if (defaultScene != null)
                 {
                     usings.Add(defaultScene.Namespace);
@@ -45,7 +45,7 @@ namespace TypeDCore.Code.Game
 
             AddFunction(new Function("public override void Initialize()", () => {
                 Writer.AddLine("Scenes = CreateSceneHandler();");
-                TypeOType defaultScene = TypeOTypeProvider.Load(Project, Project.StartScene);
+                Component defaultScene = ComponentProvider.Load(Project, Project.StartScene);
                 if (defaultScene != null)
                 {
                     Writer.AddLine($"Scenes.SetScene<{defaultScene.ClassName}>();");

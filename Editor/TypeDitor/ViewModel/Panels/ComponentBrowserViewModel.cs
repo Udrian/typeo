@@ -10,16 +10,16 @@ using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    class TypeBrowserViewModel
+    class ComponentBrowserViewModel
     {
         public class Node
         {
-            public string IconPath { get { return $"/Icons/{Type}.png"; } }
+            public string IconPath { get { return $"/Icons/{Component}.png"; } }
             public string Name { get { return Context.Name; } }
-            public string Type { 
+            public string Component { 
                 get {
-                    var typeOType = Context.Item as TypeOType;
-                    return typeOType == null ? Context.Item.ToString() : typeOType.TypeOBaseType; 
+                    var component = Context.Item as Component;
+                    return component == null ? Context.Item.ToString() : component.TypeOBaseType; 
                 } 
             }
             public TypeD.TreeNodes.Node Context { get; set; }
@@ -37,20 +37,20 @@ namespace TypeDitor.ViewModel.Panels
         ObservableCollection<Node> Nodes { get; set; }
 
         // Commands
-        public OpenTypeOTypeCommand OpenTypeOTypeCommand { get; set; }
+        public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Constructors
-        public TypeBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel)
+        public ComponentBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel)
         {
             HookModel = hookModel;
             LoadedProject = loadedProject;
             TreeView = treeView;
 
-            HookModel.AddHook("TypeTreeBuilt", BuildTree);
-            Nodes = TreeToNodeList(LoadedProject.TypeOTypeTree.Nodes);
+            HookModel.AddHook("ComponentTreeBuilt", BuildTree);
+            Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
-            OpenTypeOTypeCommand = new OpenTypeOTypeCommand(mainWindowViewModel);
+            OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
         }
 
         private ObservableCollection<Node> TreeToNodeList(IList<TypeD.TreeNodes.Node> treeNodes)
@@ -71,18 +71,18 @@ namespace TypeDitor.ViewModel.Panels
 
         public void DoubleClickItem(Node node)
         {
-            var typeOType = node.Context.Item as TypeOType;
-            if (typeOType == null) return;
-            OpenTypeOTypeCommand.Execute(new OpenTypeOTypeCommandData() { Project = LoadedProject, TypeOType = typeOType });
+            var component = node.Context.Item as Component;
+            if (component == null) return;
+            OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = LoadedProject, Component = component });
         }
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
         {
-            var typeContextMenuOpenedHook = new TypeContextMenuOpenedHook(node.Context);
-            HookModel.Shoot("TypeContextMenuOpened", typeContextMenuOpenedHook);
+            var componentContextMenuOpenedHook = new ComponentContextMenuOpenedHook(node.Context);
+            HookModel.Shoot("ComponentContextMenuOpened", componentContextMenuOpenedHook);
 
             contextMenu.Items.Clear();
-            foreach (var menu in typeContextMenuOpenedHook.Menu.Items)
+            foreach (var menu in componentContextMenuOpenedHook.Menu.Items)
             {
                 ViewHelper.InitMenu(contextMenu, menu, this);
             }
@@ -90,10 +90,10 @@ namespace TypeDitor.ViewModel.Panels
 
         private void BuildTree(object param)
         {
-            if (param is not TypeTreeBuiltHook hookParam) return;
+            if (param is not ComponentTreeBuiltHook hookParam) return;
             TreeView.Dispatcher.Invoke(() =>
             {
-                var treeNodes = TreeToNodeList(LoadedProject.TypeOTypeTree.Nodes);
+                var treeNodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
                 Buildtree(treeNodes, Nodes);
             });
         }

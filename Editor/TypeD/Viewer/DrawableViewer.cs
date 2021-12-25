@@ -36,7 +36,7 @@ namespace TypeD.Viewer
 
         private FakeGame Game { get; set; }
 
-        public DrawableViewer(Project project, TypeOType drawable, List<TypeOEngine.Typedeaf.Core.Engine.Module> modules = null)
+        public DrawableViewer(Project project, Component drawable, List<TypeOEngine.Typedeaf.Core.Engine.Module> modules = null)
         {
             if (drawable.TypeOBaseType != "Drawable2d") return;
             var typeInfo = project.Assembly.GetType(drawable.FullName);

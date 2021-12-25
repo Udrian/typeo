@@ -18,18 +18,18 @@ namespace TypeDCore.Models
 
         // Providers
         IProjectProvider ProjectProvider { get; set; }
-        ITypeOTypeProvider TypeOTypeProvider { get; set; }
+        IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
         public TypeDCoreProjectModel(
             IProjectModel projectModel, ISaveModel saveModel,
-            IProjectProvider projectProvider, ITypeOTypeProvider typeOTypeProvider
+            IProjectProvider projectProvider, IComponentProvider componentProvider
         )
         {
             ProjectModel = projectModel;
             SaveModel = saveModel;
             ProjectProvider = projectProvider;
-            TypeOTypeProvider = typeOTypeProvider;
+            ComponentProvider = componentProvider;
         }
 
         // Functions
@@ -56,7 +56,7 @@ namespace TypeDCore.Models
 
             ProjectModel.AddCode(project, entityCode);
             ProjectModel.AddCode(project, new EntityTypeDCode(className, $"{project.ProjectName}.{@namespace}"));
-            TypeOTypeProvider.Save(project, new TypeOType()
+            ComponentProvider.Save(project, new Component()
             {
                 ClassName = entityCode.ClassName,
                 Namespace = entityCode.Namespace,
@@ -68,7 +68,7 @@ namespace TypeDCore.Models
                 TypeOBaseType = "Entity2D"
             });
 
-            ProjectModel.BuildTypeOTypeTree(project);
+            ProjectModel.BuildComponentTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
@@ -78,7 +78,7 @@ namespace TypeDCore.Models
             var sceneCode = new SceneCode(className, $"{project.ProjectName}.{@namespace}");
             ProjectModel.AddCode(project, sceneCode);
             ProjectModel.AddCode(project, new SceneTypeDCode(className, $"{project.ProjectName}.{@namespace}"));
-            TypeOTypeProvider.Save(project, new TypeOType()
+            ComponentProvider.Save(project, new Component()
             {
                 ClassName = sceneCode.ClassName,
                 Namespace = sceneCode.Namespace,
@@ -90,7 +90,7 @@ namespace TypeDCore.Models
                 TypeOBaseType = "Scene"
             });
 
-            ProjectModel.BuildTypeOTypeTree(project);
+            ProjectModel.BuildComponentTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
@@ -99,7 +99,7 @@ namespace TypeDCore.Models
         {
             var drawable2dCode = new Drawable2dCode(className, $"{project.ProjectName}.{@namespace}");
             ProjectModel.AddCode(project, drawable2dCode);
-            TypeOTypeProvider.Save(project, new TypeOType()
+            ComponentProvider.Save(project, new Component()
             {
                 ClassName = drawable2dCode.ClassName,
                 Namespace = drawable2dCode.Namespace,
@@ -110,7 +110,7 @@ namespace TypeDCore.Models
                 TypeOBaseType = "Drawable2d"
             });
 
-            ProjectModel.BuildTypeOTypeTree(project);
+            ProjectModel.BuildComponentTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }

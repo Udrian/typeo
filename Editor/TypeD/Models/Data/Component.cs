@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace TypeD.Models.Data
 {
-    public class TypeOType
+    public class Component
     {
         public string ClassName { get; set; }
         public string Namespace { get; set; }

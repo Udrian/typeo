@@ -84,11 +84,11 @@ namespace TypeDSDL.Viewer
             Game = FakeTypeO.Context.Game as FakeGame;
         }
 
-        public void AddTypeOType(Project project, TypeOType type)
+        public void AddComponent(Project project, Component component)
         {
-            var typeInfo = project.Assembly.GetType(type.FullName);
+            var typeInfo = project.Assembly.GetType(component.FullName);
             if (typeInfo == null) return;
-            if (type.TypeOBaseType == "Drawable2d")
+            if (component.TypeOBaseType == "Drawable2d")
             {
                 Game.Drawables.Create(typeInfo);
             }

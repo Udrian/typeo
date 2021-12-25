@@ -35,7 +35,7 @@ namespace TypeDitor.View.Documents
         TextWriter OldTextWriter;
         ConsoleWriter NewTextWriter { get; set; }
 
-        public ConsoleViewerDocument(Project project, TypeOType typeOType)
+        public ConsoleViewerDocument(Project project, Component component)
         {
             InitializeComponent();
 
@@ -44,9 +44,9 @@ namespace TypeDitor.View.Documents
             NewTextWriter.WriteEvent += ConsoleWriter_WriteEvent;
             Console.SetOut(NewTextWriter);
 
-            if (typeOType.TypeOBaseType == "Drawable2d")
+            if (component.TypeOBaseType == "Drawable2d")
             {
-                DrawableViewer = new DrawableViewer(project, typeOType);
+                DrawableViewer = new DrawableViewer(project, component);
             }
         }
 

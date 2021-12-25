@@ -25,7 +25,7 @@ namespace TypeDitor
         public IRecentProvider RecentProvider { get; set; }
         public IModuleProvider ModuleProvider { get; set; }
         public IProjectProvider ProjectProvider { get; set; }
-        public ITypeOTypeProvider TypeOTypeProvider { get; set; }
+        public IComponentProvider ComponentProvider { get; set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -54,14 +54,14 @@ namespace TypeDitor
             RecentProvider = new RecentProvider();
             ModuleProvider = new ModuleProvider();
             ProjectProvider = new ProjectProvider();
-            TypeOTypeProvider = new TypeOTypeProvider();
+            ComponentProvider = new ComponentProvider();
 
             var providerResource = new ResourceDictionary
             {
                 { "RecentProvider", RecentProvider },
                 { "ProjectProvider", ProjectProvider },
                 { "ModuleProvider", ModuleProvider },
-                { "TypeOTypeProvider", TypeOTypeProvider }
+                { "ComponentProvider", ComponentProvider }
             };
             Resources.MergedDictionaries.Add(providerResource);
 

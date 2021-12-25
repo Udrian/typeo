@@ -3,8 +3,8 @@ using TypeD.Models.Data;
 
 namespace TypeD.Models.Interfaces
 {
-    public interface ITypeOTypeModel
+    public interface IComponentModel
     {
-        public Type GetType(TypeOType typeOType);
+        public Type GetType(Component component);
     }
 }

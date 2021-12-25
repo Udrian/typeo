@@ -9,8 +9,8 @@ namespace TypeD.Models.Interfaces
         public Task<bool> Build(Project project);
         public void Run(Project project);
         public void AddCode(Project project, Codalyzer code);
-        public void SetStartScene(Project project, TypeOType scene);
-        public void BuildTypeOTypeTree(Project project);
+        public void SetStartScene(Project project, Component scene);
+        public void BuildComponentTree(Project project);
         public bool LoadAssembly(Project project);
     }
 }

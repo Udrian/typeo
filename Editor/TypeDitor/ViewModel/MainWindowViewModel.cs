@@ -34,7 +34,7 @@ namespace TypeDitor.ViewModel
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
-        public OpenTypeOTypeCommand OpenTypeOTypeCommand { get; set; }
+        public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Data
         public Project LoadedProject { get; private set; }
@@ -61,7 +61,7 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand(SaveModel);
-            OpenTypeOTypeCommand = new OpenTypeOTypeCommand(this);
+            OpenComponentCommand = new OpenComponentCommand(this);
 
             LoadedProject = loadedProject;
             MainWindow = mainWindow;

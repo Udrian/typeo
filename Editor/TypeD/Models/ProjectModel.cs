@@ -24,7 +24,7 @@ namespace TypeD.Models
 
         // Providers
         IProjectProvider ProjectProvider { get; set; }
-        ITypeOTypeProvider TypeOTypeProvider { get; set; }
+        IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
         public ProjectModel()
@@ -39,7 +39,7 @@ namespace TypeD.Models
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
-            TypeOTypeProvider = ResourceModel.Get<ITypeOTypeProvider>();
+            ComponentProvider = ResourceModel.Get<IComponentProvider>();
         }
 
         // Functions
@@ -102,7 +102,7 @@ namespace TypeD.Models
                 });
         }
 
-        public void SetStartScene(Project project, TypeOType scene)
+        public void SetStartScene(Project project, Component scene)
         {
             //TODO: Fix
             /*
@@ -112,17 +112,17 @@ namespace TypeD.Models
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });*/
         }
 
-        public void BuildTypeOTypeTree(Project project)
+        public void BuildComponentTree(Project project)
         {
-            project.TypeOTypeTree.Clear();
+            project.ComponentTree.Clear();
 
-            var typeOTypes = TypeOTypeProvider.ListAll(project);
-            foreach (var type in typeOTypes)
+            var components = ComponentProvider.ListAll(project);
+            foreach (var type in components)
             {
-                AddTypeToTree(project, type);
+                AddComponentToTree(project, type);
             }
 
-            HookModel.Shoot("TypeTreeBuilt", new TypeTreeBuiltHook(project.TypeOTypeTree));
+            HookModel.Shoot("ComponentTreeBuilt", new ComponentTreeBuiltHook(project.ComponentTree));
         }
 
         public bool LoadAssembly(Project project)
@@ -143,13 +143,13 @@ namespace TypeD.Models
 
         // Internal
 
-        private void AddTypeToTree(Project project, TypeOType typeOType)
+        private void AddComponentToTree(Project project, Component component)
         {
-            var namespaces = (typeOType.Namespace.StartsWith(project.ProjectName) ? typeOType.Namespace.Remove(0, project.ProjectName.Length) : typeOType.Namespace).Split('.').ToList();
+            var namespaces = (component.Namespace.StartsWith(project.ProjectName) ? component.Namespace.Remove(0, project.ProjectName.Length) : component.Namespace).Split('.').ToList();
             if (namespaces.Count > 0)
                 namespaces.RemoveAt(0);
 
-            TreeNode treeNode = project.TypeOTypeTree;
+            TreeNode treeNode = project.ComponentTree;
             foreach (var ns in namespaces)
             {
                 if (string.IsNullOrEmpty(ns)) continue;
@@ -160,13 +160,13 @@ namespace TypeD.Models
                 treeNode = treeNode.Get(ns);
             }
 
-            if(TypeOTypeProvider.Exists(project, typeOType))
+            if(ComponentProvider.Exists(project, component))
             {
-                treeNode.AddNode(typeOType.ClassName, typeOType);
+                treeNode.AddNode(component.ClassName, component);
             }
             else
             {
-                treeNode.AddNode($"*{typeOType.ClassName}", typeOType);
+                treeNode.AddNode($"*{component.ClassName}", component);
             }
         }
     }
