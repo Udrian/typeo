@@ -30,31 +30,69 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             //TODO: Cleanup all scenes?
         }
 
+        public Scene CreateScene(Type type)
+        {
+            if (!Scenes.ContainsKey(type))
+            {
+                Logger.Log(LogLevel.Debug, $"Creating Scene '{type.FullName}'");
+                var scene = Activator.CreateInstance(type) as Scene;
+                CreateScene(scene);
+            }
+            return Scenes[type];
+        }
+
         public S CreateScene<S>() where S : Scene, new()
         {
             if(!Scenes.ContainsKey(typeof(S)))
             {
                 Logger.Log(LogLevel.Debug, $"Creating Scene '{typeof(S).FullName}'");
                 var scene = new S();
-                Context.InitializeObject(scene);
-                Scenes.Add(scene.GetType(), scene);
-
-                if(Window == null)
-                    Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
-                if(Canvas == null)
-                    Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
-                if(ContentLoader == null)
-                    Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
-
-                scene.Scenes = this;
-                scene.Window = Window;
-                scene.Canvas = Canvas;
-                scene.ContentLoader = ContentLoader;
+                CreateScene(scene);
             }
             return Scenes[typeof(S)] as S;
         }
 
+        private void CreateScene(Scene scene)
+        {
+            Context.InitializeObject(scene);
+            Scenes.Add(scene.GetType(), scene);
+
+            if (Window == null)
+                Logger.Log(LogLevel.Warning, $"Window have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
+            if (Canvas == null)
+                Logger.Log(LogLevel.Warning, $"Canvas have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
+            if (ContentLoader == null)
+                Logger.Log(LogLevel.Warning, $"ContentLoader have not been instantiated to SceneList on '{Context.Game.GetType().FullName}'");
+
+            scene.Scenes = this;
+            scene.Window = Window;
+            scene.Canvas = Canvas;
+            scene.ContentLoader = ContentLoader;
+        }
+
         //TODO: Destroy Scene?
+        public Scene SetScene(Type type)
+        {
+            var init = false;
+            if (!Scenes.ContainsKey(type))
+            {
+                CreateScene(type);
+                init = true;
+            }
+            Logger.Log(LogLevel.Debug, $"Switching to Scene '{type.FullName}'");
+            var fromScene = CurrentScene;
+            var toScene = Scenes[type];
+            CurrentScene = toScene;
+            if (init)
+            {
+                CurrentScene.InternalInitialize();
+                CurrentScene.Initialize();
+            }
+            fromScene?.OnExit(toScene);
+            toScene?.OnEnter(fromScene);
+
+            return Scenes[type];
+        }
 
         public S SetScene<S>() where S : Scene, new()
         {

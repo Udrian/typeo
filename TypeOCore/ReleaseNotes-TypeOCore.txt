@@ -17,6 +17,7 @@
  * Added the posability to load modules from a module instance
  * Can instance Entities from Type in a EntityList
  * SceneList returns the created Scene
+ * SceneList can now create and set Scenes from Type
 
 **************************
 **** 0.2.1 - 17/02-21 ****

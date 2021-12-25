@@ -127,6 +127,10 @@ namespace TypeDSDL.Viewer
             {
                 Game.Scenes.CurrentScene.Entities.Create(typeInfo, new Vec2(50, 50));
             }
+            else if(component.TypeOBaseType == "Scene")
+            {
+                Game.Scenes.SetScene(typeInfo);
+            }
         }
 
         public void SetWindowSize(Vec2 size)
