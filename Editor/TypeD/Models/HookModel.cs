@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
@@ -30,6 +31,11 @@ namespace TypeD.Models
             Hooks[hook].Add(action);
         }
 
+        public void AddHook<T>(Action<T> action) where T : Hook, new()
+        {
+            AddHook(Activator.CreateInstance(typeof(T)).ToString(), (a) => { action(a as T); });
+        }
+
         public void Shoot(string hook, object param)
         {
             if (!Hooks.ContainsKey(hook)) return;
@@ -37,6 +43,11 @@ namespace TypeD.Models
             {
                 h(param);
             }
+        }
+
+        public void Shoot<T>(T hook) where T : Hook, new()
+        {
+            Shoot(hook.ToString(), hook);
         }
     }
 }

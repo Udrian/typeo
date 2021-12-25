@@ -122,7 +122,7 @@ namespace TypeD.Models
                 AddComponentToTree(project, type);
             }
 
-            HookModel.Shoot("ComponentTreeBuilt", new ComponentTreeBuiltHook(project.ComponentTree));
+            HookModel.Shoot(new ComponentTreeBuiltHook(project.ComponentTree));
         }
 
         public bool LoadAssembly(Project project)

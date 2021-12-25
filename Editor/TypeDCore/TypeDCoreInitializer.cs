@@ -50,19 +50,17 @@ namespace TypeDCore
             CreateDrawable2dCommand = new CreateDrawable2dCommand(TypeDCoreProjectModel);
 
             // Hooks
-            Hooks.AddHook("ProjectCreate", ProjectCreate);
-            Hooks.AddHook("InitUI", InitUI);
-            Hooks.AddHook("ComponentContextMenuOpened", ComponentContextMenuOpened);
+            Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
+            Hooks.AddHook<InitUIHook>(InitUI);
+            Hooks.AddHook<ComponentContextMenuOpenedHook>(ComponentContextMenuOpened);
         }
 
-        void ProjectCreate(object param)
+        void ProjectCreate(ProjectCreateHook hook)
         {
-            if (param is not ProjectCreateHook hookParam) return;
-
             var gameCode = new GameCode();
-            ProjectModel.AddCode(hookParam.Project, gameCode);
-            ProjectModel.AddCode(hookParam.Project, new GameTypeDCode());
-            ComponentProvider.Save(hookParam.Project, new Component()
+            ProjectModel.AddCode(hook.Project, gameCode);
+            ProjectModel.AddCode(hook.Project, new GameTypeDCode());
+            ComponentProvider.Save(hook.Project, new Component()
             {
                 ClassName = gameCode.ClassName,
                 Namespace = gameCode.Namespace,
@@ -75,11 +73,9 @@ namespace TypeDCore
             });
         }
 
-        void InitUI(object param)
+        void InitUI(InitUIHook hook)
         {
-            if (param is not InitUIHook hookParam) return;
-
-            hookParam.Menu.Items.Add(
+            hook.Menu.Items.Add(
                 new MenuItem() {
                     Name = "_Project",
                     Items = new List<MenuItem>()
@@ -118,11 +114,9 @@ namespace TypeDCore
             );
         }
 
-        void ComponentContextMenuOpened(object param)
+        void ComponentContextMenuOpened(ComponentContextMenuOpenedHook hook)
         {
-            if (param is not ComponentContextMenuOpenedHook hookParam) return;
-
-            hookParam.Menu.Items.Add(
+            hook.Menu.Items.Add(
                 new MenuItem()
                 {
                     Name = "_Create Component",
@@ -132,21 +126,21 @@ namespace TypeDCore
                             Name = "_Entity",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Entities"));
+                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Entities"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Scene",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Scenes"));
+                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Scenes"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Drawable2d",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hookParam.Node.Name ?? $"Drawables"));
+                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Drawables"));
                             }
                         }
                     }

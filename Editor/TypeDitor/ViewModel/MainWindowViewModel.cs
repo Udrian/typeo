@@ -75,7 +75,7 @@ namespace TypeDitor.ViewModel
         public void InitUI(MainWindow mainWindow)
         {
             var initUIHook = new InitUIHook(LoadedProject);
-            HookModel.Shoot("InitUI", initUIHook);
+            HookModel.Shoot(initUIHook);
 
             foreach(var menu in initUIHook.Menu.Items)
             {

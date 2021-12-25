@@ -100,7 +100,7 @@ namespace TypeD.Models.Providers
             project = await Load(project.ProjectFilePath);
             progress(75);
 
-            HookModel.Shoot("ProjectCreate", new ProjectCreateHook(project));
+            HookModel.Shoot(new ProjectCreateHook(project));
             progress(80);
 
             await SaveModel.Save();

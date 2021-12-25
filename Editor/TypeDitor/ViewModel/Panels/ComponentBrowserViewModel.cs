@@ -46,7 +46,7 @@ namespace TypeDitor.ViewModel.Panels
             LoadedProject = loadedProject;
             TreeView = treeView;
 
-            HookModel.AddHook("ComponentTreeBuilt", BuildTree);
+            HookModel.AddHook<ComponentTreeBuiltHook>(BuildTree);
             Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
@@ -79,7 +79,7 @@ namespace TypeDitor.ViewModel.Panels
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
         {
             var componentContextMenuOpenedHook = new ComponentContextMenuOpenedHook(node.Context);
-            HookModel.Shoot("ComponentContextMenuOpened", componentContextMenuOpenedHook);
+            HookModel.Shoot(componentContextMenuOpenedHook);
 
             contextMenu.Items.Clear();
             foreach (var menu in componentContextMenuOpenedHook.Menu.Items)
@@ -88,9 +88,8 @@ namespace TypeDitor.ViewModel.Panels
             }
         }
 
-        private void BuildTree(object param)
+        private void BuildTree(ComponentTreeBuiltHook hook)
         {
-            if (param is not ComponentTreeBuiltHook hookParam) return;
             TreeView.Dispatcher.Invoke(() =>
             {
                 var treeNodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
