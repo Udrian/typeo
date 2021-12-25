@@ -25,7 +25,8 @@ namespace TypeDCore.Code.Scene
 
             Usings.AddRange(new List<string>()
             {
-                "TypeOEngine.Typedeaf.Core"
+                "TypeOEngine.Typedeaf.Core",
+                "TypeOEngine.Typedeaf.Core.Common"
             });
 
             AddFunction(new Function("public override void Initialize()", () => {
@@ -47,7 +48,9 @@ namespace TypeDCore.Code.Scene
                 Writer.AddLine("UpdateLoop.Update(dt);");
             }));
             AddFunction(new Function("public override void Draw()", () => {
-                Writer.AddLine("DrawStack.Draw(null);");
+                Writer.AddLine("Canvas.Clear(Color.Black);");
+                Writer.AddLine("DrawStack.Draw(Canvas);");
+                Writer.AddLine("Canvas.Present();");
             }));
 
             Entities = FileHelper.FetchStringList(FilePath(), entityStartBlock, entityEndBlock);

@@ -84,6 +84,32 @@ namespace TypeOEngine.Typedeaf.Core
                 HasEntities.Process();
             }
 
+            public Entity Create(Type type, Vec2? position, Vec2? scale = null, double rotation = 0, Vec2? origin = null, bool pushToUpdateLoop = true, bool pushToDrawStack = true) //TODO: Split out
+            {
+                var entity = Create(type, pushToUpdateLoop, pushToDrawStack) as Entity2d;
+
+                entity.Position = position ?? entity.Position;
+                entity.Scale = scale ?? entity.Scale;
+                entity.Rotation = rotation;
+                entity.Origin = origin ?? entity.Origin;
+
+                return entity;
+            }
+
+            public Entity Create(Type type, bool pushToUpdateLoop = true, bool pushToDrawStack = true) //TODO: Split out, Should be able to push automatically to draw stack and update stack
+            {
+                var entity = Activator.CreateInstance(type) as Entity;
+                {
+                    entity.Parent = Entity;
+                    entity.ParentEntityList = this;
+                    entity.DrawStack = Scene?.DrawStack ?? Entity?.DrawStack; //TODO: Change this to be from same interface
+                    entity.UpdateLoop = Scene?.UpdateLoop ?? Entity?.UpdateLoop; //TODO: Change this to be from same interface
+                    entity.ContentLoader = Scene?.ContentLoader ?? Entity?.ContentLoader; //TODO: Change this to be from same interface
+                };
+
+                return Create(entity, pushToUpdateLoop, pushToDrawStack);
+            }
+
             public E Create<E>(Vec2? position, Vec2? scale = null, double rotation = 0, Vec2? origin = null, bool pushToUpdateLoop = true, bool pushToDrawStack = true) where E : Entity2d, new() //TODO: Split out
             {
                 var entity = Create<E>(pushToUpdateLoop, pushToDrawStack) as Entity2d;
@@ -107,6 +133,11 @@ namespace TypeOEngine.Typedeaf.Core
                     ContentLoader = Scene?.ContentLoader ?? Entity?.ContentLoader //TODO: Change this to be from same interface
                 };
 
+                return Create(entity, pushToUpdateLoop, pushToDrawStack);
+            }
+
+            private E Create<E>(E entity, bool pushToUpdateLoop = true, bool pushToDrawStack = true) where E : Entity //TODO: Split out, Should be able to push automatically to draw stack and update stack
+            {
                 Logger.Log(LogLevel.Debug, $"Creating Entity of type '{typeof(E).FullName}'");
                 Context.InitializeObject(entity, this);
                 entity.InternalInitialize();
@@ -114,28 +145,28 @@ namespace TypeOEngine.Typedeaf.Core
 
                 Entities.Add(entity);
                 var eType = typeof(E);
-                if(EntityLists.ContainsKey(eType))
+                if (EntityLists.ContainsKey(eType))
                 {
                     EntityLists[eType] = Entities.Where(e => e is E).Cast<E>().ToList();
                 }
 
-                if(string.IsNullOrEmpty(entity.ID))
+                if (string.IsNullOrEmpty(entity.ID))
                 {
                     entity.ID = Guid.NewGuid().ToString();
                 }
                 EntityIDs.Add(entity.ID, entity);
 
-                if(pushToUpdateLoop && entity.UpdateLoop != null && entity is IUpdatable updatable)
+                if (pushToUpdateLoop && entity.UpdateLoop != null && entity is IUpdatable updatable)
                 {
                     entity.UpdateLoop.Push(updatable);
                 }
 
-                if(pushToDrawStack && entity.DrawStack != null && entity is IDrawable drawable)
+                if (pushToDrawStack && entity.DrawStack != null && entity is IDrawable drawable)
                 {
                     entity.DrawStack.Push(drawable);
                 }
 
-                if(entity is IHasEntities hasEntities)
+                if (entity is IHasEntities hasEntities)
                 {
                     HasEntities.Add(hasEntities);
                 }

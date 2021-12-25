@@ -30,7 +30,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
             //TODO: Cleanup all scenes?
         }
 
-        public void CreateScene<S>() where S : Scene, new()
+        public S CreateScene<S>() where S : Scene, new()
         {
             if(!Scenes.ContainsKey(typeof(S)))
             {
@@ -51,6 +51,7 @@ namespace TypeOEngine.Typedeaf.Core.Engine
                 scene.Canvas = Canvas;
                 scene.ContentLoader = ContentLoader;
             }
+            return Scenes[typeof(S)] as S;
         }
 
         //TODO: Destroy Scene?

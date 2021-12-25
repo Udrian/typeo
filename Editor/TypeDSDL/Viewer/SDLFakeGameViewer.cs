@@ -7,9 +7,10 @@ using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Desktop.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
+using Module = TypeOEngine.Typedeaf.Core.Engine.Module;
 
 namespace TypeDSDL.Viewer
 {
@@ -17,39 +18,69 @@ namespace TypeDSDL.Viewer
     {
         readonly TypeO FakeTypeO;
 
+        private class FakeScene : Scene
+        {
+            public override void Initialize()
+            {
+            }
+
+            public override void Update(double dt)
+            {
+                Entities.Update(dt);
+                UpdateLoop.Update(dt);
+            }
+            public override void Draw()
+            {
+                DrawStack.Draw(Canvas);
+            }
+
+            public override void OnEnter(Scene from)
+            {
+            }
+
+            public override void OnExit(Scene to)
+            {
+            }
+        }
         private class FakeGame : Game
         {
             private WindowService WindowService { get; set; }
             public Window Window { get; set; }
             public Canvas Canvas { get; set; }
+            public SceneList Scenes { get; set; }
 
             public override void Initialize()
             {
+                Scenes = CreateSceneHandler();
+                Scenes.SetScene<FakeScene>();
             }
 
             public void CreateWindowAndCanvas(Vec2 size)
             {
                 Window = WindowService.CreateWindow("Test", new Vec2(0, 0), size, false, true);
                 Canvas = WindowService.CreateCanvas(Window);
+                Scenes.Window = Window;
+                Scenes.Canvas = Canvas;
+                Scenes.CurrentScene.Window = Window;
+                Scenes.CurrentScene.Canvas = Canvas;
             }
 
             public override void Cleanup()
             {
+                Scenes.Cleanup();
             }
 
             public override void Draw()
             {
                 if (Canvas == null) return;
                 Canvas.Clear(Color.Black);
-                foreach (var drawable in Drawables.Get<Drawable>())
-                {
-                    drawable.Draw(Canvas);
-                }
+                Scenes.Draw();
                 Canvas.Present();
             }
 
             public override void Update(double dt)
             {
+                Scenes.Update(dt);
             }
         }
 
@@ -58,7 +89,7 @@ namespace TypeDSDL.Viewer
         public IntPtr WindowHandler { get { return ((SDLWindow)Game.Window).SDL_Window; } }
         public IntPtr CanvasHandler { get { return ((SDLCanvas)Game.Canvas).SDLRenderer; } }
 
-        public SDLFakeGameViewer(Project project, List<Tuple<TypeOEngine.Typedeaf.Core.Engine.Module, TypeOEngine.Typedeaf.Core.Engine.ModuleOption>> modules = null)
+        public SDLFakeGameViewer(Project project, List<Tuple<Module, ModuleOption>> modules = null)
         {
             FakeTypeO = TypeO.Create<FakeGame>("Drawable Viewer") as TypeO;
             if (modules != null)
@@ -90,7 +121,11 @@ namespace TypeDSDL.Viewer
             if (typeInfo == null) return;
             if (component.TypeOBaseType == "Drawable2d")
             {
-                Game.Drawables.Create(typeInfo);
+                Game.Scenes.CurrentScene.Drawables.Create(typeInfo);
+            }
+            else if(component.TypeOBaseType == "Entity")
+            {
+                Game.Scenes.CurrentScene.Entities.Create(typeInfo, new Vec2(50, 50));
             }
         }
 
