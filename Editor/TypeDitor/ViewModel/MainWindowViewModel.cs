@@ -38,6 +38,8 @@ namespace TypeDitor.ViewModel
 
         // Data
         public Project LoadedProject { get; private set; }
+        
+        // View
         MainWindow MainWindow { get; set; }
 
         // Constructors
@@ -72,6 +74,7 @@ namespace TypeDitor.ViewModel
             });
         }
 
+        // Functions
         public void InitUI(MainWindow mainWindow)
         {
             var initUIHook = new InitUIHook(LoadedProject);

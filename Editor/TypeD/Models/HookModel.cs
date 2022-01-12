@@ -9,7 +9,7 @@ namespace TypeD.Models
     {
         private Dictionary<string, List<Action<object>>> Hooks { get; set; }
 
-        // Constructions
+        // Constructors
         public HookModel()
         {
             ClearHooks();

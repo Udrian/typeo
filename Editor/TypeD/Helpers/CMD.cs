@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace TypeD.Helpers
 {
+    // TODO: Make this into a Model instead
     public static class CMD
     {
         public static event Action<string> Output;

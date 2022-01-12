@@ -21,6 +21,7 @@ namespace TypeD.Models
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
         IResourceModel ResourceModel { get; set; }
+        ILogModel LogModel { get; set; }
 
         // Providers
         IProjectProvider ProjectProvider { get; set; }
@@ -40,6 +41,7 @@ namespace TypeD.Models
             SaveModel = ResourceModel.Get<ISaveModel>();
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
             ComponentProvider = ResourceModel.Get<IComponentProvider>();
+            LogModel = ResourceModel.Get<ILogModel>();
         }
 
         // Functions
@@ -77,7 +79,15 @@ namespace TypeD.Models
 
         public void Run(Project project)
         {
-            Process.Start(Path.Combine(project.ProjectBuildOutputPath, $"{project.CSProjName}.exe"));
+            var fileToRun = Path.Combine(project.ProjectBuildOutputPath, $"{project.CSProjName}.exe");
+            if(File.Exists(fileToRun))
+            {
+                Process.Start(fileToRun);
+            }
+            else
+            {
+                LogModel.Log($"File '{fileToRun}' does not exists, try building the project.");
+            }
         }
 
         public void AddCode(Project project, Codalyzer code)

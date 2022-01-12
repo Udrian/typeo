@@ -1,27 +1,27 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using TypeD.Helpers;
+using TypeD.Models.Interfaces;
+using TypeDitor.ViewModel.Panels;
 
 namespace TypeDitor.View.Panels
 {
     /// <summary>
     /// Interaction logic for OutputPanel.xaml
     /// </summary>
-    public partial class OutputPanel : UserControl, INotifyPropertyChanged
+    public partial class OutputPanel : UserControl
     {
+        // ViewModel
+        OutputViewModel OutputViewModel { get; set; }
+
+        // Constructors
         public OutputPanel()
         {
-            this.DataContext = this;
             InitializeComponent();
 
-            CMD.Output += OnCMDOutput;
-        }
-
-        private void OnCMDOutput(string output)
-        {
-            OutputText += output + Environment.NewLine;
+            OutputViewModel = new OutputViewModel(
+                FindResource("LogModel") as ILogModel
+            );
+            DataContext = OutputViewModel;
         }
 
         private void tbOutputText_TextChanged(object sender, TextChangedEventArgs e)
@@ -31,24 +31,7 @@ namespace TypeDitor.View.Panels
 
         private void Panel_Unloaded(object sender, RoutedEventArgs e)
         {
-            CMD.Output -= OnCMDOutput;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void NotifyPropertyChanged(string propName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
-        private string _outputText;
-        public string OutputText
-        {
-            get => _outputText;
-            set
-            {
-                _outputText = value;
-                NotifyPropertyChanged("OutputText");
-            }
+            OutputViewModel.Unload();
         }
     }
 }
