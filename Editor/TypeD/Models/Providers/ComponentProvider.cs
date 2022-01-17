@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,6 +71,11 @@ namespace TypeD.Models.Providers
             return File.Exists(GetPath(project, component.FullName));
         }
 
+        public bool Exists(Project project, Type type)
+        {
+            return File.Exists(GetPath(project, type.FullName));
+        }
+
         public List<Component> ListAll(Project project)
         {
             var path = GetPath(project);
@@ -89,7 +95,7 @@ namespace TypeD.Models.Providers
         // Internal
         private string GetPath(Project project, string fullName)
         {
-            return Path.Combine(GetPath(project), $"{fullName.Replace(".", @"\")}.{ComponentFileEnding}");
+            return Path.Combine(GetPath(project), $"{fullName.Replace('.', Path.DirectorySeparatorChar)}.{ComponentFileEnding}");
         }
 
         private string GetPath(Project project)

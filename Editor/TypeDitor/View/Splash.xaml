@@ -13,6 +13,7 @@
         <Separator DockPanel.Dock="Top" Margin="0,0,0,25"/>
 
         <StackPanel DockPanel.Dock="Right" VerticalAlignment="Bottom">
+            <Button Content="_Import project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Command="{Binding ImportProjectCommand}" />
             <Button Content="_Open a existing project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Command="{Binding OpenProjectCommand}" />
             <Button Content="_Create a new project" Width="175" Height="50" FontSize="14" HorizontalAlignment="Center" Command="{Binding NewProjectCommand}" />
         </StackPanel>

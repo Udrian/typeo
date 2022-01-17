@@ -12,6 +12,7 @@ namespace TypeDitor.ViewModel
         private IProjectProvider ProjectProvider { get; set; }
 
         // Commands
+        public ImportProjectCommand ImportProjectCommand { get; set; }
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public NewProjectCommand NewProjectCommand { get; set; }
 
@@ -20,6 +21,7 @@ namespace TypeDitor.ViewModel
             RecentProvider = recentProvider;
             ProjectProvider = projectProvider;
 
+            ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
         }

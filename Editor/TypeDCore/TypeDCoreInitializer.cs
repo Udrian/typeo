@@ -17,14 +17,13 @@ namespace TypeDCore
     {
         // Models
         IProjectModel ProjectModel { get; set; }
-        ISaveModel SaveModel { get; set; }
 
         // Providers
-        IProjectProvider ProjectProvider { get; set; }
         IComponentProvider ComponentProvider { get; set; }
 
         // Internal Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
+        ITypeDCoreRestoreModel TypeDCoreRestoreModel { get; set; }
 
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
@@ -35,14 +34,16 @@ namespace TypeDCore
         {
             // Models
             ProjectModel = Resources.Get<IProjectModel>();
-            SaveModel = Resources.Get<ISaveModel>();
 
             // Providers
-            ProjectProvider = Resources.Get<IProjectProvider>();
             ComponentProvider = Resources.Get<IComponentProvider>();
 
             // Internal Models
-            TypeDCoreProjectModel = new TypeDCoreProjectModel(ProjectModel, SaveModel, ProjectProvider, ComponentProvider);
+            TypeDCoreProjectModel = new TypeDCoreProjectModel();
+            TypeDCoreRestoreModel = new TypeDCoreRestoreModel();
+
+            Resources.Add("TypeDCoreProjectModel", TypeDCoreProjectModel);
+            Resources.Add("TypeDCoreRestoreModel", TypeDCoreRestoreModel);
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);

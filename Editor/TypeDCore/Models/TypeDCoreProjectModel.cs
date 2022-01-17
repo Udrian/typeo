@@ -10,7 +10,7 @@ using TypeDCore.Models.Interfaces;
 
 namespace TypeDCore.Models
 {
-    class TypeDCoreProjectModel : ITypeDCoreProjectModel
+    class TypeDCoreProjectModel : ITypeDCoreProjectModel, IModel
     {
         // Models
         IProjectModel ProjectModel { get; set; }
@@ -21,21 +21,23 @@ namespace TypeDCore.Models
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
-        public TypeDCoreProjectModel(
-            IProjectModel projectModel, ISaveModel saveModel,
-            IProjectProvider projectProvider, IComponentProvider componentProvider
-        )
+        public TypeDCoreProjectModel()
         {
-            ProjectModel = projectModel;
-            SaveModel = saveModel;
-            ProjectProvider = projectProvider;
-            ComponentProvider = componentProvider;
+        }
+
+        public void Init(IResourceModel resourceModel)
+        {
+            ProjectModel = resourceModel.Get<IProjectModel>();
+            SaveModel = resourceModel.Get<ISaveModel>(); ;
+            ProjectProvider = resourceModel.Get<IProjectProvider>(); ;
+            ComponentProvider = resourceModel.Get<IComponentProvider>(); ;
         }
 
         // Functions
         public void CreateEntity(Project project, string className, string @namespace, bool updatable, bool drawable)
         {
-            var entityCode = new EntityCode(className, $"{project.ProjectName}.{@namespace}");
+            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            var entityCode = new EntityCode(className, @namespace);
 
             if (updatable)
             {
@@ -55,7 +57,7 @@ namespace TypeDCore.Models
             }
 
             ProjectModel.AddCode(project, entityCode);
-            ProjectModel.AddCode(project, new EntityTypeDCode(className, $"{project.ProjectName}.{@namespace}"));
+            ProjectModel.AddCode(project, new EntityTypeDCode(className, @namespace));
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = entityCode.ClassName,
@@ -75,9 +77,10 @@ namespace TypeDCore.Models
 
         public void CreateScene(Project project, string className, string @namespace)
         {
-            var sceneCode = new SceneCode(className, $"{project.ProjectName}.{@namespace}");
+            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            var sceneCode = new SceneCode(className, @namespace);
             ProjectModel.AddCode(project, sceneCode);
-            ProjectModel.AddCode(project, new SceneTypeDCode(className, $"{project.ProjectName}.{@namespace}"));
+            ProjectModel.AddCode(project, new SceneTypeDCode(className, @namespace));
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = sceneCode.ClassName,
@@ -97,7 +100,8 @@ namespace TypeDCore.Models
 
         public void CreateDrawable2d(Project project, string className, string @namespace)
         {
-            var drawable2dCode = new Drawable2dCode(className, $"{project.ProjectName}.{@namespace}");
+            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            var drawable2dCode = new Drawable2dCode(className, @namespace);
             ProjectModel.AddCode(project, drawable2dCode);
             ComponentProvider.Save(project, new Component()
             {

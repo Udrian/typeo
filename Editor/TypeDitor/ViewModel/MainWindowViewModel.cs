@@ -31,6 +31,7 @@ namespace TypeDitor.ViewModel
         public BuildProjectCommand BuildProjectCommand { get; set; }
         public ExitProjectCommand ExitProjectCommand { get; set; }
         public NewProjectCommand NewProjectCommand { get; set; }
+        public ImportProjectCommand ImportProjectCommand { get; set; }
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
@@ -60,6 +61,7 @@ namespace TypeDitor.ViewModel
             BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
             ExitProjectCommand = new ExitProjectCommand();
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
+            ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand(SaveModel);

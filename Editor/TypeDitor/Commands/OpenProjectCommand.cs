@@ -28,7 +28,7 @@ namespace TypeDitor.Commands
             {
                 var openFileDialog = new OpenFileDialog();
                 openFileDialog.DefaultExt = ".typeo";
-                openFileDialog.Filter = "TypeO projects (.typeo)|*.typeo";
+                openFileDialog.Filter = "TypeO Projects (*.typeo)|*.typo";
                 if (openFileDialog.ShowDialog() == true)
                 {
                     path = openFileDialog.FileName;

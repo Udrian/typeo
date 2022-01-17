@@ -21,6 +21,7 @@ namespace TypeDitor
         public ISaveModel SaveModel { get; set; }
         public IUINotifyModel UINotifyModel { get; set; }
         public ILogModel LogModel { get; set; }
+        public IRestoreModel RestoreModel { get; set; }
 
         // Providers
         public IRecentProvider RecentProvider { get; set; }
@@ -40,6 +41,7 @@ namespace TypeDitor
             SaveModel = new SaveModel();
             UINotifyModel = new UINotifyModel();
             LogModel = new LogModel();
+            RestoreModel = new RestoreModel();
 
             var modelResource = new ResourceDictionary
             {
@@ -49,7 +51,8 @@ namespace TypeDitor
                 { "HookModel", HookModel },
                 { "SaveModel", SaveModel },
                 { "UINotifyModel", UINotifyModel },
-                { "LogModel", LogModel }
+                { "LogModel", LogModel },
+                { "RestoreModel", RestoreModel }
             };
             Resources.MergedDictionaries.Add(modelResource);
             

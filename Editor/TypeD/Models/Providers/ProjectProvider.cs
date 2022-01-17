@@ -21,6 +21,7 @@ namespace TypeD.Models.Providers
         IModuleModel ModuleModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
+        IRestoreModel RestoreModel { get; set; }
 
         // Providers
         IModuleProvider ModuleProvider { get; set; }
@@ -38,6 +39,8 @@ namespace TypeD.Models.Providers
             ModuleModel = ResourceModel.Get<IModuleModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
+            RestoreModel = ResourceModel.Get<IRestoreModel>();
+
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
         }
 
@@ -132,6 +135,8 @@ namespace TypeD.Models.Providers
 
                     ProjectModel.LoadAssembly(project);
                     ProjectModel.BuildComponentTree(project);
+
+                    await RestoreModel.Restore(project);
 
                     return project;
                 });

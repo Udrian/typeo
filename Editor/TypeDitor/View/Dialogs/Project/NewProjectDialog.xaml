@@ -18,7 +18,7 @@
             <Label FontSize="16" Content="_Name:" Target="{Binding ElementName=txtName}" />
             <TextBox Name="txtName" Margin="5,0,75,0" Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" />
             
-            <Label FontSize="16" Content="_Location:" Target="{Binding ElementName=txtLocation}" />
+            <Label FontSize="16" Content="_Parent Folder:" Target="{Binding ElementName=txtLocation}" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

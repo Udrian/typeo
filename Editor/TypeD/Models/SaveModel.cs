@@ -58,7 +58,7 @@ namespace TypeD.Models
 
         public T GetSaveContext<T>(string contextId)
         {
-            if (!SaveContextExists(contextId)) return default(T);
+            if (!SaveContextExists(contextId)) return default;
             return (T)SaveContexts[contextId].Context;
         }
 

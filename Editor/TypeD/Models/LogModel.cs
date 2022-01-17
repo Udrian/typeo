@@ -6,6 +6,7 @@ namespace TypeD.Models
 {
     public class LogModel : ILogModel, IModel
     {
+        // Properties
         private Dictionary<string, Action<string>> LogOutputs { get; set; }
 
         // Constructors

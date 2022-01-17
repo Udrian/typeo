@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using TypeD.Models.Interfaces;
+using TypeD.Models.Providers.Interfaces;
 
 namespace TypeDitor.Models
 {
@@ -21,11 +22,21 @@ namespace TypeDitor.Models
         // Functions
         public void Add(string key, object value)
         {
-            var providerResource = new ResourceDictionary
+            // If this is a Model or Provider then Init
+            if(value is IModel)
+            {
+                (value as IModel).Init(this);
+            }
+            else if(value is IProvider)
+            {
+                (value as IProvider).Init(this);
+            }
+
+            var resource = new ResourceDictionary
             {
                 { key, value }
             };
-            Resources.MergedDictionaries.Add(providerResource);
+            Resources.MergedDictionaries.Add(resource);
         }
 
         public T Get<T>(string key) where T : class

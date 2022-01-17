@@ -10,6 +10,7 @@
         <Menu DockPanel.Dock="Top" Name="_TopMenu">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Project" Command="{Binding NewProjectCommand}"/>
+                <MenuItem Header="_Import Project" Command="{Binding ImportProjectCommand}"/>
                 <MenuItem Header="_Open Project" Command="{Binding OpenProjectCommand}"/>
                 <MenuItem Header="_Save Project" Command="{Binding SaveProjectCommand}"/>
                 <Separator/>
