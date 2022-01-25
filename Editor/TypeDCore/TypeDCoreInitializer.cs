@@ -127,21 +127,21 @@ namespace TypeDCore
                             Name = "_Entity",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Entities"));
+                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Entities"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Scene",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Scenes"));
+                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Scenes"));
                             }
                         },
                         new MenuItem() {
                             Name = "_Drawable2d",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node.Name ?? $"Drawables"));
+                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Drawables"));
                             }
                         }
                     }

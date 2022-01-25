@@ -42,6 +42,7 @@ namespace TypeDCore.Models
         // Functions
         public void Restore(Project project)
         {
+            if (project.Assembly == null) return;
             var types = project.Assembly.GetTypes();
 
             foreach(var type in types)

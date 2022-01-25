@@ -78,7 +78,7 @@ namespace TypeDitor.ViewModel.Panels
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
         {
-            var componentContextMenuOpenedHook = new ComponentContextMenuOpenedHook(node.Context);
+            var componentContextMenuOpenedHook = new ComponentContextMenuOpenedHook(node?.Context);
             HookModel.Shoot(componentContextMenuOpenedHook);
 
             contextMenu.Items.Clear();
