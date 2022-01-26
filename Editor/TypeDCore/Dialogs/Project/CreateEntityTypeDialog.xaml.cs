@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Linq;
+using System.Windows;
 
 namespace TypeDCore.Dialogs.Project
 {
@@ -15,6 +17,15 @@ namespace TypeDCore.Dialogs.Project
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
+            bool isValid = !string.IsNullOrEmpty(EntityName) &&
+                            EntityName.IndexOfAny(Path.GetInvalidFileNameChars()) == -1 &&
+                            (char.IsLetter(EntityName.FirstOrDefault()) || EntityName.StartsWith("_"));
+            if (!isValid)
+            {
+                MessageBox.Show($"Invalid name '{EntityName}'");
+                return;
+            }
+
             DialogResult = true;
             Close();
         }
@@ -23,7 +34,5 @@ namespace TypeDCore.Dialogs.Project
         public string EntityNamespace { get; set; }
         public bool EntityUpdatable { get; set; }
         public bool EntityDrawable { get; set; }
-
-
     }
 }

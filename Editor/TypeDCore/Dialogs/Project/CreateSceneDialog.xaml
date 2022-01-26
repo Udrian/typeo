@@ -8,7 +8,7 @@
         Title="Create new Scene" Height="450" Width="800">
     <Grid>
         <DockPanel Margin="25,25,25,25">
-            <TextBlock DockPanel.Dock="Top" FontSize="32"><Run Text="Create new Scene"/></TextBlock>
+            <TextBlock DockPanel.Dock="Top" FontSize="32"><Run Text="Create new Scene Type"/></TextBlock>
             <Separator DockPanel.Dock="Top" Margin="0,0,0,25"/>
 
             <StackPanel DockPanel.Dock="Right" VerticalAlignment="Bottom">
