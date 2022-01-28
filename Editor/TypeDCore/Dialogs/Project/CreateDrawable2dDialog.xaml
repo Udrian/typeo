@@ -20,7 +20,14 @@
                 <TextBox x:Name="txtName" Margin="5,0,75,0" Text="{Binding EntityName}" />
 
                 <Label FontSize="16" Content="N_amespace:" Target="{Binding ElementName=txtNamespace}" />
-                <TextBox x:Name="txtNamespace" Margin="5,0,75,0" Text="{Binding EntityNamespace}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="75"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Name="txtNamespace" Margin="5,0,0,0" Text="{Binding EntityNamespace}" />
+                    <Button Name="btnOpenLocation" Content="_..." Width="25" Grid.Column="1" Margin="5, 0, 0, 0" HorizontalAlignment="Left" Click="btnOpenNamespace_Click"/>
+                </Grid>
             </StackPanel>
         </DockPanel>
     </Grid>

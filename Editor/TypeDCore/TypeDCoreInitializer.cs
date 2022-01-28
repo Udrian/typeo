@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TypeD;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeD.TreeNodes;
 using TypeD.View;
 using TypeDCore.Code.Game;
 using TypeDCore.Commands;
@@ -90,7 +92,6 @@ namespace TypeDCore
                                     Name = "_Entity",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-
                                         CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, $"Entities"));
                                     }
                                 },
@@ -127,21 +128,72 @@ namespace TypeDCore
                             Name = "_Entity",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Entities"));
+                                var @namespace = "Entities";
+                                if(hook.Node != null)
+                                {
+                                    Func<Node, string> getParentName = null;
+                                    getParentName = (node) => {
+                                        var retVal = "";
+                                        if(node.Parent != null)
+                                        {
+                                            retVal = getParentName(node.Parent);
+                                        }
+
+                                        if(node.Nodes.Count != 0)
+                                            return retVal == "" ? node.Name : $"{retVal}.{node.Name}";
+                                        return retVal;
+                                    };
+                                    @namespace = getParentName(hook.Node);
+                                }
+                                CreateEntityTypeCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
                             }
                         },
                         new MenuItem() {
                             Name = "_Scene",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Scenes"));
+                                var @namespace = "Scenes";
+                                if(hook.Node != null)
+                                {
+                                    Func<Node, string> getParentName = null;
+                                    getParentName = (node) => {
+                                        var retVal = "";
+                                        if(node.Parent != null)
+                                        {
+                                            retVal = getParentName(node.Parent);
+                                        }
+
+                                        if(node.Nodes.Count != 0)
+                                            return retVal == "" ? node.Name : $"{retVal}.{node.Name}";
+                                        return retVal;
+                                    };
+                                    @namespace = getParentName(hook.Node);
+                                }
+                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
                             }
                         },
                         new MenuItem() {
                             Name = "_Drawable2d",
                             ClickParameter = "LoadedProject",
                             Click = (param) => {
-                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, hook.Node?.Name ?? $"Drawables"));
+                                var @namespace = "Drawables";
+                                if(hook.Node != null)
+                                {
+                                    Func<Node, string> getParentName = null;
+                                    getParentName = (node) => {
+                                        var retVal = "";
+                                        if(node.Parent != null)
+                                        {
+                                            retVal = getParentName(node.Parent);
+                                        }
+
+                                        if(node.Nodes.Count != 0)
+                                            return retVal == "" ? node.Name : $"{retVal}.{node.Name}";
+                                        return retVal;
+                                    };
+                                    @namespace = getParentName(hook.Node);
+                                }
+                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
                             }
                         }
                     }

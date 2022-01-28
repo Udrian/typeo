@@ -20,7 +20,7 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateEntityTypeDialog();
+            var dialog = new CreateEntityTypeDialog(data.Project);
             dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {

@@ -20,7 +20,7 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateDrawable2dDialog();
+            var dialog = new CreateDrawable2dDialog(data.Project);
             dialog.EntityNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {

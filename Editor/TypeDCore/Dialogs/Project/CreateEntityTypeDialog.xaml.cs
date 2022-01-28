@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Ookii.Dialogs.Wpf;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -7,12 +9,21 @@ namespace TypeDCore.Dialogs.Project
     /// <summary>
     /// Interaction logic for CreateEntityTypeDialog.xaml
     /// </summary>
-    public partial class CreateEntityTypeDialog : Window
+    public partial class CreateEntityTypeDialog : Window, INotifyPropertyChanged
     {
-        public CreateEntityTypeDialog()
+        TypeD.Models.Data.Project Project { get; set; }
+
+        public CreateEntityTypeDialog(TypeD.Models.Data.Project project)
         {
             InitializeComponent();
+            Project = project;
             this.DataContext = this;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -26,8 +37,26 @@ namespace TypeDCore.Dialogs.Project
                 return;
             }
 
+            if (File.Exists(@$"{Project.ProjectTypeOPath}\components\{Project.ProjectName}\{EntityNamespace.Replace(".", "\\")}\{EntityName}.component"))
+            {
+                MessageBox.Show($"'{EntityNamespace}.{EntityName}' already exists");
+                return;
+            }
+
             DialogResult = true;
             Close();
+        }
+
+        private void btnOpenNamespace_Click(object sender, RoutedEventArgs e)
+        {
+            var folderBrowserDialog = new VistaFolderBrowserDialog();
+            folderBrowserDialog.SelectedPath = @$"{Project.ProjectSourcePath}\{EntityNamespace.Replace(".", "\\")}";
+            if (folderBrowserDialog.ShowDialog() == true)
+            {
+                EntityNamespace = folderBrowserDialog.SelectedPath.Replace("\\", ".").Substring(@$"{Project.ProjectSourcePath}\".Length);
+
+                NotifyPropertyChanged("EntityNamespace");
+            }
         }
 
         public string EntityName { get; set; }

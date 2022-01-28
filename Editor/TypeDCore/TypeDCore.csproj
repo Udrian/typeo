@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TypeOCore\TypeOCore.csproj" />
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>

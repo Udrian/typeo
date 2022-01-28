@@ -36,7 +36,7 @@ namespace TypeDCore.Models
         // Functions
         public void CreateEntity(Project project, string className, string @namespace, bool updatable, bool drawable)
         {
-            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var entityCode = new EntityCode(className, @namespace);
 
             if (updatable)
@@ -77,7 +77,7 @@ namespace TypeDCore.Models
 
         public void CreateScene(Project project, string className, string @namespace)
         {
-            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var sceneCode = new SceneCode(className, @namespace);
             ProjectModel.AddCode(project, sceneCode);
             ProjectModel.AddCode(project, new SceneTypeDCode(className, @namespace));
@@ -100,7 +100,7 @@ namespace TypeDCore.Models
 
         public void CreateDrawable2d(Project project, string className, string @namespace)
         {
-            @namespace = @namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}";
+            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var drawable2dCode = new Drawable2dCode(className, @namespace);
             ProjectModel.AddCode(project, drawable2dCode);
             ComponentProvider.Save(project, new Component()
