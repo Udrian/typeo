@@ -1,7 +1,7 @@
 ﻿using TypeD.Commands;
 using TypeDCore.Commands.Data;
-using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
+using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
@@ -20,11 +20,11 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateDrawable2dDialog(data.Project);
-            dialog.EntityNamespace = data.Namespace;
+            var dialog = new CreateDrawable2dTypeDialog(data.Project);
+            dialog.ViewModel.ComponentNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.EntityName, dialog.EntityNamespace);
+                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace);
             }
         }
     }

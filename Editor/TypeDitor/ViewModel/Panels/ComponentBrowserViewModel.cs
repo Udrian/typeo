@@ -4,13 +4,14 @@ using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
+using TypeD.ViewModel;
 using TypeDitor.Commands;
 using TypeDitor.Commands.Data;
 using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    class ComponentBrowserViewModel
+    class ComponentBrowserViewModel : ViewModelBase
     {
         public class Node
         {
@@ -53,6 +54,7 @@ namespace TypeDitor.ViewModel.Panels
             OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
         }
 
+        // Functions
         private ObservableCollection<Node> TreeToNodeList(IList<TypeD.TreeNodes.Node> treeNodes)
         {
             var nodes = new ObservableCollection<Node>();

@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeD.ViewModel;
 
 namespace TypeDitor.ViewModel.Dialogs.Tools
 {
-    class ModulesDialogViewModel
+    class ModulesDialogViewModel : ViewModelBase
     {
         public class Module
         {
@@ -39,6 +40,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             LoadedProject = loadedProject;
         }
 
+        // Functions
         public async Task<ObservableCollection<Module>> ListModules()
         {
             var moduleList = await ModuleProvider.List();

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.ComponentModel;
 using TypeD.Helpers;
 using TypeD.Models.Interfaces;
+using TypeD.ViewModel;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    class OutputViewModel: INotifyPropertyChanged
+    class OutputViewModel : ViewModelBase
     {
         // Models
         ILogModel LogModel { get; set; }
@@ -33,12 +33,6 @@ namespace TypeDitor.ViewModel.Panels
             CMD.Output -= OnCMDOutput;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string propName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
         // Properties
         private string _outputText;
         public string OutputText
@@ -47,7 +41,7 @@ namespace TypeDitor.ViewModel.Panels
             set
             {
                 _outputText = value;
-                NotifyPropertyChanged("OutputText");
+                OnPropertyChanged(OutputText);
             }
         }
     }

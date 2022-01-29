@@ -1,7 +1,7 @@
 ﻿using TypeD.Commands;
 using TypeDCore.Commands.Data;
-using TypeDCore.Dialogs.Project;
 using TypeDCore.Models.Interfaces;
+using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
@@ -21,10 +21,10 @@ namespace TypeDCore.Commands
             var data = parameter as CreateComponentCommandData;
 
             var dialog = new CreateEntityTypeDialog(data.Project);
-            dialog.EntityNamespace = data.Namespace;
+            dialog.ViewModel.ComponentNamespace = data.Namespace;
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.EntityName, dialog.EntityNamespace, dialog.EntityUpdatable, dialog.EntityDrawable);
+                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ComponentUpdatable, dialog.ViewModel.ComponentDrawable);
             }
         }
     }

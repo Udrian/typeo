@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
+using TypeD.ViewModel;
 using TypeDitor.Commands;
 
 namespace TypeDitor.ViewModel
 {
-    class SplashViewModel
+    class SplashViewModel : ViewModelBase 
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }
@@ -16,6 +17,7 @@ namespace TypeDitor.ViewModel
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public NewProjectCommand NewProjectCommand { get; set; }
 
+        // Constructors
         public SplashViewModel(IRecentProvider recentProvider, IProjectProvider projectProvider)
         {
             RecentProvider = recentProvider;
@@ -26,6 +28,7 @@ namespace TypeDitor.ViewModel
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
         }
 
+        // Functions
         public IEnumerable<Recent> GetRecents()
         {
             return RecentProvider.Get();
