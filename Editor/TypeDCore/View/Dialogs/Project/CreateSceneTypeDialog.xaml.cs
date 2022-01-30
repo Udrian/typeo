@@ -12,14 +12,15 @@ namespace TypeDCore.View.Dialogs.Project
         public CreateComponentTypeBaseViewModel ViewModel { get; set; }
 
         // Constructors
-        public CreateSceneTypeDialog(TypeD.Models.Data.Project project)
+        public CreateSceneTypeDialog(TypeD.Models.Data.Project project, string @namespace, string inherits)
         {
             InitializeComponent();
-            ViewModel = new CreateComponentTypeBaseViewModel(project);
+            ViewModel = new CreateComponentTypeBaseViewModel(project, @namespace, inherits);
+            ViewModel.ComponentBaseType = "Scene";
             this.DataContext = ViewModel;
         }
 
-        // Events
+        // Event Handlers
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             if (!ViewModel.Validate())
@@ -32,6 +33,11 @@ namespace TypeDCore.View.Dialogs.Project
         private void btnOpenNamespace_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.OpenNamespace();
+        }
+
+        private void btnOpenInherit_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenInherit();
         }
     }
 }

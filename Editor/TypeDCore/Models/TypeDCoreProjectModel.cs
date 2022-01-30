@@ -3,7 +3,7 @@ using TypeD;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeDCore.Code.Drawable2d;
+using TypeDCore.Code.Drawable;
 using TypeDCore.Code.Entity;
 using TypeDCore.Code.Scene;
 using TypeDCore.Models.Interfaces;
@@ -34,30 +34,13 @@ namespace TypeDCore.Models
         }
 
         // Functions
-        public void CreateEntity(Project project, string className, string @namespace, bool updatable, bool drawable)
+        public void CreateEntity(Project project, string className, string @namespace, string baseClass, bool updatable, bool drawable)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var entityCode = new EntityCode(className, @namespace);
-
-            if (updatable)
-            {
-                entityCode.Usings.Add("TypeOEngine.Typedeaf.Core.Interfaces");
-                entityCode.AddInterface("IUpdatable");
-                entityCode.AddProperty(new Codalyzer.Property("public bool Pause"));
-                entityCode.AddFunction(new Codalyzer.Function("public void Update(double dt)", () => { }));
-            }
-            if (drawable)
-            {
-                entityCode.Usings.Add("TypeOEngine.Typedeaf.Core.Entities.Interfaces");
-                entityCode.Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
-                entityCode.AddInterface("IDrawable");
-                entityCode.AddProperty(new Codalyzer.Property("public bool Hidden"));
-                entityCode.AddProperty(new Codalyzer.Property("public int DrawOrder"));
-                entityCode.AddFunction(new Codalyzer.Function("public void Draw(Canvas canvas)", () => { }));
-            }
+            var entityCode = new EntityCode(className, @namespace, baseClass, updatable, drawable);
 
             ProjectModel.AddCode(project, entityCode);
-            ProjectModel.AddCode(project, new EntityTypeDCode(className, @namespace));
+            ProjectModel.AddCode(project, new EntityTypeDCode(className, @namespace, baseClass));
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = entityCode.ClassName,
@@ -67,7 +50,7 @@ namespace TypeDCore.Models
                     typeof(EntityCode).FullName,
                     typeof(EntityTypeDCode).FullName
                 },
-                TypeOBaseType = "Entity2D"
+                TypeOBaseType = "Entity2d"
             });
 
             ProjectModel.BuildComponentTree(project);
@@ -75,12 +58,12 @@ namespace TypeDCore.Models
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
 
-        public void CreateScene(Project project, string className, string @namespace)
+        public void CreateScene(Project project, string className, string @namespace, string baseClass)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var sceneCode = new SceneCode(className, @namespace);
+            var sceneCode = new SceneCode(className, @namespace, baseClass);
             ProjectModel.AddCode(project, sceneCode);
-            ProjectModel.AddCode(project, new SceneTypeDCode(className, @namespace));
+            ProjectModel.AddCode(project, new SceneTypeDCode(className, @namespace, baseClass));
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = sceneCode.ClassName,
@@ -98,10 +81,10 @@ namespace TypeDCore.Models
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
         }
 
-        public void CreateDrawable2d(Project project, string className, string @namespace)
+        public void CreateDrawable2d(Project project, string className, string @namespace, string baseClass)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var drawable2dCode = new Drawable2dCode(className, @namespace);
+            var drawable2dCode = new Drawable2dCode(className, @namespace, baseClass);
             ProjectModel.AddCode(project, drawable2dCode);
             ComponentProvider.Save(project, new Component()
             {

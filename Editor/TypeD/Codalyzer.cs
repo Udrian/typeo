@@ -195,7 +195,7 @@ namespace TypeD
             var inheritance = new List<string>();
             if(!string.IsNullOrEmpty(BaseClass))
             {
-                inheritance.Add(BaseClass);
+                inheritance.Add(BaseClass.Replace($"{Namespace}.", ""));
             }
             inheritance.AddRange(Interfaces);
 
@@ -223,14 +223,24 @@ namespace TypeD
             Writer.AddLine($"{(PartialClass? "partial ":"")}class {ClassName}{(inheritance.Count == 0 ? "" : $" : {string.Join(", ", inheritance)}")}");
             Writer.AddLeftCurlyBracket();
 
+            if(Properties.Count > 0)
+                Writer.AddLine("// Properties");
             foreach(var property in Properties)
             {
                 property.Generate(Writer);
             }
 
-            foreach(var function in Functions)
+            if (Functions.Count > 0)
+            {
+                if (Properties.Count > 0)
+                    Writer.AddLine();
+                Writer.AddLine("// Functions");
+            }
+            foreach (var function in Functions)
             {
                 function.Generate(Writer);
+                if(Functions.LastOrDefault() != function)
+                    Writer.AddLine();
             }
 
             Writer.AddAllClosingBrackets();

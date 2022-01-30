@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.ViewModel;
@@ -18,10 +19,10 @@ namespace TypeDitor.ViewModel
         public NewProjectCommand NewProjectCommand { get; set; }
 
         // Constructors
-        public SplashViewModel(IRecentProvider recentProvider, IProjectProvider projectProvider)
+        public SplashViewModel(FrameworkElement element) : base(element)
         {
-            RecentProvider = recentProvider;
-            ProjectProvider = projectProvider;
+            RecentProvider = ResourceModel.Get<IRecentProvider>();
+            ProjectProvider = ResourceModel.Get<IProjectProvider>(); ;
 
             ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);

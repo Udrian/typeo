@@ -3,8 +3,9 @@
     public class CreateEntityTypeViewModel : CreateComponentTypeBaseViewModel
     {
         // Constructors
-        public CreateEntityTypeViewModel(TypeD.Models.Data.Project project) : base(project)
+        public CreateEntityTypeViewModel(TypeD.Models.Data.Project project, string @namespace, string inherits) : base(project, @namespace, inherits)
         {
+            ComponentBaseType = "Entity2d";
         }
 
         // Properties

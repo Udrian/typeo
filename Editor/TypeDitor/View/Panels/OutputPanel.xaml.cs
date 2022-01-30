@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TypeD.Models.Interfaces;
 using TypeDitor.ViewModel.Panels;
 
 namespace TypeDitor.View.Panels
@@ -18,9 +17,7 @@ namespace TypeDitor.View.Panels
         {
             InitializeComponent();
 
-            OutputViewModel = new OutputViewModel(
-                FindResource("LogModel") as ILogModel
-            );
+            OutputViewModel = new OutputViewModel(this);
             DataContext = OutputViewModel;
         }
 

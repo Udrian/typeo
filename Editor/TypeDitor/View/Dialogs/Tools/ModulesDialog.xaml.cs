@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using TypeD.Models.Interfaces;
-using TypeD.Models.Providers.Interfaces;
 using TypeDitor.ViewModel.Dialogs.Tools;
 
 namespace TypeDitor.View.Dialogs.Tools
@@ -15,9 +13,9 @@ namespace TypeDitor.View.Dialogs.Tools
         ModulesDialogViewModel ModulesDialogViewModel { get; set; }
 
         // Constructors
-        public ModulesDialog(IModuleModel moduleModel, IProjectModel projectModel, ISaveModel saveModel, IModuleProvider moduleProvider, TypeD.Models.Data.Project loadedProject)
+        public ModulesDialog(TypeD.Models.Data.Project loadedProject)
         {
-            ModulesDialogViewModel = new ModulesDialogViewModel(moduleModel, projectModel, saveModel, moduleProvider, loadedProject);
+            ModulesDialogViewModel = new ModulesDialogViewModel(this, loadedProject);
 
             InitializeComponent();
         }

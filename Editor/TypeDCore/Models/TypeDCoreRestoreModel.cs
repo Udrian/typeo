@@ -67,15 +67,15 @@ namespace TypeDCore.Models
                     {
                         var updatable = type.GetInterfaces().Contains(typeof(IUpdatable));
                         var drawable = type.GetInterfaces().Contains(typeof(IDrawable));
-                        TypeDCoreProjectModel.CreateEntity(project, type.Name, type.Namespace, updatable, drawable);
+                        TypeDCoreProjectModel.CreateEntity(project, type.Name, type.Namespace, type.BaseType.FullName, updatable, drawable);
                     }
                     else if(foundType == typeof(Scene))
                     {
-                        TypeDCoreProjectModel.CreateScene(project, type.Name, type.Namespace);
+                        TypeDCoreProjectModel.CreateScene(project, type.Name, type.Namespace, type.BaseType.FullName);
                     }
                     else if (foundType == typeof(Drawable2d))
                     {
-                        TypeDCoreProjectModel.CreateDrawable2d(project, type.Name, type.Namespace);
+                        TypeDCoreProjectModel.CreateDrawable2d(project, type.Name, type.Namespace, type.BaseType.FullName);
                     }
 
                     var csFilePath = Path.Combine(project.Location, $"{type.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");

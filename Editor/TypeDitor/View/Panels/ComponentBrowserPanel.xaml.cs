@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
 using TypeDitor.ViewModel;
 using TypeDitor.ViewModel.Panels;
 
@@ -28,7 +27,7 @@ namespace TypeDitor.View.Panels
             LoadedProject = loadedProject;
 
             ComponentBrowserViewModel = new ComponentBrowserViewModel(
-                FindResource("HookModel") as IHookModel,
+                this,
                 LoadedProject,
                 TreeView,
                 FindResource("MainWindowViewModel") as MainWindowViewModel

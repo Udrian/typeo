@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeD.Models.Providers.Interfaces;
 using TypeDitor.ViewModel;
 
 namespace TypeDitor.View
@@ -11,25 +10,22 @@ namespace TypeDitor.View
     /// </summary>
     public partial class Splash : Window
     {
-        SplashViewModel SplashViewModel { get; set; }
+        SplashViewModel ViewModel { get; set; }
 
         public Splash()
         {
             InitializeComponent();
-            SplashViewModel = new SplashViewModel(
-                FindResource("RecentProvider") as IRecentProvider,
-                FindResource("ProjectProvider") as IProjectProvider
-            );
-            DataContext = SplashViewModel;
+            ViewModel = new SplashViewModel(this);
+            DataContext = ViewModel;
 
-            RecentList.ItemsSource = SplashViewModel.GetRecents();
+            RecentList.ItemsSource = ViewModel.GetRecents();
         }
 
         private void RecentList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (sender is not ListBox lbRecent) return;
             if (lbRecent.SelectedItem is not Recent recent) return;
-            SplashViewModel.OpenProjectCommand.Execute(recent);
+            ViewModel.OpenProjectCommand.Execute(recent);
         }
     }
 }

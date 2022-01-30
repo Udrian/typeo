@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeD.Models.Interfaces;
 using TypeDitor.View.Panels;
 using TypeDitor.ViewModel;
 
@@ -22,11 +21,7 @@ namespace TypeDitor.View
         {
             InitializeComponent();
 
-            MainWindowViewModel = new MainWindowViewModel(
-                FindResource("ResourceModel") as IResourceModel,
-                loadedProject,
-                this
-            );
+            MainWindowViewModel = new MainWindowViewModel(this, loadedProject);
             DataContext = MainWindowViewModel;
 
             Application.Current.Resources.Add("MainWindowViewModel", MainWindowViewModel);

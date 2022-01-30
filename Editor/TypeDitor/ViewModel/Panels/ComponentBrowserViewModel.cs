@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
@@ -41,9 +42,9 @@ namespace TypeDitor.ViewModel.Panels
         public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Constructors
-        public ComponentBrowserViewModel(IHookModel hookModel, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel)
+        public ComponentBrowserViewModel(FrameworkElement element, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel) : base(element)
         {
-            HookModel = hookModel;
+            HookModel = ResourceModel.Get<IHookModel>();
             LoadedProject = loadedProject;
             TreeView = treeView;
 
@@ -134,6 +135,10 @@ namespace TypeDitor.ViewModel.Panels
                 }
                 else
                 {
+                    if(foundNode != treeNode)
+                    {
+                        nodes[i] = treeNode;
+                    }
                     Buildtree(treeNode.Nodes, foundNode.Nodes);
                 }
                 i++;

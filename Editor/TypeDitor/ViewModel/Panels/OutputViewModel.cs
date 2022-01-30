@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using TypeD.Helpers;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
@@ -11,9 +12,9 @@ namespace TypeDitor.ViewModel.Panels
         ILogModel LogModel { get; set; }
 
         // Constructors
-        public OutputViewModel(ILogModel logModel)
+        public OutputViewModel(FrameworkElement element) : base(element)
         {
-            LogModel = logModel;
+            LogModel = ResourceModel.Get<ILogModel>();
             LogModel.AttachLogOutput("OutputView", (message) =>
             {
                 OnCMDOutput(message);
@@ -41,7 +42,7 @@ namespace TypeDitor.ViewModel.Panels
             set
             {
                 _outputText = value;
-                OnPropertyChanged(OutputText);
+                OnPropertyChanged();
             }
         }
     }

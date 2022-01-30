@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
@@ -21,7 +22,6 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         // Modules
         IModuleModel ModuleModel { get; set; }
         IProjectModel ProjectModel { get; set; }
-        ISaveModel SaveModel { get; set; }
 
         // Providers
         IModuleProvider ModuleProvider { get; set; }
@@ -31,12 +31,11 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         ObservableCollection<Module> Modules { get; set; }
 
         // Constructors
-        public ModulesDialogViewModel(IModuleModel moduleModel, IProjectModel projectModel, ISaveModel saveModel, IModuleProvider moduleProvider, Project loadedProject)
+        public ModulesDialogViewModel(FrameworkElement element, Project loadedProject) : base(element)
         {
-            ModuleModel = moduleModel;
-            ProjectModel = projectModel;
-            SaveModel = saveModel;
-            ModuleProvider = moduleProvider;
+            ModuleModel = ResourceModel.Get<IModuleModel>();
+            ProjectModel = ResourceModel.Get<IProjectModel>();
+            ModuleProvider = ResourceModel.Get<IModuleProvider>();
             LoadedProject = loadedProject;
         }
 

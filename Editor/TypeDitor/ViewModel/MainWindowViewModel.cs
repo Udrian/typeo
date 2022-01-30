@@ -15,9 +15,7 @@ namespace TypeDitor.ViewModel
     class MainWindowViewModel : ViewModelBase
     {
         // Models
-        IResourceModel ResourceModel { get; set; }
         IProjectModel ProjectModel { get; set; }
-        IModuleModel ModuleModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
         IUINotifyModel UINotifyModel { get; set; }
@@ -44,12 +42,9 @@ namespace TypeDitor.ViewModel
         MainWindow MainWindow { get; set; }
 
         // Constructors
-        public MainWindowViewModel(IResourceModel resourceModel, Project loadedProject, MainWindow mainWindow)
+        public MainWindowViewModel(MainWindow mainWindow, Project loadedProject) : base(mainWindow)
         {
-            ResourceModel = resourceModel;
-
             ProjectModel = ResourceModel.Get<IProjectModel>();
-            ModuleModel = ResourceModel.Get<IModuleModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
             UINotifyModel = ResourceModel.Get<IUINotifyModel>();
@@ -90,7 +85,7 @@ namespace TypeDitor.ViewModel
 
         public void OpenModulesWindow()
         {
-            var modulesDialog = new ModulesDialog(ModuleModel, ProjectModel, SaveModel, ModuleProvider, LoadedProject);
+            var modulesDialog = new ModulesDialog(LoadedProject);
             modulesDialog.Show();
         }
 

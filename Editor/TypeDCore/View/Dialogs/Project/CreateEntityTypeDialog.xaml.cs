@@ -12,14 +12,14 @@ namespace TypeDCore.View.Dialogs.Project
         public CreateEntityTypeViewModel ViewModel { get; set; }
 
         // Constructors
-        public CreateEntityTypeDialog(TypeD.Models.Data.Project project)
+        public CreateEntityTypeDialog(TypeD.Models.Data.Project project, string @namespace, string inherits)
         {
             InitializeComponent();
-            ViewModel = new CreateEntityTypeViewModel(project);
+            ViewModel = new CreateEntityTypeViewModel(project, @namespace, inherits);
             this.DataContext = ViewModel;
         }
 
-        // Events
+        // Event Handlers
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             if (!ViewModel.Validate())
@@ -32,6 +32,11 @@ namespace TypeDCore.View.Dialogs.Project
         private void btnOpenNamespace_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.OpenNamespace();
+        }
+
+        private void btnOpenInherit_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenInherit();
         }
     }
 }

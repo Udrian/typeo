@@ -20,11 +20,10 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateDrawable2dTypeDialog(data.Project);
-            dialog.ViewModel.ComponentNamespace = data.Namespace;
+            var dialog = new CreateDrawable2dTypeDialog(data.Project, data.Namespace, typeof(TypeOEngine.Typedeaf.Core.Entities.Drawables.Drawable2d).FullName);
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace);
+                TypeDCoreProjectModel.CreateDrawable2d(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ComponentBaseType);
             }
         }
     }
