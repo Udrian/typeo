@@ -200,7 +200,7 @@ namespace TypeD
             var inheritance = new List<string>();
             if(!string.IsNullOrEmpty(BaseClass))
             {
-                inheritance.Add(BaseClass.Replace($"{Namespace}.", ""));
+                inheritance.Add(BaseClass.Split(".").LastOrDefault());
             }
             inheritance.AddRange(Interfaces.Select((i) => { return i.Name; }));
 
@@ -218,7 +218,11 @@ namespace TypeD
                 dynamicUsings = DynamicUsings();
             }
             dynamicUsings.AddRange(Interfaces.Select((i) => { return i.Namespace; }));
-            var usings = Usings.Union(dynamicUsings).Distinct().ToList();
+            if (!string.IsNullOrEmpty(BaseClass))
+            {
+                dynamicUsings.Add(string.Join(".", BaseClass.Split(".").SkipLast(1)));
+            }
+            var usings = Usings.Union(dynamicUsings).Distinct().Where(u => u != Namespace).ToList();
             foreach (var @using in usings)
             {
                 Writer.AddLine($"using {@using};");
