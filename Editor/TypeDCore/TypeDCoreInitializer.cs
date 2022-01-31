@@ -29,8 +29,8 @@ namespace TypeDCore
 
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
-        CreateSceneCommand CreateSceneCommand { get; set; }
-        CreateDrawable2dCommand CreateDrawable2dCommand { get; set; }
+        CreateSceneTypeCommand CreateSceneTypeCommand { get; set; }
+        CreateDrawable2dTypeCommand CreateDrawable2dTypeCommand { get; set; }
 
         public override void Initializer()
         {
@@ -49,8 +49,8 @@ namespace TypeDCore
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
-            CreateSceneCommand = new CreateSceneCommand(TypeDCoreProjectModel);
-            CreateDrawable2dCommand = new CreateDrawable2dCommand(TypeDCoreProjectModel);
+            CreateSceneTypeCommand = new CreateSceneTypeCommand(TypeDCoreProjectModel);
+            CreateDrawable2dTypeCommand = new CreateDrawable2dTypeCommand(TypeDCoreProjectModel);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -99,14 +99,14 @@ namespace TypeDCore
                                     Name = "_Scene",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, $"Scenes"));
+                                        CreateSceneTypeCommand.Execute(new CreateComponentCommandData(param as Project, $"Scenes"));
                                     }
                                 },
                                 new MenuItem() {
                                     Name = "_Drawable2d",
                                     ClickParameter = "LoadedProject",
                                     Click = (param) => {
-                                        CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, $"Drawables"));
+                                        CreateDrawable2dTypeCommand.Execute(new CreateComponentCommandData(param as Project, $"Drawables"));
                                     }
                                 }
                             }
@@ -169,7 +169,7 @@ namespace TypeDCore
                                     };
                                     @namespace = getParentName(hook.Node);
                                 }
-                                CreateSceneCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
+                                CreateSceneTypeCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
                             }
                         },
                         new MenuItem() {
@@ -193,7 +193,7 @@ namespace TypeDCore
                                     };
                                     @namespace = getParentName(hook.Node);
                                 }
-                                CreateDrawable2dCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
+                                CreateDrawable2dTypeCommand.Execute(new CreateComponentCommandData(param as Project, @namespace));
                             }
                         }
                     }

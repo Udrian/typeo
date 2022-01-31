@@ -5,13 +5,13 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class CreateSceneCommand : CustomCommand 
+    class CreateSceneTypeCommand : CustomCommand 
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
-        public CreateSceneCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
+        public CreateSceneTypeCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
         {
             TypeDCoreProjectModel = typeDCoreProjectModel;
         }

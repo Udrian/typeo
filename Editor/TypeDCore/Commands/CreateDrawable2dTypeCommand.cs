@@ -5,13 +5,13 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class CreateDrawable2dCommand : CustomCommand 
+    class CreateDrawable2dTypeCommand : CustomCommand 
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
-        public CreateDrawable2dCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
+        public CreateDrawable2dTypeCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
         {
             TypeDCoreProjectModel = typeDCoreProjectModel;
         }
