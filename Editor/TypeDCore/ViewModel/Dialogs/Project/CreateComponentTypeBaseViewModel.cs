@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows;
+using TypeD.Models.Data;
 using TypeD.ViewModel;
 using TypeDCore.View.Dialogs.Project;
 
@@ -12,13 +13,22 @@ namespace TypeDCore.ViewModel.Dialogs.Project
         // Data
         TypeD.Models.Data.Project Project { get; set; }
 
+        // Properties
+        public string ComponentName { get; set; }
+        public string ComponentNamespace { get; set; }
+
+        public string ParentComponentFullName { get; set; }
+        public Component ParentComponent { get; set; }
+        public string ComponentBaseType { get; set; }
+
         // Constructors
-        public CreateComponentTypeBaseViewModel(TypeD.Models.Data.Project project, string @namespace, string inherits)
+        public CreateComponentTypeBaseViewModel(TypeD.Models.Data.Project project, string @namespace, string componentBaseType)
         {
             Project = project;
 
+            ComponentBaseType = componentBaseType;
             ComponentNamespace = @namespace;
-            ComponentInherits = inherits;
+            ParentComponentFullName = ComponentBaseType;
         }
 
         // Functions
@@ -54,24 +64,23 @@ namespace TypeDCore.ViewModel.Dialogs.Project
             }
         }
 
-        public void OpenInherit()
+        public void OpenComponents()
         {
             var dialog = new ComponentSelectorDialog(Project);
-            dialog.ViewModel.FilteredType = ComponentBaseType;
+            dialog.ViewModel.FilteredType = ComponentBaseType.Split(".").LastOrDefault();
             dialog.ViewModel.UpdateFilter();
 
-            if (dialog.ShowDialog() == true && dialog.ViewModel.SelectedComponents != null)
+            if (dialog.ShowDialog() == true && dialog.ViewModel.SelectedComponent != null)
             {
-                ComponentInherits = dialog.ViewModel.SelectedComponents.FullName;
-                OnPropertyChanged(nameof(ComponentInherits));
+                OnParentComponentSet(dialog.ViewModel.SelectedComponent);
+                OnPropertyChanged(nameof(ParentComponentFullName));
             }
         }
 
-        // Properties
-        public string ComponentName { get; set; }
-        public string ComponentNamespace { get; set; }
-        public string ComponentInherits { get; set; }
-
-        public string ComponentBaseType { get; set; }
+        public virtual void OnParentComponentSet(Component parentComponent)
+        {
+            ParentComponent = parentComponent;
+            ParentComponentFullName = ParentComponent.FullName;
+        }
     }
 }

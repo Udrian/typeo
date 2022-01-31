@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Scene
 {
     class SceneCode : ComponentTypeCode
     {
         // Properties
-        public override Type BaseComponentType { get { return typeof(TypeOEngine.Typedeaf.Core.Scene); } }
+        public override Type TypeOBaseType { get { return typeof(TypeOEngine.Typedeaf.Core.Scene); } }
 
         // Constructors
-        public SceneCode(string className, string @namespace, string baseClass) : base(className, @namespace, baseClass)
+        public SceneCode(string className, string @namespace, Component parentComponent) : base(className, @namespace, parentComponent)
         {
         }
 

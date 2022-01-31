@@ -46,7 +46,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
         // Properties
         public List<Component> AllComponents { get; set; }
         public List<Component> FilteredComponents { get; set; }
-        public Component SelectedComponents { get; set; }
+        public Component SelectedComponent { get; set; }
         public string FilteredType { get; set; }
         public string FilteredName { get; set; }
     }

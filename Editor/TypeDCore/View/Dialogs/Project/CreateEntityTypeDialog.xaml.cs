@@ -12,10 +12,10 @@ namespace TypeDCore.View.Dialogs.Project
         public CreateEntityTypeViewModel ViewModel { get; set; }
 
         // Constructors
-        public CreateEntityTypeDialog(TypeD.Models.Data.Project project, string @namespace, string inherits)
+        public CreateEntityTypeDialog(TypeD.Models.Data.Project project, string @namespace)
         {
             InitializeComponent();
-            ViewModel = new CreateEntityTypeViewModel(project, @namespace, inherits);
+            ViewModel = new CreateEntityTypeViewModel(project, @namespace, typeof(TypeOEngine.Typedeaf.Core.Entities.Entity2d).FullName);
             this.DataContext = ViewModel;
         }
 
@@ -36,7 +36,7 @@ namespace TypeDCore.View.Dialogs.Project
 
         private void btnOpenInherit_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenInherit();
+            ViewModel.OpenComponents();
         }
     }
 }

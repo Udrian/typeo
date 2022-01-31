@@ -20,10 +20,10 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateEntityTypeDialog(data.Project, data.Namespace, typeof(TypeOEngine.Typedeaf.Core.Entities.Entity2d).FullName);
+            var dialog = new CreateEntityTypeDialog(data.Project, data.Namespace);
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ComponentInherits, dialog.ViewModel.ComponentUpdatable, dialog.ViewModel.ComponentDrawable);
+                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ParentComponent, dialog.ViewModel.ComponentUpdatable, dialog.ViewModel.ComponentDrawable);
             }
         }
     }

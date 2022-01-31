@@ -12,11 +12,10 @@ namespace TypeDCore.View.Dialogs.Project
         public CreateComponentTypeBaseViewModel ViewModel { get; set; }
 
         // Constructors
-        public CreateDrawable2dTypeDialog(TypeD.Models.Data.Project project, string @namespace, string inherits)
+        public CreateDrawable2dTypeDialog(TypeD.Models.Data.Project project, string @namespace)
         {
             InitializeComponent();
-            ViewModel = new CreateComponentTypeBaseViewModel(project, @namespace, inherits);
-            ViewModel.ComponentBaseType = "Drawable2d";
+            ViewModel = new CreateComponentTypeBaseViewModel(project, @namespace, typeof(TypeOEngine.Typedeaf.Core.Entities.Drawables.Drawable2d).FullName);
             this.DataContext = ViewModel;
         }
 
@@ -37,7 +36,7 @@ namespace TypeDCore.View.Dialogs.Project
 
         private void btnOpenInherit_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.OpenInherit();
+            ViewModel.OpenComponents();
         }
     }
 }

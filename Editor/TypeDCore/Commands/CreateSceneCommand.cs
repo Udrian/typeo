@@ -20,10 +20,10 @@ namespace TypeDCore.Commands
         {
             var data = parameter as CreateComponentCommandData;
 
-            var dialog = new CreateSceneTypeDialog(data.Project, data.Namespace, typeof(TypeOEngine.Typedeaf.Core.Scene).FullName);
+            var dialog = new CreateSceneTypeDialog(data.Project, data.Namespace);
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateScene(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ComponentBaseType);
+                TypeDCoreProjectModel.CreateScene(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ParentComponent);
             }
         }
     }

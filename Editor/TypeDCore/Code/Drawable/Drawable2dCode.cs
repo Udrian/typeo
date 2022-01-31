@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypeD.Models.Data;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDCore.Code.Drawable
@@ -7,10 +8,10 @@ namespace TypeDCore.Code.Drawable
     class Drawable2dCode : ComponentTypeCode
     {
         // Properties
-        public override Type BaseComponentType { get { return typeof(Drawable2d); } }
+        public override Type TypeOBaseType { get { return typeof(Drawable2d); } }
 
         // Constructors
-        public Drawable2dCode(string className, string @namespace, string baseClass) : base(className, @namespace, baseClass)
+        public Drawable2dCode(string className, string @namespace, Component parentComponent) : base(className, @namespace, parentComponent)
         {
         }
 

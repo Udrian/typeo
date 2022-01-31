@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using TypeD.Helpers;
+using TypeD.Models.Data;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Code.Entity
 {
     class EntityTypeDCode : ComponentTypeCode
     {
         // Properties
-        public override Type BaseComponentType { get { return typeof(Entity2d); } }
+        public override Type TypeOBaseType { get { return typeof(Entity2d); } }
+        public bool Updatable { get; private set; }
+        public bool Drawable { get; private set; }
         public List<string> Drawables { get; set; }
 
         // Constructors
-        public EntityTypeDCode(string className, string @namespace, string baseClass) : base(className, @namespace, baseClass)
+        public EntityTypeDCode(string className, string @namespace, Component parentComponentType, bool updatable, bool drawable) : base(className, @namespace, parentComponentType)
         {
+            Updatable = updatable;
+            Drawable = drawable;
             Drawables = new List<string>();
         }
 
@@ -47,6 +54,21 @@ namespace TypeDCore.Code.Entity
                     Writer.AddLine("InternalInitialize();");
                 }
             }));
+
+            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable).FullName)))
+            {
+                Usings.Add("TypeOEngine.Typedeaf.Core.Interfaces");
+                AddInterface(typeof(IUpdatable));
+                AddProperty(new Property("public bool Pause"));
+            }
+
+            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable).FullName)))
+            {
+                Usings.Add("TypeOEngine.Typedeaf.Core.Entities.Interfaces");
+                AddInterface(typeof(IDrawable));
+                AddProperty(new Property("public bool Hidden"));
+                AddProperty(new Property("public int DrawOrder"));
+            }
 
             Drawables = FileHelper.FetchStringList(FilePath(), drawablesStartBlock, drawablesEndBlock);
         }

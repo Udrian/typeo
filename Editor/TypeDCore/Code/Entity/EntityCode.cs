@@ -1,32 +1,24 @@
 ﻿using System;
+using System.Linq;
+using TypeD.Models.Data;
 using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
+using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Code.Entity
 {
     class EntityCode : ComponentTypeCode
     {
         // Properties
-        public override Type BaseComponentType { get { return typeof(Entity2d); } }
+        public override Type TypeOBaseType { get { return typeof(Entity2d); } }
+        public bool Updatable { get; private set; }
+        public bool Drawable { get; private set; }
 
         // Constructors
-        public EntityCode(string className, string @namespace, string baseClass, bool updatable, bool drawable) : base(className, @namespace, baseClass)
+        public EntityCode(string className, string @namespace, Component parentComponentType, bool updatable, bool drawable) : base(className, @namespace, parentComponentType)
         {
-            if (updatable)
-            {
-                Usings.Add("TypeOEngine.Typedeaf.Core.Interfaces");
-                AddInterface("IUpdatable");
-                AddProperty(new Property("public bool Pause"));
-                AddFunction(new Function("public void Update(double dt)", () => { }));
-            }
-            if (drawable)
-            {
-                Usings.Add("TypeOEngine.Typedeaf.Core.Entities.Interfaces");
-                Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
-                AddInterface("IDrawable");
-                AddProperty(new Property("public bool Hidden"));
-                AddProperty(new Property("public int DrawOrder"));
-                AddFunction(new Function("public void Draw(Canvas canvas)", () => { }));
-            }
+            Updatable = updatable;
+            Drawable = drawable;
         }
 
         // Functions
@@ -48,6 +40,30 @@ namespace TypeDCore.Code.Entity
                 }));
                 AddFunction(new Function("public override void Cleanup()", () => {
                     Writer.AddLine("base.Cleanup();");
+                }));
+            }
+
+            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable).FullName)))
+            {
+                AddFunction(new Function("public virtual void Update(double dt)", () => { }));
+            }
+            else if(Updatable)
+            {
+                AddFunction(new Function("public override void Update(double dt)", () => {
+                    Writer.AddLine("base.Update(dt);");
+                }));
+            }
+
+            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable).FullName)))
+            {
+                Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
+                AddFunction(new Function("public virtual void Draw(Canvas canvas)", () => { }));
+            }
+            else if(Drawable)
+            {
+                Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
+                AddFunction(new Function("public override void Draw(Canvas canvas)", () => {
+                    Writer.AddLine("base.Draw(canvas);");
                 }));
             }
         }

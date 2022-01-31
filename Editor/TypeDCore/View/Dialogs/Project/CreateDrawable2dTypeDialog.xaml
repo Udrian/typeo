@@ -29,14 +29,14 @@
                     <Button Name="btnOpenLocation" Content="_..." Width="25" Grid.Column="1" Margin="5, 0, 0, 0" HorizontalAlignment="Left" Click="btnOpenNamespace_Click"/>
                 </Grid>
 
-                <Label FontSize="16" Content="_Inherits:" Target="{Binding ElementName=txtInherit}" />
+                <Label FontSize="16" Content="_Parent Component:" Target="{Binding ElementName=txtParentComponent}" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="75"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Name="txtInherit" Margin="5,0,0,0" IsEnabled="False" Text="{Binding ComponentInherits}"/>
-                    <Button Name="btnOpenInherit" Content="_..." Width="25" Grid.Column="1" Margin="5, 0, 0, 0" HorizontalAlignment="Left" Click="btnOpenInherit_Click"/>
+                    <TextBox Name="txtParentComponent" Margin="5,0,0,0" IsEnabled="False" Text="{Binding ParentComponentFullName}"/>
+                    <Button Name="btnOpenInherit" Content="_..." Width="25" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Left" Click="btnOpenInherit_Click"/>
                 </Grid>
             </StackPanel>
         </DockPanel>

@@ -63,19 +63,21 @@ namespace TypeDCore.Models
 
                 if(foundType != null && !ComponentProvider.Exists(project, type))
                 {
-                    if(foundType == typeof(Entity))
+                    var parentComponent = ComponentProvider.Load(project, type.BaseType.FullName);
+
+                    if (foundType == typeof(Entity))
                     {
                         var updatable = type.GetInterfaces().Contains(typeof(IUpdatable));
                         var drawable = type.GetInterfaces().Contains(typeof(IDrawable));
-                        TypeDCoreProjectModel.CreateEntity(project, type.Name, type.Namespace, type.BaseType.FullName, updatable, drawable);
+                        TypeDCoreProjectModel.CreateEntity(project, type.Name, type.Namespace, parentComponent, updatable, drawable);
                     }
                     else if(foundType == typeof(Scene))
                     {
-                        TypeDCoreProjectModel.CreateScene(project, type.Name, type.Namespace, type.BaseType.FullName);
+                        TypeDCoreProjectModel.CreateScene(project, type.Name, type.Namespace, parentComponent);
                     }
                     else if (foundType == typeof(Drawable2d))
                     {
-                        TypeDCoreProjectModel.CreateDrawable2d(project, type.Name, type.Namespace, type.BaseType.FullName);
+                        TypeDCoreProjectModel.CreateDrawable2d(project, type.Name, type.Namespace, parentComponent);
                     }
 
                     var csFilePath = Path.Combine(project.Location, $"{type.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");

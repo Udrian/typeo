@@ -24,7 +24,7 @@ namespace TypeDCore.View.Dialogs.Project
         private void lbComponents_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
             if (lbComponents.SelectedItem is not Component component) return;
-            ViewModel.SelectedComponents = component;
+            ViewModel.SelectedComponent = component;
             DialogResult = true;
             Close();
         }

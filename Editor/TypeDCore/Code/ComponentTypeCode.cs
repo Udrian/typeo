@@ -1,26 +1,29 @@
 ﻿using System;
 using TypeD;
+using TypeD.Models.Data;
 
 namespace TypeDCore.Code
 {
     public abstract class ComponentTypeCode : Codalyzer
     {
         // Properties
-        public abstract Type BaseComponentType { get; }
+        public abstract Type TypeOBaseType { get; }
         public bool IsBaseComponentType
         {
             get
             {
-                return BaseClass == BaseComponentType.FullName;
+                return BaseClass == TypeOBaseType.FullName;
             }
         }
+        public Component ParentComponent { get; private set; }
 
         // Constructors
-        public ComponentTypeCode(string className, string @namespace, string baseClass)
+        public ComponentTypeCode(string className, string @namespace, Component parentComponentType)
         {
             Init(className, @namespace);
 
-            BaseClass = string.IsNullOrEmpty(baseClass) ? BaseComponentType.FullName : baseClass;
+            ParentComponent = parentComponentType;
+            BaseClass = ParentComponent == null ? TypeOBaseType.FullName : ParentComponent.FullName;
         }
     }
 }
