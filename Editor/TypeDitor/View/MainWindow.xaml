@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TypeDitor.View" xmlns:typedock="clr-namespace:TypeDitor.TypeDock"
         mc:Ignorable="d"
-        Title="{Binding LoadedProject.ProjectName}" Height="768" Width="1024">
+        Title="{Binding LoadedProject.ProjectName}" Height="768" Width="1024" Closing="Window_Closing">
     <DockPanel>
         <Menu DockPanel.Dock="Top" Name="_TopMenu">
             <MenuItem Header="_File">

@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
@@ -12,7 +14,7 @@ using TypeDitor.View.Dialogs.Tools;
 
 namespace TypeDitor.ViewModel
 {
-    class MainWindowViewModel : ViewModelBase
+    internal class MainWindowViewModel : ViewModelBase
     {
         // Models
         IProjectModel ProjectModel { get; set; }
@@ -54,7 +56,7 @@ namespace TypeDitor.ViewModel
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
 
             BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
-            ExitProjectCommand = new ExitProjectCommand();
+            ExitProjectCommand = new ExitProjectCommand(SaveModel);
             NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
             ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
@@ -92,6 +94,25 @@ namespace TypeDitor.ViewModel
         public void OpenDocument(string header, object content)
         {
             MainWindow.Tabs.Items.Add(new TabItem() { Header = header, Content = content });
+        }
+
+        public async Task<bool> OnClose()
+        {
+            LoadedProject.IsClosing = true;
+            if (SaveModel.AnythingToSave)
+            {
+                var result = MessageBox.Show("Save before closing?", "Closing...", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    await SaveModel.Save();
+                }
+                else if (result == MessageBoxResult.Cancel)
+                {
+                    LoadedProject.IsClosing = false;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

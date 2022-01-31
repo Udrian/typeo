@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
@@ -61,7 +62,8 @@ namespace TypeD.Models.Providers
                     {
                         JSON.Serialize(saveComponent, GetPath(project, saveComponent.FullName));
                     }
-                    ProjectModel.BuildComponentTree(project);
+                    if (!project.IsClosing)
+                        ProjectModel.BuildComponentTree(project);
                 });
             });
         }

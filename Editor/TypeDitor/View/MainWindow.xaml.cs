@@ -12,7 +12,7 @@ namespace TypeDitor.View
     public partial class MainWindow : Window
     {
         // ViewModel
-        MainWindowViewModel MainWindowViewModel { get; set; }
+        internal MainWindowViewModel ViewModel { get; set; }
 
         public TabControl Tabs { get; set; }
 
@@ -21,10 +21,10 @@ namespace TypeDitor.View
         {
             InitializeComponent();
 
-            MainWindowViewModel = new MainWindowViewModel(this, loadedProject);
-            DataContext = MainWindowViewModel;
+            ViewModel = new MainWindowViewModel(this, loadedProject);
+            DataContext = ViewModel;
 
-            Application.Current.Resources.Add("MainWindowViewModel", MainWindowViewModel);
+            Application.Current.Resources.Add("MainWindowViewModel", ViewModel);
 
             Tabs = new TabControl();
 
@@ -32,14 +32,19 @@ namespace TypeDitor.View
             DockRoot.AddPanel(new OutputPanel(), Dock.Bottom);
             DockRoot.AddPanel(Tabs);
 
-            MainWindowViewModel.InitUI(this);
+            ViewModel.InitUI(this);
         }
 
         public Menu TopMenu { get { return _TopMenu; } }
 
         private void ModulesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowViewModel.OpenModulesWindow();
+            ViewModel.OpenModulesWindow();
+        }
+
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = await ViewModel.OnClose();
         }
     }
 }

@@ -29,6 +29,7 @@ namespace TypeD.Models.Data
 
         // Loaded data
         public Assembly Assembly { get; internal set; }
+        public bool IsClosing { get; set; }
 
         // Constructor
         internal Project(string location, ProjectDTO projectData)
