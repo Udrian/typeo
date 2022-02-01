@@ -62,15 +62,13 @@ namespace TypeDCore
         {
             var gameCode = new GameCode();
             ProjectModel.AddCode(hook.Project, gameCode);
-            ProjectModel.AddCode(hook.Project, new GameTypeDCode());
             ComponentProvider.Save(hook.Project, new Component()
             {
                 ClassName = gameCode.ClassName,
                 Namespace = gameCode.Namespace,
                 TemplateClass = new List<string>()
                 {
-                    typeof(GameCode).FullName,
-                    typeof(GameTypeDCode).FullName
+                    typeof(GameCode).FullName
                 },
                 TypeOBaseType = "Game"
             });

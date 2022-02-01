@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TypeD.Code;
 using TypeD.Models.Data;
 
 namespace TypeD.Models.Interfaces

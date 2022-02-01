@@ -40,9 +40,9 @@ namespace TypeDCore.Models
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var entityCode = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
-            var entityTypeDCode = new EntityTypeDCode(className, @namespace, parentComponent, updatable, drawable);
+            ProjectModel.AddCode(project, entityCode);
 
-            var interfaces = entityCode.GetInterfaces().Concat(entityTypeDCode.GetInterfaces()).ToList();
+            var interfaces = entityCode.GetInterfaces();
             if(updatable && !interfaces.Contains(typeof(IUpdatable)))
             {
                 interfaces.Add(typeof(IUpdatable));
@@ -52,8 +52,6 @@ namespace TypeDCore.Models
                 interfaces.Add(typeof(IDrawable));
             }
 
-            ProjectModel.AddCode(project, entityCode);
-            ProjectModel.AddCode(project, entityTypeDCode);
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = entityCode.ClassName,
@@ -62,8 +60,7 @@ namespace TypeDCore.Models
                 Interfaces = interfaces,
                 TemplateClass = new List<string>()
                 {
-                    typeof(EntityCode).FullName,
-                    typeof(EntityTypeDCode).FullName
+                    typeof(EntityCode).FullName
                 },
                 TypeOBaseType = "Entity2d"
             });
@@ -78,7 +75,7 @@ namespace TypeDCore.Models
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var sceneCode = new SceneCode(className, @namespace, parentComponent);
             ProjectModel.AddCode(project, sceneCode);
-            ProjectModel.AddCode(project, new SceneTypeDCode(className, @namespace, parentComponent));
+
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = sceneCode.ClassName,
@@ -87,8 +84,7 @@ namespace TypeDCore.Models
                 Interfaces = sceneCode.GetInterfaces(),
                 TemplateClass = new List<string>()
                 {
-                    typeof(SceneCode).FullName,
-                    typeof(SceneTypeDCode).FullName
+                    typeof(SceneCode).FullName
                 },
                 TypeOBaseType = "Scene"
             });
@@ -103,6 +99,7 @@ namespace TypeDCore.Models
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var drawable2dCode = new Drawable2dCode(className, @namespace, parentComponent);
             ProjectModel.AddCode(project, drawable2dCode);
+
             ComponentProvider.Save(project, new Component()
             {
                 ClassName = drawable2dCode.ClassName,

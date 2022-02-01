@@ -4,7 +4,7 @@ using TypeD.Models.Data;
 
 namespace TypeDCore.Code
 {
-    public abstract class ComponentTypeCode : Codalyzer
+    public abstract class ComponentTypeCode : TypeDCodalyzer
     {
         // Properties
         public abstract Type TypeOBaseType { get; }
@@ -20,8 +20,8 @@ namespace TypeDCore.Code
         // Constructors
         public ComponentTypeCode(string className, string @namespace, Component parentComponentType)
         {
-            Init(className, @namespace);
-
+            ClassName = className;
+            Namespace = @namespace;
             ParentComponent = parentComponentType;
             BaseClass = ParentComponent == null ? TypeOBaseType.FullName : ParentComponent.FullName;
         }
