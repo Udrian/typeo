@@ -6,7 +6,7 @@ using System.Text;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
-namespace TypeD
+namespace TypeD.Code
 {
     public abstract class Codalyzer
     {

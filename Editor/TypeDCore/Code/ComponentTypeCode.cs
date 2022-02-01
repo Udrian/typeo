@@ -1,5 +1,5 @@
 ﻿using System;
-using TypeD;
+using TypeD.Code;
 using TypeD.Models.Data;
 
 namespace TypeDCore.Code
