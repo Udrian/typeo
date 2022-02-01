@@ -26,7 +26,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
         {
             base.OnParentComponentSet(parentComponent);
 
-            if (parentComponent.Interfaces.Contains(typeof(IUpdatable).FullName))
+            if (parentComponent.Interfaces.Contains(typeof(IUpdatable)))
             {
                 ComponentUpdatableSet = ComponentUpdatable;
 
@@ -45,7 +45,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
                 ComponentUpdatableSet = null;
             }
 
-            if (parentComponent.Interfaces.Contains(typeof(IDrawable).FullName))
+            if (parentComponent.Interfaces.Contains(typeof(IDrawable)))
             {
                 ComponentDrawableSet = ComponentDrawable;
 

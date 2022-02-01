@@ -22,14 +22,14 @@ namespace TypeDCore.Code.Drawable
             PartialClass = false;
             TypeDClass = false;
 
-            Usings.AddRange(new List<string>()
-            {
-                "TypeOEngine.Typedeaf.Core.Common",
-                "TypeOEngine.Typedeaf.Core.Engine.Graphics"
-            });
-
             if (IsBaseComponentType)
             {
+                Usings.AddRange(new List<string>()
+                {
+                    "TypeOEngine.Typedeaf.Core.Common",
+                    "TypeOEngine.Typedeaf.Core.Engine.Graphics"
+                });
+
                 AddProperty(new Property("public override Vec2 Size", () => { Writer.AddLine("get; protected set;"); }));
                 AddFunction(new Function("public override void Initialize()", () => { }));
                 AddFunction(new Function("public override void Draw(Canvas canvas)", () => { }));
@@ -37,6 +37,11 @@ namespace TypeDCore.Code.Drawable
             }
             else
             {
+                Usings.AddRange(new List<string>()
+                {
+                    "TypeOEngine.Typedeaf.Core.Engine.Graphics"
+                });
+
                 AddFunction(new Function("public override void Initialize()", () => {
                     Writer.AddLine("base.Initialize();");
                 }));

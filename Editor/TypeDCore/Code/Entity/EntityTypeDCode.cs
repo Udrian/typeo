@@ -55,14 +55,14 @@ namespace TypeDCore.Code.Entity
                 }
             }));
 
-            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable).FullName)))
+            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable))))
             {
                 Usings.Add("TypeOEngine.Typedeaf.Core.Interfaces");
                 AddInterface(typeof(IUpdatable));
                 AddProperty(new Property("public bool Pause"));
             }
 
-            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable).FullName)))
+            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable))))
             {
                 Usings.Add("TypeOEngine.Typedeaf.Core.Entities.Interfaces");
                 AddInterface(typeof(IDrawable));

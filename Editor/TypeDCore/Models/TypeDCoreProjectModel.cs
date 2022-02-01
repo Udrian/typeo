@@ -42,15 +42,14 @@ namespace TypeDCore.Models
             var entityCode = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
             var entityTypeDCode = new EntityTypeDCode(className, @namespace, parentComponent, updatable, drawable);
 
-            var interfaces = entityCode.GetInterfaces().Select((i) => { return i.FullName; })
-                             .Union(entityTypeDCode.GetInterfaces().Select((i) => { return i.FullName; })).ToList();
-            if(updatable && !interfaces.Contains(typeof(IUpdatable).FullName))
+            var interfaces = entityCode.GetInterfaces().Concat(entityTypeDCode.GetInterfaces()).ToList();
+            if(updatable && !interfaces.Contains(typeof(IUpdatable)))
             {
-                interfaces.Add(typeof(IUpdatable).FullName);
+                interfaces.Add(typeof(IUpdatable));
             }
-            if (drawable && !interfaces.Contains(typeof(IDrawable).FullName))
+            if (drawable && !interfaces.Contains(typeof(IDrawable)))
             {
-                interfaces.Add(typeof(IDrawable).FullName);
+                interfaces.Add(typeof(IDrawable));
             }
 
             ProjectModel.AddCode(project, entityCode);
@@ -59,7 +58,7 @@ namespace TypeDCore.Models
             {
                 ClassName = entityCode.ClassName,
                 Namespace = entityCode.Namespace,
-                ParentComponent = parentComponent == null ? "" : parentComponent.FullName,
+                ParentComponent = parentComponent,
                 Interfaces = interfaces,
                 TemplateClass = new List<string>()
                 {
@@ -84,8 +83,8 @@ namespace TypeDCore.Models
             {
                 ClassName = sceneCode.ClassName,
                 Namespace = sceneCode.Namespace,
-                ParentComponent = parentComponent == null ? "" : parentComponent.FullName,
-                Interfaces = sceneCode.GetInterfaces().Select((i) => { return i.FullName; }).ToList(),
+                ParentComponent = parentComponent,
+                Interfaces = sceneCode.GetInterfaces(),
                 TemplateClass = new List<string>()
                 {
                     typeof(SceneCode).FullName,
@@ -108,8 +107,8 @@ namespace TypeDCore.Models
             {
                 ClassName = drawable2dCode.ClassName,
                 Namespace = drawable2dCode.Namespace,
-                ParentComponent = parentComponent == null ? "" : parentComponent.FullName,
-                Interfaces = drawable2dCode.GetInterfaces().Select((i) => { return i.FullName; }).ToList(),
+                ParentComponent = parentComponent,
+                Interfaces = drawable2dCode.GetInterfaces(),
                 TemplateClass = new List<string>()
                 {
                     typeof(Drawable2dCode).FullName

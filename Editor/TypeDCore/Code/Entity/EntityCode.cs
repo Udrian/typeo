@@ -43,7 +43,7 @@ namespace TypeDCore.Code.Entity
                 }));
             }
 
-            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable).FullName)))
+            if (Updatable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IUpdatable))))
             {
                 AddFunction(new Function("public virtual void Update(double dt)", () => { }));
             }
@@ -54,7 +54,7 @@ namespace TypeDCore.Code.Entity
                 }));
             }
 
-            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable).FullName)))
+            if (Drawable && (ParentComponent == null || !ParentComponent.Interfaces.Contains(typeof(IDrawable))))
             {
                 Usings.Add("TypeOEngine.Typedeaf.Core.Engine.Graphics");
                 AddFunction(new Function("public virtual void Draw(Canvas canvas)", () => { }));

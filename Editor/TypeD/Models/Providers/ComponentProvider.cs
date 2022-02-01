@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 
@@ -38,14 +39,24 @@ namespace TypeD.Models.Providers
             if (string.IsNullOrEmpty(fullName)) return null;
             var path = GetPath(project, fullName);
 
-            return LoadFromPath(path);
+            return LoadFromPath(project, path);
         }
 
 
-        private Component LoadFromPath(string path)
+        private Component LoadFromPath(Project project, string path)
         {
             if (!File.Exists(path)) return null;
-            return JSON.Deserialize<Component>(path);
+            var dto = JSON.Deserialize<ComponentDTO>(path);
+
+            return new Component()
+            {
+                ClassName = dto.ClassName,
+                Interfaces = dto.Interfaces.Select(i => Type.GetType(i)).ToList(),
+                Namespace = dto.Namespace,
+                ParentComponent = Load(project, dto.ParentComponent),
+                TemplateClass = dto.TemplateClass,
+                TypeOBaseType = dto.TypeOBaseType
+            };
         }
 
         public void Save(Project project, Component component)
@@ -59,7 +70,15 @@ namespace TypeD.Models.Providers
                     var saveComponents = context as List<Component>;
                     foreach(var saveComponent in saveComponents)
                     {
-                        JSON.Serialize(saveComponent, GetPath(project, saveComponent.FullName));
+                        JSON.Serialize(new ComponentDTO()
+                        {
+                            ClassName = saveComponent.ClassName,
+                            Interfaces = saveComponent.Interfaces.Select(i => i.FullName).ToList(),
+                            Namespace = saveComponent.Namespace,
+                            ParentComponent = saveComponent.ParentComponent?.FullName ?? "",
+                            TemplateClass = saveComponent.TemplateClass,
+                            TypeOBaseType = saveComponent.TypeOBaseType
+                        }, GetPath(project, saveComponent.FullName));
                     }
                     if (!project.IsClosing)
                         ProjectModel.BuildComponentTree(project);
@@ -83,7 +102,7 @@ namespace TypeD.Models.Providers
             if (!Directory.Exists(path)) return new List<Component>();
 
             var files = Directory.GetFiles(path, $"*.{ComponentFileEnding}", SearchOption.AllDirectories);
-            var components = files.Select((f) => { return LoadFromPath(f); }).ToList();
+            var components = files.Select((f) => { return LoadFromPath(project, f); }).ToList();
 
             var unsavedComponents = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
 
