@@ -62,7 +62,7 @@ namespace TypeDCore
         void ProjectCreate(ProjectCreateHook hook)
         {
             var gameCode = new GameCode();
-            ProjectModel.AddCode(hook.Project, gameCode);
+            ProjectModel.InitAndSaveCode(hook.Project, gameCode);
             ComponentProvider.Save(hook.Project, new Component()
             {
                 ClassName = gameCode.ClassName,

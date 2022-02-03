@@ -40,7 +40,7 @@ namespace TypeDCore.Models
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var code = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
-            ProjectModel.AddCode(project, code);
+            ProjectModel.InitAndSaveCode(project, code);
 
             var component = new Component(code, parentComponent);
             if(updatable && !component.Interfaces.Contains(typeof(IUpdatable)))
@@ -63,7 +63,7 @@ namespace TypeDCore.Models
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var code = new SceneCode(className, @namespace, parentComponent);
-            ProjectModel.AddCode(project, code);
+            ProjectModel.InitAndSaveCode(project, code);
 
             ComponentProvider.Save(project, new Component(code, parentComponent));
             ProjectModel.BuildComponentTree(project);
@@ -75,7 +75,7 @@ namespace TypeDCore.Models
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
             var code = new Drawable2dCode(className, @namespace, parentComponent);
-            ProjectModel.AddCode(project, code);
+            ProjectModel.InitAndSaveCode(project, code);
 
             ComponentProvider.Save(project, new Component(code, parentComponent));
             ProjectModel.BuildComponentTree(project);

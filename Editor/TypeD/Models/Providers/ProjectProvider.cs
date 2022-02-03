@@ -81,7 +81,7 @@ namespace TypeD.Models.Providers
             progress(30);
 
             // Prepare
-            ProjectModel.AddCode(project, new ProgramCode());
+            ProjectModel.InitAndSaveCode(project, new ProgramCode());
 
             var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
             var moduleList = await ModuleProvider.List();

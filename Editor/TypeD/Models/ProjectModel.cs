@@ -91,7 +91,7 @@ namespace TypeD.Models
             }
         }
 
-        public void AddCode(Project project, Codalyzer code)
+        public void InitAndSaveCode(Project project, Codalyzer code)
         {
             code.Project = project;
             code.Resources = ResourceModel;
