@@ -2,7 +2,7 @@
 
 namespace TypeD.Code
 {
-    class ProgramCode : Codalyzer
+    public class ProgramCode : Codalyzer
     {
         // Constructors
         public ProgramCode() : base()
