@@ -1,8 +1,7 @@
 ﻿using System;
-using TypeD.Code;
 using TypeD.Models.Data;
 
-namespace TypeDCore.Code
+namespace TypeD.Code
 {
     public abstract class ComponentTypeCode : TypeDCodalyzer
     {

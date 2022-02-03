@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TypeD.Code;
 using TypeD.Helpers;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
