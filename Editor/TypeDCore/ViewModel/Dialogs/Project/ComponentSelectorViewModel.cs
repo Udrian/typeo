@@ -31,7 +31,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
 
             foreach(var component in AllComponents)
             {
-                if (!string.IsNullOrEmpty(FilteredType) && component.TypeOBaseType != FilteredType)
+                if (!string.IsNullOrEmpty(FilteredType) && component.TypeOBaseType.Name != FilteredType)
                     continue;
                 if (!string.IsNullOrEmpty(FilteredName) && !component.ClassName.Contains(FilteredName))
                     continue;

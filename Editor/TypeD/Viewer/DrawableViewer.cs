@@ -38,7 +38,7 @@ namespace TypeD.Viewer
 
         public DrawableViewer(Project project, Component drawable, List<TypeOEngine.Typedeaf.Core.Engine.Module> modules = null)
         {
-            if (drawable.TypeOBaseType != "Drawable2d") return;
+            if (drawable.TypeOBaseType != typeof(Drawable2d)) return;
             var typeInfo = project.Assembly.GetType(drawable.FullName);
             if (typeInfo == null) return;
 

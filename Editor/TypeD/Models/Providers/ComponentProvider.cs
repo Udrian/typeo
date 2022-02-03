@@ -51,11 +51,18 @@ namespace TypeD.Models.Providers
             return new Component()
             {
                 ClassName = dto.ClassName,
-                Interfaces = dto.Interfaces.Select(i => Type.GetType(i)).ToList(),
+                Interfaces = dto.Interfaces.Select(
+                    i => AppDomain.CurrentDomain.GetAssemblies()
+                        .SelectMany(a => a.GetTypes())
+                        .FirstOrDefault(t => t.FullName.Equals(i))).ToList(),
                 Namespace = dto.Namespace,
                 ParentComponent = Load(project, dto.ParentComponent),
-                TemplateClass = dto.TemplateClass,
-                TypeOBaseType = dto.TypeOBaseType
+                TemplateClass = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass)),
+                TypeOBaseType = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType))
             };
         }
 
@@ -76,8 +83,8 @@ namespace TypeD.Models.Providers
                             Interfaces = saveComponent.Interfaces.Select(i => i.FullName).ToList(),
                             Namespace = saveComponent.Namespace,
                             ParentComponent = saveComponent.ParentComponent?.FullName ?? "",
-                            TemplateClass = saveComponent.TemplateClass,
-                            TypeOBaseType = saveComponent.TypeOBaseType
+                            TemplateClass = saveComponent.TemplateClass.FullName,
+                            TypeOBaseType = saveComponent.TypeOBaseType.FullName
                         }, GetPath(project, saveComponent.FullName));
                     }
                     if (!project.IsClosing)

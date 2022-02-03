@@ -21,7 +21,7 @@ namespace TypeDitor.ViewModel.Panels
             public string Component { 
                 get {
                     var component = Context.Item as Component;
-                    return component == null ? Context.Item.ToString() : component.TypeOBaseType; 
+                    return component == null ? Context.Item.ToString() : component.TypeOBaseType.Name; 
                 } 
             }
             public TypeD.TreeNodes.Node Context { get; set; }

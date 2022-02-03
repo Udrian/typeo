@@ -6,6 +6,7 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Common;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
+using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
@@ -119,15 +120,15 @@ namespace TypeDSDL.Viewer
         {
             var typeInfo = project.Assembly.GetType(component.FullName);
             if (typeInfo == null) return;
-            if (component.TypeOBaseType == "Drawable2d")
+            if (component.TypeOBaseType == typeof(Drawable2d))
             {
                 Game.Scenes.CurrentScene.Drawables.Create(typeInfo);
             }
-            else if(component.TypeOBaseType == "Entity")
+            else if(component.TypeOBaseType == typeof(Entity2d))
             {
                 Game.Scenes.CurrentScene.Entities.Create(typeInfo, new Vec2(50, 50));
             }
-            else if(component.TypeOBaseType == "Scene")
+            else if(component.TypeOBaseType == typeof(Scene))
             {
                 Game.Scenes.SetScene(typeInfo);
             }

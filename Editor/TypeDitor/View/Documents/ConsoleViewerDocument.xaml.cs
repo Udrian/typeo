@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Viewer;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDitor.View.Documents
 {
@@ -44,7 +45,7 @@ namespace TypeDitor.View.Documents
             NewTextWriter.WriteEvent += ConsoleWriter_WriteEvent;
             Console.SetOut(NewTextWriter);
 
-            if (component.TypeOBaseType == "Drawable2d")
+            if (component.TypeOBaseType == typeof(Drawable2d))
             {
                 DrawableViewer = new DrawableViewer(project, component);
             }

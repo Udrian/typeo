@@ -39,31 +39,20 @@ namespace TypeDCore.Models
         public void CreateEntity(Project project, string className, string @namespace, Component parentComponent, bool updatable, bool drawable)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var entityCode = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
-            ProjectModel.AddCode(project, entityCode);
+            var code = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
+            ProjectModel.AddCode(project, code);
 
-            var interfaces = entityCode.GetInterfaces();
-            if(updatable && !interfaces.Contains(typeof(IUpdatable)))
+            var component = new Component(code, parentComponent);
+            if(updatable && !component.Interfaces.Contains(typeof(IUpdatable)))
             {
-                interfaces.Add(typeof(IUpdatable));
+                component.Interfaces.Add(typeof(IUpdatable));
             }
-            if (drawable && !interfaces.Contains(typeof(IDrawable)))
+            if (drawable && !component.Interfaces.Contains(typeof(IDrawable)))
             {
-                interfaces.Add(typeof(IDrawable));
+                component.Interfaces.Add(typeof(IDrawable));
             }
 
-            ComponentProvider.Save(project, new Component()
-            {
-                ClassName = entityCode.ClassName,
-                Namespace = entityCode.Namespace,
-                ParentComponent = parentComponent,
-                Interfaces = interfaces,
-                TemplateClass = new List<string>()
-                {
-                    typeof(EntityCode).FullName
-                },
-                TypeOBaseType = "Entity2d"
-            });
+            ComponentProvider.Save(project, component);
 
             ProjectModel.BuildComponentTree(project);
 
@@ -73,22 +62,10 @@ namespace TypeDCore.Models
         public void CreateScene(Project project, string className, string @namespace, Component parentComponent)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var sceneCode = new SceneCode(className, @namespace, parentComponent);
-            ProjectModel.AddCode(project, sceneCode);
+            var code = new SceneCode(className, @namespace, parentComponent);
+            ProjectModel.AddCode(project, code);
 
-            ComponentProvider.Save(project, new Component()
-            {
-                ClassName = sceneCode.ClassName,
-                Namespace = sceneCode.Namespace,
-                ParentComponent = parentComponent,
-                Interfaces = sceneCode.GetInterfaces(),
-                TemplateClass = new List<string>()
-                {
-                    typeof(SceneCode).FullName
-                },
-                TypeOBaseType = "Scene"
-            });
-
+            ComponentProvider.Save(project, new Component(code, parentComponent));
             ProjectModel.BuildComponentTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
@@ -97,22 +74,10 @@ namespace TypeDCore.Models
         public void CreateDrawable2d(Project project, string className, string @namespace, Component parentComponent)
         {
             @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var drawable2dCode = new Drawable2dCode(className, @namespace, parentComponent);
-            ProjectModel.AddCode(project, drawable2dCode);
+            var code = new Drawable2dCode(className, @namespace, parentComponent);
+            ProjectModel.AddCode(project, code);
 
-            ComponentProvider.Save(project, new Component()
-            {
-                ClassName = drawable2dCode.ClassName,
-                Namespace = drawable2dCode.Namespace,
-                ParentComponent = parentComponent,
-                Interfaces = drawable2dCode.GetInterfaces(),
-                TemplateClass = new List<string>()
-                {
-                    typeof(Drawable2dCode).FullName
-                },
-                TypeOBaseType = "Drawable2d"
-            });
-
+            ComponentProvider.Save(project, new Component(code, parentComponent));
             ProjectModel.BuildComponentTree(project);
 
             SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });

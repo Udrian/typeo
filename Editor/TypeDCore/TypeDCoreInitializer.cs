@@ -12,6 +12,7 @@ using TypeDCore.Commands;
 using TypeDCore.Commands.Data;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
+using TypeOEngine.Typedeaf.Core;
 
 namespace TypeDCore
 {
@@ -66,11 +67,8 @@ namespace TypeDCore
             {
                 ClassName = gameCode.ClassName,
                 Namespace = gameCode.Namespace,
-                TemplateClass = new List<string>()
-                {
-                    typeof(GameCode).FullName
-                },
-                TypeOBaseType = "Game"
+                TemplateClass = gameCode.GetType(),
+                TypeOBaseType = typeof(Game)
             });
         }
 
