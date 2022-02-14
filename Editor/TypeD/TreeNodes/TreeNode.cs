@@ -5,9 +5,9 @@ namespace TypeD.TreeNodes
     public interface TreeNode
     {
         IList<Node> Nodes { get; set; }
-        void AddNode(string name, object item);
-        bool Contains(string name);
-        Node Get(string name);
+        void AddNode(string name, string key, object item);
+        bool Contains(string key);
+        Node Get(string key);
         void Clear();
     }
 }

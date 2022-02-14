@@ -18,6 +18,7 @@ namespace TypeDitor.ViewModel.Panels
         {
             public string IconPath { get { return $"/Icons/{Component}.png"; } }
             public string Name { get { return Context.Name; } }
+            public string Key { get { return Context.Key; } }
             public string Component { 
                 get {
                     var component = Context.Item as Component;
@@ -109,7 +110,7 @@ namespace TypeDitor.ViewModel.Panels
                 Node foundNode = null;
                 foreach (var node in nodes)
                 {
-                    if (node.Name == treeNode.Name)
+                    if (node.Key == treeNode.Key)
                     {
                         foundNode = node;
                         break;
@@ -118,7 +119,7 @@ namespace TypeDitor.ViewModel.Panels
                     var delFound = false;
                     foreach(var delTreeNode in treeNodes)
                     {
-                        if(delTreeNode.Name == node.Name)
+                        if(delTreeNode.Key == node.Key)
                         {
                             delFound = true;
                             break;
@@ -143,7 +144,23 @@ namespace TypeDitor.ViewModel.Panels
                 }
                 i++;
             }
-            foreach(var delNode in shouldBeDeleted)
+            foreach (var node in nodes)
+            {
+                var delFound = false;
+                foreach (var delTreeNode in treeNodes)
+                {
+                    if (delTreeNode.Key == node.Key)
+                    {
+                        delFound = true;
+                        break;
+                    }
+                }
+                if (!delFound && !shouldBeDeleted.Contains(node))
+                {
+                    shouldBeDeleted.Add(node);
+                }
+            }
+            foreach (var delNode in shouldBeDeleted)
             {
                 nodes.Remove(delNode);
             }

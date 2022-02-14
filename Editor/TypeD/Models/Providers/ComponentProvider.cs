@@ -93,6 +93,37 @@ namespace TypeD.Models.Providers
             });
         }
 
+        public void Delete(Project project, Component component)
+        {
+            var components = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
+            components.Remove(component);
+            var delComponents = SaveModel.GetSaveContext<List<Component>>("Deleted_Components") ?? new List<Component>();
+            delComponents.Add(component);
+
+            SaveModel.AddSave("Deleted_Components", delComponents, (context) =>
+            {
+                return Task.Run(() =>
+                {
+                    var deleteComponents = context as List<Component>;
+                    foreach (var delComponent in deleteComponents)
+                    {
+                        if (Exists(project, delComponent))
+                        {
+                            File.Delete(GetPath(project, delComponent.FullName));
+                            var csFile = Path.Combine(project.Location, $"{delComponent.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
+                            var csTypeDFile = Path.Combine(project.Location, $"{delComponent.FullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
+                            if (File.Exists(csFile))
+                                File.Delete(csFile);
+                            if (File.Exists(csTypeDFile))
+                                File.Delete(csTypeDFile);
+                        }
+                    }
+                });
+            });
+
+            ProjectModel.BuildComponentTree(project);
+        }
+
         public bool Exists(Project project, Component component)
         {
             return File.Exists(GetPath(project, component.FullName));
@@ -112,11 +143,14 @@ namespace TypeD.Models.Providers
             var components = files.Select((f) => { return LoadFromPath(project, f); }).ToList();
 
             var unsavedComponents = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
+            var delComponents = SaveModel.GetSaveContext<List<Component>>("Deleted_Components") ?? new List<Component>();
 
-            return components.Union(unsavedComponents)
-                             .GroupBy(t => t.FullName)
-                             .Select(t => t.First())
-                             .ToList();
+            var retList = components.Union(unsavedComponents)
+                                    .GroupBy(t => t.FullName)
+                                    .Select(t => t.First())
+                                    .ToList();
+            retList.RemoveAll(c => delComponents.Exists(d => c.FullName == d.FullName));
+            return retList;
         }
 
         // Internal

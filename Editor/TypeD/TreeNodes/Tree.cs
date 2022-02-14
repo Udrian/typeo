@@ -11,28 +11,28 @@ namespace TypeD.TreeNodes
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name, object item)
+        public void AddNode(string name, string key, object item)
         {
-            var node = new Node(name, item, this, null);
+            var node = new Node(name, key, item, this, null);
             Nodes.Add(node);
         }
 
-        internal void AddNode(Node parent, string name, object item)
+        internal void AddNode(Node parent, string name, string key, object item)
         {
-            var node = new Node(name, item, this, parent);
+            var node = new Node(name, key, item, this, parent);
             parent.Nodes.Add(node);
         }
 
-        public bool Contains(string name)
+        public bool Contains(string key)
         {
-            return Get(name) != null;
+            return Get(key) != null;
         }
 
-        public Node Get(string name)
+        public Node Get(string key)
         {
             foreach(var node in Nodes)
             {
-                if(node.Name == name) return node;
+                if(node.Key == key) return node;
             }
             return null;
         }

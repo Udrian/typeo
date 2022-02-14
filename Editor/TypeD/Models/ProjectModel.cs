@@ -128,9 +128,9 @@ namespace TypeD.Models
             project.ComponentTree.Clear();
 
             var components = ComponentProvider.ListAll(project);
-            foreach (var type in components)
+            foreach (var component in components)
             {
-                AddComponentToTree(project, type);
+                AddComponentToTree(project, component);
             }
 
             HookModel.Shoot(new ComponentTreeBuiltHook(project.ComponentTree));
@@ -153,7 +153,6 @@ namespace TypeD.Models
         }
 
         // Internal
-
         private void AddComponentToTree(Project project, Component component)
         {
             var namespaces = (component.Namespace.StartsWith(project.ProjectName) ? component.Namespace.Remove(0, project.ProjectName.Length) : component.Namespace).Split('.').ToList();
@@ -164,20 +163,21 @@ namespace TypeD.Models
             foreach (var ns in namespaces)
             {
                 if (string.IsNullOrEmpty(ns)) continue;
-                if (!treeNode.Contains(ns))
+                var nskey = string.Join(".", namespaces.Take(namespaces.FindIndex(n => n == ns) + 1));
+                if (!treeNode.Contains(nskey))
                 {
-                    treeNode.AddNode(ns, "namespace");
+                    treeNode.AddNode(ns, nskey, "namespace");
                 }
-                treeNode = treeNode.Get(ns);
+                treeNode = treeNode.Get(nskey);
             }
 
             if(ComponentProvider.Exists(project, component))
             {
-                treeNode.AddNode(component.ClassName, component);
+                treeNode.AddNode(component.ClassName, component.FullName, component);
             }
             else
             {
-                treeNode.AddNode($"*{component.ClassName}", component);
+                treeNode.AddNode($"*{component.ClassName}", component.FullName, component);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TypeD;
+using TypeDCore.Commands.Data;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
@@ -9,7 +10,6 @@ using TypeD.TreeNodes;
 using TypeD.View;
 using TypeDCore.Code.Game;
 using TypeDCore.Commands;
-using TypeDCore.Commands.Data;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
@@ -32,6 +32,7 @@ namespace TypeDCore
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
         CreateSceneTypeCommand CreateSceneTypeCommand { get; set; }
         CreateDrawable2dTypeCommand CreateDrawable2dTypeCommand { get; set; }
+        DeleteComponentTypeCommand DeleteComponentTypeCommand { get; set; }
 
         public override void Initializer()
         {
@@ -52,6 +53,7 @@ namespace TypeDCore
             CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
             CreateSceneTypeCommand = new CreateSceneTypeCommand(TypeDCoreProjectModel);
             CreateDrawable2dTypeCommand = new CreateDrawable2dTypeCommand(TypeDCoreProjectModel);
+            DeleteComponentTypeCommand = new DeleteComponentTypeCommand(ComponentProvider);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -195,6 +197,20 @@ namespace TypeDCore
                     }
                 }
             );
+            if(hook.Node != null && hook.Node.Item is Component && ((Component)hook.Node.Item).TypeOBaseType != typeof(Game))
+            {
+                hook.Menu.Items.Add(
+                   new MenuItem()
+                   {
+                       Name = "_Delete Component",
+                       ClickParameter = "LoadedProject",
+                       Click = (param) =>
+                       {
+                           DeleteComponentTypeCommand.Execute(new DeleteComponentTypeCommandData() { Component = hook.Node.Item as Component, Project = param as Project });
+                       }
+                   }
+               );
+            }
         }
     }
 }

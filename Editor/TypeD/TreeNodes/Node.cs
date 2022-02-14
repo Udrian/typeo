@@ -5,35 +5,37 @@ namespace TypeD.TreeNodes
     public class Node : TreeNode
     {
         public string Name { get; set; }
+        public string Key { get; set; }
         public object Item { get; set; }
         public Tree Tree { get; private set; }
         public Node Parent { get; private set; }
         public IList<Node> Nodes { get; set; }
 
-        internal Node(string name, object item, Tree tree, Node parent)
+        internal Node(string name, string key, object item, Tree tree, Node parent)
         {
             Name = name;
+            Key = key;
             Item = item;
             Tree = tree;
             Parent = parent;
             Nodes = new List<Node>();
         }
 
-        public void AddNode(string name, object item)
+        public void AddNode(string name, string key, object item)
         {
-            Tree.AddNode(this, name, item);
+            Tree.AddNode(this, name, key, item);
         }
 
-        public bool Contains(string name)
+        public bool Contains(string key)
         {
-            return Get(name) != null;
+            return Get(key) != null;
         }
 
-        public Node Get(string name)
+        public Node Get(string key)
         {
             foreach(var node in Nodes)
             {
-                if(node.Name == name) return node;
+                if(node.Key == key) return node;
             }
             return null;
         }
