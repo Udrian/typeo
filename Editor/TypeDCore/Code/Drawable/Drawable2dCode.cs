@@ -12,7 +12,7 @@ namespace TypeDCore.Code.Drawable
         public override Type TypeOBaseType { get { return typeof(Drawable2d); } }
 
         // Constructors
-        public Drawable2dCode(string className, string @namespace, Component parentComponent) : base(className, @namespace, parentComponent)
+        public Drawable2dCode(Component component) : base(component)
         {
             PartialClass = false;
         }

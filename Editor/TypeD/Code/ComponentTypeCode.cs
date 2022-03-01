@@ -14,14 +14,17 @@ namespace TypeD.Code
                 return BaseClass == TypeOBaseType.FullName;
             }
         }
-        public Component ParentComponent { get; private set; }
+
+        public Component Component { get; private set; }
+
+        public Component ParentComponent { get { return Component.ParentComponent; } }
 
         // Constructors
-        public ComponentTypeCode(string className, string @namespace, Component parentComponentType)
+        public ComponentTypeCode(Component component)
         {
-            ClassName = className;
-            Namespace = @namespace;
-            ParentComponent = parentComponentType;
+            ClassName = component.ClassName;
+            Namespace = component.Namespace;
+            Component = component;
             BaseClass = ParentComponent == null ? TypeOBaseType.FullName : ParentComponent.FullName;
         }
     }

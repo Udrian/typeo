@@ -14,20 +14,11 @@ namespace TypeD.Models.Data
         public Component ParentComponent { get; set; }
         public List<Type> Interfaces { get; set; }
         public Type TypeOBaseType { get; set; }
+        public Codalyzer Code { get; set; }
 
         public Component()
         {
             Interfaces = new List<Type>();
-        }
-
-        public Component(ComponentTypeCode code, Component parent)
-        {
-            ClassName = code.ClassName;
-            Namespace = code.Namespace;
-            ParentComponent = parent;
-            Interfaces = code.GetInterfaces();
-            TemplateClass = code.GetType();
-            TypeOBaseType = code.TypeOBaseType;
         }
     }
 }

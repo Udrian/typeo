@@ -11,7 +11,7 @@ namespace TypeDCore.Code.Scene
         public override Type TypeOBaseType { get { return typeof(TypeOEngine.Typedeaf.Core.Scene); } }
 
         // Constructors
-        public SceneCode(string className, string @namespace, Component parentComponent) : base(className, @namespace, parentComponent)
+        public SceneCode(Component component) : base(component)
         {
             Entities = new List<string>();
         }

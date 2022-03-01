@@ -18,7 +18,7 @@ namespace TypeDCore.Commands
 
         public override void Execute(object parameter)
         {
-            var data = parameter as DeleteComponentTypeCommandData;
+            var data = parameter as ComponentCommandData;
             if (data == null) return;
 
             var result = MessageBox.Show($"Do you want to delete '{data.Component.FullName}'?", "Deleting", MessageBoxButton.YesNo, MessageBoxImage.Warning);

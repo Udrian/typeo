@@ -16,10 +16,10 @@ namespace TypeDCore.Code.Entity
         public bool Drawable { get; private set; }
 
         // Constructors
-        public EntityCode(string className, string @namespace, Component parentComponentType, bool updatable, bool drawable) : base(className, @namespace, parentComponentType)
+        public EntityCode(Component component) : base(component)
         {
-            Updatable = updatable;
-            Drawable = drawable;
+            Updatable = component.Interfaces.Contains(typeof(IUpdatable));
+            Drawable = component.Interfaces.Contains(typeof(IDrawable)); ;
             Drawables = new List<string>();
         }
         protected override void InitClass()

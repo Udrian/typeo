@@ -12,6 +12,7 @@ using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
+using TypeOEngine.Typedeaf.Core;
 
 namespace TypeD.Models
 {
@@ -91,12 +92,17 @@ namespace TypeD.Models
             }
         }
 
-        public void InitAndSaveCode(Project project, Codalyzer code)
+        public void InitCode(Project project, Codalyzer code)
         {
             code.Project = project;
             code.Resources = ResourceModel;
             code.Init();
             if (!code.Initialized) throw new Exception($"Codalyzer '{code.GetType().FullName}' not initialized");
+        }
+
+        public void InitAndSaveCode(Project project, Codalyzer code)
+        {
+            InitCode(project, code);
 
             var codes = SaveModel.GetSaveContext<List<Codalyzer>>("Code") ?? new List<Codalyzer>();
             codes.Add(code);
@@ -150,6 +156,11 @@ namespace TypeD.Models
             }
 
             return true;
+        }
+
+        public string TransformNamespaceString(Project project, string @namespace)
+        {
+            return (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
         }
 
         // Internal

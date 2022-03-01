@@ -119,10 +119,6 @@ namespace TypeDCore.Models
             {
                 ProjectModel.InitAndSaveCode(project, new ProgramCode());
             }
-            if (!File.Exists(Path.Combine(project.Location, project.ProjectName, $"{project.ProjectName}Game.cs")))
-            {
-                ProjectModel.InitAndSaveCode(project, new GameCode());
-            }
 
             bool updateTree = false;
             // Check if we have components that are missing CS files
@@ -138,7 +134,7 @@ namespace TypeDCore.Models
                     {
                         var updatable = component.Interfaces.Contains(typeof(IUpdatable));
                         var drawable = component.Interfaces.Contains(typeof(IDrawable));
-                        ProjectModel.InitAndSaveCode(project, new EntityCode(component.ClassName, component.Namespace, parentComponent, updatable, drawable));
+                        ProjectModel.InitAndSaveCode(project, new EntityCode(component));
                         updateTree = true;
                     }
                 }
@@ -146,7 +142,7 @@ namespace TypeDCore.Models
                 {
                     if (!File.Exists(csFile) || !File.Exists(csTypeDFile))
                     {
-                        ProjectModel.InitAndSaveCode(project, new SceneCode(component.ClassName, component.Namespace, parentComponent));
+                        ProjectModel.InitAndSaveCode(project, new SceneCode(component));
                         updateTree = true;
                     }
                 }
@@ -154,8 +150,15 @@ namespace TypeDCore.Models
                 {
                     if (!File.Exists(csFile))
                     {
-                        ProjectModel.InitAndSaveCode(project, new Drawable2dCode(component.ClassName, component.Namespace, parentComponent));
+                        ProjectModel.InitAndSaveCode(project, new Drawable2dCode(component));
                         updateTree = true;
+                    }
+                }
+                else if(component.TypeOBaseType == typeof(Game))
+                {
+                    if (!File.Exists(Path.Combine(project.Location, project.ProjectName, $"{project.ProjectName}Game.cs")))
+                    {
+                        ProjectModel.InitAndSaveCode(project, new GameCode(component));
                     }
                 }
             }

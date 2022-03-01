@@ -63,15 +63,11 @@ namespace TypeDCore
 
         void ProjectCreate(ProjectCreateHook hook)
         {
-            var gameCode = new GameCode();
-            ProjectModel.InitAndSaveCode(hook.Project, gameCode);
-            ComponentProvider.Save(hook.Project, new Component()
-            {
-                ClassName = gameCode.ClassName,
-                Namespace = gameCode.Namespace,
-                TemplateClass = gameCode.GetType(),
-                TypeOBaseType = typeof(Game)
-            });
+            ComponentProvider.Create<GameCode>(
+                hook.Project,
+                $"{hook.Project.ProjectName}Game",
+                hook.Project.ProjectName
+            );
         }
 
         void InitUI(InitUIHook hook)
@@ -197,19 +193,33 @@ namespace TypeDCore
                     }
                 }
             );
-            if(hook.Node != null && hook.Node.Item is Component && ((Component)hook.Node.Item).TypeOBaseType != typeof(Game))
+            if(hook.Node != null && hook.Node.Item is Component)
             {
-                hook.Menu.Items.Add(
-                   new MenuItem()
-                   {
-                       Name = "_Delete Component",
-                       ClickParameter = "LoadedProject",
-                       Click = (param) =>
+                var component = hook.Node.Item as Component;
+
+                if(component.TypeOBaseType != typeof(Game))
+                {
+                    hook.Menu.Items.Add(
+                        new MenuItem()
+                        {
+                            Name = "_Delete Component",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                DeleteComponentTypeCommand.Execute(new ComponentCommandData() { Component = component, Project = param as Project });
+                            }
+                        }
+                    );
+                }
+                if (component.TypeOBaseType == typeof(Scene))
+                {
+                    hook.Menu.Items.Add(
+                       new MenuItem()
                        {
                            DeleteComponentTypeCommand.Execute(new DeleteComponentTypeCommandData() { Component = hook.Node.Item as Component, Project = param as Project });
                        }
-                   }
-               );
+                   );
+                }
             }
         }
     }

@@ -1,22 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TypeD.Code;
+using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Game
 {
-    partial class GameCode : TypeDCodalyzer
+    partial class GameCode : ComponentTypeCode
     {
+        // Properties
+        public override Type TypeOBaseType { get { return typeof(TypeOEngine.Typedeaf.Core.Game); } }
+
         // Constructors
-        public GameCode() : base()
+        public GameCode(Component component) : base(component)
         {
-            BaseClass = "Game";
-        }
-
-        public override void Init()
-        {
-            ClassName = $"{Project.ProjectName}Game";
-            Namespace = Project.ProjectName;
-
-            base.Init();
         }
 
         protected override void InitClass()

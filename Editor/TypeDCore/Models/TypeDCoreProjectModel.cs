@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TypeD.Models.Data;
+using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Code.Drawable;
@@ -38,49 +39,49 @@ namespace TypeDCore.Models
         // Functions
         public void CreateEntity(Project project, string className, string @namespace, Component parentComponent, bool updatable, bool drawable)
         {
-            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var code = new EntityCode(className, @namespace, parentComponent, updatable, drawable);
-            ProjectModel.InitAndSaveCode(project, code);
+            @namespace = ProjectModel.TransformNamespaceString(project, @namespace);
 
-            var component = new Component(code, parentComponent);
-            if(updatable && !component.Interfaces.Contains(typeof(IUpdatable)))
+            var interfaces = new List<string>();
+            if (updatable)
             {
-                component.Interfaces.Add(typeof(IUpdatable));
+                interfaces.Add(typeof(IUpdatable).FullName);
             }
-            if (drawable && !component.Interfaces.Contains(typeof(IDrawable)))
+            if (drawable)
             {
-                component.Interfaces.Add(typeof(IDrawable));
+                interfaces.Add(typeof(IDrawable).FullName);
             }
 
-            ComponentProvider.Save(project, component);
-
-            ProjectModel.BuildComponentTree(project);
-
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            ComponentProvider.Create<EntityCode>(
+                project,
+                className,
+                @namespace,
+                parentComponent,
+                interfaces
+            );
         }
 
         public void CreateScene(Project project, string className, string @namespace, Component parentComponent)
         {
-            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var code = new SceneCode(className, @namespace, parentComponent);
-            ProjectModel.InitAndSaveCode(project, code);
+            @namespace = ProjectModel.TransformNamespaceString(project, @namespace);
 
-            ComponentProvider.Save(project, new Component(code, parentComponent));
-            ProjectModel.BuildComponentTree(project);
-
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            ComponentProvider.Create<SceneCode>(
+                project,
+                className,
+                @namespace,
+                parentComponent
+            );
         }
 
         public void CreateDrawable2d(Project project, string className, string @namespace, Component parentComponent)
         {
-            @namespace = (@namespace.StartsWith(project.ProjectName) ? @namespace : $"{project.ProjectName}.{@namespace}").Replace("\\", ".").Replace("/", ".");
-            var code = new Drawable2dCode(className, @namespace, parentComponent);
-            ProjectModel.InitAndSaveCode(project, code);
+            @namespace = ProjectModel.TransformNamespaceString(project, @namespace);
 
-            ComponentProvider.Save(project, new Component(code, parentComponent));
-            ProjectModel.BuildComponentTree(project);
-
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            ComponentProvider.Create<Drawable2dCode>(
+                project,
+                className,
+                @namespace,
+                parentComponent
+            );
         }
     }
 }

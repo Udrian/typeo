@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.DTO;
@@ -34,36 +35,28 @@ namespace TypeD.Models.Providers
         }
 
         // Functions
-        public Component Load(Project project, string fullName)
+        public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTypeCode
         {
-            if (string.IsNullOrEmpty(fullName)) return null;
-            var path = GetPath(project, fullName);
+            Type codeType = typeof(T);
 
-            return LoadFromPath(project, path);
-        }
-
-
-        private Component LoadFromPath(Project project, string path)
-        {
-            if (!File.Exists(path)) return null;
-            var dto = JSON.Deserialize<ComponentDTO>(path);
-
-            return new Component()
+            var component = TranslateComponentDTO(project, new ComponentDTO()
             {
-                ClassName = dto.ClassName,
-                Interfaces = dto.Interfaces.Select(
-                    i => AppDomain.CurrentDomain.GetAssemblies()
-                        .SelectMany(a => a.GetTypes())
-                        .FirstOrDefault(t => t.FullName.Equals(i))).ToList(),
-                Namespace = dto.Namespace,
-                ParentComponent = Load(project, dto.ParentComponent),
-                TemplateClass = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass)),
-                TypeOBaseType = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType))
-            };
+                ClassName = className,
+                Interfaces = interfaces ?? new List<string>(),
+                Namespace = @namespace,
+                ParentComponent = parentComponent?.FullName ?? "",
+                TemplateClass = codeType.FullName
+            });
+            component.ParentComponent = parentComponent;
+
+            var code = Activator.CreateInstance(codeType, component) as T;
+            component.TypeOBaseType = code.TypeOBaseType;
+            ProjectModel.InitAndSaveCode(project, code);
+            component.Code = code;
+
+            Save(project, component);
+
+            ProjectModel.BuildComponentTree(project);
         }
 
         public void Save(Project project, Component component)
@@ -75,7 +68,7 @@ namespace TypeD.Models.Providers
             {
                 return Task.Run(() => {
                     var saveComponents = context as List<Component>;
-                    foreach(var saveComponent in saveComponents)
+                    foreach (var saveComponent in saveComponents)
                     {
                         JSON.Serialize(new ComponentDTO()
                         {
@@ -91,6 +84,50 @@ namespace TypeD.Models.Providers
                         ProjectModel.BuildComponentTree(project);
                 });
             });
+        }
+
+        public Component Load(Project project, string fullName)
+        {
+            if (string.IsNullOrEmpty(fullName)) return null;
+            var path = GetPath(project, fullName);
+
+            return LoadFromPath(project, path);
+        }
+
+        private Component LoadFromPath(Project project, string path)
+        {
+            if (!File.Exists(path)) return null;
+            var dto = JSON.Deserialize<ComponentDTO>(path);
+
+            var component = TranslateComponentDTO(project, dto);
+
+            var code = Activator.CreateInstance(component.TemplateClass, component) as ComponentTypeCode;
+            ProjectModel.InitCode(project, code);
+            component.Code = code;
+
+            return component;
+        }
+
+        private Component TranslateComponentDTO(Project project, ComponentDTO dto)
+        {
+            var component = new Component()
+            {
+                ClassName = dto.ClassName,
+                Interfaces = dto.Interfaces.Select(
+                                i => AppDomain.CurrentDomain.GetAssemblies()
+                                    .SelectMany(a => a.GetTypes())
+                                    .FirstOrDefault(t => t.FullName.Equals(i))).ToList(),
+                Namespace = dto.Namespace,
+                ParentComponent = Load(project, dto.ParentComponent),
+                TemplateClass = AppDomain.CurrentDomain.GetAssemblies()
+                                .SelectMany(a => a.GetTypes())
+                                .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass)),
+                TypeOBaseType = AppDomain.CurrentDomain.GetAssemblies()
+                                .SelectMany(a => a.GetTypes())
+                                .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType))
+            };
+
+            return component;
         }
 
         public void Delete(Project project, Component component)

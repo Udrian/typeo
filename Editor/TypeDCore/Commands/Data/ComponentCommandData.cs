@@ -2,7 +2,7 @@
 
 namespace TypeDCore.Commands.Data
 {
-    public class DeleteComponentTypeCommandData
+    public class ComponentCommandData
     {
         public Project Project { get; set; }
         public Component Component { get; set; }
