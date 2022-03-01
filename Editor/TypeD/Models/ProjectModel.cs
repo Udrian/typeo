@@ -100,17 +100,15 @@ namespace TypeD.Models
             if (!code.Initialized) throw new Exception($"Codalyzer '{code.GetType().FullName}' not initialized");
         }
 
-        public void InitAndSaveCode(Project project, Codalyzer code)
+        public void SaveCode(Codalyzer code)
         {
-            InitCode(project, code);
-
             var codes = SaveModel.GetSaveContext<List<Codalyzer>>("Code") ?? new List<Codalyzer>();
             codes.Add(code);
-            SaveModel.AddSave("Code", codes, 
+            SaveModel.AddSave("Code", codes,
                 (context) => {
                     return Task.Run(() =>
                     {
-                        foreach(var saveCode in context as List<Codalyzer>)
+                        foreach (var saveCode in context as List<Codalyzer>)
                         {
                             saveCode.Generate();
                             saveCode.Save();
@@ -119,14 +117,23 @@ namespace TypeD.Models
                 });
         }
 
+        public void InitAndSaveCode(Project project, Codalyzer code)
+        {
+            InitCode(project, code);
+
+            SaveCode(code);
+        }
+
         public void SetStartScene(Project project, Component scene)
         {
-            //TODO: Fix
-            /*
-            if (scene.TypeOBaseType != "Scene") return;
+            if (scene.TypeOBaseType != typeof(Scene)) return;
             project.StartScene = scene.FullName;
 
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });*/
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+
+            var gameCode = ComponentProvider.Load(project, $"{project.ProjectName}.{project.ProjectName}Game");
+
+            SaveCode(gameCode.Code);
         }
 
         public void BuildComponentTree(Project project)

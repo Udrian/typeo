@@ -10,6 +10,7 @@ namespace TypeD.Models.Interfaces
         public Task<bool> Build(Project project);
         public void Run(Project project);
         public void InitCode(Project project, Codalyzer code);
+        public void SaveCode(Codalyzer code);
         public void InitAndSaveCode(Project project, Codalyzer code);
         public void SetStartScene(Project project, Component scene);
         public void BuildComponentTree(Project project);
