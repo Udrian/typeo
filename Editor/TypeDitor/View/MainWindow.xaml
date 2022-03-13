@@ -41,7 +41,7 @@
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content="{Binding LoadedProject.Location}"/>
         </StatusBar>
-        <typedock:TypeDockRoot x:Name="DockRoot">
+        <typedock:TypeDockRoot x:Name="DockRoot" Margin="5">
             
         </typedock:TypeDockRoot>
     </DockPanel>
