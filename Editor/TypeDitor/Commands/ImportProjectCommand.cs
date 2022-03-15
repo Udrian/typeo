@@ -40,18 +40,18 @@ namespace TypeDitor.Commands
             if (!string.IsNullOrEmpty(path))
             {
                 var newProjectDialog = new NewProjectDialog();
-                newProjectDialog.ProjectName = Path.GetFileNameWithoutExtension(path);
+                newProjectDialog.ViewModel.ProjectName = Path.GetFileNameWithoutExtension(path);
 
                 var projectLocation = Path.GetDirectoryName(path);
-                projectLocation = projectLocation.Substring(0, projectLocation.LastIndexOf(newProjectDialog.ProjectName)).TrimEnd('\\').TrimEnd('/');
-                newProjectDialog.ProjectLocation = projectLocation;
+                projectLocation = projectLocation.Substring(0, projectLocation.LastIndexOf(newProjectDialog.ViewModel.ProjectName)).TrimEnd('\\').TrimEnd('/');
+                newProjectDialog.ViewModel.ProjectLocation = projectLocation;
 
                 if (newProjectDialog.ShowDialog() == true)
                 {
-                    var name = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectName);
-                    var location = this.IsDirectory(newProjectDialog.ProjectLocation) ? newProjectDialog.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ProjectLocation);
-                    var solution = @$".\{newProjectDialog.ProjectCSSolutionName}.sln";
-                    var project = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectCSProjectName);
+                    var name = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectName);
+                    var location = this.IsDirectory(newProjectDialog.ViewModel.ProjectLocation) ? newProjectDialog.ViewModel.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ViewModel.ProjectLocation);
+                    var solution = @$".\{newProjectDialog.ViewModel.ProjectCSSolutionName}.sln";
+                    var project = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectCSProjectName);
 
                     //New project
                     var progressDialog = new ProjectCreationProgressDialog();

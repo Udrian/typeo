@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.ViewModel;
@@ -27,11 +26,11 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         IModuleProvider ModuleProvider { get; set; }
 
         // Data
-        Project LoadedProject { get; set; }
+        TypeD.Models.Data.Project LoadedProject { get; set; }
         ObservableCollection<Module> Modules { get; set; }
 
         // Constructors
-        public ModulesDialogViewModel(FrameworkElement element, Project loadedProject) : base(element)
+        public ModulesDialogViewModel(FrameworkElement element, TypeD.Models.Data.Project loadedProject) : base(element)
         {
             ModuleModel = ResourceModel.Get<IModuleModel>();
             ProjectModel = ResourceModel.Get<IProjectModel>();

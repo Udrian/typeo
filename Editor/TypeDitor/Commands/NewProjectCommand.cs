@@ -21,10 +21,10 @@ namespace TypeDitor.Commands
             var newProjectDialog = new NewProjectDialog();
             if (newProjectDialog.ShowDialog() == true)
             {
-                var name = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectName);
-                var location = this.IsDirectory(newProjectDialog.ProjectLocation) ? newProjectDialog.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ProjectLocation);
-                var solution = @$".\{newProjectDialog.ProjectCSSolutionName}.sln";
-                var project = Path.GetFileNameWithoutExtension(newProjectDialog.ProjectCSProjectName);
+                var name = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectName);
+                var location = this.IsDirectory(newProjectDialog.ViewModel.ProjectLocation) ? newProjectDialog.ViewModel.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ViewModel.ProjectLocation);
+                var solution = @$".\{newProjectDialog.ViewModel.ProjectCSSolutionName}.sln";
+                var project = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectCSProjectName);
 
                 //New project
                 var progressDialog = new ProjectCreationProgressDialog();
