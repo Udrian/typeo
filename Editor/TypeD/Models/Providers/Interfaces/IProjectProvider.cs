@@ -7,7 +7,7 @@ namespace TypeD.Models.Providers.Interfaces
     public interface IProjectProvider
     {
         public Task<Project> Create(string projectName, string location, string csSolutionPath, string csProjName, Action<int> progress);
-        public Task<Project> Load(string projectFilePath);
+        public Task<Project> Load(string projectFilePath, Action<int> progress);
         public Task Save(Project project);
     }
 }

@@ -29,17 +29,17 @@ namespace TypeDitor.Commands
                 //New project
                 var progressDialog = new ProjectCreationProgressDialog();
                 var newProjectTask = ProjectProvider.Create(name,
-                                                              location,
-                                                              solution,
-                                                              project,
-                                                              (progress) =>
-                                                              {
-                                                                  progressDialog.Progress = progress;
-                                                                  if (progress >= 100)
-                                                                  {
-                                                                      progressDialog.Close();
-                                                                  }
-                                                              });
+                                                            location,
+                                                            solution,
+                                                            project,
+                                                            (progress) =>
+                                                            {
+                                                                progressDialog.Progress = progress;
+                                                                if (progress >= 100)
+                                                                {
+                                                                    progressDialog.Close();
+                                                                }
+                                                            });
                 progressDialog.ShowDialog();
                 var newProject = newProjectTask.Result;
                 RecentProvider.Add(newProject.ProjectFilePath, newProject.ProjectName);

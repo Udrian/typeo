@@ -57,7 +57,6 @@ namespace TypeD.Models.Providers
             {
                 location = Path.Combine(location, projectName);
             }
-            progress(1);
 
             // Create
             var project = new Project(location, new ProjectDTO()
@@ -68,17 +67,15 @@ namespace TypeD.Models.Providers
             }
             );
 
-            progress(2);
-
             if (!Directory.Exists(project.Location))
             {
                 Directory.CreateDirectory(project.Location);
             }
 
             await CreateSolution(project);
-            progress(20);
+            progress(5);
             await CreateProject(project);
-            progress(30);
+            progress(10);
 
             // Prepare
             ProjectModel.InitAndSaveCode(project, new ProgramCode());
@@ -86,21 +83,28 @@ namespace TypeD.Models.Providers
             var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
             var moduleList = await ModuleProvider.List();
 
-            progress(35);
+            progress(15);
 
+            var moduleAddProgressStep = 15 / modulesToAdd.Count == 0 ? 1 : modulesToAdd.Count;
+            var moduleAddProgress = 0;
             foreach(var moduleToAdd in modulesToAdd)
             {
                 var addModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
                 var module = ModuleProvider.Create(moduleToAdd, addModuleVersion);
                 ProjectModel.AddModule(project, module);
+                moduleAddProgress += moduleAddProgressStep;
+                progress(15 + moduleAddProgress);
             }
 
-            progress(50);
+            progress(30);
             //Save and load the module first so we can call the project creation hook
             await SaveModel.Save();
-            progress(65);
-            project = await Load(project.ProjectFilePath);
+            progress(40);
+            project = await Load(project.ProjectFilePath, (loadProgress) =>
+            {
+                progress(40 + (int)(35 * (loadProgress/100f)));
+            });
             progress(75);
 
             HookModel.Shoot(new ProjectCreateHook(project));
@@ -114,37 +118,34 @@ namespace TypeD.Models.Providers
             return project;
         }
 
-        public async Task<Project> Load(string projectFilePath)
+        public async Task<Project> Load(string projectFilePath, Action<int> progress)
         {
-            //TODO: Add progress bar to loading
             if (!projectFilePath.EndsWith(".typeo")) return null;
 
-            try
+            progress(0);
+            var projectData = JSON.Deserialize<ProjectDTO>(projectFilePath);
+            var project = new Project(Path.GetDirectoryName(projectFilePath), projectData);
+
+            var downloadProgressStep = 99 / (project.Modules.Count == 0 ? 1 : project.Modules.Count);
+            var downloadProgress = 0;
+            // Prepare
+            foreach (var module in project.Modules)
             {
-                return await Task.Run(async () =>
-                {
-                    var projectData = JSON.Deserialize<ProjectDTO>(projectFilePath);
-                    var project = new Project(Path.GetDirectoryName(projectFilePath), projectData);
-
-                    // Prepare
-                    foreach(var module in project.Modules)
-                    {
-                        await ModuleModel.Download(module);
-                        ModuleModel.LoadAssembly(module);
-                    }
-
-                    ProjectModel.LoadAssembly(project);
-                    ProjectModel.BuildComponentTree(project);
-
-                    await RestoreModel.Restore(project);
-
-                    return project;
+                await ModuleModel.Download(module, (bytes, mProgress, totalBytes) => {
+                    progress(downloadProgress + (int)(downloadProgressStep * (mProgress / 100f)));
                 });
+                ModuleModel.LoadAssembly(module);
+                downloadProgress += downloadProgressStep;
+                progress(downloadProgress);
             }
-            catch
-            {
-                throw;
-            }
+
+            ProjectModel.LoadAssembly(project);
+            ProjectModel.BuildComponentTree(project);
+
+            await RestoreModel.Restore(project);
+
+            progress(100);
+            return project;
         }
 
         public async Task Save(Project project)

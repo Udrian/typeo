@@ -11,11 +11,32 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
 {
     class ModulesDialogViewModel : ViewModelBase
     {
-        public class Module
+        public class Module : ViewModelBase
         {
             public string Name { get; set; }
             public bool Enabled { get; set; }
             public string Version { get; set; }
+            private int progress;
+            public int Progress { 
+                get => progress;
+                set
+                {
+                    progress = value;
+                    OnPropertyChanged();
+                }
+            }
+            private Visibility progressVisible;
+            public Visibility ProgressVisible {
+                get => progressVisible;
+                set
+                {
+                    progressVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+            public long BytesDownloaded { get; set; }
+            public long TotalBytesDownload { get; set; }
+            public string DownloadText { get { return $"{BytesDownloaded}/{TotalBytesDownload} ({Progress}%)"; } }
         }
 
         // Modules
@@ -27,7 +48,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
 
         // Data
         TypeD.Models.Data.Project LoadedProject { get; set; }
-        ObservableCollection<Module> Modules { get; set; }
+        public ObservableCollection<Module> Modules { get; set; }
 
         // Constructors
         public ModulesDialogViewModel(FrameworkElement element, TypeD.Models.Data.Project loadedProject) : base(element)
@@ -36,13 +57,14 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             ProjectModel = ResourceModel.Get<IProjectModel>();
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
             LoadedProject = loadedProject;
+            Modules = new ObservableCollection<Module>();
         }
 
         // Functions
-        public async Task<ObservableCollection<Module>> ListModules()
+        public async Task ListModules()
         {
             var moduleList = await ModuleProvider.List();
-            Modules = new ObservableCollection<Module>();
+            Modules.Clear();
             foreach(var m1 in moduleList)
             {
                 var enabled = false;
@@ -59,11 +81,11 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                 {
                     Name = m1.Name,
                     Enabled = enabled,
-                    Version = enabledVersion
+                    Version = enabledVersion,
+                    Progress = 0,
+                    ProgressVisible = Visibility.Hidden
                 });
             }
-
-            return Modules;
         }
 
         public async void Save()
@@ -99,12 +121,17 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             }
 
             // TODO: Remove Modules
-
             foreach(var module in added)
             {
+                module.ProgressVisible = Visibility.Visible;
                 var createdModule = ModuleProvider.Create(module.Name, module.Version);
                 ProjectModel.AddModule(LoadedProject, createdModule);
-                await ModuleModel.Download(createdModule);
+                await ModuleModel.Download(createdModule, (bytes, mProgress, totalBytes) => {
+                    module.Progress = mProgress;
+                    module.BytesDownloaded = bytes;
+                    module.TotalBytesDownload = totalBytes;
+                    module.OnPropertyChanged(nameof(module.DownloadText));
+                });
                 ModuleModel.LoadAssembly(createdModule);
                 //TODO: Fix InitializeTypeD when downloading module
                 //ModuleModel.InitializeTypeD(module);

@@ -16,19 +16,18 @@ namespace TypeDitor.View.Dialogs.Tools
         public ModulesDialog(TypeD.Models.Data.Project loadedProject)
         {
             ModulesDialogViewModel = new ModulesDialogViewModel(this, loadedProject);
-
+            DataContext = ModulesDialogViewModel;
             InitializeComponent();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             ModulesDialogViewModel.Save();
-            Close();
         }
 
         private async void Window_Initialized(object sender, EventArgs e)
         {
-            ModuleList.ItemsSource = await ModulesDialogViewModel.ListModules();
+            await ModulesDialogViewModel.ListModules();
         }
     }
 }

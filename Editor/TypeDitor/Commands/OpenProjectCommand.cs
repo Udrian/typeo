@@ -2,6 +2,7 @@
 using System;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
+using TypeDitor.View.Dialogs.Project;
 
 namespace TypeDitor.Commands
 {
@@ -17,7 +18,7 @@ namespace TypeDitor.Commands
             ProjectProvider = projectProvider;
         }
 
-        public async override void Execute(object param)
+        public override void Execute(object param)
         {
             var path = "";
             if (param is Recent)
@@ -40,17 +41,27 @@ namespace TypeDitor.Commands
             {
                 try
                 {
-                    var loadedProject = await ProjectProvider.Load(path);
+                    var progressDialog = new OpenProjectProgressDialog();
+                    var openProjectTask = ProjectProvider.Load(path, (progress) => {
+                        progressDialog.Progress = progress;
+                        if (progress >= 100)
+                        {
+                            progressDialog.Close();
+                        }
+                    });
+                    progressDialog.ShowDialog();
+
+                    var loadedProject = openProjectTask.Result;
                     if (loadedProject != null)
                     {
                         RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
 
-                        this.OpenMainWindow(loadedProject);
+                        OpenMainWindow(loadedProject);
                     }
                 }
                 catch (Exception e)
                 {
-                    this.ShowError("Error loading project:" + Environment.NewLine + e.Message);
+                    ShowError("Error loading project:" + Environment.NewLine + e.Message);
                 }
             }
         }
