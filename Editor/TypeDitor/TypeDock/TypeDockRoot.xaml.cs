@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace TypeDitor.TypeDock
@@ -6,15 +7,45 @@ namespace TypeDitor.TypeDock
     /// <summary>
     /// Interaction logic for TypeDockRoot.xaml
     /// </summary>
-    public partial class TypeDockRoot : UserControl
+    public partial class TypeDockRoot : UserControl, INotifyPropertyChanged
     {
+        // Properties
+        private string panelTitel;
+        public string PanelTitel {
+            get => panelTitel;
+            set
+            {
+                panelTitel = value;
+                NotifyPropertyChanged("PanelTitel");
+            }
+        }
+
+        // Constructors
         public TypeDockRoot()
         {
+            DataContext = this;
             InitializeComponent();
         }
 
-        public void AddPanel(UIElement ui, Dock? dock = null, int? length = null, bool span = false)
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string propName)
         {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        // Functions
+        public void AddPanel(UIElement ui, string panelTitel)
+        {
+            Grid.SetColumn(ui, 0);
+            Grid.SetRow(ui, 1);
+
+            InnerGrid.Children.Add(ui);
+            PanelTitel = panelTitel;
+        }
+
+        public void AddPanel(UIElement ui, string panelTitel, Dock dock, int? length = null, bool span = false)
+        {
+            var newTypeDockRoot = new TypeDockRoot();
             var leftright = false;
             var createGridSpliter = true;
 
@@ -43,35 +74,26 @@ namespace TypeDitor.TypeDock
 
                     break;
             }
-            if(dock == null)
-            {
-                createGridSpliter = false;
 
-                Grid.SetColumn(ui, 2);
-                Grid.SetRow(ui, 2);
+            if(leftright)
+            {
+                Grid.SetColumn(newTypeDockRoot, column);
+                DockRoot.ColumnDefinitions[column].MinWidth = 50;
+                DockRoot.RowDefinitions[2].MinHeight = 50;
+                if (span)
+                    Grid.SetRowSpan(newTypeDockRoot, 5);
+                else
+                    Grid.SetRow(newTypeDockRoot, 2);
             }
             else
             {
-                if(leftright)
-                {
-                    Grid.SetColumn(ui, column);
-                    DockRoot.ColumnDefinitions[column].MinWidth = 50;
-                    DockRoot.RowDefinitions[2].MinHeight = 50;
-                    if (span)
-                        Grid.SetRowSpan(ui, 5);
-                    else
-                        Grid.SetRow(ui, 2);
-                }
+                Grid.SetRow(newTypeDockRoot, row);
+                DockRoot.ColumnDefinitions[2].MinWidth = 50;
+                DockRoot.RowDefinitions[row].MinHeight = 50;
+                if (span)
+                    Grid.SetColumnSpan(newTypeDockRoot, 5);
                 else
-                {
-                    Grid.SetRow(ui, row);
-                    DockRoot.ColumnDefinitions[2].MinWidth = 50;
-                    DockRoot.RowDefinitions[row].MinHeight = 50;
-                    if (span)
-                        Grid.SetColumnSpan(ui, 5);
-                    else
-                        Grid.SetColumn(ui, 2);
-                }
+                    Grid.SetColumn(newTypeDockRoot, 2);
             }
 
             if(createGridSpliter)
@@ -110,7 +132,9 @@ namespace TypeDitor.TypeDock
             {
                 DockRoot.RowDefinitions[row].Height = new GridLength(length.Value);
             }
-            DockRoot.Children.Add(ui);
+
+            newTypeDockRoot.AddPanel(ui, panelTitel);
+            DockRoot.Children.Add(newTypeDockRoot);
         }
     }
 }
