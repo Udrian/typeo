@@ -91,11 +91,19 @@ namespace TypeD.Models
         public void LoadAssembly(Module module)
         {
             if (!File.Exists(module.ModuleDLLPath)) return;
-            module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
 
+            module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
             module.ModuleTypeInfo = GetModuleType(module);
-            
             InitializeTypeD(module);
+        }
+
+        public void UnloadAssembly(Module module)
+        {
+            if (module.Assembly == null) return;
+
+            UninitializeTypeD(module);
+            module.Assembly = null;
+            module.ModuleTypeInfo = null;
         }
 
         public void AddToProjectXML(Module module, XElement project)
@@ -122,6 +130,19 @@ namespace TypeD.Models
             typeDInit.Hooks = HookModel;
             typeDInit.Resources = ResourceModel;
             typeDInit.Initializer();
+        }
+
+        private void UninitializeTypeD(Module module)
+        {
+            if (!module.IsTypeD) return;
+
+            var typeDInitType = module.Assembly.GetTypes().FirstOrDefault(t => { return t.IsSubclassOf(typeof(TypeDModuleInitializer)); });
+            if (typeDInitType == null) return;
+
+            var typeDInit = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
+            typeDInit.Hooks = HookModel;
+            typeDInit.Resources = ResourceModel;
+            typeDInit.Uninitializer();
         }
 
         private System.Reflection.TypeInfo GetModuleType(Module module)

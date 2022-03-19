@@ -82,6 +82,8 @@ namespace TypeD.Models
                     (context as XElement).Save(path);
                 });
             });
+
+            ModuleModel.UnloadAssembly(module);
         }
 
         public async Task<bool> Build(Project project)

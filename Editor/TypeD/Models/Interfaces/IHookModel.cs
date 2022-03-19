@@ -8,6 +8,8 @@ namespace TypeD.Models.Interfaces
         public void ClearHooks();
         public void AddHook(string hook, Action<object> action);
         public void AddHook<T>(Action<T> action) where T : Hook, new();
+        public void RemoveHook(string hook);
+        public void RemoveHook<T>() where T : Hook, new();
         public void Shoot(string hook, object param);
         public void Shoot<T>(T hook) where T : Hook, new();
     }

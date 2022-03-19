@@ -229,5 +229,17 @@ namespace TypeDCore
                 }
             }
         }
+
+        public override void Uninitializer()
+        {
+            // Internal Models
+            Resources.Remove("TypeDCoreProjectModel");
+            Resources.Remove("TypeDCoreRestoreModel");
+
+            // Hooks
+            Hooks.RemoveHook<ProjectCreateHook>();
+            Hooks.RemoveHook<InitUIHook>();
+            Hooks.RemoveHook<ComponentContextMenuOpenedHook>();
+        }
     }
 }

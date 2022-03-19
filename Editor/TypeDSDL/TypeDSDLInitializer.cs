@@ -7,5 +7,9 @@ namespace TypeDSDL
         public override void Initializer()
         {
         }
+
+        public override void Uninitializer()
+        {
+        }
     }
 }

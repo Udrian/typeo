@@ -137,8 +137,6 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                     module.OnPropertyChanged(nameof(module.DownloadText));
                 });
                 ModuleModel.LoadAssembly(createdModule);
-                //TODO: Fix InitializeTypeD when downloading module
-                //ModuleModel.InitializeTypeD(module);
             }
         }
     }

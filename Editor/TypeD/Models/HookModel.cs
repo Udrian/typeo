@@ -36,6 +36,16 @@ namespace TypeD.Models
             AddHook(Activator.CreateInstance(typeof(T)).ToString(), (a) => { action(a as T); });
         }
 
+        public void RemoveHook(string hook)
+        {
+            Hooks.Remove(hook);
+        }
+
+        public void RemoveHook<T>() where T : Hook, new()
+        {
+            RemoveHook(Activator.CreateInstance(typeof(T)).ToString());
+        }
+
         public void Shoot(string hook, object param)
         {
             if (!Hooks.ContainsKey(hook)) return;

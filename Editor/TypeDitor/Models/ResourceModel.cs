@@ -39,6 +39,11 @@ namespace TypeDitor.Models
             Resources.MergedDictionaries.Add(resource);
         }
 
+        public void Remove(string key)
+        {
+            Resources.Remove(key);
+        }
+
         public T Get<T>(string key) where T : class
         {
             if(!Resources.Contains(key))
