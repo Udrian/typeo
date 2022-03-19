@@ -65,6 +65,25 @@ namespace TypeD.Models
             });
         }
 
+        public void RemoveModule(Project project, string moduleName)
+        {
+            var path = Path.Combine(project.Location, project.CSProjName, $"{project.CSProjName}.csproj");
+            if (!File.Exists(path)) return;
+            var module = project.Modules.Find(m => m.Name == moduleName);
+            project.Modules.Remove(module);
+
+            var CSProj = SaveModel.GetSaveContext<XElement>("ProjectCSProj") ?? XElement.Load(path);
+            ModuleModel.RemoveFromProjectXML(module, CSProj);
+
+            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            SaveModel.AddSave("ProjectCSProj", CSProj, (context) => {
+                return Task.Run(() =>
+                {
+                    (context as XElement).Save(path);
+                });
+            });
+        }
+
         public async Task<bool> Build(Project project)
         {
             var path = Path.Combine(project.Location, project.CSSolutionPath);

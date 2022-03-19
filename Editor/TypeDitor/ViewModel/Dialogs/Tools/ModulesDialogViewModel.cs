@@ -120,7 +120,11 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                 }
             }
 
-            // TODO: Remove Modules
+            foreach(var module in removed)
+            {
+                ProjectModel.RemoveModule(LoadedProject, module.Name);
+            }
+
             foreach(var module in added)
             {
                 module.ProgressVisible = Visibility.Visible;

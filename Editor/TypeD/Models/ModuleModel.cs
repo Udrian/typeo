@@ -104,6 +104,12 @@ namespace TypeD.Models
             AddReference(module, GetItemGroup(project, "Release"));
         }
 
+        public void RemoveFromProjectXML(Module module, XElement project)
+        {
+            RemoveReference(module, GetItemGroup(project, "Debug"));
+            RemoveReference(module, GetItemGroup(project, "Release"));
+        }
+
         // Internal functions
         private void InitializeTypeD(Module module)
         {
@@ -175,6 +181,18 @@ namespace TypeD.Models
                 referenceElement.Add(new XElement("HintPath", module.ModuleDLLPath));
 
                 itemGroup.Add(referenceElement);
+            }
+        }
+
+        private void RemoveReference(Module module, XElement itemGroup)
+        {
+            foreach (var referenceElement in itemGroup.Elements("Reference"))
+            {
+                if (referenceElement.Attribute("Include")?.Value == module.Name)
+                {
+                    referenceElement.Remove();
+                    break;
+                }
             }
         }
     }

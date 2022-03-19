@@ -10,5 +10,6 @@ namespace TypeD.Models.Interfaces
         public Task<bool> Download(Module module, Action<long, int, long> progress);
         public void LoadAssembly(Module module);
         public void AddToProjectXML(Module module, XElement project);
+        public void RemoveFromProjectXML(Module module, XElement project);
     }
 }
