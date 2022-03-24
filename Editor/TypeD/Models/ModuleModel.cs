@@ -37,28 +37,33 @@ namespace TypeD.Models
         public async Task<bool> Download(Module module, Action<long, int, long> progress)
         {
 #if DEBUG
-            if (!Directory.Exists($"{module.ModulePath}"))
-                Directory.CreateDirectory(module.ModulePath);
-
-            var current = Directory.GetCurrentDirectory();
-            var currentEditorPath = current.Replace("\\TypeDitor\\", $"\\{module.Name}\\");
-            var currentTypeOPath = currentEditorPath.Replace("\\net5.0-windows", "\\net5.0").Replace("\\Editor\\", "\\\\");
-
-            var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
-
-            try
+            if(module.Version == "local")
             {
-                progress(0, 0, 0);
-                await Task.Delay(0);
-                File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll", true);
-                progress(0, 35, 0);
-                File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json", true);
-                progress(0, 75, 0);
-                File.Copy(@$"{pathUsed}\{module.Name}.pdb", $@"{module.ModulePath}\{module.Name}.pdb", true);
-                progress(0, 100, 0);
+                if (!Directory.Exists($"{module.ModulePath}"))
+                    Directory.CreateDirectory(module.ModulePath);
+
+                var current = Directory.GetCurrentDirectory();
+                var currentEditorPath = current.Replace("\\TypeDitor\\", $"\\{module.Name}\\");
+                var currentTypeOPath = currentEditorPath.Replace("\\net5.0-windows", "\\net5.0").Replace("\\Editor\\", "\\\\");
+
+                var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
+
+                try
+                {
+                    progress(0, 0, 0);
+                    await Task.Delay(0);
+                    File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll", true);
+                    progress(0, 35, 0);
+                    File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json", true);
+                    progress(0, 75, 0);
+                    File.Copy(@$"{pathUsed}\{module.Name}.pdb", $@"{module.ModulePath}\{module.Name}.pdb", true);
+                    progress(0, 100, 0);
+                }
+                catch { }
+                return true;
             }
-            catch {}
-#else
+#endif
+
             if (Directory.Exists($"{module.ModulePath}")) return false;
 
             Directory.CreateDirectory(module.ModulePath);
@@ -83,7 +88,6 @@ namespace TypeD.Models
             {
                 File.Delete(downloadZipPath);
             });
-#endif
 
             return true;
         }

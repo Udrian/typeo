@@ -20,14 +20,24 @@ namespace TypeDitor.View.Dialogs.Tools
             InitializeComponent();
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            ModulesDialogViewModel.Save();
+            ModulesDialogViewModel.InstallSelectedModule();
+        }
+
+        private void UninstallButton_Click(object sender, RoutedEventArgs e)
+        {
+            ModulesDialogViewModel.UninstallSelectedModule();
         }
 
         private async void Window_Initialized(object sender, EventArgs e)
         {
             await ModulesDialogViewModel.ListModules();
+        }
+
+        private void ModuleList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            ModulesDialogViewModel.SelectedChanged(ModuleList.SelectedItem as ModulesDialogViewModel.Module);
         }
     }
 }

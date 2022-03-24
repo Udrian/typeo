@@ -16,6 +16,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             public string Name { get; set; }
             public bool Enabled { get; set; }
             public string Version { get; set; }
+            public List<string> Versions { get; set; } = new List<string>();
             private int progress;
             public int Progress { 
                 get => progress;
@@ -50,6 +51,10 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         TypeD.Models.Data.Project LoadedProject { get; set; }
         public ObservableCollection<Module> Modules { get; set; }
 
+        // Properties
+        public Module SelectedModule { get; set; }
+        public Visibility SelectedModuleVisibility { get { return SelectedModule == null ? Visibility.Hidden : Visibility.Visible; } }
+
         // Constructors
         public ModulesDialogViewModel(FrameworkElement element, TypeD.Models.Data.Project loadedProject) : base(element)
         {
@@ -63,12 +68,12 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         // Functions
         public async Task ListModules()
         {
-            var moduleList = await ModuleProvider.List();
+            var moduleList = await ModuleProvider.List(LoadedProject);
             Modules.Clear();
             foreach(var m1 in moduleList)
             {
                 var enabled = false;
-                var enabledVersion = m1.Versions.FirstOrDefault();
+                var enabledVersion = "";
                 foreach(var m2 in LoadedProject.Modules)
                 {
                     if(m1.Name == m2.Name)
@@ -82,62 +87,54 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                     Name = m1.Name,
                     Enabled = enabled,
                     Version = enabledVersion,
+                    Versions = m1.Versions,
                     Progress = 0,
                     ProgressVisible = Visibility.Hidden
                 });
             }
         }
 
-        public async void Save()
+        public async void InstallSelectedModule()
         {
-            var added = new List<Module>();
-            var removed = new List<Module>();
+            if (SelectedModule == null || string.IsNullOrEmpty(SelectedModule.Version)) return;
+            var module = SelectedModule;
+            module.ProgressVisible = Visibility.Visible;
+            var createdModule = ModuleProvider.Create(module.Name, module.Version);
+            ProjectModel.AddModule(LoadedProject, createdModule);
+            await ModuleModel.Download(createdModule, (bytes, mProgress, totalBytes) => {
+                module.Progress = mProgress;
+                module.BytesDownloaded = bytes;
+                module.TotalBytesDownload = totalBytes;
+                module.OnPropertyChanged(nameof(module.DownloadText));
+            });
 
-            foreach (var module in Modules)
-            {
-                var found = false;
-                foreach (var loadedModules in LoadedProject.Modules)
-                {
-                    if(module.Name == loadedModules.Name)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                if (found)
-                {
-                    if (!module.Enabled)
-                    {
-                        removed.Add(module);
-                    }
-                }
-                else
-                {
-                    if(module.Enabled)
-                    {
-                        added.Add(module);
-                    }
-                }
-            }
+            module.Progress = 0;
+            module.BytesDownloaded = 0;
+            module.TotalBytesDownload = 0;
+            module.ProgressVisible = Visibility.Hidden;
+            module.OnPropertyChanged(nameof(module.DownloadText));
 
-            foreach(var module in removed)
-            {
-                ProjectModel.RemoveModule(LoadedProject, module.Name);
-            }
+            ModuleModel.LoadAssembly(createdModule);
+            module.Enabled = true;
+            module.OnPropertyChanged(nameof(module.Enabled));
+            module.OnPropertyChanged(nameof(module.Version));
+        }
 
-            foreach(var module in added)
-            {
-                module.ProgressVisible = Visibility.Visible;
-                var createdModule = ModuleProvider.Create(module.Name, module.Version);
-                ProjectModel.AddModule(LoadedProject, createdModule);
-                await ModuleModel.Download(createdModule, (bytes, mProgress, totalBytes) => {
-                    module.Progress = mProgress;
-                    module.BytesDownloaded = bytes;
-                    module.TotalBytesDownload = totalBytes;
-                    module.OnPropertyChanged(nameof(module.DownloadText));
-                });
-                ModuleModel.LoadAssembly(createdModule);
-            }
+        public void UninstallSelectedModule()
+        {
+            if (SelectedModule == null || !SelectedModule.Enabled) return;
+            ProjectModel.RemoveModule(LoadedProject, SelectedModule.Name);
+            SelectedModule.Enabled = false;
+            SelectedModule.OnPropertyChanged(nameof(SelectedModule.Enabled));
+            SelectedModule.Version = "";
+            SelectedModule.OnPropertyChanged(nameof(SelectedModule.Version));
+        }
+
+        public void SelectedChanged(Module module)
+        {
+            SelectedModule = module;
+            OnPropertyChanged(nameof(SelectedModule));
+            OnPropertyChanged(nameof(SelectedModuleVisibility));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace TypeD.Models.Providers.Interfaces
 {
     public interface IModuleProvider
     {
-        public Task<IEnumerable<ModuleList>> List();
+        public Task<IEnumerable<ModuleList>> List(Project project);
         public Module Create(string name, string version);
     }
 }
