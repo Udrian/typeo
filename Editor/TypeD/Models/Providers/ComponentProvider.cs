@@ -134,10 +134,10 @@ namespace TypeD.Models.Providers
         {
             var components = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
             components.Remove(component);
-            var delComponents = SaveModel.GetSaveContext<List<Component>>("Deleted_Components") ?? new List<Component>();
+            var delComponents = SaveModel.GetSaveContext<List<Component>>("deleted_components") ?? new List<Component>();
             delComponents.Add(component);
 
-            SaveModel.AddSave("Deleted_Components", delComponents, (context) =>
+            SaveModel.AddSave("deleted_components", delComponents, (context) =>
             {
                 return Task.Run(() =>
                 {
@@ -161,6 +161,47 @@ namespace TypeD.Models.Providers
             ProjectModel.BuildComponentTree(project);
         }
 
+        public void Rename(Project project, Component component, string newClassName)
+        {
+            var oldClassname = component.ClassName;
+            component.ClassName = newClassName;
+
+            var renameComponents = SaveModel.GetSaveContext<List<Tuple<string, Component>>>("renamed_components") ?? new List<Tuple<string, Component>>();
+            renameComponents.Add(new Tuple<string, Component>(oldClassname, component));
+
+            SaveModel.AddSave("renamed_components", renameComponents, (context) =>
+            {
+                return Task.Run(() =>
+                {
+                    var renameComponents = context as List<Tuple<string, Component>>;
+                    foreach (var renameComponent in renameComponents)
+                    {
+                        var oldFullName = $"{renameComponent.Item2.Namespace}.{renameComponent.Item1}";
+
+                        File.Delete(GetPath(project, oldFullName));
+                        var csFile = Path.Combine(project.Location, $"{oldFullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
+                        var csTypeDFile = Path.Combine(project.Location, $"{oldFullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
+                        var csFileNew = Path.Combine(project.Location, $"{renameComponent.Item2.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
+                        var csTypeDFileNew = Path.Combine(project.Location, $"{renameComponent.Item2.FullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
+                        if (File.Exists(csFile))
+                        {
+                            File.Move(csFile, csFileNew);
+                            File.WriteAllText(csFileNew, File.ReadAllText(csFileNew).Replace($"class {renameComponent.Item1}", $"class {renameComponent.Item2.ClassName}"));
+                        }
+                        if (File.Exists(csTypeDFile))
+                        {
+                            File.Move(csTypeDFile, csTypeDFileNew);
+                            File.WriteAllText(csTypeDFileNew, File.ReadAllText(csTypeDFileNew).Replace($"class {renameComponent.Item1}", $"class {renameComponent.Item2.ClassName}"));
+                        }
+                    }
+                });
+            });
+
+            Save(project, component);
+
+            ProjectModel.BuildComponentTree(project);
+        }
+
         public bool Exists(Project project, Component component)
         {
             return File.Exists(GetPath(project, component.FullName));
@@ -180,13 +221,15 @@ namespace TypeD.Models.Providers
             var components = files.Select((f) => { return LoadFromPath(project, f); }).ToList();
 
             var unsavedComponents = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
-            var delComponents = SaveModel.GetSaveContext<List<Component>>("Deleted_Components") ?? new List<Component>();
-
+            var delComponents = SaveModel.GetSaveContext<List<Component>>("deleted_components") ?? new List<Component>();
+            var renamedComponents = SaveModel.GetSaveContext<List<Tuple<string, Component>>>("renamed_components") ?? new List<Tuple<string, Component>>();
+            
             var retList = components.Union(unsavedComponents)
                                     .GroupBy(t => t.FullName)
                                     .Select(t => t.First())
                                     .ToList();
             retList.RemoveAll(c => delComponents.Exists(d => c.FullName == d.FullName));
+            retList.RemoveAll(c => renamedComponents.Exists(r => c.FullName == $"{r.Item2.Namespace}.{r.Item1}"));
             return retList;
         }
 

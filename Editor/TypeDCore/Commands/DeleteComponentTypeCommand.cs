@@ -7,7 +7,7 @@ namespace TypeDCore.Commands
 {
     public class DeleteComponentTypeCommand : CustomCommand
     {
-        // Models
+        // Providers
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors

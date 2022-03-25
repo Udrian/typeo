@@ -33,6 +33,7 @@ namespace TypeDCore
         CreateSceneTypeCommand CreateSceneTypeCommand { get; set; }
         CreateDrawable2dTypeCommand CreateDrawable2dTypeCommand { get; set; }
         DeleteComponentTypeCommand DeleteComponentTypeCommand { get; set; }
+        RenameComponentTypeCommand RenameComponentTypeCommand { get; set; }
         SetStartSceneCommand SetStartSceneCommand { get; set; }
 
         public override void Initializer()
@@ -55,6 +56,7 @@ namespace TypeDCore
             CreateSceneTypeCommand = new CreateSceneTypeCommand(TypeDCoreProjectModel);
             CreateDrawable2dTypeCommand = new CreateDrawable2dTypeCommand(TypeDCoreProjectModel);
             DeleteComponentTypeCommand = new DeleteComponentTypeCommand(ComponentProvider);
+            RenameComponentTypeCommand = new RenameComponentTypeCommand(ComponentProvider);
             SetStartSceneCommand = new SetStartSceneCommand(ProjectModel);
 
             // Hooks
@@ -209,6 +211,17 @@ namespace TypeDCore
                             Click = (param) =>
                             {
                                 DeleteComponentTypeCommand.Execute(new ComponentCommandData() { Component = component, Project = param as Project });
+                            }
+                        }
+                    );
+                    hook.Menu.Items.Add(
+                        new MenuItem()
+                        {
+                            Name = "_Rename Component",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                RenameComponentTypeCommand.Execute(new ComponentCommandData() { Component = component, Project = param as Project });
                             }
                         }
                     );

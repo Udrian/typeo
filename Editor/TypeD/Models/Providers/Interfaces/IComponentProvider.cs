@@ -11,6 +11,7 @@ namespace TypeD.Models.Providers.Interfaces
         public void Save(Project project, Component component);
         public Component Load(Project project, string fullName);
         public void Delete(Project project, Component component);
+        public void Rename(Project project, Component component, string newClassName);
         public bool Exists(Project project, Component component);
         public bool Exists(Project project, Type type);
         public List<Component> ListAll(Project project);
