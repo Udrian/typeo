@@ -43,7 +43,7 @@ namespace TypeDitor.TypeDock
             PanelTitel = panelTitel;
         }
 
-        public void AddPanel(UIElement ui, string panelTitel, Dock dock, int? length = null, bool span = false)
+        public TypeDockRoot AddPanel(UIElement ui, string panelTitel, Dock dock, int? length = null, bool span = false)
         {
             var newTypeDockRoot = new TypeDockRoot();
             var leftright = false;
@@ -135,6 +135,8 @@ namespace TypeDitor.TypeDock
 
             newTypeDockRoot.AddPanel(ui, panelTitel);
             DockRoot.Children.Add(newTypeDockRoot);
+
+            return newTypeDockRoot;
         }
     }
 }

@@ -29,7 +29,8 @@ namespace TypeDitor.View
             Tabs = new TabControl();
 
             DockRoot.AddPanel(Tabs, "Tabs");
-            DockRoot.AddPanel(new ComponentBrowserPanel(loadedProject), "Components", Dock.Left, 175, false);
+            var componentBrowserPanel = DockRoot.AddPanel(new ComponentBrowserPanel(loadedProject), "Component Type Browser", Dock.Left, 275, false);
+            componentBrowserPanel.AddPanel(new ComponentPanel(), "Component", Dock.Left, 100, true);
             DockRoot.AddPanel(new OutputPanel(), "Output", Dock.Bottom, 250, true);
 
             ViewModel.InitUI(this);
