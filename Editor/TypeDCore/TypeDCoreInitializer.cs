@@ -62,7 +62,7 @@ namespace TypeDCore
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
             Hooks.AddHook<InitUIHook>(InitUI);
-            Hooks.AddHook<ComponentContextMenuOpenedHook>(ComponentContextMenuOpened);
+            Hooks.AddHook<ComponentTypeBrowserContextMenuOpenedHook>(ComponentContextMenuOpened);
         }
 
         void ProjectCreate(ProjectCreateHook hook)
@@ -114,7 +114,7 @@ namespace TypeDCore
             );
         }
 
-        void ComponentContextMenuOpened(ComponentContextMenuOpenedHook hook)
+        void ComponentContextMenuOpened(ComponentTypeBrowserContextMenuOpenedHook hook)
         {
             hook.Menu.Items.Add(
                 new MenuItem()
@@ -252,7 +252,7 @@ namespace TypeDCore
             // Hooks
             Hooks.RemoveHook<ProjectCreateHook>();
             Hooks.RemoveHook<InitUIHook>();
-            Hooks.RemoveHook<ComponentContextMenuOpenedHook>();
+            Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
         }
     }
 }
