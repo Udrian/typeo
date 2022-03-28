@@ -62,7 +62,7 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
             RunProjectCommand = new RunProjectCommand(ProjectModel);
             SaveProjectCommand = new SaveProjectCommand(SaveModel);
-            OpenComponentCommand = new OpenComponentCommand(this);
+            OpenComponentCommand = new OpenComponentCommand(this, HookModel);
 
             LoadedProject = loadedProject;
             MainWindow = mainWindow;

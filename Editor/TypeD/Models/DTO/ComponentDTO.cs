@@ -10,5 +10,6 @@ namespace TypeD.Models.DTO
         public string ParentComponent { get; set; }
         public List<string> Interfaces { get; set; }
         public string TypeOBaseType { get; set; }
+        public List<string> Children { get; set; }
     }
 }

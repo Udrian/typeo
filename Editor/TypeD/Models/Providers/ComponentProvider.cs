@@ -77,7 +77,8 @@ namespace TypeD.Models.Providers
                             Namespace = saveComponent.Namespace,
                             ParentComponent = saveComponent.ParentComponent?.FullName ?? "",
                             TemplateClass = saveComponent.TemplateClass.FullName,
-                            TypeOBaseType = saveComponent.TypeOBaseType.FullName
+                            TypeOBaseType = saveComponent.TypeOBaseType.FullName,
+                            Children = saveComponent.Children.Select(c => c.FullName).ToList()
                         }, GetPath(project, saveComponent.FullName));
                     }
                     if (!project.IsClosing)
@@ -124,7 +125,8 @@ namespace TypeD.Models.Providers
                                 .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass)),
                 TypeOBaseType = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(a => a.GetTypes())
-                                .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType))
+                                .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType)),
+                Children = dto.Children?.Select(c => Load(project, c)).ToList() ?? new List<Component>()
             };
 
             return component;

@@ -15,10 +15,12 @@ namespace TypeD.Models.Data
         public List<Type> Interfaces { get; set; }
         public Type TypeOBaseType { get; set; }
         public Codalyzer Code { get; set; }
+        public List<Component> Children { get; set; }
 
         public Component()
         {
             Interfaces = new List<Type>();
+            Children = new List<Component>();
         }
     }
 }

@@ -89,7 +89,7 @@ namespace TypeD.Models.Providers
             var moduleAddProgress = 0;
             foreach(var moduleToAdd in modulesToAdd)
             {
-                var addModuleVersion = moduleList.FirstOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
+                var addModuleVersion = moduleList.LastOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
                 var module = ModuleProvider.Create(moduleToAdd, addModuleVersion);
                 ProjectModel.AddModule(project, module);
