@@ -25,6 +25,7 @@ namespace TypeDitor.Commands
         {
             var data = parameter as OpenComponentCommandData;
 
+            //TODO: Check if Component is already open and only shoot if it isn't
             HookModel.Shoot(new OpenComponentHook() { Project = data.Project, Component = data.Component });
             HookModel.Shoot(new ComponentFocusHook() { Project = data.Project, Component = data.Component });
 

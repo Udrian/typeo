@@ -62,7 +62,8 @@ namespace TypeDCore
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
             Hooks.AddHook<InitUIHook>(InitUI);
-            Hooks.AddHook<ComponentTypeBrowserContextMenuOpenedHook>(ComponentContextMenuOpened);
+            Hooks.AddHook<ComponentTypeBrowserContextMenuOpenedHook>(ComponentTypeBrowserContextMenuOpened);
+            Hooks.AddHook<ComponentContextMenuHook>(ComponentContextMenuOpened);
         }
 
         void ProjectCreate(ProjectCreateHook hook)
@@ -114,7 +115,7 @@ namespace TypeDCore
             );
         }
 
-        void ComponentContextMenuOpened(ComponentTypeBrowserContextMenuOpenedHook hook)
+        void ComponentTypeBrowserContextMenuOpened(ComponentTypeBrowserContextMenuOpenedHook hook)
         {
             hook.Menu.Items.Add(
                 new MenuItem()
@@ -243,6 +244,24 @@ namespace TypeDCore
             }
         }
 
+        void ComponentContextMenuOpened(ComponentContextMenuHook hook)
+        {
+            if(hook.OpenedComponent == null)
+            {
+                hook.Menu.Items.Add(
+                    new MenuItem()
+                    {
+                        Name = "Open Component",
+                        Click = (param) => { throw new NotImplementedException(); }
+                    }
+                );
+
+                return;
+            }
+
+
+        }
+
         public override void Uninitializer()
         {
             // Internal Models
@@ -253,6 +272,7 @@ namespace TypeDCore
             Hooks.RemoveHook<ProjectCreateHook>();
             Hooks.RemoveHook<InitUIHook>();
             Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
+            Hooks.RemoveHook<ComponentContextMenuHook>();
         }
     }
 }

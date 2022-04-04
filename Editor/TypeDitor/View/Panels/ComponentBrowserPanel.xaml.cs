@@ -15,7 +15,7 @@ namespace TypeDitor.View.Panels
     public partial class ComponentBrowserPanel : UserControl
     {
         // ViewModel
-        ComponentBrowserViewModel ComponentBrowserViewModel { get; set; }
+        ComponentBrowserViewModel ViewModel { get; set; }
 
         // Data
         Project LoadedProject { get; set; }
@@ -26,18 +26,18 @@ namespace TypeDitor.View.Panels
             InitializeComponent();
             LoadedProject = loadedProject;
 
-            ComponentBrowserViewModel = new ComponentBrowserViewModel(
+            ViewModel = new ComponentBrowserViewModel(
                 this,
                 LoadedProject,
                 TreeView,
                 FindResource("MainWindowViewModel") as MainWindowViewModel
             );
-            DataContext = ComponentBrowserViewModel;
+            DataContext = ViewModel;
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            ComponentBrowserViewModel.ContextMenuOpened(ContextMenu, TreeView.SelectedItem as ComponentBrowserViewModel.Node);
+            ViewModel.ContextMenuOpened(sender as ContextMenu, TreeView.SelectedItem as ComponentBrowserViewModel.Node);
         }
 
         private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -54,7 +54,7 @@ namespace TypeDitor.View.Panels
         private void TreeViewItem_MouseDoubleClickEvent(object sender, MouseButtonEventArgs e)
         {
             if(((TreeViewItem)sender).Header == TreeView.SelectedItem)
-                ComponentBrowserViewModel.DoubleClickItem(TreeView.SelectedItem as ComponentBrowserViewModel.Node);
+                ViewModel.DoubleClickItem(TreeView.SelectedItem as ComponentBrowserViewModel.Node);
         }
 
         static T VisualUpwardSearch<T>(DependencyObject source) where T : DependencyObject

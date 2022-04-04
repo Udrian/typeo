@@ -82,11 +82,11 @@ namespace TypeDitor.ViewModel.Panels
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
         {
-            var componentContextMenuOpenedHook = new ComponentTypeBrowserContextMenuOpenedHook(node?.Context);
-            HookModel.Shoot(componentContextMenuOpenedHook);
+            var componentTypeBrowserContextMenuOpenedHook = new ComponentTypeBrowserContextMenuOpenedHook(node?.Context);
+            HookModel.Shoot(componentTypeBrowserContextMenuOpenedHook);
 
             contextMenu.Items.Clear();
-            foreach (var menu in componentContextMenuOpenedHook.Menu.Items)
+            foreach (var menu in componentTypeBrowserContextMenuOpenedHook.Menu.Items)
             {
                 ViewHelper.InitMenu(contextMenu, menu, this);
             }

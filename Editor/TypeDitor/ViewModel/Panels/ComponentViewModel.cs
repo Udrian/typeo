@@ -1,10 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
+using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
@@ -27,6 +29,9 @@ namespace TypeDitor.ViewModel.Panels
         // Models
         public IHookModel HookModel { get; set; }
 
+        // Data
+        public Project LoadedProject { get; set; }
+
         // Properties
         private Component _component;
         public Component Component
@@ -45,6 +50,7 @@ namespace TypeDitor.ViewModel.Panels
         // Constructors
         public ComponentViewModel(FrameworkElement element, Project project) : base(element)
         {
+            LoadedProject = project;
             HookModel = ResourceModel.Get<IHookModel>();
             Nodes = new ObservableCollection<Node>();
 
@@ -52,6 +58,25 @@ namespace TypeDitor.ViewModel.Panels
             {
                 Component = hook.Component;
             });
+        }
+
+        // Functions
+        public void ContextMenuOpened(ContextMenu contextMenu, Node node)
+        {
+            var componentContextMenuHook = new ComponentContextMenuHook()
+            {
+                Menu = new TypeD.View.Menu(),
+                Project = LoadedProject,
+                OpenedComponent = Component,
+                SelectedComponent = node?.Component
+            };
+            HookModel.Shoot(componentContextMenuHook);
+
+            contextMenu.Items.Clear();
+            foreach (var menu in componentContextMenuHook.Menu.Items)
+            {
+                ViewHelper.InitMenu(contextMenu, menu, this);
+            }
         }
     }
 }

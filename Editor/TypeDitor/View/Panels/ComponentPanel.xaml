@@ -4,14 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TypeDitor.View.Panels"
-             xmlns:viewModel="clr-namespace:TypeDitor.ViewModel.Panels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <TreeView ItemsSource="{Binding Nodes}">
+    <TreeView Name="ComponentsTree" ItemsSource="{Binding Nodes}">
         <TreeView.ItemTemplate>
             <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
                 <TextBlock Text="{Binding Title}"/>
             </HierarchicalDataTemplate>
         </TreeView.ItemTemplate>
+        
+        <TreeView.ContextMenu>
+            <ContextMenu Opened="ContextMenu_Opened"/>
+        </TreeView.ContextMenu>
     </TreeView>
 </UserControl>

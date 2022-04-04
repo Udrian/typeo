@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeDitor.ViewModel.Panels;
 
@@ -17,6 +18,11 @@ namespace TypeDitor.View.Panels
         {
             DataContext = ViewModel = new ComponentViewModel(this, project);
             InitializeComponent();
+        }
+
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            ViewModel.ContextMenuOpened(sender as ContextMenu, ComponentsTree.SelectedItem as ComponentViewModel.Node);
         }
     }
 }
