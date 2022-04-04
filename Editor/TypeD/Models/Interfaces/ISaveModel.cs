@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace TypeD.Models.Interfaces
 {
-    public interface ISaveModel
+    public interface ISaveModel : IModel
     {
         public bool AnythingToSave { get; }
         public void AddSave(string contextId, Func<Task> saveAction);

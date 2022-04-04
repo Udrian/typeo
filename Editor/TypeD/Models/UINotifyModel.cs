@@ -5,7 +5,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class UINotifyModel : IUINotifyModel, IModel
+    public class UINotifyModel : IUINotifyModel
     {
         // Data
         private Dictionary<string, Action<string>> Attachments { get; set; }

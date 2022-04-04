@@ -9,7 +9,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class RecentProvider : IRecentProvider, IProvider
+    public class RecentProvider : IRecentProvider
     {
         public ObservableCollection<Recent> Recents { get; set; }
 

@@ -12,7 +12,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ComponentProvider : IComponentProvider, IProvider
+    public class ComponentProvider : IComponentProvider
     {
         private static string ComponentFileEnding = "component";
 
@@ -22,9 +22,7 @@ namespace TypeD.Models.Providers
         ISaveModel SaveModel { get; set; }
 
         // Constructors
-        public ComponentProvider()
-        {
-        }
+        public ComponentProvider() { }
 
         public void Init(IResourceModel resourceModel)
         {

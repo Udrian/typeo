@@ -3,7 +3,7 @@ using TypeD.Models.Data;
 
 namespace TypeD.Models.Interfaces
 {
-    public interface IHookModel
+    public interface IHookModel : IModel
     {
         public void ClearHooks();
         public void AddHook(string hook, Action<object> action);

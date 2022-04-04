@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using TypeD.Models.Data;
-using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Code.Drawable;
@@ -13,27 +11,21 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Models
 {
-    class TypeDCoreProjectModel : ITypeDCoreProjectModel, IModel
+    class TypeDCoreProjectModel : ITypeDCoreProjectModel
     {
         // Models
         IProjectModel ProjectModel { get; set; }
-        ISaveModel SaveModel { get; set; }
 
         // Providers
-        IProjectProvider ProjectProvider { get; set; }
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
-        public TypeDCoreProjectModel()
-        {
-        }
+        public TypeDCoreProjectModel() { }
 
         public void Init(IResourceModel resourceModel)
         {
             ProjectModel = resourceModel.Get<IProjectModel>();
-            SaveModel = resourceModel.Get<ISaveModel>(); ;
-            ProjectProvider = resourceModel.Get<IProjectProvider>(); ;
-            ComponentProvider = resourceModel.Get<IComponentProvider>(); ;
+            ComponentProvider = resourceModel.Get<IComponentProvider>();
         }
 
         // Functions

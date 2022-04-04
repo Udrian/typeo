@@ -10,7 +10,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class ModuleModel : IModuleModel, IModel
+    public class ModuleModel : IModuleModel
     {
         // Models
         public IHookModel HookModel { get; set; }
@@ -21,9 +21,7 @@ namespace TypeD.Models
         public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
 
         // Constructors
-        public ModuleModel()
-        {
-        }
+        public ModuleModel() { }
 
         public void Init(IResourceModel resourceModel)
         {

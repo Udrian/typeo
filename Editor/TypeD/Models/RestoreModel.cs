@@ -6,7 +6,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class RestoreModel : IRestoreModel, IModel
+    public class RestoreModel : IRestoreModel
     {
         // Properties
         private List<Action<Project>> RestoreMethods { get; set; }

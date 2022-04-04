@@ -4,7 +4,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class LogModel : ILogModel, IModel
+    public class LogModel : ILogModel
     {
         // Properties
         private Dictionary<string, Action<string>> LogOutputs { get; set; }

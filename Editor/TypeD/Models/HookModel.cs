@@ -5,7 +5,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class HookModel : IHookModel, IModel
+    public class HookModel : IHookModel
     {
         private Dictionary<string, List<Action<object>>> Hooks { get; set; }
 

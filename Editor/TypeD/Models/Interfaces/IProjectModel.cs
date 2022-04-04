@@ -4,7 +4,7 @@ using TypeD.Models.Data;
 
 namespace TypeD.Models.Interfaces
 {
-    public interface IProjectModel
+    public interface IProjectModel : IModel
     {
         public void AddModule(Project project, Module module);
         public void RemoveModule(Project project, string moduleName);

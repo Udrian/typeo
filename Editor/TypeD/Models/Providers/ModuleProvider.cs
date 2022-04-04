@@ -9,20 +9,12 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ModuleProvider : IModuleProvider, IProvider
+    public class ModuleProvider : IModuleProvider
     {
-        // Models
-        IResourceModel ResourceModel { get; set; }
-
         // Constructors
-        public ModuleProvider()
-        {
-        }
+        public ModuleProvider() { }
 
-        public void Init(IResourceModel resourceModel)
-        {
-            ResourceModel = resourceModel;
-        }
+        public void Init(IResourceModel resourceModel) { }
 
         // Functions
         public async Task<IEnumerable<ModuleList>> List(Project project)

@@ -7,10 +7,6 @@ using TypeD.Code;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeDCore.Code.Drawable;
-using TypeDCore.Code.Entity;
-using TypeDCore.Code.Game;
-using TypeDCore.Code.Scene;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -20,7 +16,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Models
 {
-    public class TypeDCoreRestoreModel : ITypeDCoreRestoreModel, IModel
+    public class TypeDCoreRestoreModel : ITypeDCoreRestoreModel
     {
         // Models
         IRestoreModel RestoreModel { get; set; }
@@ -30,10 +26,7 @@ namespace TypeDCore.Models
         IProjectModel ProjectModel { get; set; }
 
         // Constructors
-        public TypeDCoreRestoreModel()
-        {
-
-        }
+        public TypeDCoreRestoreModel() { }
 
         public void Init(IResourceModel resourceModel)
         {

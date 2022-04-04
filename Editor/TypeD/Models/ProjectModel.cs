@@ -16,7 +16,7 @@ using TypeOEngine.Typedeaf.Core;
 
 namespace TypeD.Models
 {
-    public class ProjectModel : IProjectModel, IModel
+    public class ProjectModel : IProjectModel
     {
         // Models
         IModuleModel ModuleModel { get; set; }
@@ -30,9 +30,7 @@ namespace TypeD.Models
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
-        public ProjectModel()
-        {
-        }
+        public ProjectModel() { }
 
         public void Init(IResourceModel resourceModel)
         {

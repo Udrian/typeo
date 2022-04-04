@@ -5,7 +5,7 @@ using TypeD.Models.Data;
 
 namespace TypeD.Models.Providers.Interfaces
 {
-    public interface IComponentProvider
+    public interface IComponentProvider : IProvider
     {
         public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTypeCode;
         public void Save(Project project, Component component);

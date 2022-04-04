@@ -1,6 +1,6 @@
 ﻿namespace TypeD.Models.Interfaces
 {
-    public interface IResourceModel
+    public interface IResourceModel : IModel
     {
         public void Add(string key, object value);
         public void Remove(string key);
