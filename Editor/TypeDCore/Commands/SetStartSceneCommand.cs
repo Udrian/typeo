@@ -5,7 +5,7 @@ using TypeDCore.Commands.Data;
 
 namespace TypeDCore.Commands
 {
-    public class SetStartSceneCommand : CustomCommand
+    public class SetStartSceneCommand : CustomCommand<ComponentCommandData>
     {
         // Models
         IProjectModel ProjectModel { get; set; }
@@ -16,15 +16,12 @@ namespace TypeDCore.Commands
             ProjectModel = ResourceModel.Get<IProjectModel>();
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(ComponentCommandData parameter)
         {
-            var data = parameter as ComponentCommandData;
-            if (data == null) return;
-
-            var result = MessageBox.Show($"Do you want to set '{data.Component.FullName}' as start scene?", "Set Start Scene", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show($"Do you want to set '{parameter.Component.FullName}' as start scene?", "Set Start Scene", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                ProjectModel.SetStartScene(data.Project, data.Component);
+                ProjectModel.SetStartScene(parameter.Project, parameter.Component);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace TypeDCore.Commands.Data
 {
-    class CreateComponentCommandData
+    public class CreateComponentCommandData
     {
         public Project Project { get; private set; }
         public string Namespace { get; private set; }

@@ -49,4 +49,31 @@ namespace TypeD.Commands
             CommandManager.InvalidateRequerySuggested();
         }
     }
+
+    public abstract class CustomCommand<T> : CustomCommand where T: class
+    {
+        // Constructors
+        public CustomCommand(IResourceModel resourceModel = null) : base(null, null, resourceModel) { }
+
+        // Functions
+        public override bool CanExecute(object parameter)
+        {
+            if (parameter is T)
+                return CanExecute(parameter as T);
+            return true;
+        }
+
+        public virtual bool CanExecute(T parameter)
+        {
+            return true;
+        }
+
+        public override void Execute(object parameter)
+        {
+            if (parameter is T)
+                Execute(parameter as T);
+        }
+
+        public abstract void Execute(T parameter);
+    }
 }

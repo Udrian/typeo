@@ -6,7 +6,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class CreateEntityTypeCommand : CustomCommand 
+    class CreateEntityTypeCommand : CustomCommand<CreateComponentCommandData>
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
@@ -17,14 +17,12 @@ namespace TypeDCore.Commands
             TypeDCoreProjectModel = ResourceModel.Get<ITypeDCoreProjectModel>();
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(CreateComponentCommandData parameter)
         {
-            var data = parameter as CreateComponentCommandData;
-
-            var dialog = new CreateEntityTypeDialog(data.Project, data.Namespace);
+            var dialog = new CreateEntityTypeDialog(parameter.Project, parameter.Namespace);
             if(dialog.ShowDialog() == true)
             {
-                TypeDCoreProjectModel.CreateEntity(data.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ParentComponent, dialog.ViewModel.ComponentUpdatable, dialog.ViewModel.ComponentDrawable);
+                TypeDCoreProjectModel.CreateEntity(parameter.Project, dialog.ViewModel.ComponentName, dialog.ViewModel.ComponentNamespace, dialog.ViewModel.ParentComponent, dialog.ViewModel.ComponentUpdatable, dialog.ViewModel.ComponentDrawable);
             }
         }
     }

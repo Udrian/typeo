@@ -6,7 +6,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDCore.Commands
 {
-    public class DeleteComponentTypeCommand : CustomCommand
+    public class DeleteComponentTypeCommand : CustomCommand<ComponentCommandData>
     {
         // Providers
         IComponentProvider ComponentProvider { get; set; }
@@ -17,15 +17,12 @@ namespace TypeDCore.Commands
             ComponentProvider = ResourceModel.Get<IComponentProvider>();
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(ComponentCommandData parameter)
         {
-            var data = parameter as ComponentCommandData;
-            if (data == null) return;
-
-            var result = MessageBox.Show($"Do you want to delete '{data.Component.FullName}'?", "Deleting", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var result = MessageBox.Show($"Do you want to delete '{parameter.Component.FullName}'?", "Deleting", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                ComponentProvider.Delete(data.Project, data.Component);
+                ComponentProvider.Delete(parameter.Project, parameter.Component);
             }
         }
     }

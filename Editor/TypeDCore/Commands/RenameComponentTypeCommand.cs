@@ -6,7 +6,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class RenameComponentTypeCommand : CustomCommand
+    class RenameComponentTypeCommand : CustomCommand<ComponentCommandData>
     {
         // Providers
         IComponentProvider ComponentProvider { get; set; }
@@ -17,15 +17,12 @@ namespace TypeDCore.Commands
             ComponentProvider = ResourceModel.Get<IComponentProvider>();
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(ComponentCommandData parameter)
         {
-            var data = parameter as ComponentCommandData;
-            if (data == null) return;
-
-            var dialog = new RenameComponentTypeDialog(data.Component);
+            var dialog = new RenameComponentTypeDialog(parameter.Component);
             if (dialog.ShowDialog() == true)
             {
-                ComponentProvider.Rename(data.Project, data.Component, dialog.ViewModel.Name);
+                ComponentProvider.Rename(parameter.Project, parameter.Component, dialog.ViewModel.Name);
             }
         }
     }
