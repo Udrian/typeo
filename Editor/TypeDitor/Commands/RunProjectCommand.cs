@@ -1,4 +1,5 @@
-﻿using TypeD.Models.Data;
+﻿using System.Windows;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
@@ -8,9 +9,9 @@ namespace TypeDitor.Commands
         // Models
         private IProjectModel ProjectModel { get; set; }
 
-        public RunProjectCommand(IProjectModel projectModel)
+        public RunProjectCommand(FrameworkElement element) : base(element)
         {
-            ProjectModel = projectModel;
+            ProjectModel = ResourceModel.Get<IProjectModel>();
         }
 
         public override void Execute(object param)

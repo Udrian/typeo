@@ -11,9 +11,9 @@ namespace TypeDCore.Commands
         IProjectModel ProjectModel { get; set; }
 
         // Constructors
-        public SetStartSceneCommand(IProjectModel projectModel)
+        public SetStartSceneCommand(IResourceModel resourceModel) : base(resourceModel)
         {
-            ProjectModel = projectModel;
+            ProjectModel = ResourceModel.Get<IProjectModel>();
         }
 
         public override void Execute(object parameter)

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.View.Dialogs.Project;
 
@@ -10,10 +11,10 @@ namespace TypeDitor.Commands
         private IRecentProvider RecentProvider { get; set; }
         private IProjectProvider ProjectProvider { get; set; }
 
-        public NewProjectCommand(IRecentProvider recentProvider, IProjectProvider projectProvider)
+        public NewProjectCommand(FrameworkElement element) : base(element)
         {
-            RecentProvider = recentProvider;
-            ProjectProvider = projectProvider;
+            RecentProvider = ResourceModel.Get<IRecentProvider>();
+            ProjectProvider = ResourceModel.Get<IProjectProvider>();
         }
 
         public override void Execute(object param)

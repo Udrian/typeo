@@ -41,11 +41,14 @@ namespace TypeDitor.ViewModel
         public Project LoadedProject { get; private set; }
         
         // View
-        MainWindow MainWindow { get; set; }
+        public MainWindow MainWindow { get; set; }
 
         // Constructors
         public MainWindowViewModel(MainWindow mainWindow, Project loadedProject) : base(mainWindow)
         {
+            LoadedProject = loadedProject;
+            MainWindow = mainWindow;
+
             ProjectModel = ResourceModel.Get<IProjectModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
@@ -55,17 +58,14 @@ namespace TypeDitor.ViewModel
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
 
-            BuildProjectCommand = new BuildProjectCommand(ProjectModel, SaveModel);
-            ExitProjectCommand = new ExitProjectCommand(SaveModel);
-            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
-            ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
-            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
-            RunProjectCommand = new RunProjectCommand(ProjectModel);
-            SaveProjectCommand = new SaveProjectCommand(SaveModel);
-            OpenComponentCommand = new OpenComponentCommand(this, HookModel);
-
-            LoadedProject = loadedProject;
-            MainWindow = mainWindow;
+            BuildProjectCommand = new BuildProjectCommand(mainWindow);
+            ExitProjectCommand = new ExitProjectCommand(mainWindow);
+            NewProjectCommand = new NewProjectCommand(mainWindow);
+            ImportProjectCommand = new ImportProjectCommand(mainWindow);
+            OpenProjectCommand = new OpenProjectCommand(mainWindow);
+            RunProjectCommand = new RunProjectCommand(mainWindow);
+            SaveProjectCommand = new SaveProjectCommand(mainWindow);
+            OpenComponentCommand = new OpenComponentCommand(this);
 
             UINotifyModel.Attach("MainWindowViewModel", (name) => {
                 CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified

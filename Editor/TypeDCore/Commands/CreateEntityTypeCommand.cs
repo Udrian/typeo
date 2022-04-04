@@ -1,4 +1,5 @@
 ﻿using TypeD.Commands;
+using TypeD.Models.Interfaces;
 using TypeDCore.Commands.Data;
 using TypeDCore.Models.Interfaces;
 using TypeDCore.View.Dialogs.Project;
@@ -11,9 +12,9 @@ namespace TypeDCore.Commands
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
 
         // Constructors
-        public CreateEntityTypeCommand(ITypeDCoreProjectModel typeDCoreProjectModel)
+        public CreateEntityTypeCommand(IResourceModel resourceModel) : base(resourceModel)
         {
-            TypeDCoreProjectModel = typeDCoreProjectModel;
+            TypeDCoreProjectModel = ResourceModel.Get<ITypeDCoreProjectModel>();
         }
 
         public override void Execute(object parameter)

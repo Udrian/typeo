@@ -1,4 +1,5 @@
-﻿using TypeD.Models.Interfaces;
+﻿using System.Windows;
+using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
 {
@@ -8,9 +9,9 @@ namespace TypeDitor.Commands
         public ISaveModel SaveModel { get; set; }
 
         // Constructors
-        public SaveProjectCommand(ISaveModel saveModel)
+        public SaveProjectCommand(FrameworkElement element) : base(element)
         {
-            SaveModel = saveModel;
+            SaveModel = ResourceModel.Get<ISaveModel>();
         }
 
         public override async void Execute(object param)

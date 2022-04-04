@@ -1,4 +1,5 @@
-﻿using TypeD.Models.Data;
+﻿using System.Windows;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
@@ -9,10 +10,10 @@ namespace TypeDitor.Commands
         private IProjectModel ProjectModel { get; set; }
         public ISaveModel SaveModel { get; set; }
 
-        public BuildProjectCommand(IProjectModel projectModel, ISaveModel saveModel)
+        public BuildProjectCommand(FrameworkElement element) : base(element)
         {
-            ProjectModel = projectModel;
-            SaveModel = saveModel;
+            ProjectModel = ResourceModel.Get<IProjectModel>();
+            SaveModel = ResourceModel.Get<ISaveModel>();
         }
 
         public async override void Execute(object param)

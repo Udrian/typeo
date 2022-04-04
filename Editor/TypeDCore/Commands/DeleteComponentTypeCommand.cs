@@ -2,6 +2,7 @@
 using TypeD.Models.Providers.Interfaces;
 using TypeD.Commands;
 using System.Windows;
+using TypeD.Models.Interfaces;
 
 namespace TypeDCore.Commands
 {
@@ -11,9 +12,9 @@ namespace TypeDCore.Commands
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
-        public DeleteComponentTypeCommand(IComponentProvider componentProvider)
+        public DeleteComponentTypeCommand(IResourceModel resourceModel) : base(resourceModel)
         {
-            ComponentProvider = componentProvider;
+            ComponentProvider = ResourceModel.Get<IComponentProvider>();
         }
 
         public override void Execute(object parameter)

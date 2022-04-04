@@ -11,7 +11,6 @@ namespace TypeDitor.ViewModel
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }
-        private IProjectProvider ProjectProvider { get; set; }
 
         // Commands
         public ImportProjectCommand ImportProjectCommand { get; set; }
@@ -22,11 +21,10 @@ namespace TypeDitor.ViewModel
         public SplashViewModel(FrameworkElement element) : base(element)
         {
             RecentProvider = ResourceModel.Get<IRecentProvider>();
-            ProjectProvider = ResourceModel.Get<IProjectProvider>(); ;
 
-            ImportProjectCommand = new ImportProjectCommand(RecentProvider, ProjectProvider);
-            OpenProjectCommand = new OpenProjectCommand(RecentProvider, ProjectProvider);
-            NewProjectCommand = new NewProjectCommand(RecentProvider, ProjectProvider);
+            ImportProjectCommand = new ImportProjectCommand(element);
+            OpenProjectCommand = new OpenProjectCommand(element);
+            NewProjectCommand = new NewProjectCommand(element);
         }
 
         // Functions

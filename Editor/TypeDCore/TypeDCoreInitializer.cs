@@ -52,12 +52,12 @@ namespace TypeDCore
             Resources.Add("TypeDCoreRestoreModel", TypeDCoreRestoreModel);
 
             // Commands
-            CreateEntityTypeCommand = new CreateEntityTypeCommand(TypeDCoreProjectModel);
-            CreateSceneTypeCommand = new CreateSceneTypeCommand(TypeDCoreProjectModel);
-            CreateDrawable2dTypeCommand = new CreateDrawable2dTypeCommand(TypeDCoreProjectModel);
-            DeleteComponentTypeCommand = new DeleteComponentTypeCommand(ComponentProvider);
-            RenameComponentTypeCommand = new RenameComponentTypeCommand(ComponentProvider);
-            SetStartSceneCommand = new SetStartSceneCommand(ProjectModel);
+            CreateEntityTypeCommand = new CreateEntityTypeCommand(Resources);
+            CreateSceneTypeCommand = new CreateSceneTypeCommand(Resources);
+            CreateDrawable2dTypeCommand = new CreateDrawable2dTypeCommand(Resources);
+            DeleteComponentTypeCommand = new DeleteComponentTypeCommand(Resources);
+            RenameComponentTypeCommand = new RenameComponentTypeCommand(Resources);
+            SetStartSceneCommand = new SetStartSceneCommand(Resources);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);

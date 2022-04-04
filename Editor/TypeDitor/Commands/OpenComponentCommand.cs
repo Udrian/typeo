@@ -1,5 +1,4 @@
-﻿using TypeD.Commands;
-using TypeD.Models.Data.Hooks;
+﻿using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeDitor.Commands.Data;
 using TypeDitor.ViewModel;
@@ -7,7 +6,7 @@ using TypeDSDL.View.Documents;
 
 namespace TypeDitor.Commands
 {
-    class OpenComponentCommand : CustomCommand
+    class OpenComponentCommand : ProjectCommands
     {
         // ViewModel
         MainWindowViewModel MainWindowViewModel { get; set; }
@@ -15,10 +14,10 @@ namespace TypeDitor.Commands
         // Models
         IHookModel HookModel { get; set; }
 
-        public OpenComponentCommand(MainWindowViewModel mainWindowViewModel, IHookModel hookModel)
+        public OpenComponentCommand(MainWindowViewModel mainWindowViewModel) : base(mainWindowViewModel.MainWindow)
         {
             MainWindowViewModel = mainWindowViewModel;
-            HookModel = hookModel;
+            HookModel = ResourceModel.Get<IHookModel>();
         }
 
         public override void Execute(object parameter)

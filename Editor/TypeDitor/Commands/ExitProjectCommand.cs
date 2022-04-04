@@ -7,9 +7,9 @@ namespace TypeDitor.Commands
     {
         public ISaveModel SaveModel { get; set; }
 
-        public ExitProjectCommand(ISaveModel saveModel)
+        public ExitProjectCommand(FrameworkElement element) : base(element)
         {
-            SaveModel = saveModel;
+            SaveModel = ResourceModel.Get<ISaveModel>();
         }
 
         public override void Execute(object param)

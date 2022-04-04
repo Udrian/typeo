@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.IO;
+using System.Windows;
 using TypeD.Models.Data;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.View.Dialogs.Project;
@@ -12,10 +13,10 @@ namespace TypeDitor.Commands
         private IRecentProvider RecentProvider { get; set; }
         private IProjectProvider ProjectProvider { get; set; }
 
-        public ImportProjectCommand(IRecentProvider recentProvider, IProjectProvider projectProvider)
+        public ImportProjectCommand(FrameworkElement element) : base(element)
         {
-            RecentProvider = recentProvider;
-            ProjectProvider = projectProvider;
+            RecentProvider = ResourceModel.Get<IRecentProvider>();
+            ProjectProvider = ResourceModel.Get<IProjectProvider>();
         }
 
         public override void Execute(object param)

@@ -53,7 +53,7 @@ namespace TypeDitor.ViewModel.Panels
             Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
-            OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel, HookModel);
+            OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
         }
 
         // Functions

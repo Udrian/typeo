@@ -1,4 +1,5 @@
 ﻿using TypeD.Commands;
+using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Commands.Data;
 using TypeDCore.View.Dialogs.Project;
@@ -11,9 +12,9 @@ namespace TypeDCore.Commands
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
-        public RenameComponentTypeCommand(IComponentProvider componentProvider)
+        public RenameComponentTypeCommand(IResourceModel resourceModel) : base(resourceModel)
         {
-            ComponentProvider = componentProvider;
+            ComponentProvider = ResourceModel.Get<IComponentProvider>();
         }
 
         public override void Execute(object parameter)
