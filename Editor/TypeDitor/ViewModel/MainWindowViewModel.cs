@@ -5,7 +5,6 @@ using System.Windows.Input;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
-using TypeD.Models.Providers.Interfaces;
 using TypeD.ViewModel;
 using TypeDitor.Commands;
 using TypeDitor.Helpers;
@@ -17,14 +16,8 @@ namespace TypeDitor.ViewModel
     internal class MainWindowViewModel : ViewModelBase
     {
         // Models
-        IProjectModel ProjectModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
-
-        // Providers
-        IRecentProvider RecentProvider { get; set; }
-        IProjectProvider ProjectProvider { get; set; }
-        IModuleProvider ModuleProvider { get; set; }
 
         // Commands
         public BuildProjectCommand BuildProjectCommand { get; set; }
@@ -48,13 +41,8 @@ namespace TypeDitor.ViewModel
             LoadedProject = loadedProject;
             MainWindow = mainWindow;
 
-            ProjectModel = ResourceModel.Get<IProjectModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
-
-            RecentProvider = ResourceModel.Get<IRecentProvider>();
-            ProjectProvider = ResourceModel.Get<IProjectProvider>();
-            ModuleProvider = ResourceModel.Get<IModuleProvider>();
 
             BuildProjectCommand = new BuildProjectCommand(mainWindow);
             ExitProjectCommand = new ExitProjectCommand(mainWindow);
