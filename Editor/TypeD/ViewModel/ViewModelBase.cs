@@ -9,12 +9,20 @@ namespace TypeD.ViewModel
     {
         // Models
         public IResourceModel ResourceModel { get; private set; }
+        public IUINotifyModel UINotifyModel { get; private set; }
 
         // Constructors
         public ViewModelBase(FrameworkElement element = null)
         {
             if(element != null)
+            {
                 ResourceModel = element.FindResource("ResourceModel") as IResourceModel;
+
+                UINotifyModel = ResourceModel.Get<IUINotifyModel>();
+                UINotifyModel.Attach(GetType().FullName, (name) => {
+                    OnPropertyChanged(name);
+                });
+            }
         }
 
         // Functions

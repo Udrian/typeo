@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TypeD.Models.Interfaces;
+using TypeD.ViewModel;
 
 namespace TypeD.Models
 {
@@ -27,10 +28,20 @@ namespace TypeD.Models
                 Attachments.Add(key, notifyEvent);
         }
 
+        public void Attach<T>(Action<string> notifyEvent) where T : ViewModelBase
+        {
+            Attach(typeof(T).FullName, notifyEvent);
+        }
+
         public void Detach(string key)
         {
             if (Attachments.ContainsKey(key))
                 Attachments.Remove(key);
+        }
+
+        public void Detach<T>() where T : ViewModelBase
+        {
+            Detach(typeof(T).FullName);
         }
 
         public void Notify([CallerMemberName] string name = null)
@@ -39,6 +50,17 @@ namespace TypeD.Models
             {
                 attachment.Value.Invoke(name);
             }
+        }
+
+        public void Notify(string key, [CallerMemberName] string name = null)
+        {
+            if (Attachments.ContainsKey(key))
+                Attachments[key].Invoke(name);
+        }
+
+        public void Notify<T>([CallerMemberName] string name = null) where T : ViewModelBase
+        {
+            Notify(typeof(T).FullName);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace TypeDitor.ViewModel
         IProjectModel ProjectModel { get; set; }
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
-        IUINotifyModel UINotifyModel { get; set; }
 
         // Providers
         IRecentProvider RecentProvider { get; set; }
@@ -52,7 +51,6 @@ namespace TypeDitor.ViewModel
             ProjectModel = ResourceModel.Get<IProjectModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
-            UINotifyModel = ResourceModel.Get<IUINotifyModel>();
 
             RecentProvider = ResourceModel.Get<IRecentProvider>();
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
@@ -67,9 +65,8 @@ namespace TypeDitor.ViewModel
             SaveProjectCommand = new SaveProjectCommand(mainWindow);
             OpenComponentCommand = new OpenComponentCommand(this);
 
-            UINotifyModel.Attach("MainWindowViewModel", (name) => {
+            UINotifyModel.Attach<MainWindowViewModel>((name) => {
                 CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
-                OnPropertyChanged(name);
             });
         }
 
