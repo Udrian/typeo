@@ -53,16 +53,16 @@ namespace TypeDCore.ViewModel.Dialogs.Project
             foreach (var component in AllComponents)
             {
                 if (Filter(component.TypeOBaseType.FullName,
-                    FilteredTypes.Split(";").Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)),
-                    ExcludedTypes.Split(";").Select(s => s.Trim()),
-                    IncludedTypes.Split(";").Select(s => s.Trim())))
+                    FilteredTypes.Split(FilterSeperator).Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)),
+                    ExcludedTypes.Split(FilterSeperator).Select(s => s.Trim()),
+                    IncludedTypes.Split(FilterSeperator).Select(s => s.Trim())))
                 {
                     continue;
                 }
                 if (Filter(component.FullName,
-                    FilteredNames.Split(";").Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)),
-                    ExcludedNames.Split(";").Select(s => s.Trim()),
-                    IncludedNames.Split(";").Select(s => s.Trim())))
+                    FilteredNames.Split(FilterSeperator).Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)),
+                    ExcludedNames.Split(FilterSeperator).Select(s => s.Trim()),
+                    IncludedNames.Split(FilterSeperator).Select(s => s.Trim())))
                 {
                     continue;
                 }
