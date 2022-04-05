@@ -9,6 +9,7 @@ using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
+using TypeD.Models.Data.SaveContexts;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
@@ -51,16 +52,11 @@ namespace TypeD.Models
             if (!File.Exists(path)) return;
             project.Modules.Add(module);
 
-            var CSProj = SaveModel.GetSaveContext<XElement>("ProjectCSProj") ?? XElement.Load(path);
-            ModuleModel.AddToProjectXML(module, CSProj);
+            SaveModel.AddSave<ProjectSaveContext>(project);
 
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
-            SaveModel.AddSave("ProjectCSProj", CSProj, (context) => {
-                return Task.Run(() =>
-                {
-                    (context as XElement).Save(path);
-                });
-            });
+            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(path);
+            ModuleModel.AddToProjectXML(module, projectCSProjSaveContext.CSProj);
+            SaveModel.AddSave<ProjectCSProjSaveContext>();
         }
 
         public void RemoveModule(Project project, string moduleName)
@@ -70,16 +66,11 @@ namespace TypeD.Models
             var module = project.Modules.Find(m => m.Name == moduleName);
             project.Modules.Remove(module);
 
-            var CSProj = SaveModel.GetSaveContext<XElement>("ProjectCSProj") ?? XElement.Load(path);
-            ModuleModel.RemoveFromProjectXML(module, CSProj);
+            SaveModel.AddSave<ProjectSaveContext>(project);
 
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
-            SaveModel.AddSave("ProjectCSProj", CSProj, (context) => {
-                return Task.Run(() =>
-                {
-                    (context as XElement).Save(path);
-                });
-            });
+            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(path);
+            ModuleModel.RemoveFromProjectXML(module, projectCSProjSaveContext.CSProj);
+            SaveModel.AddSave<ProjectCSProjSaveContext>();
 
             ModuleModel.UnloadAssembly(module);
         }
@@ -121,19 +112,9 @@ namespace TypeD.Models
 
         public void SaveCode(Codalyzer code)
         {
-            var codes = SaveModel.GetSaveContext<List<Codalyzer>>("Code") ?? new List<Codalyzer>();
-            codes.Add(code);
-            SaveModel.AddSave("Code", codes,
-                (context) => {
-                    return Task.Run(() =>
-                    {
-                        foreach (var saveCode in context as List<Codalyzer>)
-                        {
-                            saveCode.Generate();
-                            saveCode.Save();
-                        }
-                    });
-                });
+            var codeSaveContext = SaveModel.GetSaveContext<CodeSaveContext>();
+            codeSaveContext.Codes.Add(code);
+            SaveModel.AddSave<CodeSaveContext>();
         }
 
         public void InitAndSaveCode(Project project, Codalyzer code)
@@ -148,7 +129,7 @@ namespace TypeD.Models
             if (scene.TypeOBaseType != typeof(Scene)) return;
             project.StartScene = scene.FullName;
 
-            SaveModel.AddSave("Project", () => { return ProjectProvider.Save(project); });
+            SaveModel.AddSave<ProjectSaveContext>(project);
 
             var gameCode = ComponentProvider.Load(project, $"{project.ProjectName}.{project.ProjectName}Game");
 

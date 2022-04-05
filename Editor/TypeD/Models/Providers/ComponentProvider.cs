@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.Data.SaveContexts;
 using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
@@ -59,30 +60,9 @@ namespace TypeD.Models.Providers
 
         public void Save(Project project, Component component)
         {
-            var components = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
-            components.Add(component);
-
-            SaveModel.AddSave("Components", components, (context) =>
-            {
-                return Task.Run(() => {
-                    var saveComponents = context as List<Component>;
-                    foreach (var saveComponent in saveComponents)
-                    {
-                        JSON.Serialize(new ComponentDTO()
-                        {
-                            ClassName = saveComponent.ClassName,
-                            Interfaces = saveComponent.Interfaces.Select(i => i.FullName).ToList(),
-                            Namespace = saveComponent.Namespace,
-                            ParentComponent = saveComponent.ParentComponent?.FullName ?? "",
-                            TemplateClass = saveComponent.TemplateClass.FullName,
-                            TypeOBaseType = saveComponent.TypeOBaseType.FullName,
-                            Children = saveComponent.Children.Select(c => c.FullName).ToList()
-                        }, GetPath(project, saveComponent.FullName));
-                    }
-                    if (!project.IsClosing)
-                        ProjectModel.BuildComponentTree(project);
-                });
-            });
+            var componentSaveContext = SaveModel.GetSaveContext<ComponentSaveContext>(project);
+            componentSaveContext.Components.Add(component);
+            SaveModel.AddSave<ComponentSaveContext>();
         }
 
         public Component Load(Project project, string fullName)
@@ -132,31 +112,10 @@ namespace TypeD.Models.Providers
 
         public void Delete(Project project, Component component)
         {
-            var components = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
-            components.Remove(component);
-            var delComponents = SaveModel.GetSaveContext<List<Component>>("deleted_components") ?? new List<Component>();
-            delComponents.Add(component);
-
-            SaveModel.AddSave("deleted_components", delComponents, (context) =>
-            {
-                return Task.Run(() =>
-                {
-                    var deleteComponents = context as List<Component>;
-                    foreach (var delComponent in deleteComponents)
-                    {
-                        if (Exists(project, delComponent))
-                        {
-                            File.Delete(GetPath(project, delComponent.FullName));
-                            var csFile = Path.Combine(project.Location, $"{delComponent.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
-                            var csTypeDFile = Path.Combine(project.Location, $"{delComponent.FullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
-                            if (File.Exists(csFile))
-                                File.Delete(csFile);
-                            if (File.Exists(csTypeDFile))
-                                File.Delete(csTypeDFile);
-                        }
-                    }
-                });
-            });
+            var componentSaveContext = SaveModel.GetSaveContext<ComponentSaveContext>(project);
+            componentSaveContext.Components.RemoveAll(c => c.FullName == component.FullName);
+            componentSaveContext.DeletedComponents.Add(component);
+            SaveModel.AddSave<ComponentSaveContext>();
 
             ProjectModel.BuildComponentTree(project);
         }
@@ -166,36 +125,9 @@ namespace TypeD.Models.Providers
             var oldClassname = component.ClassName;
             component.ClassName = newClassName;
 
-            var renameComponents = SaveModel.GetSaveContext<List<Tuple<string, Component>>>("renamed_components") ?? new List<Tuple<string, Component>>();
-            renameComponents.Add(new Tuple<string, Component>(oldClassname, component));
-
-            SaveModel.AddSave("renamed_components", renameComponents, (context) =>
-            {
-                return Task.Run(() =>
-                {
-                    var renameComponents = context as List<Tuple<string, Component>>;
-                    foreach (var renameComponent in renameComponents)
-                    {
-                        var oldFullName = $"{renameComponent.Item2.Namespace}.{renameComponent.Item1}";
-
-                        File.Delete(GetPath(project, oldFullName));
-                        var csFile = Path.Combine(project.Location, $"{oldFullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
-                        var csTypeDFile = Path.Combine(project.Location, $"{oldFullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
-                        var csFileNew = Path.Combine(project.Location, $"{renameComponent.Item2.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
-                        var csTypeDFileNew = Path.Combine(project.Location, $"{renameComponent.Item2.FullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
-                        if (File.Exists(csFile))
-                        {
-                            File.Move(csFile, csFileNew);
-                            File.WriteAllText(csFileNew, File.ReadAllText(csFileNew).Replace($"class {renameComponent.Item1}", $"class {renameComponent.Item2.ClassName}"));
-                        }
-                        if (File.Exists(csTypeDFile))
-                        {
-                            File.Move(csTypeDFile, csTypeDFileNew);
-                            File.WriteAllText(csTypeDFileNew, File.ReadAllText(csTypeDFileNew).Replace($"class {renameComponent.Item1}", $"class {renameComponent.Item2.ClassName}"));
-                        }
-                    }
-                });
-            });
+            var componentSaveContext = SaveModel.GetSaveContext<ComponentSaveContext>(project);
+            componentSaveContext.RenamedComponents.Add(new Tuple<string, Component>(oldClassname, component));
+            SaveModel.AddSave<ComponentSaveContext>();
 
             Save(project, component);
 
@@ -204,7 +136,7 @@ namespace TypeD.Models.Providers
 
         public bool Exists(Project project, Component component)
         {
-            return File.Exists(GetPath(project, component.FullName));
+            return File.Exists(GetPath(project, component));
         }
 
         public bool Exists(Project project, Type type)
@@ -220,25 +152,27 @@ namespace TypeD.Models.Providers
             var files = Directory.GetFiles(path, $"*.{ComponentFileEnding}", SearchOption.AllDirectories);
             var components = files.Select((f) => { return LoadFromPath(project, f); }).ToList();
 
-            var unsavedComponents = SaveModel.GetSaveContext<List<Component>>("Components") ?? new List<Component>();
-            var delComponents = SaveModel.GetSaveContext<List<Component>>("deleted_components") ?? new List<Component>();
-            var renamedComponents = SaveModel.GetSaveContext<List<Tuple<string, Component>>>("renamed_components") ?? new List<Tuple<string, Component>>();
+            var componentSaveContext = SaveModel.GetSaveContext<ComponentSaveContext>(project);
             
-            var retList = components.Union(unsavedComponents)
+            var retList = components.Union(componentSaveContext.Components)
                                     .GroupBy(t => t.FullName)
                                     .Select(t => t.First())
                                     .ToList();
-            retList.RemoveAll(c => delComponents.Exists(d => c.FullName == d.FullName));
-            retList.RemoveAll(c => renamedComponents.Exists(r => c.FullName == $"{r.Item2.Namespace}.{r.Item1}"));
+            retList.RemoveAll(c => componentSaveContext.DeletedComponents.Exists(d => c.FullName == d.FullName));
+            retList.RemoveAll(c => componentSaveContext.RenamedComponents.Exists(r => c.FullName == $"{r.Item2.Namespace}.{r.Item1}"));
             return retList;
         }
 
-        // Internal
-        private string GetPath(Project project, string fullName)
+        public string GetPath(Project project, Component component)
+        {
+            return GetPath(project, component.FullName);
+        }
+        public string GetPath(Project project, string fullName)
         {
             return Path.Combine(GetPath(project), $"{fullName.Replace('.', Path.DirectorySeparatorChar)}.{ComponentFileEnding}");
         }
 
+        // Internal
         private string GetPath(Project project)
         {
             return Path.Combine(project.ProjectTypeOPath, "components");

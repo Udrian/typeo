@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TypeD.Models.Interfaces;
 
@@ -7,14 +8,8 @@ namespace TypeD.Models
 {
     public class SaveModel : ISaveModel
     {
-        private class SaveContext
-        {
-            public Func<object, Task> SaveAction { get; set; }
-            public object Context { get; set; }
-        }
-
         // Data
-        private Dictionary<string, SaveContext> SaveContexts { get; set; }
+        private Dictionary<Type, ISaveModel.SaveContext> SaveContexts { get; set; }
 
         // Models
         IResourceModel ResourceModel { get; set; }
@@ -23,7 +18,7 @@ namespace TypeD.Models
         // Constructors
         public SaveModel()
         {
-            SaveContexts = new Dictionary<string, SaveContext>();
+            SaveContexts = new Dictionary<Type, ISaveModel.SaveContext>();
         }
 
         public void Init(IResourceModel resourceModel)
@@ -33,40 +28,43 @@ namespace TypeD.Models
             UINotifyModel = ResourceModel.Get<IUINotifyModel>();
         }
 
+        // Properties
+        public bool AnythingToSave { get { return SaveContexts.Any(c => c.Value.ShouldSave); } }
+
         // Functions
-        public bool AnythingToSave { get { return SaveContexts.Count != 0; } }
-
-        public void AddSave(string contextId, Func<Task> saveAction)
+        public void AddSave<T>(object param = null) where T : ISaveModel.SaveContext, new()
         {
-            AddSave(contextId, null, (o) => { return saveAction(); });
-        }
-
-        public void AddSave(string contextId, object context, Func<object, Task> saveAction)
-        {
-            if(!SaveContextExists(contextId))
+            var context = GetSaveContext<T>(param);
+            if(!context.ShouldSave)
             {
-                SaveContexts.Add(contextId, new SaveContext() { Context = context, SaveAction = saveAction });
+                context.ShouldSave = true;
 
                 UINotifyModel.Notify("AnythingToSave");
             }
         }
 
-        public bool SaveContextExists(string contextId)
+        public bool SaveContextExists<T>() where T : ISaveModel.SaveContext, new()
         {
-            return SaveContexts.ContainsKey(contextId);
+            return SaveContexts.ContainsKey(typeof(T));
         }
 
-        public T GetSaveContext<T>(string contextId)
+        public T GetSaveContext<T>(object param = null) where T : ISaveModel.SaveContext, new()
         {
-            if (!SaveContextExists(contextId)) return default;
-            return (T)SaveContexts[contextId].Context;
+            if (!SaveContextExists<T>())
+            {
+                var newContext = new T();
+                SaveContexts.Add(typeof(T), newContext);
+                newContext.Init(ResourceModel, param);
+            }
+            return SaveContexts[typeof(T)] as T;
         }
 
         public async Task Save()
         {
             foreach(var saveContext in SaveContexts.Values)
             {
-                await saveContext.SaveAction(saveContext.Context);
+                if(saveContext.ShouldSave)
+                    await saveContext.SaveAction();
             }
             SaveContexts.Clear();
             UINotifyModel.Notify("AnythingToSave");

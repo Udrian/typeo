@@ -7,6 +7,7 @@ using TypeD.Code;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
+using TypeDCore.Models.Data.SaveContexts;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Entities;
@@ -89,19 +90,9 @@ namespace TypeDCore.Models
 
                         if (needToSave)
                         {
-                            var codes = SaveModel.GetSaveContext<Dictionary<string, string>>("TypeDCoreRestoreCode") ?? new Dictionary<string, string>();
-                            codes.Add(csFilePath, fileContent);
-                            SaveModel.AddSave("TypeDCoreRestoreCode", codes,
-                                (context) =>
-                                {
-                                    return Task.Run(() =>
-                                    {
-                                        foreach (var saveCode in context as Dictionary<string, string>)
-                                        {
-                                            File.WriteAllText(saveCode.Key, saveCode.Value);
-                                        }
-                                    });
-                                });
+                            var typeDCoreRestoreSaveContext = SaveModel.GetSaveContext<TypeDCoreRestoreSaveContext>();
+                            typeDCoreRestoreSaveContext.RestoreCodes.Add(csFilePath, fileContent);
+                            SaveModel.AddSave<TypeDCoreRestoreSaveContext>();
                         }
                     }
                 }

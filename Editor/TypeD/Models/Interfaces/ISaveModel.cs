@@ -1,15 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace TypeD.Models.Interfaces
 {
     public interface ISaveModel : IModel
     {
+        public abstract class SaveContext
+        {
+            public abstract void Init(IResourceModel resourceModel, object param = null);
+            public abstract Task SaveAction();
+            internal bool ShouldSave { get; set; }
+        }
+
         public bool AnythingToSave { get; }
-        public void AddSave(string contextId, Func<Task> saveAction);
-        public void AddSave(string contextId, object context, Func<object, Task> saveAction);
-        public bool SaveContextExists(string contextId);
-        public T GetSaveContext<T>(string contextId);
+        public void AddSave<T>(object param = null) where T : SaveContext, new();
+        public bool SaveContextExists<T>() where T : SaveContext, new();
+        public T GetSaveContext<T>(object param = null) where T : SaveContext, new();
         public Task Save();
     }
 }

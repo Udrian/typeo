@@ -15,5 +15,7 @@ namespace TypeD.Models.Providers.Interfaces
         public bool Exists(Project project, Component component);
         public bool Exists(Project project, Type type);
         public List<Component> ListAll(Project project);
+        public string GetPath(Project project, Component component);
+        public string GetPath(Project project, string fullName);
     }
 }
