@@ -13,6 +13,7 @@ using TypeDCore.Commands;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
+using TypeDCore.ComponentTemplates;
 
 namespace TypeDCore
 {
@@ -68,7 +69,7 @@ namespace TypeDCore
 
         void ProjectCreate(ProjectCreateHook hook)
         {
-            ComponentProvider.Create<GameCode>(
+            ComponentProvider.Create<GameComponent>(
                 hook.Project,
                 $"{hook.Project.ProjectName}Game",
                 hook.Project.ProjectName

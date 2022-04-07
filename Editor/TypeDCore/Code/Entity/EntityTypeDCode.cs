@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Code.Entity
 {
-    partial class EntityCode : ComponentTypeCode
+    public partial class EntityCode : ComponentTypeCode
     {
         // Properties
         public List<string> Drawables { get; set; }

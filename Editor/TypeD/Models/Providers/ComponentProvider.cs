@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TypeD.Code;
+using TypeD.Components;
 using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Data.SaveContexts;
@@ -34,9 +35,9 @@ namespace TypeD.Models.Providers
         }
 
         // Functions
-        public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTypeCode
+        public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTemplate
         {
-            Type codeType = typeof(T);
+            Type componentTemplateType = typeof(T);
 
             var component = TranslateComponentDTO(project, new ComponentDTO()
             {
@@ -44,14 +45,16 @@ namespace TypeD.Models.Providers
                 Interfaces = interfaces ?? new List<string>(),
                 Namespace = @namespace,
                 ParentComponent = parentComponent?.FullName ?? "",
-                TemplateClass = codeType.FullName
+                TemplateClass = componentTemplateType.FullName
             });
             component.ParentComponent = parentComponent;
 
-            var code = Activator.CreateInstance(codeType, component) as T;
-            component.TypeOBaseType = code.TypeOBaseType;
-            ProjectModel.InitAndSaveCode(project, code);
-            component.Code = code;
+            //TODO: Look over this onces more
+            var template = Activator.CreateInstance(componentTemplateType) as T;
+            template.CreateCode(component);
+            component.TypeOBaseType = template.Code.TypeOBaseType;
+            ProjectModel.InitAndSaveCode(project, template.Code);
+            template.Init();
 
             Save(project, component);
 
@@ -80,9 +83,10 @@ namespace TypeD.Models.Providers
 
             var component = TranslateComponentDTO(project, dto);
 
-            var code = Activator.CreateInstance(component.TemplateClass, component) as ComponentTypeCode;
-            ProjectModel.InitCode(project, code);
-            component.Code = code;
+            //TODO: Look over this onces more
+            component.Template.CreateCode(component);
+            ProjectModel.InitCode(project, component.Template.Code);
+            component.Template.Init();
 
             return component;
         }
@@ -98,9 +102,9 @@ namespace TypeD.Models.Providers
                                     .FirstOrDefault(t => t.FullName.Equals(i))).ToList(),
                 Namespace = dto.Namespace,
                 ParentComponent = Load(project, dto.ParentComponent),
-                TemplateClass = AppDomain.CurrentDomain.GetAssemblies()
+                Template = Activator.CreateInstance(AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(a => a.GetTypes())
-                                .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass)),
+                                .FirstOrDefault(t => t.FullName.Equals(dto.TemplateClass))) as ComponentTemplate,
                 TypeOBaseType = AppDomain.CurrentDomain.GetAssemblies()
                                 .SelectMany(a => a.GetTypes())
                                 .FirstOrDefault(t => t.FullName.Equals(dto.TypeOBaseType)),

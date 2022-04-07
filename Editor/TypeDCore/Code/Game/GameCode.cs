@@ -5,7 +5,7 @@ using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Game
 {
-    partial class GameCode : ComponentTypeCode
+    public partial class GameCode : ComponentTypeCode
     {
         // Properties
         public override Type TypeOBaseType { get { return typeof(TypeOEngine.Typedeaf.Core.Game); } }

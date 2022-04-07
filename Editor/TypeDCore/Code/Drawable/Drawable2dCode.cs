@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDCore.Code.Drawable
 {
-    class Drawable2dCode : ComponentTypeCode
+    public class Drawable2dCode : ComponentTypeCode
     {
         // Properties
         public override Type TypeOBaseType { get { return typeof(Drawable2d); } }

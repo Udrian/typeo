@@ -5,7 +5,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeDCore.Code.Game
 {
-    partial class GameCode : ComponentTypeCode
+    public partial class GameCode : ComponentTypeCode
     {
         // Provider
         IComponentProvider ComponentProvider { get; set; }

@@ -118,7 +118,7 @@ namespace TypeDCore.Models
                     {
                         var updatable = component.Interfaces.Contains(typeof(IUpdatable));
                         var drawable = component.Interfaces.Contains(typeof(IDrawable));
-                        ProjectModel.SaveCode(component.Code);
+                        ProjectModel.SaveCode(component.Template.Code);
                         updateTree = true;
                     }
                 }
@@ -126,7 +126,7 @@ namespace TypeDCore.Models
                 {
                     if (!File.Exists(csFile) || !File.Exists(csTypeDFile))
                     {
-                        ProjectModel.SaveCode(component.Code);
+                        ProjectModel.SaveCode(component.Template.Code);
                         updateTree = true;
                     }
                 }
@@ -134,7 +134,7 @@ namespace TypeDCore.Models
                 {
                     if (!File.Exists(csFile))
                     {
-                        ProjectModel.SaveCode(component.Code);
+                        ProjectModel.SaveCode(component.Template.Code);
                         updateTree = true;
                     }
                 }
@@ -142,7 +142,7 @@ namespace TypeDCore.Models
                 {
                     if (!File.Exists(Path.Combine(project.Location, project.ProjectName, $"{project.ProjectName}Game.cs")))
                     {
-                        ProjectModel.SaveCode(component.Code);
+                        ProjectModel.SaveCode(component.Template.Code);
                     }
                 }
             }

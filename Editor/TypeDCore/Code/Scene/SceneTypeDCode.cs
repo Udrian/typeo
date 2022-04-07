@@ -4,7 +4,7 @@ using TypeD.Helpers;
 
 namespace TypeDCore.Code.Scene
 {
-    partial class SceneCode : ComponentTypeCode
+    public partial class SceneCode : ComponentTypeCode
     {
         // Properties
         public List<string> Entities { get; set; }

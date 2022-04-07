@@ -8,7 +8,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Code.Entity
 {
-    partial class EntityCode : ComponentTypeCode
+    public partial class EntityCode : ComponentTypeCode
     {
         // Properties
         public override Type TypeOBaseType { get { return typeof(Entity2d); } }

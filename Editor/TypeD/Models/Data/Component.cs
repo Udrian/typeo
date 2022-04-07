@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TypeD.Code;
+using TypeD.Components;
 
 namespace TypeD.Models.Data
 {
@@ -9,12 +10,11 @@ namespace TypeD.Models.Data
         // Properties
         public string ClassName { get; set; }
         public string Namespace { get; set; }
-        public Type TemplateClass { get; set; }
+        public ComponentTemplate Template { get; set; }
         public string FullName { get { return $"{Namespace}.{ClassName}"; } }
         public Component ParentComponent { get; set; }
         public List<Type> Interfaces { get; set; }
         public Type TypeOBaseType { get; set; }
-        public Codalyzer Code { get; set; }
         public List<Component> Children { get; set; }
 
         public Component()

@@ -5,6 +5,7 @@ using TypeD.Models.Providers.Interfaces;
 using TypeDCore.Code.Drawable;
 using TypeDCore.Code.Entity;
 using TypeDCore.Code.Scene;
+using TypeDCore.ComponentTemplates;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
@@ -43,7 +44,7 @@ namespace TypeDCore.Models
                 interfaces.Add(typeof(IDrawable).FullName);
             }
 
-            ComponentProvider.Create<EntityCode>(
+            ComponentProvider.Create<EntityComponent>(
                 project,
                 className,
                 @namespace,
@@ -56,7 +57,7 @@ namespace TypeDCore.Models
         {
             @namespace = ProjectModel.TransformNamespaceString(project, @namespace);
 
-            ComponentProvider.Create<SceneCode>(
+            ComponentProvider.Create<SceneComponent>(
                 project,
                 className,
                 @namespace,
@@ -68,7 +69,7 @@ namespace TypeDCore.Models
         {
             @namespace = ProjectModel.TransformNamespaceString(project, @namespace);
 
-            ComponentProvider.Create<Drawable2dCode>(
+            ComponentProvider.Create<Drawable2dComponent>(
                 project,
                 className,
                 @namespace,

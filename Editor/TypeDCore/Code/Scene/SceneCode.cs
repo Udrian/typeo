@@ -5,7 +5,7 @@ using TypeD.Models.Data;
 
 namespace TypeDCore.Code.Scene
 {
-    partial class SceneCode : ComponentTypeCode
+    public partial class SceneCode : ComponentTypeCode
     {
         // Properties
         public override Type TypeOBaseType { get { return typeof(TypeOEngine.Typedeaf.Core.Scene); } }

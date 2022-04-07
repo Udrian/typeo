@@ -9,7 +9,7 @@ namespace TypeDitor.Commands
     class OpenComponentCommand : ProjectCommands
     {
         // ViewModel
-        MainWindowViewModel MainWindowViewModel { get; set; }
+        MainWindowViewModel MainWindowViewModel { get; set; } //TODO: NOT LIKE THIS
 
         // Models
         IHookModel HookModel { get; set; }

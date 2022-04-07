@@ -131,9 +131,9 @@ namespace TypeD.Models
 
             SaveModel.AddSave<ProjectSaveContext>(project);
 
-            var gameCode = ComponentProvider.Load(project, $"{project.ProjectName}.{project.ProjectName}Game");
+            var gameComponent = ComponentProvider.Load(project, $"{project.ProjectName}.{project.ProjectName}Game");
 
-            SaveCode(gameCode.Code);
+            SaveCode(gameComponent.Template.Code);
         }
 
         public void BuildComponentTree(Project project)
