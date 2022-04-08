@@ -20,7 +20,6 @@ namespace TypeDCore.Code.Entity
         {
             Updatable = component.Interfaces.Contains(typeof(IUpdatable));
             Drawable = component.Interfaces.Contains(typeof(IDrawable)); ;
-            Drawables = new List<string>();
         }
         protected override void InitClass()
         {

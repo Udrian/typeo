@@ -13,7 +13,6 @@ namespace TypeDCore.Code.Scene
         // Constructors
         public SceneCode(Component component) : base(component)
         {
-            Entities = new List<string>();
         }
 
         protected override void InitClass()

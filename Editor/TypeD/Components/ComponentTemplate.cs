@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using TypeD.Code;
+using TypeD.Helpers;
 using TypeD.Models.Data;
 
 namespace TypeD.Components
@@ -13,6 +15,9 @@ namespace TypeD.Components
         internal ComponentTemplate() { }
         internal abstract void CreateCode(Component component);
         public abstract void Init();
+
+        // Functions
+        public abstract void ChildrenFilter(FilterHelper filter);
     }
 
     public abstract class ComponentTemplate<T> : ComponentTemplate where T : ComponentTypeCode

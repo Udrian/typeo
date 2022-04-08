@@ -16,16 +16,15 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="5" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="{Binding FullName}" Grid.Row="0" Grid.Column="1" FontWeight="Bold" />
-                        <TextBlock Text="{Binding TypeOBaseType}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="10" TextTrimming="CharacterEllipsis" />
+                        <TextBlock Text="{Binding FullName}" Grid.Row="0" Margin="20,0,0,0" HorizontalAlignment="Left" FontWeight="Bold" />
+                        <TextBlock Text="{Binding TypeOBaseType}" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" FontSize="10" TextTrimming="CharacterEllipsis" />
                     </Grid>
 
                 </DataTemplate>

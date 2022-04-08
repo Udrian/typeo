@@ -13,7 +13,7 @@ namespace TypeDitor.ViewModel.Panels
     public class ComponentViewModel : ViewModelBase
     {
         // Definitions
-        public class Node
+        public class Node : ViewModelBase
         {
             public Component Component { get; set; }
 

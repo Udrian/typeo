@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using TypeD.Code;
 using TypeD.Helpers;
+using TypeOEngine.Typedeaf.Core.Entities;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
@@ -8,30 +10,21 @@ namespace TypeDCore.Code.Entity
 {
     public partial class EntityCode : ComponentTypeCode
     {
-        // Properties
-        public List<string> Drawables { get; set; }
-
         // Constructors
         protected override void InitTypeDClass()
         {
-            var drawablesStartBlock = "//Drawables start block";
-            var drawablesEndBlock = "//Drawables end block";
-
             AddFunction(new Function("public override void Initialize()", () => {
                 if (!IsBaseComponentType)
                 {
                     Writer.AddLine("base.Initialize();");
                 }
-                if (Drawables.Count > 0)
+                foreach (var child in Component.Children)
                 {
-                    Writer.AddLine(drawablesStartBlock);
-                    foreach (var drawable in Drawables)
-                    {
-                        Writer.AddLine($"Drawables.Create<{drawable}>();");
-                    }
-                    Writer.AddLine(drawablesEndBlock);
+                    if (child.TypeOBaseType == typeof(Entity2d))
+                        Writer.AddLine($"Entities.Create<{child.FullName}>();");
+                    else if (child.TypeOBaseType == typeof(Drawable2d))
+                        Writer.AddLine($"Drawables.Create<{child.FullName}>();");
                 }
-
                 if (IsBaseComponentType)
                 {
                     Writer.AddLine("InternalInitialize();");
@@ -52,8 +45,6 @@ namespace TypeDCore.Code.Entity
                 AddProperty(new Property("public bool Hidden"));
                 AddProperty(new Property("public int DrawOrder"));
             }
-
-            Drawables = FileHelper.FetchStringList(FilePath(), drawablesStartBlock, drawablesEndBlock);
         }
     }
 }

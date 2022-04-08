@@ -36,6 +36,7 @@ namespace TypeDCore
         DeleteComponentTypeCommand DeleteComponentTypeCommand { get; set; }
         RenameComponentTypeCommand RenameComponentTypeCommand { get; set; }
         SetStartSceneCommand SetStartSceneCommand { get; set; }
+        AddComponentCommand AddComponentCommand { get; set; }
 
         public override void Initializer()
         {
@@ -59,6 +60,7 @@ namespace TypeDCore
             DeleteComponentTypeCommand = new DeleteComponentTypeCommand(Resources);
             RenameComponentTypeCommand = new RenameComponentTypeCommand(Resources);
             SetStartSceneCommand = new SetStartSceneCommand(Resources);
+            AddComponentCommand = new AddComponentCommand(Resources);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -252,7 +254,8 @@ namespace TypeDCore
                 hook.Menu.Items.Add(
                     new MenuItem()
                     {
-                        Name = "Open Component",
+                        Name = "_Open Component",
+                        ClickParameter = "LoadedProject",
                         Click = (param) => { throw new NotImplementedException(); }
                     }
                 );
@@ -260,7 +263,28 @@ namespace TypeDCore
                 return;
             }
 
+            hook.Menu.Items.Add(
+                new MenuItem()
+                {
+                    Name = "_Add Component",
+                    ClickParameter = "LoadedProject",
+                    Click = (param) =>
+                    {
+                        AddComponentCommand.Execute(new AddComponentCommandData() { ToComponent = hook.SelectedComponent ?? hook.OpenedComponent, Project = param as Project});
+                    }
+                }
+            );
 
+
+
+            hook.Menu.Items.Add(
+                new MenuItem()
+                {
+                    Name = "Close",
+                    ClickParameter = "LoadedProject",
+                    Click = (param) => { throw new NotImplementedException(); }
+                }
+            );
         }
 
         public override void Uninitializer()

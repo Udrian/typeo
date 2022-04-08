@@ -1,20 +1,14 @@
 ﻿using System.Collections.Generic;
 using TypeD.Code;
-using TypeD.Helpers;
+using TypeOEngine.Typedeaf.Core.Entities;
 
 namespace TypeDCore.Code.Scene
 {
     public partial class SceneCode : ComponentTypeCode
     {
-        // Properties
-        public List<string> Entities { get; set; }
-
         // Constructors
         protected override void InitTypeDClass()
         {
-            var entityStartBlock = "//Entity start block";
-            var entityEndBlock = "//Entity end block";
-
             AddUsings(new List<string>()
             {
                 "TypeOEngine.Typedeaf.Core.Common"
@@ -25,14 +19,10 @@ namespace TypeDCore.Code.Scene
                 {
                     Writer.AddLine("base.Initialize();");
                 }
-                if (Entities.Count > 0)
+                foreach (var child in Component.Children)
                 {
-                    Writer.AddLine(entityStartBlock);
-                    foreach (var entity in Entities)
-                    {
-                        Writer.AddLine($"Entities.Create<{entity}>();");
-                    }
-                    Writer.AddLine(entityEndBlock);
+                    if(child.TypeOBaseType == typeof(Entity2d))
+                        Writer.AddLine($"Entities.Create<{child.FullName}>();");
                 }
                 if (IsBaseComponentType)
                 {
@@ -63,8 +53,6 @@ namespace TypeDCore.Code.Scene
                     Writer.AddLine("base.Draw();");
                 }
             }));
-
-            Entities = FileHelper.FetchStringList(FilePath(), entityStartBlock, entityEndBlock);
         }
     }
 }
