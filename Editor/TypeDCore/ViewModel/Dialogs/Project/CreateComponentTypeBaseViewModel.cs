@@ -67,7 +67,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
         public void OpenComponents()
         {
             var dialog = new ComponentSelectorDialog(Project);
-            dialog.ViewModel.FilteredTypes = $"{ComponentBaseType};";
+            dialog.ViewModel.TypeFilter.Filters = $"{ComponentBaseType};";
             dialog.ViewModel.UpdateFilter();
 
             if (dialog.ShowDialog() == true && dialog.ViewModel.SelectedComponent != null)

@@ -31,7 +31,7 @@ namespace TypeDCore.View.Dialogs.Project
 
         private void tbFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            ViewModel.FilteredNames = tbFilter.Text;
+            ViewModel.NameFilter.Filters = tbFilter.Text;
             ViewModel.UpdateFilter();
         }
     }
