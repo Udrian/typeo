@@ -10,7 +10,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Data.SaveContexts
 {
-    public class ComponentSaveContext : ISaveModel.SaveContext
+    public class ComponentSaveContext : SaveContext
     {
         // Models
         IProjectModel ProjectModel { get; set; }

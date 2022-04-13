@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
@@ -9,7 +10,7 @@ namespace TypeD.Models
     public class SaveModel : ISaveModel
     {
         // Data
-        private Dictionary<Type, ISaveModel.SaveContext> SaveContexts { get; set; }
+        private Dictionary<Type, SaveContext> SaveContexts { get; set; }
 
         // Models
         IResourceModel ResourceModel { get; set; }
@@ -18,7 +19,7 @@ namespace TypeD.Models
         // Constructors
         public SaveModel()
         {
-            SaveContexts = new Dictionary<Type, ISaveModel.SaveContext>();
+            SaveContexts = new Dictionary<Type, SaveContext>();
         }
 
         public void Init(IResourceModel resourceModel)
@@ -32,7 +33,7 @@ namespace TypeD.Models
         public bool AnythingToSave { get { return SaveContexts.Any(c => c.Value.ShouldSave); } }
 
         // Functions
-        public void AddSave<T>(object param = null) where T : ISaveModel.SaveContext, new()
+        public void AddSave<T>(object param = null) where T : SaveContext, new()
         {
             var context = GetSaveContext<T>(param);
             if(!context.ShouldSave)
@@ -43,12 +44,12 @@ namespace TypeD.Models
             }
         }
 
-        public bool SaveContextExists<T>() where T : ISaveModel.SaveContext, new()
+        public bool SaveContextExists<T>() where T : SaveContext, new()
         {
             return SaveContexts.ContainsKey(typeof(T));
         }
 
-        public T GetSaveContext<T>(object param = null) where T : ISaveModel.SaveContext, new()
+        public T GetSaveContext<T>(object param = null) where T : SaveContext, new()
         {
             if (!SaveContextExists<T>())
             {

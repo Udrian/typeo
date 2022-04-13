@@ -5,7 +5,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models.Data.SaveContexts
 {
-    public class CodeSaveContext : ISaveModel.SaveContext
+    public class CodeSaveContext : SaveContext
     {
         // Properties
         public List<Codalyzer> Codes { get; set; }

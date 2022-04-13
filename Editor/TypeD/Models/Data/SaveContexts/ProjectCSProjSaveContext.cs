@@ -4,7 +4,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models.Data.SaveContexts
 {
-    public class ProjectCSProjSaveContext : ISaveModel.SaveContext
+    public class ProjectCSProjSaveContext : SaveContext
     {
         // Properties
         public string Path { get; set; }

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeDCore.Models.Data.SaveContexts
 {
-    public class TypeDCoreRestoreSaveContext : ISaveModel.SaveContext
+    public class TypeDCoreRestoreSaveContext : SaveContext
     {
         // Properties
         public Dictionary<string, string> RestoreCodes { get; set; }

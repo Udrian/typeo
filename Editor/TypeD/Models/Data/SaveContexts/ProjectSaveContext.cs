@@ -4,7 +4,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Data.SaveContexts
 {
-    public class ProjectSaveContext : ISaveModel.SaveContext
+    public class ProjectSaveContext : SaveContext
     {
         // Providers
         IProjectProvider ProjectProvider { get; set; }
