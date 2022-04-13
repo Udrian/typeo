@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using TypeD.Helpers;
 using TypeD.Models.Data;
@@ -17,7 +18,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
 
         // Properties
         public List<Component> AllComponents { get; set; }
-        public List<Component> FilteredComponents { get; set; }
+        public ObservableCollection<Component> FilteredComponents { get; set; }
         public Component SelectedComponent { get; set; }
         public FilterHelper TypeFilter { get; set; }
         public FilterHelper NameFilter { get; set; }
@@ -33,7 +34,7 @@ namespace TypeDCore.ViewModel.Dialogs.Project
             ComponentProvider = ResourceModel.Get<IComponentProvider>();
 
             AllComponents = ComponentProvider.ListAll(Project);
-            FilteredComponents = new List<Component>(AllComponents);
+            FilteredComponents = new ObservableCollection<Component>(AllComponents);
         }
 
         // Functions
@@ -54,8 +55,6 @@ namespace TypeDCore.ViewModel.Dialogs.Project
 
                 FilteredComponents.Add(component);
             }
-
-            OnPropertyChanged(nameof(FilteredComponents));
         }
     }
 }

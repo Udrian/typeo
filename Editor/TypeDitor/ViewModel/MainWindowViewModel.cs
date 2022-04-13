@@ -27,7 +27,6 @@ namespace TypeDitor.ViewModel
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
-        public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Data
         public Project LoadedProject { get; private set; }
@@ -51,7 +50,6 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(mainWindow);
             RunProjectCommand = new RunProjectCommand(mainWindow);
             SaveProjectCommand = new SaveProjectCommand(mainWindow);
-            OpenComponentCommand = new OpenComponentCommand(this);
 
             UINotifyModel.Attach<MainWindowViewModel>((name) => {
                 CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified

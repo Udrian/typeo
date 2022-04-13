@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
@@ -17,8 +18,14 @@ namespace TypeD.Models
         IProjectModel ProjectModel { get; set; }
         IHookModel HookModel { get; set; }
 
+        // Data
+        List<Component> OpenComponents { get; set; }
+
         // Constructors
-        public ComponentModel() { }
+        public ComponentModel()
+        {
+            OpenComponents = new List<Component>();
+        }
 
         public void Init(IResourceModel resourceModel)
         {
@@ -28,12 +35,15 @@ namespace TypeD.Models
             HookModel = resourceModel.Get<IHookModel>();
         }
 
+        // Functions
         public void Add(Project project, Component parent, Component child)
         {
             parent.Children.Add(child);
             ComponentProvider.Save(project, parent);
             ProjectModel.SaveCode(parent.Template.Code);
 
+            // TODO: This should only happen through UINotifyModel and not with HookModel
+            UINotifyModel.Notify("Nodes");
             HookModel.Shoot(new ComponentFocusHook() { Project = project, Component = parent });
         }
 
@@ -42,6 +52,29 @@ namespace TypeD.Models
             return AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(a => a.GetTypes())
                     .FirstOrDefault(t => t.FullName.Equals(component.FullName));
+        }
+
+        public void Open(Project project, Component component)
+        {
+            if(!OpenComponents.Exists(c => c.FullName == component.FullName))
+            {
+                HookModel.Shoot(new OpenComponentHook() { Project = project, Component = component });
+                OpenComponents.Add(component);
+            }
+            HookModel.Shoot(new ComponentFocusHook() { Project = project, Component = component });
+
+            //TODO: Fix this, TypeDitor shouldnt have access to SDL
+            //MainWindowViewModel.OpenDocument($"{data.Component.ClassName}.{data.Component.TypeOBaseType}", new SDLViewerDocument(data.Project, data.Component));
+            //MainWindowViewModel.OpenDocument($"{data.Component.ClassName}.{data.Component.TypeOBaseType}", new ConsoleViewerDocument(data.Project, data.Component));
+        }
+
+        public void Close(Project project, Component component)
+        {
+            if (OpenComponents.Exists(c => c.FullName == component.FullName))
+            {
+                HookModel.Shoot(new CloseComponentHook() { Project = project, Component = component });
+                OpenComponents.RemoveAll(c => c.FullName == component.FullName);
+            }
         }
     }
 }

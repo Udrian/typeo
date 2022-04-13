@@ -16,8 +16,7 @@ namespace TypeDCore.View.Dialogs.Project
         public ComponentSelectorDialog(TypeD.Models.Data.Project project)
         {
             InitializeComponent();
-            ViewModel = new ComponentSelectorViewModel(this, project);
-            this.DataContext = ViewModel;
+            DataContext = ViewModel = new ComponentSelectorViewModel(this, project);
         }
 
         // Event Handlers

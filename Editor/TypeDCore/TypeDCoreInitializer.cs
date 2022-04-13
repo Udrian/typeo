@@ -4,11 +4,9 @@ using TypeD;
 using TypeDCore.Commands.Data;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
-using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.TreeNodes;
 using TypeD.View;
-using TypeDCore.Code.Game;
 using TypeDCore.Commands;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
@@ -19,9 +17,6 @@ namespace TypeDCore
 {
     public class TypeDCoreInitializer : TypeDModuleInitializer
     {
-        // Models
-        IProjectModel ProjectModel { get; set; }
-
         // Providers
         IComponentProvider ComponentProvider { get; set; }
 
@@ -37,12 +32,11 @@ namespace TypeDCore
         RenameComponentTypeCommand RenameComponentTypeCommand { get; set; }
         SetStartSceneCommand SetStartSceneCommand { get; set; }
         AddComponentCommand AddComponentCommand { get; set; }
+        OpenComponentCommand OpenComponentCommand { get; set; }
+        CloseComponentCommand CloseComponentCommand { get; set; }
 
         public override void Initializer()
         {
-            // Models
-            ProjectModel = Resources.Get<IProjectModel>();
-
             // Providers
             ComponentProvider = Resources.Get<IComponentProvider>();
 
@@ -61,6 +55,8 @@ namespace TypeDCore
             RenameComponentTypeCommand = new RenameComponentTypeCommand(Resources);
             SetStartSceneCommand = new SetStartSceneCommand(Resources);
             AddComponentCommand = new AddComponentCommand(Resources);
+            OpenComponentCommand = new OpenComponentCommand(Resources);
+            CloseComponentCommand = new CloseComponentCommand(Resources);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -85,6 +81,15 @@ namespace TypeDCore
                     Name = "_Project",
                     Items = new List<MenuItem>()
                     {
+                        new MenuItem()
+                        {
+                            Name = "_Open Component",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = param as Project});
+                            }
+                        },
                         new MenuItem()
                         {
                             Name = "_Create Component",
@@ -256,7 +261,9 @@ namespace TypeDCore
                     {
                         Name = "_Open Component",
                         ClickParameter = "LoadedProject",
-                        Click = (param) => { throw new NotImplementedException(); }
+                        Click = (param) => {
+                            OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = param as Project });
+                        }
                     }
                 );
 
@@ -275,14 +282,15 @@ namespace TypeDCore
                 }
             );
 
-
-
             hook.Menu.Items.Add(
                 new MenuItem()
                 {
                     Name = "Close",
                     ClickParameter = "LoadedProject",
-                    Click = (param) => { throw new NotImplementedException(); }
+                    Click = (param) =>
+                    {
+                        CloseComponentCommand.Execute(new CloseComponentCommandData() { Project = param as Project, Component = hook.OpenedComponent });
+                    }
                 }
             );
         }

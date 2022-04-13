@@ -41,7 +41,10 @@ namespace TypeDitor.ViewModel.Panels
             {
                 _component = value;
                 Nodes.Clear();
-                Nodes.Add(new Node(_component));
+                if (Component != null)
+                {
+                    Nodes.Add(new Node(_component));
+                }
                 OnPropertyChanged();
             }
         }
@@ -57,6 +60,14 @@ namespace TypeDitor.ViewModel.Panels
             HookModel.AddHook<ComponentFocusHook>((hook) =>
             {
                 Component = hook.Component;
+            });
+
+            HookModel.AddHook<CloseComponentHook>((hook) =>
+            {
+                if(Component.FullName == hook.Component.FullName)
+                {
+                    Component = null;
+                }
             });
         }
 

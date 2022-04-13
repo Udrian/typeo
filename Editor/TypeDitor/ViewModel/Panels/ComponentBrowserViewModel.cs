@@ -6,8 +6,6 @@ using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
-using TypeDitor.Commands;
-using TypeDitor.Commands.Data;
 using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
@@ -40,7 +38,7 @@ namespace TypeDitor.ViewModel.Panels
         ObservableCollection<Node> Nodes { get; set; }
 
         // Commands
-        public OpenComponentCommand OpenComponentCommand { get; set; }
+        //public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Constructors
         public ComponentBrowserViewModel(FrameworkElement element, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel) : base(element)
@@ -53,7 +51,7 @@ namespace TypeDitor.ViewModel.Panels
             Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
-            OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
+            //OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
         }
 
         // Functions
@@ -77,7 +75,7 @@ namespace TypeDitor.ViewModel.Panels
         {
             var component = node.Context.Item as Component;
             if (component == null) return;
-            OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = LoadedProject, Component = component });
+           // OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = LoadedProject, Component = component });
         }
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
