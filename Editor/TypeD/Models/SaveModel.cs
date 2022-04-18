@@ -44,6 +44,15 @@ namespace TypeD.Models
             }
         }
 
+        public async void SaveNow<T>(object param = null) where T : SaveContext, new()
+        {
+            var context = GetSaveContext<T>(param);
+
+            SaveContexts.Remove(context.GetType());
+            await context.SaveAction();
+
+        }
+
         public bool SaveContextExists<T>() where T : SaveContext, new()
         {
             return SaveContexts.ContainsKey(typeof(T));

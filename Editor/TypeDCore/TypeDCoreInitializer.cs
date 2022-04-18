@@ -12,6 +12,8 @@ using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
 using TypeDCore.ComponentTemplates;
+using TypeD.Models.Interfaces;
+using TypeD.Models.Data.SettingContexts;
 
 namespace TypeDCore
 {
@@ -20,9 +22,10 @@ namespace TypeDCore
         // Providers
         IComponentProvider ComponentProvider { get; set; }
 
-        // Internal Models
+        // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
         ITypeDCoreRestoreModel TypeDCoreRestoreModel { get; set; }
+        ISettingModel SettingModel { get; set; }
 
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
@@ -47,6 +50,9 @@ namespace TypeDCore
             Resources.Add("TypeDCoreProjectModel", TypeDCoreProjectModel);
             Resources.Add("TypeDCoreRestoreModel", TypeDCoreRestoreModel);
 
+            // Models
+            SettingModel = Resources.Get<ISettingModel>();
+
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(Resources);
             CreateSceneTypeCommand = new CreateSceneTypeCommand(Resources);
@@ -63,6 +69,9 @@ namespace TypeDCore
             Hooks.AddHook<InitUIHook>(InitUI);
             Hooks.AddHook<ComponentTypeBrowserContextMenuOpenedHook>(ComponentTypeBrowserContextMenuOpened);
             Hooks.AddHook<ComponentContextMenuHook>(ComponentContextMenuOpened);
+
+            // Settings
+            SettingModel.InitContext<MainWindowSettingContext>();
         }
 
         void ProjectCreate(ProjectCreateHook hook)
@@ -306,6 +315,9 @@ namespace TypeDCore
             Hooks.RemoveHook<InitUIHook>();
             Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
             Hooks.RemoveHook<ComponentContextMenuHook>();
+
+            // Settings
+            SettingModel.RemoveContext<MainWindowSettingContext>();
         }
     }
 }

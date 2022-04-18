@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
@@ -27,7 +25,6 @@ namespace TypeD.Models
         ILogModel LogModel { get; set; }
 
         // Providers
-        IProjectProvider ProjectProvider { get; set; }
         IComponentProvider ComponentProvider { get; set; }
 
         // Constructors
@@ -40,7 +37,6 @@ namespace TypeD.Models
             ModuleModel = ResourceModel.Get<IModuleModel>();
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
-            ProjectProvider = ResourceModel.Get<IProjectProvider>();
             ComponentProvider = ResourceModel.Get<IComponentProvider>();
             LogModel = ResourceModel.Get<ILogModel>();
         }

@@ -7,6 +7,7 @@ namespace TypeD.Models.Interfaces
     {
         public bool AnythingToSave { get; }
         public void AddSave<T>(object param = null) where T : SaveContext, new();
+        public void SaveNow<T>(object param = null) where T : SaveContext, new();
         public bool SaveContextExists<T>() where T : SaveContext, new();
         public T GetSaveContext<T>(object param = null) where T : SaveContext, new();
         public Task Save();
