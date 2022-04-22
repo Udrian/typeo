@@ -20,7 +20,7 @@ namespace TypeD.Models.Data.SaveContexts
         // Functions
         public override Task SaveAction()
         {
-            return Task.Run(async () =>
+            return Task.Run(() =>
             {
                 foreach (var setting in Settings)
                 {

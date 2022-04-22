@@ -28,6 +28,7 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Modules" Click="ModulesMenuItem_Click"/>
+                <MenuItem Header="_Options" Click="OptionsMenuItem_Click"/>
             </MenuItem>
         </Menu>
         <ToolBar DockPanel.Dock="Top">

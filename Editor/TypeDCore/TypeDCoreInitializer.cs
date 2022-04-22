@@ -69,6 +69,7 @@ namespace TypeDCore
             Hooks.AddHook<InitUIHook>(InitUI);
             Hooks.AddHook<ComponentTypeBrowserContextMenuOpenedHook>(ComponentTypeBrowserContextMenuOpened);
             Hooks.AddHook<ComponentContextMenuHook>(ComponentContextMenuOpened);
+            Hooks.AddHook<OptionsHook>(OptionsWindowOpened);
 
             // Settings
             SettingModel.InitContext<MainWindowSettingContext>();
@@ -302,6 +303,16 @@ namespace TypeDCore
                     }
                 }
             );
+        }
+
+        void OptionsWindowOpened(OptionsHook hook)
+        {
+            var mainWindowSettingContext = SettingModel.GetContext<MainWindowSettingContext>(hook.Level);
+
+            hook.Items.Add(new SettingItem("Hello World", "Hello World", mainWindowSettingContext.HelloWorld, (value) => {
+                mainWindowSettingContext.HelloWorld.Value = value as string;
+                SettingModel.SetContext(mainWindowSettingContext);
+            }));
         }
 
         public override void Uninitializer()

@@ -6,6 +6,7 @@
         public Setting<int> SizeX { get; set; } = new Setting<int>(1024);
         public Setting<int> SizeY { get; set; } = new Setting<int>(768);
         public Setting<bool> Fullscreen { get; set; } = new Setting<bool>(true);
+        public Setting<string> HelloWorld { get; set; } = new Setting<string>("Hello World");
 
         public MainWindowSettingContext()
         {

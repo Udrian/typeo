@@ -119,8 +119,14 @@ namespace TypeDitor.ViewModel
 
         public void OpenModulesWindow()
         {
-            var modulesDialog = new ModulesDialog(LoadedProject);
-            modulesDialog.Show();
+            var dialog = new ModulesDialog(LoadedProject);
+            dialog.Show();
+        }
+
+        public void OpenOptionsWindow()
+        {
+            var dialog = new OptionsDialog(LoadedProject);
+            dialog.Show();
         }
 
         public void OpenDocument(string header, object content)

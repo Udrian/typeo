@@ -47,5 +47,10 @@ namespace TypeDitor.View
         {
             e.Cancel = await ViewModel.OnClose();
         }
+
+        private void OptionsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.OpenOptionsWindow();
+        }
     }
 }

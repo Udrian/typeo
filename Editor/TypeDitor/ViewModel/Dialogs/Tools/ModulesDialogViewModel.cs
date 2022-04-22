@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using TypeD.Models.Interfaces;
@@ -58,11 +57,12 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         // Constructors
         public ModulesDialogViewModel(FrameworkElement element, TypeD.Models.Data.Project loadedProject) : base(element)
         {
+            Modules = new ObservableCollection<Module>();
+            LoadedProject = loadedProject;
+
             ModuleModel = ResourceModel.Get<IModuleModel>();
             ProjectModel = ResourceModel.Get<IProjectModel>();
             ModuleProvider = ResourceModel.Get<IModuleProvider>();
-            LoadedProject = loadedProject;
-            Modules = new ObservableCollection<Module>();
         }
 
         // Functions
