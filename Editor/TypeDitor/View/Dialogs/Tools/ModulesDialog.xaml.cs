@@ -15,9 +15,8 @@ namespace TypeDitor.View.Dialogs.Tools
         // Constructors
         public ModulesDialog(TypeD.Models.Data.Project loadedProject)
         {
+            DataContext = ModulesDialogViewModel = new ModulesDialogViewModel(this, loadedProject);
             InitializeComponent();
-            ModulesDialogViewModel = new ModulesDialogViewModel(this, loadedProject);
-            DataContext = ModulesDialogViewModel;
         }
 
         private void InstallButton_Click(object sender, RoutedEventArgs e)
