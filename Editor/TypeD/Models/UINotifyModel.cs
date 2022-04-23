@@ -6,7 +6,7 @@ using TypeD.ViewModel;
 
 namespace TypeD.Models
 {
-    public class UINotifyModel : IUINotifyModel
+    internal class UINotifyModel : IUINotifyModel
     {
         // Data
         private Dictionary<string, Action<string>> Attachments { get; set; }

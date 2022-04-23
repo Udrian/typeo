@@ -8,7 +8,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.ViewModel.Dialogs.Project
 {
-    public class CreateComponentTypeBaseViewModel : ViewModelBase
+    internal class CreateComponentTypeBaseViewModel : ViewModelBase
     {
         // Data
         TypeD.Models.Data.Project Project { get; set; }

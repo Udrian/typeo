@@ -4,7 +4,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using TypeD.Models.Data;
-using TypeDitor.ViewModel;
 using TypeDitor.ViewModel.Panels;
 
 namespace TypeDitor.View.Panels
@@ -29,8 +28,7 @@ namespace TypeDitor.View.Panels
             ViewModel = new ComponentBrowserViewModel(
                 this,
                 LoadedProject,
-                TreeView,
-                FindResource("MainWindowViewModel") as MainWindowViewModel
+                TreeView
             );
             DataContext = ViewModel;
         }

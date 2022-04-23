@@ -10,7 +10,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class SettingModel : ISettingModel
+    internal class SettingModel : ISettingModel
     {
         // Data
         Dictionary<SettingLevel, List<SettingContext>> Contexts { get; set; }

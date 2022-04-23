@@ -10,7 +10,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class ModuleModel : IModuleModel
+    internal class ModuleModel : IModuleModel
     {
         // Models
         public IHookModel HookModel { get; set; }

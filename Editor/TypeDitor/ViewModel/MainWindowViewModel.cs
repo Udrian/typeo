@@ -11,6 +11,7 @@ using TypeDitor.Commands;
 using TypeDitor.Helpers;
 using TypeDitor.View;
 using TypeDitor.View.Dialogs.Tools;
+using TypeDitor.View.Panels;
 
 namespace TypeDitor.ViewModel
 {
@@ -29,9 +30,14 @@ namespace TypeDitor.ViewModel
         public OpenProjectCommand OpenProjectCommand { get; set; }
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
+        public OpenPanelCommand OpenPanelCommand { get; set; }
 
         // Data
         public Project LoadedProject { get; private set; }
+        public TypeD.View.Panel TabsPanel { get; set; }
+        public TypeD.View.Panel ComponentPanel { get; set; }
+        public TypeD.View.Panel OutputPanel { get; set; }
+        public TypeD.View.Panel ComponentTypeBrowserPanel { get; set; }
 
         // Properties
         public int SizeX
@@ -99,10 +105,16 @@ namespace TypeDitor.ViewModel
             OpenProjectCommand = new OpenProjectCommand(mainWindow);
             RunProjectCommand = new RunProjectCommand(mainWindow);
             SaveProjectCommand = new SaveProjectCommand(mainWindow);
+            OpenPanelCommand = new OpenPanelCommand(mainWindow);
 
             UINotifyModel.Attach<MainWindowViewModel>((name) => {
                 CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
             });
+
+            TabsPanel = new TypeD.View.Panel("Tabs", new TabControl());
+            ComponentPanel = new TypeD.View.Panel("Component", new ComponentPanel(loadedProject));
+            OutputPanel = new TypeD.View.Panel("Output", new OutputPanel());
+            ComponentTypeBrowserPanel = new TypeD.View.Panel("Component Type Browser", new ComponentBrowserPanel(loadedProject));
         }
 
         // Functions
@@ -131,7 +143,7 @@ namespace TypeDitor.ViewModel
 
         public void OpenDocument(string header, object content)
         {
-            MainWindow.Tabs.Items.Add(new TabItem() { Header = header, Content = content });
+            //MainWindow.Tabs.Items.Add(new TabItem() { Header = header, Content = content });
         }
 
         public async Task<bool> OnClose()

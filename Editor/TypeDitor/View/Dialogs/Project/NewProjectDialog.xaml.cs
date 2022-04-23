@@ -1,8 +1,4 @@
-﻿using Ookii.Dialogs.Wpf;
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using TypeDitor.ViewModel.Dialogs.Project;
 
 namespace TypeDitor.View.Dialogs.Project
@@ -13,7 +9,7 @@ namespace TypeDitor.View.Dialogs.Project
     public partial class NewProjectDialog : Window
     {
         // ViewModel
-        public NewProjectViewModel ViewModel { get; set; }
+        internal NewProjectViewModel ViewModel { get; set; }
 
         // Constructors
         public NewProjectDialog()

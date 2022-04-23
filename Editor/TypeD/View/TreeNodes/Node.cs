@@ -1,26 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace TypeD.TreeNodes
+namespace TypeD.View.TreeNodes
 {
-    public class Tree : TreeNode
+    public class Node : TreeNode
     {
+        public string Name { get; set; }
+        public string Key { get; set; }
+        public object Item { get; set; }
+        public Tree Tree { get; private set; }
+        public Node Parent { get; private set; }
         public IList<Node> Nodes { get; set; }
 
-        public Tree()
+        internal Node(string name, string key, object item, Tree tree, Node parent)
         {
+            Name = name;
+            Key = key;
+            Item = item;
+            Tree = tree;
+            Parent = parent;
             Nodes = new List<Node>();
         }
 
         public void AddNode(string name, string key, object item)
         {
-            var node = new Node(name, key, item, this, null);
-            Nodes.Add(node);
-        }
-
-        internal void AddNode(Node parent, string name, string key, object item)
-        {
-            var node = new Node(name, key, item, this, parent);
-            parent.Nodes.Add(node);
+            Tree.AddNode(this, name, key, item);
         }
 
         public bool Contains(string key)
@@ -39,12 +42,7 @@ namespace TypeD.TreeNodes
 
         public void Clear()
         {
-            InternalClear();
-        }
-
-        internal void Clear(Node node)
-        {
-            node.InternalClear();
+            Tree.Clear(this);
         }
 
         internal void InternalClear()

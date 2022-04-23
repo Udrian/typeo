@@ -10,12 +10,12 @@ using TypeD.Models.Data.Hooks;
 using TypeD.Models.Data.SaveContexts;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeD.TreeNodes;
+using TypeD.View.TreeNodes;
 using TypeOEngine.Typedeaf.Core;
 
 namespace TypeD.Models
 {
-    public class ProjectModel : IProjectModel
+    internal class ProjectModel : IProjectModel
     {
         // Models
         IModuleModel ModuleModel { get; set; }

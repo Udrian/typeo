@@ -7,7 +7,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
 {
-    public class SaveModel : ISaveModel
+    internal class SaveModel : ISaveModel
     {
         // Data
         private Dictionary<Type, SaveContext> SaveContexts { get; set; }

@@ -8,7 +8,7 @@ using TypeD.ViewModel;
 
 namespace TypeDCore.ViewModel.Dialogs.Project
 {
-    public class ComponentSelectorViewModel : ViewModelBase
+    internal class ComponentSelectorViewModel : ViewModelBase
     {
         // Data
         TypeD.Models.Data.Project Project { get; set; }

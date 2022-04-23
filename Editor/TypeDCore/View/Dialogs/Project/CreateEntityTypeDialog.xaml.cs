@@ -9,7 +9,7 @@ namespace TypeDCore.View.Dialogs.Project
     public partial class CreateEntityTypeDialog : Window
     {
         // ViewModel
-        public CreateEntityTypeViewModel ViewModel { get; set; }
+        internal CreateEntityTypeViewModel ViewModel { get; set; }
 
         // Constructors
         public CreateEntityTypeDialog(TypeD.Models.Data.Project project, string @namespace)

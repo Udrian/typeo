@@ -4,7 +4,7 @@ using TypeD.ViewModel;
 
 namespace TypeDCore.ViewModel.Dialogs.Project
 {
-    public class RenameComponentTypeViewModel : ViewModelBase
+    internal class RenameComponentTypeViewModel : ViewModelBase
     {
         // Data
         public string OldName { get; set; }

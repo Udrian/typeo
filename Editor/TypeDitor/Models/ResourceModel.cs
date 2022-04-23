@@ -1,10 +1,13 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 
 namespace TypeDitor.Models
 {
-    public class ResourceModel : IResourceModel, IModel
+    internal class ResourceModel : IResourceModel, IModel
     {
         ResourceDictionary Resources { get; set; }
 
@@ -20,23 +23,47 @@ namespace TypeDitor.Models
         }
 
         // Functions
+        public void Add(List<object> values)
+        {
+            Add(values.Select(v => new Tuple<string, object>(v.GetType().Name, v)).ToList());
+        }
+
+        public void Add(object value)
+        {
+            Add(value.GetType().Name, value);
+        }
+
+        public void Add(List<Tuple<string, object>> keyValues)
+        {
+            foreach(var keyValue in keyValues)
+            {
+                Resources.Add(keyValue.Item1, keyValue.Item2);
+            }
+
+            foreach(var keyValue in keyValues)
+            {
+                Init(keyValue.Item2);
+            }
+        }
+
         public void Add(string key, object value)
         {
+            Resources.Add(key, value);
+
+            Init(value);
+        }
+
+        private void Init(object value)
+        {
             // If this is a Model or Provider then Init
-            if(value is IModel)
+            if (value is IModel)
             {
                 (value as IModel).Init(this);
             }
-            else if(value is IProvider)
+            else if (value is IProvider)
             {
                 (value as IProvider).Init(this);
             }
-
-            var resource = new ResourceDictionary
-            {
-                { key, value }
-            };
-            Resources.MergedDictionaries.Add(resource);
         }
 
         public void Remove(string key)

@@ -5,13 +5,13 @@ using TypeDCore.Commands.Data;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Providers.Interfaces;
-using TypeD.TreeNodes;
+using TypeD.View.TreeNodes;
 using TypeD.View;
 using TypeDCore.Commands;
 using TypeDCore.Models;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core;
-using TypeDCore.ComponentTemplates;
+using TypeDCore.Components;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Data.SettingContexts;
 
@@ -40,15 +40,17 @@ namespace TypeDCore
 
         public override void Initializer()
         {
-            // Providers
-            ComponentProvider = Resources.Get<IComponentProvider>();
-
             // Internal Models
             TypeDCoreProjectModel = new TypeDCoreProjectModel();
             TypeDCoreRestoreModel = new TypeDCoreRestoreModel();
 
-            Resources.Add("TypeDCoreProjectModel", TypeDCoreProjectModel);
-            Resources.Add("TypeDCoreRestoreModel", TypeDCoreRestoreModel);
+            Resources.Add(new List<object>() {
+                 TypeDCoreProjectModel,
+                 TypeDCoreRestoreModel,
+            });
+
+            // Providers
+            ComponentProvider = Resources.Get<IComponentProvider>();
 
             // Models
             SettingModel = Resources.Get<ISettingModel>();

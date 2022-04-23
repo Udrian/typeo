@@ -10,7 +10,7 @@ namespace TypeDCore.View.Dialogs.Project
     public partial class ComponentSelectorDialog : Window
     {
         // ViewModel
-        public ComponentSelectorViewModel ViewModel { get; set; }
+        internal ComponentSelectorViewModel ViewModel { get; set; }
 
         // Constructors
         public ComponentSelectorDialog(TypeD.Models.Data.Project project)

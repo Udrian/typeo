@@ -9,7 +9,7 @@ namespace TypeDCore.View.Dialogs.Project
     public partial class CreateSceneTypeDialog : Window
     {
         // ViewModel
-        public CreateComponentTypeBaseViewModel ViewModel { get; set; }
+        internal CreateComponentTypeBaseViewModel ViewModel { get; set; }
 
         // Constructors
         public CreateSceneTypeDialog(TypeD.Models.Data.Project project, string @namespace)

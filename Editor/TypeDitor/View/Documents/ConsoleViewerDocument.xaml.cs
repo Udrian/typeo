@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeD.Viewer;
+using TypeD.View.Viewer;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
 namespace TypeDitor.View.Documents

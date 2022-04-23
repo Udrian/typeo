@@ -5,9 +5,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
-using System.Windows.Interop;
 using TypeD.Models.Data;
-using TypeDSDL.Viewer;
+using TypeDSDL.View.Viewer;
 using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.SDL;
 

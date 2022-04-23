@@ -1,4 +1,4 @@
-﻿using TypeD.TreeNodes;
+﻿using TypeD.View.TreeNodes;
 
 namespace TypeD.Models.Data.Hooks
 {

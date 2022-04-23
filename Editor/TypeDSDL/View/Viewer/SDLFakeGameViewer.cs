@@ -8,12 +8,11 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Graphics;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
-using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Desktop.Engine.Services;
 using TypeOEngine.Typedeaf.SDL.Engine.Graphics;
 using Module = TypeOEngine.Typedeaf.Core.Engine.Module;
 
-namespace TypeDSDL.Viewer
+namespace TypeDSDL.View.Viewer
 {
     class SDLFakeGameViewer
     {

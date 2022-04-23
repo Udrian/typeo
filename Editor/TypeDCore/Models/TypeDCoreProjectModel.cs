@@ -2,17 +2,14 @@
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
-using TypeDCore.Code.Drawable;
-using TypeDCore.Code.Entity;
-using TypeDCore.Code.Scene;
-using TypeDCore.ComponentTemplates;
+using TypeDCore.Components;
 using TypeDCore.Models.Interfaces;
 using TypeOEngine.Typedeaf.Core.Entities.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Models
 {
-    class TypeDCoreProjectModel : ITypeDCoreProjectModel
+    internal class TypeDCoreProjectModel : ITypeDCoreProjectModel
     {
         // Models
         IProjectModel ProjectModel { get; set; }

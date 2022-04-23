@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using TypeD.Code;
 using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
@@ -17,7 +16,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.Models
 {
-    public class TypeDCoreRestoreModel : ITypeDCoreRestoreModel
+    internal class TypeDCoreRestoreModel : ITypeDCoreRestoreModel
     {
         // Models
         IRestoreModel RestoreModel { get; set; }

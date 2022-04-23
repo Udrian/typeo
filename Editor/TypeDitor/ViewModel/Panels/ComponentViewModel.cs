@@ -10,7 +10,7 @@ using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    public class ComponentViewModel : ViewModelBase
+    internal class ComponentViewModel : ViewModelBase
     {
         // Definitions
         public class Node : ViewModelBase

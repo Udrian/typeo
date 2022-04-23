@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace TypeDitor.TypeDock
+namespace TypeDitor.View.TypeDock
 {
     /// <summary>
     /// Interaction logic for TypeDockRoot.xaml
@@ -10,15 +10,15 @@ namespace TypeDitor.TypeDock
     public partial class TypeDockRoot : UserControl, INotifyPropertyChanged
     {
         // Properties
-        private string panelTitel;
         public string PanelTitel {
-            get => panelTitel;
+            get => Panel?.Title ?? "";
             set
             {
-                panelTitel = value;
+                Panel.Title = value;
                 NotifyPropertyChanged("PanelTitel");
             }
         }
+        public TypeD.View.Panel Panel { get; set; }
 
         // Constructors
         public TypeDockRoot()
@@ -34,16 +34,17 @@ namespace TypeDitor.TypeDock
         }
 
         // Functions
-        public void AddPanel(UIElement ui, string panelTitel)
+        public void AddPanel(TypeD.View.Panel panel)
         {
-            Grid.SetColumn(ui, 0);
-            Grid.SetRow(ui, 1);
+            Grid.SetColumn(panel.PanelView, 0);
+            Grid.SetRow(panel.PanelView, 1);
 
-            InnerGrid.Children.Add(ui);
-            PanelTitel = panelTitel;
+            InnerGrid.Children.Add(panel.PanelView);
+            Panel = panel;
+            NotifyPropertyChanged("PanelTitel");
         }
 
-        public TypeDockRoot AddPanel(UIElement ui, string panelTitel, Dock dock, int? length = null, bool span = false)
+        public TypeDockRoot AddPanel(TypeD.View.Panel panel, Dock dock, int? length = null, bool span = false)
         {
             var newTypeDockRoot = new TypeDockRoot();
             var leftright = false;
@@ -133,7 +134,7 @@ namespace TypeDitor.TypeDock
                 DockRoot.RowDefinitions[row].Height = new GridLength(length.Value);
             }
 
-            newTypeDockRoot.AddPanel(ui, panelTitel);
+            newTypeDockRoot.AddPanel(panel);
             DockRoot.Children.Add(newTypeDockRoot);
 
             return newTypeDockRoot;

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using TypeD.Models.DTO;
-using TypeD.TreeNodes;
+using TypeD.View.TreeNodes;
 
 namespace TypeD.Models.Data
 {

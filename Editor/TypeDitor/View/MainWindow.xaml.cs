@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeDitor.View.Panels;
 using TypeDitor.ViewModel;
 
 namespace TypeDitor.View
@@ -12,9 +11,7 @@ namespace TypeDitor.View
     public partial class MainWindow : Window
     {
         // ViewModel
-        internal MainWindowViewModel ViewModel { get; set; }
-
-        public TabControl Tabs { get; set; }
+        MainWindowViewModel ViewModel { get; set; }
 
         // Constructors
         public MainWindow(Project loadedProject)
@@ -24,14 +21,10 @@ namespace TypeDitor.View
             ViewModel = new MainWindowViewModel(this, loadedProject);
             DataContext = ViewModel;
 
-            Application.Current.Resources.Add("MainWindowViewModel", ViewModel);
-
-            Tabs = new TabControl();
-
-            DockRoot.AddPanel(Tabs, "Tabs");
-            DockRoot.AddPanel(new ComponentPanel(loadedProject), "Component", Dock.Left, 175, false);
-            var outputPanelRoot = DockRoot.AddPanel(new OutputPanel(), "Output", Dock.Bottom, 250, true);
-            outputPanelRoot.AddPanel(new ComponentBrowserPanel(loadedProject), "Component Type Browser", Dock.Right, 175, true);
+            DockRoot.AddPanel(ViewModel.TabsPanel);
+            DockRoot.AddPanel(ViewModel.ComponentPanel, Dock.Left, 175, false);
+            var outputPanelRoot = DockRoot.AddPanel(ViewModel.OutputPanel, Dock.Bottom, 250, true);
+            outputPanelRoot.AddPanel(ViewModel.ComponentTypeBrowserPanel, Dock.Right, 175, true);
 
             ViewModel.InitUI(this);
         }

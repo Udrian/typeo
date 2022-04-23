@@ -13,7 +13,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ProjectProvider : IProjectProvider
+    internal class ProjectProvider : IProjectProvider
     {
         // Models
         IResourceModel ResourceModel { get; set; }

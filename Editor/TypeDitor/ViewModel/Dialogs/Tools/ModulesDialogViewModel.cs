@@ -8,7 +8,7 @@ using TypeD.ViewModel;
 
 namespace TypeDitor.ViewModel.Dialogs.Tools
 {
-    class ModulesDialogViewModel : ViewModelBase
+    internal class ModulesDialogViewModel : ViewModelBase
     {
         public class Module : ViewModelBase
         {

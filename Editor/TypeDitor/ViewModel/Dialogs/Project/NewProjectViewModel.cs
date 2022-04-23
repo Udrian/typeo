@@ -7,10 +7,8 @@ using TypeD.ViewModel;
 
 namespace TypeDitor.ViewModel.Dialogs.Project
 {
-    public class NewProjectViewModel : ViewModelBase
+    internal class NewProjectViewModel : ViewModelBase
     {
-
-
         // Properties
         private string projectName;
         public string ProjectName

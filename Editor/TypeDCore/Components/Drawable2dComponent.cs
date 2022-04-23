@@ -3,7 +3,7 @@ using TypeD.Helpers;
 using TypeDCore.Code.Drawable;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeDCore.ComponentTemplates
+namespace TypeDCore.Components
 {
     public class Drawable2dComponent : ComponentTemplate<Drawable2dCode>
     {

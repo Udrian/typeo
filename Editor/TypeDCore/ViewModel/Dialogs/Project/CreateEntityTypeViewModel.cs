@@ -4,7 +4,7 @@ using TypeOEngine.Typedeaf.Core.Interfaces;
 
 namespace TypeDCore.ViewModel.Dialogs.Project
 {
-    public class CreateEntityTypeViewModel : CreateComponentTypeBaseViewModel
+    internal class CreateEntityTypeViewModel : CreateComponentTypeBaseViewModel
     {
         // Properties
         public bool ComponentUpdatable { get; set; }

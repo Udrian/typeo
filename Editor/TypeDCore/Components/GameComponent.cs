@@ -4,7 +4,7 @@ using TypeDCore.Code.Game;
 using TypeOEngine.Typedeaf.Core.Entities;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeDCore.ComponentTemplates
+namespace TypeDCore.Components
 {
     public class GameComponent : ComponentTemplate<GameCode>
     {

@@ -6,7 +6,7 @@ using TypeD.ViewModel;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    class OutputViewModel : ViewModelBase
+    internal class OutputViewModel : ViewModelBase
     {
         // Models
         ILogModel LogModel { get; set; }

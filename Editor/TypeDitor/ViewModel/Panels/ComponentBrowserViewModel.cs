@@ -10,7 +10,7 @@ using TypeDitor.Helpers;
 
 namespace TypeDitor.ViewModel.Panels
 {
-    class ComponentBrowserViewModel : ViewModelBase
+    internal class ComponentBrowserViewModel : ViewModelBase
     {
         public class Node
         {
@@ -23,7 +23,7 @@ namespace TypeDitor.ViewModel.Panels
                     return component == null ? Context.Item.ToString() : component.TypeOBaseType.Name; 
                 } 
             }
-            public TypeD.TreeNodes.Node Context { get; set; }
+            public TypeD.View.TreeNodes.Node Context { get; set; }
             public ObservableCollection<Node> Nodes { get; set; }
         }
 
@@ -41,7 +41,7 @@ namespace TypeDitor.ViewModel.Panels
         //public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Constructors
-        public ComponentBrowserViewModel(FrameworkElement element, Project loadedProject, TreeView treeView, MainWindowViewModel mainWindowViewModel) : base(element)
+        public ComponentBrowserViewModel(FrameworkElement element, Project loadedProject, TreeView treeView) : base(element)
         {
             HookModel = ResourceModel.Get<IHookModel>();
             LoadedProject = loadedProject;
@@ -51,11 +51,11 @@ namespace TypeDitor.ViewModel.Panels
             Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
-            //OpenComponentCommand = new OpenComponentCommand(mainWindowViewModel);
+            //OpenComponentCommand = new OpenComponentCommand(ResourceModel);
         }
 
         // Functions
-        private ObservableCollection<Node> TreeToNodeList(IList<TypeD.TreeNodes.Node> treeNodes)
+        private ObservableCollection<Node> TreeToNodeList(IList<TypeD.View.TreeNodes.Node> treeNodes)
         {
             var nodes = new ObservableCollection<Node>();
 

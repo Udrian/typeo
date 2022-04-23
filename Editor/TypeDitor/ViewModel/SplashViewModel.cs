@@ -7,7 +7,7 @@ using TypeDitor.Commands;
 
 namespace TypeDitor.ViewModel
 {
-    class SplashViewModel : ViewModelBase 
+    internal class SplashViewModel : ViewModelBase 
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }

@@ -5,7 +5,7 @@ using TypeOEngine.Typedeaf.Core;
 using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeD.Viewer
+namespace TypeD.View.Viewer
 {
     public class DrawableViewer
     {

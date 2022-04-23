@@ -9,7 +9,7 @@ namespace TypeDCore.View.Dialogs.Project
     public partial class CreateDrawable2dTypeDialog : Window
     {
         // ViewModel
-        public CreateComponentTypeBaseViewModel ViewModel { get; set; }
+        internal CreateComponentTypeBaseViewModel ViewModel { get; set; }
 
         // Constructors
         public CreateDrawable2dTypeDialog(TypeD.Models.Data.Project project, string @namespace)

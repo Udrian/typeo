@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using TypeD.Code;
 using TypeD.Components;
 using TypeD.Helpers;
 using TypeD.Models.Data;
@@ -14,7 +12,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ComponentProvider : IComponentProvider
+    internal class ComponentProvider : IComponentProvider
     {
         private static string ComponentFileEnding = "component";
 

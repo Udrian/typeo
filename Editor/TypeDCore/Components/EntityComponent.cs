@@ -1,11 +1,11 @@
 ﻿using TypeD.Components;
 using TypeD.Helpers;
-using TypeDCore.Code.Scene;
-using TypeOEngine.Typedeaf.Core.Entities;
+using TypeDCore.Code.Entity;
+using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeDCore.ComponentTemplates
+namespace TypeDCore.Components
 {
-    public class SceneComponent : ComponentTemplate<SceneCode>
+    public class EntityComponent : ComponentTemplate<EntityCode>
     {
         // Constructors
         public override void Init()
@@ -15,7 +15,7 @@ namespace TypeDCore.ComponentTemplates
         // Functions
         public override void ChildrenFilter(FilterHelper filter)
         {
-            filter.Filters += $"{typeof(Entity).FullName};";
+            filter.Filters += $"{typeof(Drawable2d).FullName};";
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TypeD.TreeNodes
+namespace TypeD.View.TreeNodes
 {
     public interface TreeNode
     {

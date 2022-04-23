@@ -8,7 +8,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models
 {
-    public class ComponentModel : IComponentModel
+    internal class ComponentModel : IComponentModel
     {
         // Provider
         IComponentProvider ComponentProvider { get; set; }

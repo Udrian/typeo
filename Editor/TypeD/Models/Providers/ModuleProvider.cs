@@ -9,7 +9,7 @@ using TypeD.Models.Providers.Interfaces;
 
 namespace TypeD.Models.Providers
 {
-    public class ModuleProvider : IModuleProvider
+    internal class ModuleProvider : IModuleProvider
     {
         // Constructors
         public ModuleProvider() { }

@@ -10,7 +10,7 @@ namespace TypeDCore.View.Dialogs.Project
     public partial class RenameComponentTypeDialog : Window
     {
         // ViewModel
-        public RenameComponentTypeViewModel ViewModel { get; set; }
+        internal RenameComponentTypeViewModel ViewModel { get; set; }
 
         // Constructors
         public RenameComponentTypeDialog(Component component)
