@@ -1,4 +1,5 @@
-﻿using TypeD.Models.Interfaces;
+﻿using TypeD.Models.Data;
+using TypeD.Models.Interfaces;
 
 namespace TypeD
 {
@@ -6,7 +7,7 @@ namespace TypeD
     {
         public IHookModel Hooks { get; internal set; }
         public IResourceModel Resources { get; internal set; }
-        public abstract void Initializer();
+        public abstract void Initializer(Project project);
         public abstract void Uninitializer();
     }
 }

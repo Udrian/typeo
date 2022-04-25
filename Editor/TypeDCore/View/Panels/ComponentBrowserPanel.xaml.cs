@@ -4,9 +4,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using TypeD.Models.Data;
-using TypeDitor.ViewModel.Panels;
+using TypeDCore.ViewModel.Panels;
 
-namespace TypeDitor.View.Panels
+namespace TypeDCore.View.Panels
 {
     /// <summary>
     /// Interaction logic for ComponentBrowserPanel.xaml
@@ -16,20 +16,12 @@ namespace TypeDitor.View.Panels
         // ViewModel
         ComponentBrowserViewModel ViewModel { get; set; }
 
-        // Data
-        Project LoadedProject { get; set; }
-
         // Constructors
-        public ComponentBrowserPanel(Project loadedProject)
+        public ComponentBrowserPanel(Project project)
         {
             InitializeComponent();
-            LoadedProject = loadedProject;
 
-            ViewModel = new ComponentBrowserViewModel(
-                this,
-                LoadedProject,
-                TreeView
-            );
+            ViewModel = new ComponentBrowserViewModel(this, project, TreeView);
             DataContext = ViewModel;
         }
 

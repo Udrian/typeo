@@ -21,11 +21,6 @@ namespace TypeDitor.View
             ViewModel = new MainWindowViewModel(this, loadedProject);
             DataContext = ViewModel;
 
-            DockRoot.AddPanel(ViewModel.TabsPanel);
-            DockRoot.AddPanel(ViewModel.ComponentPanel, Dock.Left, 175, false);
-            var outputPanelRoot = DockRoot.AddPanel(ViewModel.OutputPanel, Dock.Bottom, 250, true);
-            outputPanelRoot.AddPanel(ViewModel.ComponentTypeBrowserPanel, Dock.Right, 175, true);
-
             ViewModel.InitUI(this);
         }
 

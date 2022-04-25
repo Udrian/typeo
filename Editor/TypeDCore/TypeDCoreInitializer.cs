@@ -14,6 +14,7 @@ using TypeOEngine.Typedeaf.Core;
 using TypeDCore.Components;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Data.SettingContexts;
+using TypeDCore.View.Panels;
 
 namespace TypeDCore
 {
@@ -26,6 +27,7 @@ namespace TypeDCore
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }
         ITypeDCoreRestoreModel TypeDCoreRestoreModel { get; set; }
         ISettingModel SettingModel { get; set; }
+        IPanelModel PanelModel { get; set; }
 
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
@@ -38,7 +40,7 @@ namespace TypeDCore
         OpenComponentCommand OpenComponentCommand { get; set; }
         CloseComponentCommand CloseComponentCommand { get; set; }
 
-        public override void Initializer()
+        public override void Initializer(Project project)
         {
             // Internal Models
             TypeDCoreProjectModel = new TypeDCoreProjectModel();
@@ -54,6 +56,7 @@ namespace TypeDCore
 
             // Models
             SettingModel = Resources.Get<ISettingModel>();
+            PanelModel = Resources.Get<IPanelModel>();
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(Resources);
@@ -75,6 +78,34 @@ namespace TypeDCore
 
             // Settings
             SettingModel.InitContext<MainWindowSettingContext>();
+
+            // Panels
+            PanelModel.AttachPanel("typed_tabs", "Tabs", new System.Windows.Controls.TabControl());
+            PanelModel.AttachPanel("typed_component", "Component", new ComponentPanel(project));
+            PanelModel.AttachPanel("typed_output", "Output", new OutputPanel());
+            PanelModel.AttachPanel("typed_componenttypebrowser", "Component Type Browser", new ComponentBrowserPanel(project));
+        }
+
+        public override void Uninitializer()
+        {
+            // Panels
+            PanelModel.DetachPanel("typed_tabs");
+            PanelModel.DetachPanel("typed_component");
+            PanelModel.DetachPanel("typed_output");
+            PanelModel.DetachPanel("typed_componenttypebrowser");
+
+            // Internal Models
+            Resources.Remove("TypeDCoreProjectModel");
+            Resources.Remove("TypeDCoreRestoreModel");
+
+            // Hooks
+            Hooks.RemoveHook<ProjectCreateHook>();
+            Hooks.RemoveHook<InitUIHook>();
+            Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
+            Hooks.RemoveHook<ComponentContextMenuHook>();
+
+            // Settings
+            SettingModel.RemoveContext<MainWindowSettingContext>();
         }
 
         void ProjectCreate(ProjectCreateHook hook)
@@ -315,22 +346,6 @@ namespace TypeDCore
                 mainWindowSettingContext.HelloWorld.Value = value as string;
                 SettingModel.SetContext(mainWindowSettingContext);
             }));
-        }
-
-        public override void Uninitializer()
-        {
-            // Internal Models
-            Resources.Remove("TypeDCoreProjectModel");
-            Resources.Remove("TypeDCoreRestoreModel");
-
-            // Hooks
-            Hooks.RemoveHook<ProjectCreateHook>();
-            Hooks.RemoveHook<InitUIHook>();
-            Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
-            Hooks.RemoveHook<ComponentContextMenuHook>();
-
-            // Settings
-            SettingModel.RemoveContext<MainWindowSettingContext>();
         }
     }
 }

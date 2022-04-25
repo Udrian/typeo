@@ -2,13 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
-using TypeDitor.Helpers;
 
-namespace TypeDitor.ViewModel.Panels
+namespace TypeDCore.ViewModel.Panels
 {
     internal class ComponentBrowserViewModel : ViewModelBase
     {

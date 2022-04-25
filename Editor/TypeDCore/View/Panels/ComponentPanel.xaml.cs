@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeDitor.ViewModel.Panels;
+using TypeDCore.ViewModel.Panels;
 
-namespace TypeDitor.View.Panels
+namespace TypeDCore.View.Panels
 {
     /// <summary>
     /// Interaction logic for ComponentPanel.xaml

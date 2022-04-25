@@ -1,17 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using TypeD.Helpers;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Data.SettingContexts;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
 using TypeDitor.Commands;
-using TypeDitor.Helpers;
 using TypeDitor.View;
 using TypeDitor.View.Dialogs.Tools;
-using TypeDitor.View.Panels;
 
 namespace TypeDitor.ViewModel
 {
@@ -21,6 +22,7 @@ namespace TypeDitor.ViewModel
         IHookModel HookModel { get; set; }
         ISaveModel SaveModel { get; set; }
         ISettingModel SettingModel { get; set; }
+        IPanelModel PanelModel { get; set; }
 
         // Commands
         public BuildProjectCommand BuildProjectCommand { get; set; }
@@ -31,13 +33,11 @@ namespace TypeDitor.ViewModel
         public RunProjectCommand RunProjectCommand { get; set; }
         public SaveProjectCommand SaveProjectCommand { get; set; }
         public OpenPanelCommand OpenPanelCommand { get; set; }
+        public ClosePanelCommand ClosePanelCommand { get; set; }
 
         // Data
         public Project LoadedProject { get; private set; }
-        public TypeD.View.Panel TabsPanel { get; set; }
-        public TypeD.View.Panel ComponentPanel { get; set; }
-        public TypeD.View.Panel OutputPanel { get; set; }
-        public TypeD.View.Panel ComponentTypeBrowserPanel { get; set; }
+        private List<TypeD.View.Panel> DelayedPanels { get; set; } = new List<TypeD.View.Panel>();
 
         // Properties
         public int SizeX
@@ -97,6 +97,7 @@ namespace TypeDitor.ViewModel
             HookModel = ResourceModel.Get<IHookModel>();
             SaveModel = ResourceModel.Get<ISaveModel>();
             SettingModel = ResourceModel.Get<ISettingModel>();
+            PanelModel = ResourceModel.Get<IPanelModel>();
             
             BuildProjectCommand = new BuildProjectCommand(mainWindow);
             ExitProjectCommand = new ExitProjectCommand(mainWindow);
@@ -106,15 +107,7 @@ namespace TypeDitor.ViewModel
             RunProjectCommand = new RunProjectCommand(mainWindow);
             SaveProjectCommand = new SaveProjectCommand(mainWindow);
             OpenPanelCommand = new OpenPanelCommand(mainWindow);
-
-            UINotifyModel.Attach<MainWindowViewModel>((name) => {
-                CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
-            });
-
-            TabsPanel = new TypeD.View.Panel("Tabs", new TabControl());
-            ComponentPanel = new TypeD.View.Panel("Component", new ComponentPanel(loadedProject));
-            OutputPanel = new TypeD.View.Panel("Output", new OutputPanel());
-            ComponentTypeBrowserPanel = new TypeD.View.Panel("Component Type Browser", new ComponentBrowserPanel(loadedProject));
+            ClosePanelCommand = new ClosePanelCommand(mainWindow);
         }
 
         // Functions
@@ -123,10 +116,44 @@ namespace TypeDitor.ViewModel
             var initUIHook = new InitUIHook(LoadedProject);
             HookModel.Shoot(initUIHook);
 
-            foreach(var menu in initUIHook.Menu.Items)
+            var menu = initUIHook.Menu;
+            var viewMenuItem = new TypeD.View.MenuItem()
             {
-                ViewHelper.InitMenu(mainWindow.TopMenu, menu, this);
+                Name = "_View",
+                Items = new List<TypeD.View.MenuItem>(RebuildMainMenuViewItems())
+            };
+            menu.Items.Add(viewMenuItem);
+
+            foreach (var menuItem in menu.Items)
+            {
+                ViewHelper.InitMenu(mainWindow.TopMenu, menuItem, this);
             }
+
+            foreach(var p in DelayedPanels)
+            {
+                OnAddElement(p);
+            }
+            DelayedPanels.Clear();
+        }
+
+        private List<TypeD.View.MenuItem> RebuildMainMenuViewItems()
+        {
+            var items = new List<TypeD.View.MenuItem>();
+            foreach (var panel in PanelModel.GetPanels())
+            {
+                items.Add(new TypeD.View.MenuItem()
+                {
+                    Name = panel.Title,
+                    Click = (param) =>
+                    {
+                        if (!panel.Open)
+                            OpenPanelCommand.Execute(panel.ID);
+                        else
+                            ClosePanelCommand.Execute(panel.ID);
+                    }
+                });
+            }
+            return items;
         }
 
         public void OpenModulesWindow()
@@ -165,6 +192,100 @@ namespace TypeDitor.ViewModel
 
             HookModel.Shoot(new ExitHook() { Project = LoadedProject });
             return false;
+        }
+
+        public override void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            base.OnPropertyChanged(name);
+
+            CommandManager.InvalidateRequerySuggested(); //TODO: Maybe find a better way to get this notified
+
+            if (name == "Panels")
+            {
+                foreach (var item in MainWindow.TopMenu.Items)
+                {
+                    if (item is System.Windows.Controls.MenuItem && (item as System.Windows.Controls.MenuItem).Header.ToString() == "_View")
+                    {
+                        (item as System.Windows.Controls.MenuItem).Items.Clear();
+                        break;
+                    }
+                }
+
+                var menu = new TypeD.View.Menu()
+                {
+                    Items = new List<TypeD.View.MenuItem>()
+                    {
+                        new TypeD.View.MenuItem()
+                        {
+                            Name = "_View",
+                            Items = new List<TypeD.View.MenuItem>(RebuildMainMenuViewItems())
+                        }
+                    }
+                };
+
+                foreach (var menuItem in menu.Items)
+                {
+                    ViewHelper.InitMenu(MainWindow.TopMenu, menuItem, this);
+                }
+            }
+        }
+
+        public override void OnAddElement(object element)
+        {
+            if(element is TypeD.View.Panel)
+            {
+                var panel = element as TypeD.View.Panel;
+                if (MainWindow == null)
+                {
+                    DelayedPanels.Add(panel);
+                    return;
+                }
+
+                if(MainWindow.DockRoot.Count == 0)
+                {
+                    MainWindow.DockRoot.AddPanel(panel);
+                    return;
+                }
+
+                var setting = SettingModel.GetContext<MainWindowSettingContext>(SettingLevel.Local);
+                var panelSetting = setting.Panels.Value.Find(p => p.ID == panel.ID);
+                if (panelSetting == null)
+                    return;
+
+                var root = MainWindow.DockRoot;
+                if (!string.IsNullOrEmpty(panelSetting.Parent))
+                {
+                    root = MainWindow.DockRoot.FindRootWithID(panelSetting.Parent);
+                    if (root == null)
+                        return;
+                }
+
+                root.AddPanel(panel, panelSetting.Dock, panelSetting.Length, panelSetting.Span);
+            }
+        }
+
+        public override void OnRemoveElement(object element)
+        {
+            if (element is TypeD.View.Panel)
+            {
+                //TODO: This is not the most efficent way to do this...
+                MainWindow.DockPanelRoot.Children.Remove(MainWindow.DockRoot);
+                MainWindow.DockRoot = new View.TypeDock.TypeDockRoot();
+                MainWindow.DockRoot.Margin = new Thickness(5);
+                MainWindow.DockPanelRoot.Children.Add(MainWindow.DockRoot);
+
+                foreach (var panel in PanelModel.GetPanels())
+                {
+                    var parent = VisualTreeHelper.GetParent(panel.PanelView);
+                    if(parent!= null)
+                        (parent as System.Windows.Controls.Panel).Children.Remove(panel.PanelView);
+                }
+                foreach (var panel in PanelModel.GetPanels())
+                {
+                    if (panel.Open)
+                        OnAddElement(panel);
+                }
+            }
         }
     }
 }

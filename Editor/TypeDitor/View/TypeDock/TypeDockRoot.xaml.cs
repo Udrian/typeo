@@ -19,6 +19,9 @@ namespace TypeDitor.View.TypeDock
             }
         }
         public TypeD.View.Panel Panel { get; set; }
+        public TypeDockRoot Parent { get; set; }
+
+        public int Count { get; private set; }
 
         // Constructors
         public TypeDockRoot()
@@ -34,8 +37,28 @@ namespace TypeDitor.View.TypeDock
         }
 
         // Functions
+        public TypeDockRoot FindRootWithID(string id)
+        {
+            if (Panel.ID == id)
+                return this;
+
+            foreach(var child in DockRoot.Children)
+            {
+                if (child is not TypeDockRoot)
+                    continue;
+                var root = child as TypeDockRoot;
+
+                var retVal = root.FindRootWithID(id);
+                if(retVal != null)
+                    return retVal;
+            }
+
+            return null;
+        }
+
         public void AddPanel(TypeD.View.Panel panel)
         {
+            Count++;
             Grid.SetColumn(panel.PanelView, 0);
             Grid.SetRow(panel.PanelView, 1);
 
@@ -46,7 +69,9 @@ namespace TypeDitor.View.TypeDock
 
         public TypeDockRoot AddPanel(TypeD.View.Panel panel, Dock dock, int? length = null, bool span = false)
         {
+            Count++;
             var newTypeDockRoot = new TypeDockRoot();
+            newTypeDockRoot.Parent = this;
             var leftright = false;
             var createGridSpliter = true;
 

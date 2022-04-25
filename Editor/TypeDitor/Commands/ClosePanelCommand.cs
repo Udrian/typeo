@@ -3,13 +3,13 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
 {
-    class OpenPanelCommand : ProjectCommands
+    class ClosePanelCommand : ProjectCommands
     {
         // Models
         IPanelModel PanelModel { get; set; }
 
         // Constructors
-        public OpenPanelCommand(FrameworkElement element) : base(element)
+        public ClosePanelCommand(FrameworkElement element) : base(element)
         {
             PanelModel = ResourceModel.Get<IPanelModel>();
         }
@@ -19,7 +19,7 @@ namespace TypeDitor.Commands
             if (param is not string)
                 return;
             var id = (string)param;
-            PanelModel.OpenPanel(id);
+            PanelModel.ClosePanel(id);
         }
     }
 }

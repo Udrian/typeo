@@ -132,7 +132,7 @@ namespace TypeD.Models.Providers
                 await ModuleModel.Download(module, (bytes, mProgress, totalBytes) => {
                     progress(downloadProgress + (int)(downloadProgressStep * (mProgress / 100f)));
                 });
-                ModuleModel.LoadAssembly(module);
+                ModuleModel.LoadAssembly(project, module);
                 downloadProgress += downloadProgressStep;
                 progress(downloadProgress);
             }

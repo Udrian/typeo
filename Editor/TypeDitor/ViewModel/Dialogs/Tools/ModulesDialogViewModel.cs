@@ -114,7 +114,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             module.ProgressVisible = Visibility.Hidden;
             module.OnPropertyChanged(nameof(module.DownloadText));
 
-            ModuleModel.LoadAssembly(createdModule);
+            ModuleModel.LoadAssembly(LoadedProject, createdModule);
             module.Enabled = true;
             module.OnPropertyChanged(nameof(module.Enabled));
             module.OnPropertyChanged(nameof(module.Version));

@@ -4,7 +4,7 @@ using TypeD.Helpers;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
 
-namespace TypeDitor.ViewModel.Panels
+namespace TypeDCore.ViewModel.Panels
 {
     internal class OutputViewModel : ViewModelBase
     {

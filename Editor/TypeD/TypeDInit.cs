@@ -20,6 +20,7 @@ namespace TypeD
                 new RestoreModel(),
                 new ComponentModel(),
                 new SettingModel(),
+                new PanelModel(),
             // Providers
                 new RecentProvider(),
                 new ModuleProvider(),

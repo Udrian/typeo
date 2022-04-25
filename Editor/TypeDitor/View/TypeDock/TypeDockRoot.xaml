@@ -22,7 +22,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="1" BorderBrush="Black" Grid.Column="2" Grid.Row="2">
+        <Border Name="RootBorder" BorderThickness="1" BorderBrush="Black" Grid.Column="2" Grid.Row="2">
             <Grid x:Name="InnerGrid" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>

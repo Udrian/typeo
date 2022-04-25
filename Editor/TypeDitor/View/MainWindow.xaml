@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TypeDitor.View" xmlns:typedock="clr-namespace:TypeDitor.View.TypeDock"
         mc:Ignorable="d"
         Title="{Binding LoadedProject.ProjectName}" Width="{Binding Path=SizeX, Mode=TwoWay}" Height="{Binding Path=SizeY, Mode=TwoWay}" WindowState="{Binding Path=Maximized, Mode=TwoWay}"  Closing="Window_Closing">
-    <DockPanel>
+    <DockPanel Name="DockPanelRoot">
         <Menu DockPanel.Dock="Top" Name="_TopMenu">
             <MenuItem Header="_File">
                 <MenuItem Header="_New Project" Command="{Binding NewProjectCommand}"/>
@@ -17,10 +17,6 @@
                 <MenuItem Header="_Exit" Command="{Binding ExitProjectCommand}"/>
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Tabs" Command="{Binding OpenPanelCommand}" CommandParameter="{Binding TabsPanel}"/>
-                <MenuItem Header="Component" Command="{Binding OpenPanelCommand}" CommandParameter="{Binding ComponentPanel}"/>
-                <MenuItem Header="Output" Command="{Binding OpenPanelCommand}" CommandParameter="{Binding OutputPanel}"/>
-                <MenuItem Header="Component Type Browser" Command="{Binding OpenPanelCommand}" CommandParameter="{Binding ComponentTypeBrowserPanel}"/>
             </MenuItem>
             <MenuItem Header="_Build">
                 <MenuItem Header="B_uild Project" Command="{Binding BuildProjectCommand}" CommandParameter="{Binding LoadedProject}"/>
@@ -48,8 +44,6 @@
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content="{Binding LoadedProject.Location}"/>
         </StatusBar>
-        <typedock:TypeDockRoot x:Name="DockRoot" Margin="5">
-            
-        </typedock:TypeDockRoot>
+        <typedock:TypeDockRoot x:Name="DockRoot" Margin="5"/>
     </DockPanel>
 </Window>

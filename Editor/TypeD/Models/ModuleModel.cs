@@ -90,13 +90,13 @@ namespace TypeD.Models
             return true;
         }
 
-        public void LoadAssembly(Module module)
+        public void LoadAssembly(Project project, Module module)
         {
             if (!File.Exists(module.ModuleDLLPath)) return;
 
             module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
             module.ModuleTypeInfo = GetModuleType(module);
-            InitializeTypeD(module);
+            InitializeTypeD(project, module);
         }
 
         public void UnloadAssembly(Module module)
@@ -121,17 +121,17 @@ namespace TypeD.Models
         }
 
         // Internal functions
-        private void InitializeTypeD(Module module)
+        private void InitializeTypeD(Project project, Module module)
         {
             if (!module.IsTypeD) return;
 
             var typeDInitType = module.Assembly.GetTypes().FirstOrDefault(t => { return t.IsSubclassOf(typeof(TypeDModuleInitializer)); });
             if (typeDInitType == null) return;
 
-            var typeDInit = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
-            typeDInit.Hooks = HookModel;
-            typeDInit.Resources = ResourceModel;
-            typeDInit.Initializer();
+            module.TypeDModuleInitializer = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
+            module.TypeDModuleInitializer.Hooks = HookModel;
+            module.TypeDModuleInitializer.Resources = ResourceModel;
+            module.TypeDModuleInitializer.Initializer(project);
         }
 
         private void UninitializeTypeD(Module module)
@@ -141,10 +141,7 @@ namespace TypeD.Models
             var typeDInitType = module.Assembly.GetTypes().FirstOrDefault(t => { return t.IsSubclassOf(typeof(TypeDModuleInitializer)); });
             if (typeDInitType == null) return;
 
-            var typeDInit = Activator.CreateInstance(typeDInitType) as TypeDModuleInitializer;
-            typeDInit.Hooks = HookModel;
-            typeDInit.Resources = ResourceModel;
-            typeDInit.Uninitializer();
+            module.TypeDModuleInitializer.Uninitializer();
         }
 
         private System.Reflection.TypeInfo GetModuleType(Module module)

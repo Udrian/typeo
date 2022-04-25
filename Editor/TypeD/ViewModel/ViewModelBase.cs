@@ -21,14 +21,28 @@ namespace TypeD.ViewModel
                 UINotifyModel = ResourceModel.Get<IUINotifyModel>();
                 UINotifyModel.Attach(GetType().FullName, (name) => {
                     OnPropertyChanged(name);
+                },
+                (element, remove) =>
+                {
+                    if(!remove)
+                        OnAddElement(element);
+                    else
+                        OnRemoveElement(element);
                 });
             }
         }
 
         // Functions
-        public void OnPropertyChanged([CallerMemberName] string name = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public virtual void OnAddElement(object element)
+        {
+        }
+        public virtual void OnRemoveElement(object element)
+        {
         }
 
         // Events

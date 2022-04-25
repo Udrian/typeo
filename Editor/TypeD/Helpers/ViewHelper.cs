@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using TypeD.View;
+using TypeD.ViewModel;
 
-namespace TypeDitor.Helpers
+namespace TypeD.Helpers
 {
     public static class ViewHelper
     {
-        public static void InitMenu(System.Windows.Controls.ItemsControl currentMenu, MenuItem item, object model)
+        public static void InitMenu(System.Windows.Controls.ItemsControl currentMenu, MenuItem item, ViewModelBase model)
         {
             System.Windows.Controls.MenuItem newMenuItem = null;
             foreach (var i in currentMenu.Items)

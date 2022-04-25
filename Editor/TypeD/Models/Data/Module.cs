@@ -17,6 +17,8 @@ namespace TypeD.Models.Data
         // Loaded data
         internal Assembly Assembly { get; set; }
         public TypeInfo ModuleTypeInfo { get; set; }
+        internal TypeDModuleInitializer TypeDModuleInitializer { get; set; }
+
         public bool IsTypeD { get
             {
                 if(Assembly == null)
