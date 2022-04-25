@@ -7,6 +7,8 @@ using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
 using TypeD.Models.Interfaces;
 using TypeD.ViewModel;
+using TypeDCore.Commands;
+using TypeDCore.Commands.Data;
 
 namespace TypeDCore.ViewModel.Panels
 {
@@ -38,7 +40,7 @@ namespace TypeDCore.ViewModel.Panels
         ObservableCollection<Node> Nodes { get; set; }
 
         // Commands
-        //public OpenComponentCommand OpenComponentCommand { get; set; }
+        public OpenComponentCommand OpenComponentCommand { get; set; }
 
         // Constructors
         public ComponentBrowserViewModel(FrameworkElement element, Project loadedProject, TreeView treeView) : base(element)
@@ -51,7 +53,7 @@ namespace TypeDCore.ViewModel.Panels
             Nodes = TreeToNodeList(LoadedProject.ComponentTree.Nodes);
             TreeView.ItemsSource = Nodes;
 
-            //OpenComponentCommand = new OpenComponentCommand(ResourceModel);
+            OpenComponentCommand = new OpenComponentCommand(ResourceModel);
         }
 
         // Functions
@@ -75,7 +77,7 @@ namespace TypeDCore.ViewModel.Panels
         {
             var component = node.Context.Item as Component;
             if (component == null) return;
-           // OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = LoadedProject, Component = component });
+            OpenComponentCommand.Execute(new OpenComponentCommandData() { Project = LoadedProject, Component = component });
         }
 
         public void ContextMenuOpened(ContextMenu contextMenu, Node node)
