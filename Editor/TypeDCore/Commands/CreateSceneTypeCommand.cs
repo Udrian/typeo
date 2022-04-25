@@ -6,7 +6,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class CreateSceneTypeCommand : CustomCommand<CreateComponentCommandData>
+    internal class CreateSceneTypeCommand : CustomCommand<CreateComponentCommandData>
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }

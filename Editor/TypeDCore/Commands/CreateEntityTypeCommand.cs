@@ -6,7 +6,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class CreateEntityTypeCommand : CustomCommand<CreateComponentCommandData>
+    internal class CreateEntityTypeCommand : CustomCommand<CreateComponentCommandData>
     {
         // Models
         ITypeDCoreProjectModel TypeDCoreProjectModel { get; set; }

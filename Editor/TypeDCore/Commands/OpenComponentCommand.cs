@@ -5,7 +5,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class OpenComponentCommand : CustomCommand<OpenComponentCommandData>
+    internal class OpenComponentCommand : CustomCommand<OpenComponentCommandData>
     {
         // Models
         IComponentModel ComponentModel { get; set; }

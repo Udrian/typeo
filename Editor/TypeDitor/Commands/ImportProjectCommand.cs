@@ -7,7 +7,7 @@ using TypeDitor.View.Dialogs.Project;
 
 namespace TypeDitor.Commands
 {
-    class ImportProjectCommand : ProjectCommands
+    internal class ImportProjectCommand : ProjectCommands
     {
         // Providers
         private IRecentProvider RecentProvider { get; set; }

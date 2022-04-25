@@ -6,7 +6,7 @@ using TypeOEngine.Typedeaf.Core;
 
 namespace TypeDCore.Commands
 {
-    public class AddComponentCommand : CustomCommand<AddComponentCommandData>
+    internal class AddComponentCommand : CustomCommand<AddComponentCommandData>
     {
         // Models
         IComponentModel ComponentModel { get; set; }

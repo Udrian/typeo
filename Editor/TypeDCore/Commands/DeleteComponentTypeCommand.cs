@@ -6,7 +6,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDCore.Commands
 {
-    public class DeleteComponentTypeCommand : CustomCommand<ComponentCommandData>
+    internal class DeleteComponentTypeCommand : CustomCommand<ComponentCommandData>
     {
         // Providers
         IComponentProvider ComponentProvider { get; set; }

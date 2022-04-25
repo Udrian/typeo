@@ -4,7 +4,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
 {
-    class RunProjectCommand : ProjectCommands
+    internal class RunProjectCommand : ProjectCommands
     {
         // Models
         private IProjectModel ProjectModel { get; set; }

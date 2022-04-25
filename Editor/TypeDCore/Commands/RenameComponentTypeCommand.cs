@@ -6,7 +6,7 @@ using TypeDCore.View.Dialogs.Project;
 
 namespace TypeDCore.Commands
 {
-    class RenameComponentTypeCommand : CustomCommand<ComponentCommandData>
+    internal class RenameComponentTypeCommand : CustomCommand<ComponentCommandData>
     {
         // Providers
         IComponentProvider ComponentProvider { get; set; }

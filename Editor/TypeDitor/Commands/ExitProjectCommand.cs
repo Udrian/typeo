@@ -3,7 +3,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
 {
-    class ExitProjectCommand : ProjectCommands
+    internal class ExitProjectCommand : ProjectCommands
     {
         public ISaveModel SaveModel { get; set; }
 

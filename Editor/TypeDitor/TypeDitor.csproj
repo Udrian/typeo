@@ -32,8 +32,4 @@
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commands\Data\" />
-  </ItemGroup>
-
 </Project>

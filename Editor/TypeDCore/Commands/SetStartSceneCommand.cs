@@ -5,7 +5,7 @@ using TypeDCore.Commands.Data;
 
 namespace TypeDCore.Commands
 {
-    public class SetStartSceneCommand : CustomCommand<ComponentCommandData>
+    internal class SetStartSceneCommand : CustomCommand<ComponentCommandData>
     {
         // Models
         IProjectModel ProjectModel { get; set; }

@@ -7,7 +7,7 @@ using TypeDitor.View;
 
 namespace TypeDitor.Commands
 {
-    class ProjectCommands : CustomCommand
+    internal class ProjectCommands : CustomCommand
     {
         // Constructors
         public ProjectCommands(FrameworkElement element = null) : base(element?.FindResource("ResourceModel") as IResourceModel) { }

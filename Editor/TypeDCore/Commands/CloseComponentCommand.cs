@@ -4,7 +4,7 @@ using TypeDCore.Commands.Data;
 
 namespace TypeDCore.Commands
 {
-    public class CloseComponentCommand : CustomCommand<CloseComponentCommandData>
+    internal class CloseComponentCommand : CustomCommand<CloseComponentCommandData>
     {
         // Models
         IComponentModel ComponentModel { get; set; }

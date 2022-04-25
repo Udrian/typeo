@@ -3,7 +3,7 @@ using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
 {
-    class OpenPanelCommand : ProjectCommands
+    internal class OpenPanelCommand : ProjectCommands
     {
         // Models
         IPanelModel PanelModel { get; set; }
