@@ -7,7 +7,7 @@ namespace TypeD.Models.Data
     public enum SettingLevel
     {
         System = 0,
-        Global,
+        Workspace,
         Local
     }
 
@@ -82,10 +82,6 @@ namespace TypeD.Models.Data
         public bool SaveOnExit { get; set; }
         [JsonIgnore]
         public bool ShouldSave { get; internal set; }
-        public static string SettingsPath { get { return "TypeO/Settings"; } }
-        public static string SystemPath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}/{SettingsPath}"; } }
-        public static string GlobalPath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/{SettingsPath}"; } }
-        public static string LocalPath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{SettingsPath}"; } }
 
         // Constructors
         internal SettingContext() { }

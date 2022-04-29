@@ -20,7 +20,7 @@ namespace TypeD.Models.Data
 
         // Paths
         public string ProjectFilePath { get { return Path.Combine(Location, $@"{ProjectName}.typeo"); } }
-        public string ProjectTypeOPath { get { return Path.Combine(Location, "typeo"); } }
+        public string ProjectTypeOPath { get { return Path.Combine(Location, "TypeO"); } }
         public string ProjectBuildOutputPath { get { return Path.Combine(ProjectTypeOPath, "build", CSProjName); } }
         public string ProjectSourcePath { get { return Path.Combine(Location, ProjectName); } }
 

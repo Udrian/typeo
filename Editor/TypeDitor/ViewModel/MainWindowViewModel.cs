@@ -181,7 +181,7 @@ namespace TypeDitor.ViewModel
                 var result = MessageBox.Show("Save before closing?", "Closing...", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                 if (result == MessageBoxResult.Yes)
                 {
-                    await SaveModel.Save();
+                    await SaveModel.Save(LoadedProject);
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {

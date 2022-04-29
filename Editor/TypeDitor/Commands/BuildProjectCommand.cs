@@ -22,7 +22,7 @@ namespace TypeDitor.Commands
 
             if (SaveModel.AnythingToSave)
             {
-                await SaveModel.Save();
+                await SaveModel.Save(project);
             }
             await ProjectModel.Build(project);
         }

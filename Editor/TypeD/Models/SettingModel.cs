@@ -19,12 +19,15 @@ namespace TypeD.Models
         ISaveModel SaveModel { get; set; }
         IHookModel HookModel { get; set; }
 
+        // Properties
+        private string SettingsPath { get { return "TypeO/Settings"; } }
+
         // Constructors
         public SettingModel()
         {
             Contexts = new Dictionary<SettingLevel, List<SettingContext>>();
             Contexts.Add(SettingLevel.System, new List<SettingContext>());
-            Contexts.Add(SettingLevel.Global, new List<SettingContext>());
+            Contexts.Add(SettingLevel.Workspace, new List<SettingContext>());
             Contexts.Add(SettingLevel.Local, new List<SettingContext>());
         }
 
@@ -49,14 +52,14 @@ namespace TypeD.Models
                     }
                 }
 
-                SaveModel.SaveNow<SettingSaveContext>();
+                SaveModel.SaveNow<SettingSaveContext>(hook.Project);
             });
         }
 
         // Functions
-        public void InitContext<T>() where T : SettingContext, new()
+        public void InitContext<T>(Project project) where T : SettingContext, new()
         {
-            var paths = new List<string>() { SettingContext.SystemPath, SettingContext.GlobalPath, SettingContext.LocalPath };
+            var paths = new List<string>() { GetPath(project, SettingLevel.System), GetPath(project, SettingLevel.Workspace), GetPath(project, SettingLevel.Local) };
             var i = 0;
             foreach(var path in paths)
             {
@@ -115,13 +118,12 @@ namespace TypeD.Models
             }
         }
 
-        // Internal
-        internal static string GetName<T>() where T : SettingContext, new()
+        public string GetName<T>() where T : SettingContext, new()
         {
             return GetName(typeof(T));
         }
 
-        internal static string GetName(Type type)
+        public string GetName(Type type)
         {
             var attribute = Attribute.GetCustomAttribute(type, typeof(NameAttribute)) as NameAttribute;
             if (attribute == null)
@@ -139,6 +141,17 @@ namespace TypeD.Models
             }
 
             return attribute.Name;
+        }
+
+        public string GetPath(Project project, SettingLevel settingLevel)
+        {
+            if(settingLevel == SettingLevel.System)
+                return $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}/{SettingsPath}";
+            if(settingLevel == SettingLevel.Workspace)
+                return $"{project.Location}/{SettingsPath}";
+            if (settingLevel == SettingLevel.Local)
+                return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/{SettingsPath}";
+            return "";
         }
     }
 }

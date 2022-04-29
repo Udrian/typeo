@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 
 namespace TypeDitor.Commands
@@ -16,7 +17,7 @@ namespace TypeDitor.Commands
 
         public override async void Execute(object param)
         {
-            await SaveModel.Save();
+            await SaveModel.Save(param as Project);
         }
 
         public override bool CanExecute(object parameter)

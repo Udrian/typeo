@@ -37,7 +37,10 @@ namespace TypeDitor.Models
         {
             foreach(var keyValue in keyValues)
             {
-                Resources.Add(keyValue.Item1, keyValue.Item2);
+                if (!Resources.Contains(keyValue.Item1))
+                    Resources.Add(keyValue.Item1, keyValue.Item2);
+                else
+                    Resources[keyValue.Item1] = keyValue.Item2;
             }
 
             foreach(var keyValue in keyValues)
@@ -48,7 +51,10 @@ namespace TypeDitor.Models
 
         public void Add(string key, object value)
         {
-            Resources.Add(key, value);
+            if(!Resources.Contains(key))
+                Resources.Add(key, value);
+            else
+                Resources[key] = value;
 
             Init(value);
         }

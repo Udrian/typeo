@@ -12,6 +12,6 @@ namespace TypeD.Models.Data
         public abstract void Init(IResourceModel resourceModel, object param = null);
         
         // Functions
-        public abstract Task SaveAction();
+        public abstract Task SaveAction(Project project);
     }
 }

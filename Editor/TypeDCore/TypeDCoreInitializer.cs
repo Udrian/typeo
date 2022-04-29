@@ -79,7 +79,7 @@ namespace TypeDCore
             Hooks.AddHook<OptionsHook>(OptionsWindowOpened);
 
             // Settings
-            SettingModel.InitContext<MainWindowSettingContext>();
+            SettingModel.InitContext<MainWindowSettingContext>(project);
 
             // Panels
             PanelModel.AttachPanel("typed_tabs", "Tabs", new System.Windows.Controls.TabControl());

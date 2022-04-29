@@ -38,7 +38,7 @@ namespace TypeD.Models.Data.SaveContexts
         }
 
         // Functions
-        public override Task SaveAction()
+        public override Task SaveAction(Project project)
         {
             return Task.Run(() => {
                 foreach (var saveComponent in Components)

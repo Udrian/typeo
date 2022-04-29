@@ -19,7 +19,6 @@ namespace TypeDitor.View.TypeDock
             }
         }
         public TypeD.View.Panel Panel { get; set; }
-        public TypeDockRoot Parent { get; set; }
 
         public int Count { get; private set; }
 
@@ -71,7 +70,6 @@ namespace TypeDitor.View.TypeDock
         {
             Count++;
             var newTypeDockRoot = new TypeDockRoot();
-            newTypeDockRoot.Parent = this;
             var leftright = false;
             var createGridSpliter = true;
 

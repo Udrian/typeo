@@ -44,12 +44,12 @@ namespace TypeD.Models
             }
         }
 
-        public async void SaveNow<T>(object param = null) where T : SaveContext, new()
+        public async void SaveNow<T>(Project project, object param = null) where T : SaveContext, new()
         {
             var context = GetSaveContext<T>(param);
 
             SaveContexts.Remove(context.GetType());
-            await context.SaveAction();
+            await context.SaveAction(project);
 
         }
 
@@ -69,12 +69,12 @@ namespace TypeD.Models
             return SaveContexts[typeof(T)] as T;
         }
 
-        public async Task Save()
+        public async Task Save(Project project)
         {
             foreach(var saveContext in SaveContexts.Values)
             {
                 if(saveContext.ShouldSave)
-                    await saveContext.SaveAction();
+                    await saveContext.SaveAction(project);
             }
             SaveContexts.Clear();
             UINotifyModel.Notify("AnythingToSave");
