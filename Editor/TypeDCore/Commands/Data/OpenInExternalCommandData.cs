@@ -8,12 +8,12 @@
             OpenInEditor
         }
 
-        public string FilePath { get; set; }
+        public string Path { get; set; }
         public CommandAction Action { get; set; }
 
-        public OpenInExternalCommandData(string filePath, CommandAction action)
+        public OpenInExternalCommandData(string path, CommandAction action)
         {
-            FilePath = filePath;
+            Path = path;
             Action = action;
         }
     }

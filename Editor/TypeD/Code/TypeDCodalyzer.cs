@@ -47,7 +47,7 @@ namespace TypeD.Code
             TypeDFile.Save();
         }
 
-        protected string FilePathTypeD()
+        public string FilePathTypeD()
         {
             return Path.Combine(Project.Location, Namespace.Replace(".", @"\\"), $"{ClassName}.typed.cs");
         }

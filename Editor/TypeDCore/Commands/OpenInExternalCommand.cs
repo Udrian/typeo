@@ -1,36 +1,42 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using TypeD.Commands;
+using TypeD.Helpers;
+using TypeD.Models.Data.SettingContexts;
+using TypeD.Models.Interfaces;
 using TypeDCore.Commands.Data;
 
 namespace TypeDCore.Commands
 {
     internal class OpenInExternalCommand : CustomCommand<OpenInExternalCommandData>
     {
-        public override void Execute(OpenInExternalCommandData parameter)
+        // Models
+        ISettingModel SettingModel { get; set; }
+
+        // Constructors
+        public OpenInExternalCommand(IResourceModel resourceModel)
+        {
+            SettingModel = resourceModel.Get<ISettingModel>();
+        }
+
+        // Functions
+        public override async void Execute(OpenInExternalCommandData parameter)
         {
             if (parameter.Action == OpenInExternalCommandData.CommandAction.OpenInFolder)
             {
-                if (File.Exists(parameter.FilePath))
+                if (File.Exists(parameter.Path))
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo
-                    {
-                        Arguments = $"/select, \"{parameter.FilePath}\"",
-                        FileName = "explorer.exe"
-                    };
-
-                    Process.Start(startInfo);
+                    await CMD.Run($"Invoke-Expression \"explorer '/select,{parameter.Path}'\"");
                 }
-                else if(Directory.Exists(parameter.FilePath))
+                else if(Directory.Exists(parameter.Path))
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo
-                    {
-                        Arguments = parameter.FilePath,
-                        FileName = "explorer.exe"
-                    };
-
-                    Process.Start(startInfo);
+                    await CMD.Run($"explorer \"{parameter.Path}\"");
                 }
+            } else if (parameter.Action == OpenInExternalCommandData.CommandAction.OpenInEditor)
+            {
+                var settings = SettingModel.GetContext<MainWindowSettingContext>();
+
+                var cmd = settings.ExternalEditor.Value;
+                await CMD.Run(cmd.Replace("{path}", $"\"{parameter.Path}\""));
             }
         }
     }

@@ -69,7 +69,7 @@ namespace TypeDCore
             AddComponentCommand = new AddComponentCommand(Resources);
             OpenComponentCommand = new OpenComponentCommand(Resources);
             CloseComponentCommand = new CloseComponentCommand(Resources);
-            OpenInExternalCommand = new OpenInExternalCommand();
+            OpenInExternalCommand = new OpenInExternalCommand(Resources);
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -165,12 +165,29 @@ namespace TypeDCore
                         },
                         new MenuItem()
                         {
-                            Name = "Open Project in Explorer",
-                            ClickParameter = "LoadedProject",
-                            Click = (param) =>
+                            Name = "Open _Project in...",
+                            Items = new List<MenuItem>()
                             {
-                                var project = param as Project;
-                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(project.Location, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                                new MenuItem()
+                                {
+                                    Name = "_Explorer",
+                                    ClickParameter = "LoadedProject",
+                                    Click = (param) =>
+                                    {
+                                        var project = param as Project;
+                                        OpenInExternalCommand.Execute(new OpenInExternalCommandData(project.Location, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                                    }
+                                },
+                                new MenuItem()
+                                {
+                                    Name = "E_xternal Editor",
+                                    ClickParameter = "LoadedProject",
+                                    Click = (param) =>
+                                    {
+                                        var project = param as Project;
+                                        OpenInExternalCommand.Execute(new OpenInExternalCommandData(project.Location, OpenInExternalCommandData.CommandAction.OpenInEditor));
+                                    }
+                                }
                             }
                         }
                     }
@@ -305,18 +322,63 @@ namespace TypeDCore
                    );
                 }
 
-                hook.Menu.Items.Add(
+                hook.Menu.Items.AddRange(new List<MenuItem>()
+                {
                     new MenuItem()
                     {
-                        Name = "_Open in Explorer",
-                        ClickParameter = "LoadedProject",
-                        Click = (param) =>
+                        Name = "_Open Component in...",
+                        Items = new List<MenuItem>()
                         {
-                            var path = ComponentProvider.GetPath(param as Project, component);
-                            OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                            new MenuItem()
+                            {
+                                Name = "_Explorer",
+                                ClickParameter = "LoadedProject",
+                                Click = (param) =>
+                                {
+                                    var path = ComponentProvider.GetPath(param as Project, component);
+                                    OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                                }
+                            },
+                            new MenuItem()
+                            {
+                                Name = "E_xternal Editor",
+                                ClickParameter = "LoadedProject",
+                                Click = (param) =>
+                                {
+                                    var path = ComponentProvider.GetPath(param as Project, component);
+                                    OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInEditor));
+                                }
+                            }
+                        }
+                    },
+                    new MenuItem()
+                    {
+                        Name = "O_pen Code in...",
+                        Items = new List<MenuItem>()
+                        {
+                            new MenuItem()
+                            {
+                                Name = "_Explorer",
+                                ClickParameter = "LoadedProject",
+                                Click = (param) =>
+                                {
+                                    var path = component.Template.Code.FilePath();
+                                    OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                                }
+                            },
+                            new MenuItem()
+                            {
+                                Name = "E_xternal Editor",
+                                ClickParameter = "LoadedProject",
+                                Click = (param) =>
+                                {
+                                    var path = component.Template.Code.FilePath();
+                                    OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInEditor));
+                                }
+                            }
                         }
                     }
-                );
+                });
             }
         }
 
@@ -350,23 +412,68 @@ namespace TypeDCore
                 }
             );
 
-            hook.Menu.Items.Add(
+            hook.Menu.Items.AddRange(new List<MenuItem>()
+            {
                 new MenuItem()
                 {
-                    Name = "_Open in Explorer",
-                    ClickParameter = "LoadedProject",
-                    Click = (param) =>
+                    Name = "_Open Component in...",
+                    Items = new List<MenuItem>()
                     {
-                        var path = ComponentProvider.GetPath(param as Project, hook.SelectedComponent == null ? hook.OpenedComponent : hook.SelectedComponent);
-                        OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                        new MenuItem()
+                        {
+                            Name = "_Explorer",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                var path = ComponentProvider.GetPath(param as Project, hook.SelectedComponent == null ? hook.OpenedComponent : hook.SelectedComponent);
+                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                            }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "E_xternal Editor",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                var path = ComponentProvider.GetPath(param as Project, hook.SelectedComponent == null ? hook.OpenedComponent : hook.SelectedComponent);
+                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInEditor));
+                            }
+                        }
+                    }
+                },
+                new MenuItem()
+                {
+                    Name = "O_pen Code in...",
+                    Items = new List<MenuItem>()
+                    {
+                        new MenuItem()
+                        {
+                            Name = "_Explorer",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                var path = hook.SelectedComponent == null ? hook.OpenedComponent.Template.Code.FilePath() : hook.SelectedComponent.Template.Code.FilePath();
+                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                            }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "E_xternal Editor",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                var path = hook.SelectedComponent == null ? hook.OpenedComponent.Template.Code.FilePath() : hook.SelectedComponent.Template.Code.FilePath();
+                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInEditor));
+                            }
+                        }
                     }
                 }
-            );
+            });
 
             hook.Menu.Items.Add(
                 new MenuItem()
                 {
-                    Name = "Close",
+                    Name = "_Close",
                     ClickParameter = "LoadedProject",
                     Click = (param) =>
                     {
@@ -380,8 +487,8 @@ namespace TypeDCore
         {
             var mainWindowSettingContext = SettingModel.GetContext<MainWindowSettingContext>(hook.Level);
 
-            hook.Items.Add(new SettingItem("Hello World", "Hello World", mainWindowSettingContext.HelloWorld, (value) => {
-                mainWindowSettingContext.HelloWorld.Value = value as string;
+            hook.Items.Add(new SettingItem("External Editor", "Command to run when opening files in external editor, can insert value {path} that points to the file", mainWindowSettingContext.ExternalEditor, (value) => {
+                mainWindowSettingContext.ExternalEditor.Value = value as string;
                 SettingModel.SetContext(mainWindowSettingContext);
             }));
         }

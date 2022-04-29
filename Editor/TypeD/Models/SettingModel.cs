@@ -84,7 +84,7 @@ namespace TypeD.Models
             }
         }
 
-        public T GetContext<T>(SettingLevel settingLevel = SettingLevel.System) where T : SettingContext, new()
+        public T GetContext<T>(SettingLevel settingLevel = SettingLevel.Local) where T : SettingContext, new()
         {
             T retVal = Contexts[SettingLevel.System].First(c => c.GetType() == typeof(T)) as T;
 

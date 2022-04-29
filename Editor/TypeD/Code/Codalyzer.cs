@@ -322,7 +322,7 @@ namespace TypeD.Code
             BaseFile.Save();
         }
 
-        protected string FilePath()
+        public string FilePath()
         {
             return Path.Combine(Project.Location, Namespace.Replace(".", @"\\"), $"{ClassName}.cs");
         }
