@@ -18,7 +18,7 @@ namespace TypeD.Models
         public ISaveModel SaveModel { get; set; }
 
         // Paths
-        public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/TypeO/ModulesCache"; } }
+        public static string ModuleCachePath { get { return $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}/TypeO/ModulesCache"; } }
 
         // Constructors
         public ModuleModel() { }

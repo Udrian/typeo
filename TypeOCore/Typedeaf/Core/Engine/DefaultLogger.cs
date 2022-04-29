@@ -96,7 +96,7 @@ namespace TypeOEngine.Typedeaf.Core
                     FileAccessMutex.WaitOne();
                     try
                     {
-                        var dirPath = string.IsNullOrEmpty(LogPath) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", Context.Name, "Logs") : LogPath;
+                        var dirPath = string.IsNullOrEmpty(LogPath) ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TypeO", Context.Name, "Logs") : LogPath;
                         var filePath = $"{DateTime.UtcNow.ToShortDateString()}.log".Replace("/", "-");
                         var logPath = Path.Combine(dirPath, filePath);
 

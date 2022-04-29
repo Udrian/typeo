@@ -54,7 +54,7 @@ namespace TypeD.Models.Providers
         }
 
         // Internal
-        private string RecentFilePath { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TypeO", "recent"); } }
+        private string RecentFilePath { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TypeO", "recent"); } }
         private int RecentLength { get { return 5; } }
 
         private void Load()
