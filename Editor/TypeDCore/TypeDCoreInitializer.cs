@@ -39,6 +39,7 @@ namespace TypeDCore
         AddComponentCommand AddComponentCommand { get; set; }
         OpenComponentCommand OpenComponentCommand { get; set; }
         CloseComponentCommand CloseComponentCommand { get; set; }
+        OpenInExternalCommand OpenInExternalCommand { get; set; }
 
         public override void Initializer(Project project)
         {
@@ -68,6 +69,7 @@ namespace TypeDCore
             AddComponentCommand = new AddComponentCommand(Resources);
             OpenComponentCommand = new OpenComponentCommand(Resources);
             CloseComponentCommand = new CloseComponentCommand(Resources);
+            OpenInExternalCommand = new OpenInExternalCommand();
 
             // Hooks
             Hooks.AddHook<ProjectCreateHook>(ProjectCreate);
@@ -159,6 +161,16 @@ namespace TypeDCore
                                         CreateDrawable2dTypeCommand.Execute(new CreateComponentCommandData(param as Project, $"Drawables"));
                                     }
                                 }
+                            }
+                        },
+                        new MenuItem()
+                        {
+                            Name = "Open Project in Explorer",
+                            ClickParameter = "LoadedProject",
+                            Click = (param) =>
+                            {
+                                var project = param as Project;
+                                OpenInExternalCommand.Execute(new OpenInExternalCommandData(project.Location, OpenInExternalCommandData.CommandAction.OpenInFolder));
                             }
                         }
                     }
@@ -292,6 +304,19 @@ namespace TypeDCore
                        }
                    );
                 }
+
+                hook.Menu.Items.Add(
+                    new MenuItem()
+                    {
+                        Name = "_Open in Explorer",
+                        ClickParameter = "LoadedProject",
+                        Click = (param) =>
+                        {
+                            var path = ComponentProvider.GetPath(param as Project, component);
+                            OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
+                        }
+                    }
+                );
             }
         }
 
@@ -321,6 +346,19 @@ namespace TypeDCore
                     Click = (param) =>
                     {
                         AddComponentCommand.Execute(new AddComponentCommandData() { ToComponent = hook.SelectedComponent ?? hook.OpenedComponent, Project = param as Project});
+                    }
+                }
+            );
+
+            hook.Menu.Items.Add(
+                new MenuItem()
+                {
+                    Name = "_Open in Explorer",
+                    ClickParameter = "LoadedProject",
+                    Click = (param) =>
+                    {
+                        var path = ComponentProvider.GetPath(param as Project, hook.SelectedComponent == null ? hook.OpenedComponent : hook.SelectedComponent);
+                        OpenInExternalCommand.Execute(new OpenInExternalCommandData(path, OpenInExternalCommandData.CommandAction.OpenInFolder));
                     }
                 }
             );

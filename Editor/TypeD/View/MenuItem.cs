@@ -12,9 +12,12 @@ namespace TypeD.View
         public List<MenuItem> Items;
 
         // Constructors
-        public MenuItem()
+        public MenuItem(string name = "", Action<object> click = null, string clickParameter = "", List<MenuItem> items = null)
         {
-            Items = new List<MenuItem>();
+            Name = name;
+            Click = click;
+            ClickParameter = clickParameter;
+            Items = items ?? new List<MenuItem>();
         }
     }
 }
