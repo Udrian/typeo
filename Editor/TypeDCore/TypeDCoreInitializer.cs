@@ -82,7 +82,7 @@ namespace TypeDCore
             SettingModel.InitContext<MainWindowSettingContext>(project);
 
             // Panels
-            PanelModel.AttachPanel("typed_tabs", "Tabs", new System.Windows.Controls.TabControl());
+            PanelModel.AttachPanel("typed_viewer", "Viewer", new ViewerPanel(project));
             PanelModel.AttachPanel("typed_component", "Component", new ComponentPanel(project));
             PanelModel.AttachPanel("typed_output", "Output", new OutputPanel());
             PanelModel.AttachPanel("typed_componenttypebrowser", "Component Type Browser", new ComponentBrowserPanel(project));
@@ -105,6 +105,7 @@ namespace TypeDCore
             Hooks.RemoveHook<InitUIHook>();
             Hooks.RemoveHook<ComponentTypeBrowserContextMenuOpenedHook>();
             Hooks.RemoveHook<ComponentContextMenuHook>();
+            Hooks.RemoveHook<OptionsHook>();
 
             // Settings
             SettingModel.RemoveContext<MainWindowSettingContext>();

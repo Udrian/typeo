@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TypeD.Code;
 using TypeD.Components;
 
 namespace TypeD.Models.Data

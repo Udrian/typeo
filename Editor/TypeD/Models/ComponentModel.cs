@@ -62,10 +62,6 @@ namespace TypeD.Models
                 OpenComponents.Add(component);
             }
             HookModel.Shoot(new ComponentFocusHook() { Project = project, Component = component });
-
-            //TODO: Fix this, TypeDitor shouldnt have access to SDL
-            //MainWindowViewModel.OpenDocument($"{data.Component.ClassName}.{data.Component.TypeOBaseType}", new SDLViewerDocument(data.Project, data.Component));
-            //MainWindowViewModel.OpenDocument($"{data.Component.ClassName}.{data.Component.TypeOBaseType}", new ConsoleViewerDocument(data.Project, data.Component));
         }
 
         public void Close(Project project, Component component)

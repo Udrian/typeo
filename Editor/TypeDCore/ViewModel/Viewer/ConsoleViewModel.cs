@@ -1,17 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.View.Viewer;
+using TypeD.ViewModel;
+using TypeDCore.View.Viewer;
 using TypeOEngine.Typedeaf.Core.Entities.Drawables;
 
-namespace TypeDitor.View.Documents
+namespace TypeDCore.ViewModel.Viewer
 {
-    /// <summary>
-    /// Interaction logic for ConsoleViewerDocument.xaml
-    /// </summary>
-    public partial class ConsoleViewerDocument : UserControl
+    internal class ConsoleViewModel : ViewModelBase
     {
         class ConsoleWriter : TextWriter
         {
@@ -32,17 +30,22 @@ namespace TypeDitor.View.Documents
             public event EventHandler<string> WriteEvent;
         }
 
+        // Properties
         DrawableViewer DrawableViewer { get; set; }
-        TextWriter OldTextWriter;
+        TextWriter OldTextWriter { get; set; }
         ConsoleWriter NewTextWriter { get; set; }
 
-        public ConsoleViewerDocument(Project project, Component component)
+        // Data
+        ConsoleViewer ConsoleViewer { get; set; }
+
+        // Constructors
+        public ConsoleViewModel(ConsoleViewer consoleViewer, Project project, Component component) : base(consoleViewer)
         {
-            InitializeComponent();
+            ConsoleViewer = consoleViewer;
 
             OldTextWriter = Console.Out;
             NewTextWriter = new ConsoleWriter();
-            NewTextWriter.WriteEvent += ConsoleWriter_WriteEvent;
+            NewTextWriter.WriteEvent += Write;
             Console.SetOut(NewTextWriter);
 
             if (component.TypeOBaseType == typeof(Drawable2d))
@@ -51,19 +54,20 @@ namespace TypeDitor.View.Documents
             }
         }
 
-        private void ConsoleWriter_WriteEvent(object sender, string e)
+        // Functions
+        public void Unload()
         {
-            Dispatcher.Invoke(() =>
-            {
-                Output.Text += e;
-            });
+            NewTextWriter.WriteEvent -= Write;
+            Console.SetOut(OldTextWriter);
+            DrawableViewer?.Close();
         }
 
-        private void UserControl_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        private void Write(object sender, string e)
         {
-            NewTextWriter.WriteEvent -= ConsoleWriter_WriteEvent;
-            Console.SetOut(OldTextWriter);
-            DrawableViewer.Close();
+            ConsoleViewer.Dispatcher.Invoke(() =>
+            {
+                ConsoleViewer.Output.Text += e;
+            });
         }
     }
 }

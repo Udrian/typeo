@@ -168,11 +168,6 @@ namespace TypeDitor.ViewModel
             dialog.Show();
         }
 
-        public void OpenDocument(string header, object content)
-        {
-            //MainWindow.Tabs.Items.Add(new TabItem() { Header = header, Content = content });
-        }
-
         public async Task<bool> OnClose()
         {
             LoadedProject.IsClosing = true;
