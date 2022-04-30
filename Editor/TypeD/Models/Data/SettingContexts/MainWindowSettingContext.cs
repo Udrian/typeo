@@ -30,6 +30,7 @@ namespace TypeD.Models.Data.SettingContexts
         public Setting<int> SizeY { get; set; } = new Setting<int>(768);
         public Setting<bool> Fullscreen { get; set; } = new Setting<bool>(true);
         public Setting<string> ExternalEditor { get; set; } = new Setting<string>("code {path}");
+        public Setting<string> ViewerType { get; set; } = new Setting<string>("TypeDCore.View.Viewer.ConsoleViewer");
         public Setting<List<Panel>> Panels { get; set; }
 
         public MainWindowSettingContext()

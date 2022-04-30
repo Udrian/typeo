@@ -37,9 +37,10 @@ namespace TypeDCore.ViewModel.Viewer
 
         // Data
         ConsoleViewer ConsoleViewer { get; set; }
+        public Component Component { get; set; }
 
         // Constructors
-        public ConsoleViewModel(ConsoleViewer consoleViewer, Project project, Component component) : base(consoleViewer)
+        public ConsoleViewModel(ConsoleViewer consoleViewer) : base(consoleViewer)
         {
             ConsoleViewer = consoleViewer;
 
@@ -47,10 +48,15 @@ namespace TypeDCore.ViewModel.Viewer
             NewTextWriter = new ConsoleWriter();
             NewTextWriter.WriteEvent += Write;
             Console.SetOut(NewTextWriter);
+        }
 
-            if (component.TypeOBaseType == typeof(Drawable2d))
+        public void Init(Project project, Component component)
+        {
+            Component = component;
+
+            if (Component.TypeOBaseType == typeof(Drawable2d))
             {
-                DrawableViewer = new DrawableViewer(project, component);
+                DrawableViewer = new DrawableViewer(project, Component);
             }
         }
 

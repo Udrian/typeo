@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using TypeD.Models.Data;
-using TypeDCore.View.Viewer;
+using TypeD.View.Viewer;
 using TypeDCore.ViewModel.Panels;
 
 namespace TypeDCore.View.Panels
@@ -28,7 +28,7 @@ namespace TypeDCore.View.Panels
         {
             if(e.Source is TabControl)
             {
-                ViewerViewModel.TabSelectionChanged((e.Source as TabControl).SelectedContent as ConsoleViewer);
+                ViewerViewModel.TabSelectionChanged((e.Source as TabControl).SelectedContent as IViewer);
             }
         }
     }

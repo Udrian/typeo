@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using TypeD.Models.Data;
 using TypeD.Models.Data.SettingContexts;
 using TypeD.Models.Interfaces;
 using TypeD.View;
+using TypeD.View.Viewer;
 
 namespace TypeD.Models
 {
@@ -15,11 +18,13 @@ namespace TypeD.Models
 
         // Data
         Dictionary<string, Panel> Panels { get; set; }
+        List<Type> Viewers { get; set; }
 
         // Constructors
         public PanelModel()
         {
             Panels = new Dictionary<string, Panel>();
+            Viewers = new List<Type>();
         }
 
         public void Init(IResourceModel resourceModel)
@@ -113,6 +118,33 @@ namespace TypeD.Models
         public List<Panel> GetPanels()
         {
             return new List<Panel>(Panels.Values);
+        }
+
+        public void AddViewer<T>() where T : IViewer, new()
+        {
+            if (Viewers.Contains(typeof(T)))
+                return;
+            Viewers.Add(typeof(T));
+        }
+
+        public void RemoveViewer<T>() where T : IViewer, new()
+        {
+            if (!Viewers.Contains(typeof(T)))
+                return;
+            Viewers.Remove(typeof(T));
+        }
+
+        public IViewer CreateViewer(string typeName)
+        {
+            if (!Viewers.Exists(v => v.FullName == typeName))
+                return null;
+
+            return Activator.CreateInstance(Viewers.Find(v => v.FullName == typeName)) as IViewer;
+        }
+
+        public List<string> ListViewers()
+        {
+            return Viewers.Select(v => v.FullName).ToList();
         }
     }
 }

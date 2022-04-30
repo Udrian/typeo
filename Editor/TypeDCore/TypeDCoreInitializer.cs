@@ -15,6 +15,7 @@ using TypeDCore.Components;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Data.SettingContexts;
 using TypeDCore.View.Panels;
+using TypeDCore.View.Viewer;
 
 namespace TypeDCore
 {
@@ -86,6 +87,9 @@ namespace TypeDCore
             PanelModel.AttachPanel("typed_component", "Component", new ComponentPanel(project));
             PanelModel.AttachPanel("typed_output", "Output", new OutputPanel());
             PanelModel.AttachPanel("typed_componenttypebrowser", "Component Type Browser", new ComponentBrowserPanel(project));
+
+            // Viewers
+            PanelModel.AddViewer<ConsoleViewer>();
         }
 
         public override void Uninitializer()
@@ -109,6 +113,9 @@ namespace TypeDCore
 
             // Settings
             SettingModel.RemoveContext<MainWindowSettingContext>();
+
+            // Viewers
+            PanelModel.RemoveViewer<ConsoleViewer>();
         }
 
         void ProjectCreate(ProjectCreateHook hook)
@@ -488,10 +495,21 @@ namespace TypeDCore
         {
             var mainWindowSettingContext = SettingModel.GetContext<MainWindowSettingContext>(hook.Level);
 
-            hook.Items.Add(new SettingItem("External Editor", "Command to run when opening files in external editor, can insert value {path} that points to the file", mainWindowSettingContext.ExternalEditor, (value) => {
-                mainWindowSettingContext.ExternalEditor.Value = value as string;
-                SettingModel.SetContext(mainWindowSettingContext);
-            }));
+            hook.Items.AddRange(new List<SettingItem>()
+            { 
+                new SettingItem("External Editor", "Command to run when opening files in external editor, can insert value {path} that points to the file", mainWindowSettingContext.ExternalEditor, (value) => {
+                    mainWindowSettingContext.ExternalEditor.Value = value as string;
+                    SettingModel.SetContext(mainWindowSettingContext);
+                }),
+                new SettingItem("Viewer", "Sets the Type Fullname for the Viewer to use for Components", mainWindowSettingContext.ViewerType, (value) => {
+                    var viewerType = value as string;
+                    if(PanelModel.ListViewers().Contains(viewerType))
+                    {
+                        mainWindowSettingContext.ViewerType.Value = viewerType;
+                        SettingModel.SetContext(mainWindowSettingContext);
+                    }
+                })
+            });
         }
     }
 }

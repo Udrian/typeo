@@ -1,10 +1,11 @@
 ﻿using System.Windows.Controls;
 using TypeD.Models.Data;
 using TypeD.Models.Data.Hooks;
+using TypeD.Models.Data.SettingContexts;
 using TypeD.Models.Interfaces;
+using TypeD.View.Viewer;
 using TypeD.ViewModel;
 using TypeDCore.View.Panels;
-using TypeDCore.View.Viewer;
 
 namespace TypeDCore.ViewModel.Panels
 {
@@ -12,6 +13,8 @@ namespace TypeDCore.ViewModel.Panels
     {
         // Models
         IHookModel HookModel { get; set; }
+        IPanelModel PanelModel { get; set; }
+        ISettingModel SettingModel { get; set; }
 
         // Data
         ViewerPanel ViewerPanel { get; set; }
@@ -22,7 +25,10 @@ namespace TypeDCore.ViewModel.Panels
         {
             ViewerPanel = viewerPanel;
             Project = project;
+
             HookModel = ResourceModel.Get<IHookModel>();
+            PanelModel = ResourceModel.Get<IPanelModel>();
+            SettingModel = ResourceModel.Get<ISettingModel>();
 
             HookModel.AddHook<OpenComponentHook>(ComponentOpened);
             HookModel.AddHook<CloseComponentHook>(ComponentClosed);
@@ -37,18 +43,24 @@ namespace TypeDCore.ViewModel.Panels
             HookModel.RemoveHook<ComponentFocusHook>(ComponentFocus);
         }
 
-        public void TabSelectionChanged(ConsoleViewer consoleViewer)
+        public void TabSelectionChanged(IViewer viewer)
         {
-            if (consoleViewer == null)
+            if (viewer == null)
                 return;
-            HookModel.Shoot(new ComponentFocusHook() { Project = Project, Component = consoleViewer.Component});
+            HookModel.Shoot(new ComponentFocusHook() { Project = Project, Component = viewer.Component});
         }
 
         void ComponentOpened(OpenComponentHook hook)
         {
+            var setting = SettingModel.GetContext<MainWindowSettingContext>();
+
+            IViewer viewer = PanelModel.CreateViewer(setting.ViewerType.Value);
+            if (viewer == null) return;
+            viewer.Init(hook.Project, hook.Component);
+
             ViewerPanel.Tabs.Items.Add(new TabItem() {
                 Header = $"{hook.Component.ClassName}",
-                Content = new ConsoleViewer(hook.Project, hook.Component)
+                Content = viewer
             });
         }
 
@@ -57,7 +69,7 @@ namespace TypeDCore.ViewModel.Panels
             TabItem foundItem = null;
             foreach(var item in ViewerPanel.Tabs.Items)
             {
-                if(((item as TabItem).Content as ConsoleViewer).Component.FullName == hook.Component.FullName)
+                if(((item as TabItem)?.Content as IViewer)?.Component?.FullName == hook.Component.FullName)
                 {
                     foundItem = item as TabItem;
                     break;
@@ -71,7 +83,7 @@ namespace TypeDCore.ViewModel.Panels
             TabItem foundItem = null;
             foreach (var item in ViewerPanel.Tabs.Items)
             {
-                if (((item as TabItem).Content as ConsoleViewer).Component.FullName == hook.Component.FullName)
+                if (((item as TabItem)?.Content as IViewer)?.Component?.FullName == hook.Component.FullName)
                 {
                     foundItem = item as TabItem;
                     break;
