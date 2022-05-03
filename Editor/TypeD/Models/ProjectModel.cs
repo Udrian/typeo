@@ -46,13 +46,23 @@ namespace TypeD.Models
         {
             var path = Path.Combine(project.Location, project.CSProjName, $"{project.CSProjName}.csproj");
             if (!File.Exists(path)) return;
-            project.Modules.Add(module);
-
-            SaveModel.AddSave<ProjectSaveContext>(project);
+            if (project.Modules.Exists(m => m.Name == module.Name && m.Version == module.Version)) return;
 
             var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(path);
+            if (project.Modules.Exists(m => m.Name == module.Name))
+            {
+                var removedModule = project.Modules.Find(m => m.Name == module.Name);
+                project.Modules.Remove(removedModule);
+                ModuleModel.RemoveFromProjectXML(removedModule, projectCSProjSaveContext.CSProj);
+                ModuleModel.UnloadAssembly(removedModule);
+            }
+
+            project.Modules.Add(module);
+            SaveModel.AddSave<ProjectSaveContext>(project);
             ModuleModel.AddToProjectXML(module, projectCSProjSaveContext.CSProj);
             SaveModel.AddSave<ProjectCSProjSaveContext>();
+
+            InitAndSaveCode(project, new ProgramCode());
         }
 
         public void RemoveModule(Project project, string moduleName)
@@ -69,6 +79,8 @@ namespace TypeD.Models
             SaveModel.AddSave<ProjectCSProjSaveContext>();
 
             ModuleModel.UnloadAssembly(module);
+
+            InitAndSaveCode(project, new ProgramCode());
         }
 
         public async Task<bool> Build(Project project)
@@ -109,6 +121,7 @@ namespace TypeD.Models
         public void SaveCode(Codalyzer code)
         {
             var codeSaveContext = SaveModel.GetSaveContext<CodeSaveContext>();
+            if (codeSaveContext.Codes.Exists(c => c.FilePath == code.FilePath)) return;
             codeSaveContext.Codes.Add(code);
             SaveModel.AddSave<CodeSaveContext>();
         }
