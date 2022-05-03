@@ -42,6 +42,7 @@ namespace TypeDCore
         CloseComponentCommand CloseComponentCommand { get; set; }
         OpenInExternalCommand OpenInExternalCommand { get; set; }
 
+        // Functions
         public override void Initializer(Project project)
         {
             // Internal Models
@@ -118,6 +119,7 @@ namespace TypeDCore
             PanelModel.RemoveViewer<ConsoleViewer>();
         }
 
+        // Events
         void ProjectCreate(ProjectCreateHook hook)
         {
             ComponentProvider.Create<GameComponent>(

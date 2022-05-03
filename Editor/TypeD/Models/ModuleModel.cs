@@ -42,7 +42,7 @@ namespace TypeD.Models
 
                 var current = Directory.GetCurrentDirectory();
                 var currentEditorPath = current.Replace("\\TypeDitor\\", $"\\{module.Name}\\");
-                var currentTypeOPath = currentEditorPath.Replace("\\net5.0-windows", "\\net5.0").Replace("\\Editor\\", "\\\\");
+                var currentTypeOPath = currentEditorPath.Replace("\\net6.0-windows", "\\net6.0").Replace("\\Editor\\", "\\\\");
 
                 var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
 
