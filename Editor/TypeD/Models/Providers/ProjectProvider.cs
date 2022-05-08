@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
@@ -78,7 +79,7 @@ namespace TypeD.Models.Providers
             // Prepare
             ProjectModel.InitAndSaveCode(project, new ProgramCode());
 
-            var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore" };
+            var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore", "TypeODesktop", "TypeOBasic2d", "TypeOSDL", "TypeDSDL" };
             var moduleList = await ModuleProvider.List(project);
 
             progress(15);
@@ -175,7 +176,7 @@ namespace TypeD.Models.Providers
 
         private async Task CreateProject(Project project)
         {
-            if (!File.Exists(Path.Combine(project.Location, project.ProjectName, $"{project.ProjectName}.csproj")))
+            if (!File.Exists(project.ProjectCSProjPath))
             {
                 await CMD.Run(new string[]
                 {
@@ -183,6 +184,17 @@ namespace TypeD.Models.Providers
                     $"dotnet new console -lang \"C#\" -n \"{project.CSProjName}\"",
                     $"dotnet sln \"{Path.GetFileName(project.CSSolutionPath)}\" add \"{project.CSProjName}\""
                 });
+
+                var csproj = XElement.Load(project.ProjectCSProjPath);
+                csproj.Add(
+                    new XElement("ItemGroup",
+                        new XElement("Compile", new XAttribute("Include", @$"..\TypeO\code\{project.ProjectName}\**\*.typed.cs"),
+                            new XElement("Link", "%(RecursiveDir)%(Filename)%(Extension)"),
+                            new XElement("Visible", false)
+                        )
+                    )
+                );
+                csproj.Save(project.ProjectCSProjPath);
             }
         }
     }

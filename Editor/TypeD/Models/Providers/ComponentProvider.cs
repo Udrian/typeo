@@ -33,7 +33,7 @@ namespace TypeD.Models.Providers
         }
 
         // Functions
-        public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTemplate
+        public T Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTemplate
         {
             Type componentTemplateType = typeof(T);
 
@@ -57,6 +57,7 @@ namespace TypeD.Models.Providers
             Save(project, component);
 
             ProjectModel.BuildComponentTree(project);
+            return template;
         }
 
         public void Save(Project project, Component component)
@@ -76,10 +77,18 @@ namespace TypeD.Models.Providers
 
         private Component LoadFromPath(Project project, string path)
         {
-            if (!File.Exists(path)) return null;
-            var dto = JSON.Deserialize<ComponentDTO>(path);
-
-            var component = TranslateComponentDTO(project, dto);
+            Component component = null;
+            if (!File.Exists(path))
+            {
+                var componentSaveContext = SaveModel.GetSaveContext<ComponentSaveContext>(project);
+                component = componentSaveContext.Components.Find(c => GetPath(project, c) == path);
+                if (component == null) return null;
+            }
+            else
+            {
+                var dto = JSON.Deserialize<ComponentDTO>(path);
+                component = TranslateComponentDTO(project, dto);
+            }
 
             //TODO: Look over this onces more
             component.Template.CreateCode(component);

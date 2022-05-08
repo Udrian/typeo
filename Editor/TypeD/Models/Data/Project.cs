@@ -22,7 +22,9 @@ namespace TypeD.Models.Data
         public string ProjectFilePath { get { return Path.Combine(Location, $@"{ProjectName}.typeo"); } }
         public string ProjectTypeOPath { get { return Path.Combine(Location, "TypeO"); } }
         public string ProjectBuildOutputPath { get { return Path.Combine(ProjectTypeOPath, "build", CSProjName); } }
+        public string ProjectComponentCodePath { get { return Path.Combine(ProjectTypeOPath, "code"); } }
         public string ProjectSourcePath { get { return Path.Combine(Location, ProjectName); } }
+        public string ProjectCSProjPath { get { return Path.Combine(Location, ProjectName, $"{ProjectName}.csproj"); } }
 
         // Tree
         public Tree ComponentTree { get; set; }

@@ -7,7 +7,7 @@ namespace TypeD.Models.Providers.Interfaces
 {
     public interface IComponentProvider : IProvider
     {
-        public void Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTemplate;
+        public T Create<T>(Project project, string className, string @namespace, Component parentComponent = null, List<string> interfaces = null) where T : ComponentTemplate;
         public void Save(Project project, Component component);
         public Component Load(Project project, string fullName);
         public void Delete(Project project, Component component);

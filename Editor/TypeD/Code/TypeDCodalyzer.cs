@@ -49,7 +49,7 @@ namespace TypeD.Code
 
         public string FilePathTypeD()
         {
-            return Path.Combine(Project.Location, Namespace.Replace(".", @"\\"), $"{ClassName}.typed.cs");
+            return Path.Combine(Project.ProjectComponentCodePath, Namespace.Replace(".", @"\\"), $"{ClassName}.typed.cs");
         }
     }
 }

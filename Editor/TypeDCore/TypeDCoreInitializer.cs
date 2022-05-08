@@ -29,6 +29,7 @@ namespace TypeDCore
         ITypeDCoreRestoreModel TypeDCoreRestoreModel { get; set; }
         ISettingModel SettingModel { get; set; }
         IPanelModel PanelModel { get; set; }
+        IProjectModel ProjectModel { get; set; }
 
         // Commands
         CreateEntityTypeCommand CreateEntityTypeCommand { get; set; }
@@ -60,6 +61,7 @@ namespace TypeDCore
             // Models
             SettingModel = Resources.Get<ISettingModel>();
             PanelModel = Resources.Get<IPanelModel>();
+            ProjectModel = Resources.Get<IProjectModel>();
 
             // Commands
             CreateEntityTypeCommand = new CreateEntityTypeCommand(Resources);
@@ -127,6 +129,13 @@ namespace TypeDCore
                 $"{hook.Project.ProjectName}Game",
                 hook.Project.ProjectName
             );
+            var scene = ComponentProvider.Create<SceneComponent>(
+                hook.Project,
+                "StartScene",
+                $"{hook.Project.ProjectName}.Scenes"
+            );
+
+            ProjectModel.SetStartScene(hook.Project, scene.Component);
         }
 
         void InitUI(InitUIHook hook)

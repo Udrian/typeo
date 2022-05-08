@@ -107,8 +107,8 @@ namespace TypeDCore.Models
             // Check if we have components that are missing CS files
             foreach (var component in ComponentProvider.ListAll(project))
             {
-                var csFile = Path.Combine(project.Location, $"{component.FullName.Replace('.', Path.DirectorySeparatorChar)}.cs");
-                var csTypeDFile = Path.Combine(project.Location, $"{component.FullName.Replace('.', Path.DirectorySeparatorChar)}.typed.cs");
+                var csFile = component.Template.Code.FilePath();
+                var csTypeDFile = component.Template.Code.FilePathTypeD();
                 var parentComponent = ComponentProvider.Load(project, component.ParentComponent?.FullName);
 
                 if (component.TypeOBaseType == typeof(Entity2d))

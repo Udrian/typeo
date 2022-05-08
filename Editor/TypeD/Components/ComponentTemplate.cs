@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using TypeD.Code;
 using TypeD.Helpers;
 using TypeD.Models.Data;
@@ -10,6 +9,7 @@ namespace TypeD.Components
     {
         // Properties
         public ComponentTypeCode Code { get; internal set; }
+        public Component Component { get; internal set; }
 
         // Constructors
         internal ComponentTemplate() { }
@@ -28,6 +28,7 @@ namespace TypeD.Components
         // functions
         internal override void CreateCode(Component component)
         {
+            Component = component;
             Code = Activator.CreateInstance(typeof(T), component) as T;
         }
     }

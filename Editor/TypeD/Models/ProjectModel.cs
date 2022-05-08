@@ -44,11 +44,10 @@ namespace TypeD.Models
         // Functions
         public void AddModule(Project project, Module module)
         {
-            var path = Path.Combine(project.Location, project.CSProjName, $"{project.CSProjName}.csproj");
-            if (!File.Exists(path)) return;
+            if (!File.Exists(project.ProjectCSProjPath)) return;
             if (project.Modules.Exists(m => m.Name == module.Name && m.Version == module.Version)) return;
 
-            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(path);
+            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(project.ProjectCSProjPath);
             if (project.Modules.Exists(m => m.Name == module.Name))
             {
                 var removedModule = project.Modules.Find(m => m.Name == module.Name);
@@ -67,14 +66,13 @@ namespace TypeD.Models
 
         public void RemoveModule(Project project, string moduleName)
         {
-            var path = Path.Combine(project.Location, project.CSProjName, $"{project.CSProjName}.csproj");
-            if (!File.Exists(path)) return;
+            if (!File.Exists(project.ProjectCSProjPath)) return;
             var module = project.Modules.Find(m => m.Name == moduleName);
             project.Modules.Remove(module);
 
             SaveModel.AddSave<ProjectSaveContext>(project);
 
-            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(path);
+            var projectCSProjSaveContext = SaveModel.GetSaveContext<ProjectCSProjSaveContext>(project.ProjectCSProjPath);
             ModuleModel.RemoveFromProjectXML(module, projectCSProjSaveContext.CSProj);
             SaveModel.AddSave<ProjectCSProjSaveContext>();
 
@@ -121,7 +119,8 @@ namespace TypeD.Models
         public void SaveCode(Codalyzer code)
         {
             var codeSaveContext = SaveModel.GetSaveContext<CodeSaveContext>();
-            if (codeSaveContext.Codes.Exists(c => c.FilePath == code.FilePath)) return;
+            if (codeSaveContext.Codes.Exists(c => c.FilePath() == code.FilePath()))
+                codeSaveContext.Codes.RemoveAll(c => c.FilePath() == code.FilePath());
             codeSaveContext.Codes.Add(code);
             SaveModel.AddSave<CodeSaveContext>();
         }
