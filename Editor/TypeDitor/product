@@ -1,0 +1,8 @@
+{
+    "name": "TypeDitor",
+    "version": "0.1.0",
+    "externals": ["Ookii.Dialogs.Wpf.dll"],
+    "extraProjects" : ["Editor/TypeD", "TypeOCore"],
+    "dependencies": [],
+    "module" : false
+}

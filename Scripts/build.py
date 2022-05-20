@@ -1,30 +1,27 @@
-import argparse, os
+import argparse, os, shutil
+import product
  
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-p', '--project',      type=str, required=True,     help="Project name to build")
-    parser.add_argument('-b', '--build_number', type=int, required=True,     help="Build number to append to versioning")
+    parser.add_argument('-p', '--projectPath',  type=str, required=True,        help="Path to project to build")
+    parser.add_argument('-b', '--buildNumber',  type=int, required=True,     help="Build number to append to versioning")
     parser.add_argument('-c', '--config',       type=str, default="Release", help="Debug|Release defaults to Release")
     parser.add_argument('-o', '--output',       type=str, default="..",      help="Output folder")
     args = parser.parse_args()
 
-    build(args.project, args.build, args.config, args.output)
+    build(args.projectPath, args.buildNumber, args.config, args.output)
 
-def build(project, build_number, config="Debug", output=".."):
-    version = getVersion(project, build_number)
-    output = "{}/bin/builds/{}/{}".format(output, project, config)
-    print("Building '{}' '{}' '{}' to output '{}'".format(project, config, version, output))
+def build(projectPath, buildNumber, config, outputRoot):
+    name = product.getName(projectPath)
+    version = product.getVersion(projectPath, buildNumber)
+    output = "{}/bin/builds/{}/{}".format(outputRoot, name, config)
+    print("Building '{}' '{}' '{}' to output '{}'".format(name, config, version, output))
 
-    path = "../{}/{}.csproj".format(project, os.path.basename(project))
+    csPath = "../{}/{}.csproj".format(projectPath, name)
 
-    #os.system("dotnet clean {} --configuration {} --output {} --verbosity n".format(path, config, output))
-    os.system("dotnet publish {} --configuration {} --output {} --verbosity n /property:Version={}".format(path, config, output, version))
-
-def getVersion(project, build_number):
-    path = "../{0}/version".format(project)
-
-    with open(path) as f:
-        return "{}.{}".format(f.readline().replace("\n", "").replace("\r", "").replace("v", ""), build_number)
+    if os.path.exists(output):
+        shutil.rmtree(output)
+    os.system("dotnet publish {} --configuration {} --output {} --verbosity n /property:Version={}".format(csPath, config, output, version))
 
 if __name__ == "__main__":
     main()

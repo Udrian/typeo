@@ -1,0 +1,7 @@
+{
+    "name": "TypeOBasic2d",
+    "version": "0.1.0",
+    "externals": [],
+    "dependencies": [],
+    "module" : true
+}

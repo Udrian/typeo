@@ -1,0 +1,7 @@
+{
+    "name": "TypeD",
+    "version": "0.1.0",
+    "externals": [],
+    "dependencies": [],
+    "module" : false
+}

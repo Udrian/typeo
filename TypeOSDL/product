@@ -1,0 +1,7 @@
+{
+    "name": "TypeOSDL",
+    "version": "0.1.0",
+    "externals": ["SDL2"],
+    "dependencies": [],
+    "module" : true
+}

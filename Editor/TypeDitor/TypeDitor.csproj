@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypeDSDL\TypeDSDL.csproj" />
     <ProjectReference Include="..\TypeD\TypeD.csproj" />
   </ItemGroup>
 
