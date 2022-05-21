@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using TypeD.Models.Providers.Interfaces;
 using TypeDitor.View.Dialogs.Project;
@@ -17,34 +18,42 @@ namespace TypeDitor.Commands
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
         }
 
-        public override void Execute(object param)
+        public async override void Execute(object param)
         {
             var newProjectDialog = new NewProjectDialog();
+            ProjectCreationProgressDialog progressDialog = null;
             if (newProjectDialog.ShowDialog() == true)
             {
-                var name = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectName);
-                var location = this.IsDirectory(newProjectDialog.ViewModel.ProjectLocation) ? newProjectDialog.ViewModel.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ViewModel.ProjectLocation);
-                var solution = @$".\{newProjectDialog.ViewModel.ProjectCSSolutionName}.sln";
-                var project = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectCSProjectName);
+                try
+                {
+                    var name = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectName);
+                    var location = this.IsDirectory(newProjectDialog.ViewModel.ProjectLocation) ? newProjectDialog.ViewModel.ProjectLocation : Path.GetDirectoryName(newProjectDialog.ViewModel.ProjectLocation);
+                    var solution = @$".\{newProjectDialog.ViewModel.ProjectCSSolutionName}.sln";
+                    var project = Path.GetFileNameWithoutExtension(newProjectDialog.ViewModel.ProjectCSProjectName);
 
-                //New project
-                var progressDialog = new ProjectCreationProgressDialog();
-                var newProjectTask = ProjectProvider.Create(name,
-                                                            location,
-                                                            solution,
-                                                            project,
-                                                            (progress) =>
-                                                            {
-                                                                progressDialog.Progress = progress;
-                                                                if (progress >= 100)
+                    //New project
+                    progressDialog = new ProjectCreationProgressDialog();
+                    progressDialog.Show();
+                    var newProject = await ProjectProvider.Create(name,
+                                                                location,
+                                                                solution,
+                                                                project,
+                                                                (progress) =>
                                                                 {
-                                                                    progressDialog.Close();
-                                                                }
-                                                            });
-                progressDialog.ShowDialog();
-                var newProject = newProjectTask.Result;
-                RecentProvider.Add(newProject.ProjectFilePath, newProject.ProjectName);
-                this.OpenMainWindow(newProject);
+                                                                    progressDialog.Progress = progress;
+                                                                    if (progress >= 100)
+                                                                    {
+                                                                        progressDialog.Close();
+                                                                    }
+                                                                });
+                    RecentProvider.Add(newProject.ProjectFilePath, newProject.ProjectName);
+                    this.OpenMainWindow(newProject);
+                }
+                catch (Exception e)
+                {
+                    progressDialog?.Close();
+                    ShowError($"Error loading project:{Environment.NewLine}{e.Message}");
+                }
             }
         }
     }

@@ -100,10 +100,12 @@ namespace TypeD.Models.Providers
             //Save and load the module first so we can call the project creation hook
             await SaveModel.Save(project);
             progress(40);
+            
             project = await Load(project.ProjectFilePath, (loadProgress) =>
             {
-                progress(40 + (int)(35 * (loadProgress/100f)));
+                progress(40 + (int)(35 * (loadProgress / 100f)));
             });
+            
             progress(75);
 
             HookModel.Shoot(new ProjectCreateHook(project));

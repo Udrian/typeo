@@ -19,7 +19,7 @@ namespace TypeDitor.Commands
             ProjectProvider = ResourceModel.Get<IProjectProvider>();
         }
 
-        public override void Execute(object param)
+        public async override void Execute(object param)
         {
             var path = "";
             if (param is Recent)
@@ -37,22 +37,21 @@ namespace TypeDitor.Commands
                 }
             }
 
+            OpenProjectProgressDialog progressDialog = null;
             //Open project
             if (!string.IsNullOrEmpty(path))
             {
                 try
                 {
-                    var progressDialog = new OpenProjectProgressDialog();
-                    var openProjectTask = ProjectProvider.Load(path, (progress) => {
+                    progressDialog = new OpenProjectProgressDialog();
+                    progressDialog.Show();
+                    var loadedProject = await ProjectProvider.Load(path, (progress) => {
                         progressDialog.Progress = progress;
                         if (progress >= 100)
                         {
                             progressDialog.Close();
                         }
                     });
-                    progressDialog.ShowDialog();
-
-                    var loadedProject = openProjectTask.Result;
                     if (loadedProject != null)
                     {
                         RecentProvider.Add(loadedProject.ProjectFilePath, loadedProject.ProjectName);
@@ -62,7 +61,8 @@ namespace TypeDitor.Commands
                 }
                 catch (Exception e)
                 {
-                    ShowError("Error loading project:" + Environment.NewLine + e.Message);
+                    progressDialog?.Close();
+                    ShowError($"Error loading project:{Environment.NewLine}{e.Message}");
                 }
             }
         }
