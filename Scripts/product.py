@@ -1,7 +1,7 @@
 import json
 
 def loadProduct(projectPath):
-    path = "../{0}/product".format(projectPath)
+    path = "../{}/product".format(projectPath)
     with open(path) as f:
         product = json.load(f)
     return product

@@ -31,10 +31,13 @@ def main():
         package_project = pack.pack(args.projectPath, args.buildNumber, args.output)
 
         if not args.skip_uploading:
-            upload_package(args.key, args.secret, package_project, "typeo/releases{}{}/{}".format(args.deploy_path_prefix, ("/modules" if product.getModule(args.projectPath) else ""), product.getName(args.projectPath)))
+            version = product.getVersion(args.projectPath, args.buildNumber)
+            path = "typeo/releases{}{}/{}/{}".format(args.deploy_path_prefix, ("/modules" if product.getModule(args.projectPath) else ""), product.getName(args.projectPath), version)
+            upload_package(args.key, args.secret, package_project, path)
+            upload_package(args.key, args.secret, "../{}/product".format(args.projectPath), path)
 
     if not args.skip_tag:
-        version = product.getVersion(args.projectPath)
+        version = product.getVersion(args.projectPath, args.buildNumber)
         print("Tagging git commit with tag {}".format(version))
 
         try:
