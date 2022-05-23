@@ -2,6 +2,8 @@
     "name": "TypeODesktop",
     "version": "0.1.0",
     "externals": [],
-    "dependencies": [],
-    "module" : true
+    "dependencies": {
+        "TypeOCore" : "0.1.0"
+    },
+    "type" : "Module"
 }

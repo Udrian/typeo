@@ -33,6 +33,6 @@ def getExtraProjects(projectPath):
 def getModule(projectPath):
     product = loadProduct(projectPath)
 
-    if "module" in product:
-        return product["module"]
+    if "type" in product:
+        return product["type"] == "Module" or product["type"] == "TypeDModule"
     return True

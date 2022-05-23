@@ -138,7 +138,7 @@ namespace TypeOCoreTest
 
         public class TestModule : Module<TestModuleOption>
         {
-            public TestModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 0))
+            public TestModule() : base()
             {
             }
 
@@ -160,7 +160,7 @@ namespace TypeOCoreTest
 
         public class TestRefModule : Module<TestModuleOption>
         {
-            public TestRefModule() : base(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 1, 1))
+            public TestRefModule() : base()
             {
             }
 
@@ -170,7 +170,6 @@ namespace TypeOCoreTest
 
             public override void Initialize()
             {
-                TypeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(2, 2, 2));
             }
 
             public override void LoadExtensions()
@@ -244,7 +243,6 @@ namespace TypeOCoreTest
             Assert.NotNull(module.TestHardware);
 
             typeO = TypeO.Create<TestGameWithServiceHardware>(GameName) as TypeO;
-            typeO.RequireModule<TestModule>(new TypeOEngine.Typedeaf.Core.Engine.Version(1, 0, 0));
             Assert.Throws<InvalidOperationException>(() => typeO.Start());
 
             typeO = TypeO.Create<TestGameWithServiceHardware>(GameName) as TypeO;

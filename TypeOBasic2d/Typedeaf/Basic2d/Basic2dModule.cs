@@ -5,14 +5,13 @@ namespace TypeOEngine.Typedeaf.Basic2d
 {
     public class Basic2dModule : Module<ModuleOption>
     {
-        public Basic2dModule() : base(new Version(0, 1, 0))
+        public Basic2dModule() : base()
         {
 
         }
 
         public override void Initialize()
         {
-            TypeO.RequireTypeO(new Version(0, 1, 3));
         }
 
         public override void Cleanup()

@@ -5,7 +5,6 @@ using TypeOEngine.Typedeaf.Core.Engine;
 using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
 using TypeOEngine.Typedeaf.Core.Interfaces;
-using TypeOEngine.Typedeaf.Desktop;
 using TypeOEngine.Typedeaf.Desktop.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.SDL.Engine.Contents;
 using TypeOEngine.Typedeaf.SDL.Engine.Hardwares;
@@ -19,14 +18,12 @@ namespace TypeOEngine.Typedeaf.SDL
         private ILogger Logger { get; set; }
         public bool Pause { get; set; }
 
-        public SDLModule() : base(new Core.Engine.Version(0, 1, 2))
+        public SDLModule() : base()
         {
         }
 
         public override void Initialize()
         {
-            TypeO.RequireTypeO(new Core.Engine.Version(0, 1, 3));
-            TypeO.RequireModule<DesktopModule>(new Core.Engine.Version(0, 1, 2));
             TypeO.AddService<SDLService>();
             TypeO.Context.GetService<SDLService>().Option = Option;
 

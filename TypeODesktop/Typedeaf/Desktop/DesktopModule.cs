@@ -5,7 +5,7 @@ namespace TypeOEngine.Typedeaf.Desktop
 {
     public class DesktopModule : Module<DesktopModuleOption>
     {
-        public DesktopModule() : base(new Version(0, 1, 2))
+        public DesktopModule() : base()
         {
         }
 
@@ -15,8 +15,6 @@ namespace TypeOEngine.Typedeaf.Desktop
 
         public override void Initialize()
         {
-            TypeO.RequireTypeO(new Version(0, 1, 2));
-
             if(TypeO.Context.Logger is DefaultLogger)
             {
                 (TypeO.Context.Logger as DefaultLogger).LogToDisk = Option.SaveLogsToDisk;

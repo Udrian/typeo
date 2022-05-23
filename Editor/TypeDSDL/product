@@ -2,6 +2,9 @@
     "name": "TypeDSDL",
     "version": "0.1.0",
     "externals": [],
-    "dependencies": [],
-    "module" : true
+    "dependencies": {
+        "TypeOSDL" : "0.1.0",
+        "TypeD" : "0.1.0"
+    },
+    "type" : "TypeDModule"
 }

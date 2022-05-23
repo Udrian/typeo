@@ -1,5 +1,4 @@
-﻿using System;
-using TypeOEngine.Typedeaf.Core.Engine.Contents;
+﻿using TypeOEngine.Typedeaf.Core.Engine.Contents;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares;
 using TypeOEngine.Typedeaf.Core.Engine.Hardwares.Interfaces;
 using TypeOEngine.Typedeaf.Core.Engine.Interfaces;
@@ -20,11 +19,9 @@ namespace TypeOEngine.Typedeaf.Core
             }
 
             public Context Context { get; private set; }
-            public Version Version { get; private set; }
 
             internal TypeO() : base()
             {
-                Version = new Version(0, 1, 3);
             }
 
             public ITypeO AddService<S>(string id = "")
@@ -95,19 +92,6 @@ namespace TypeOEngine.Typedeaf.Core
             public ITypeO LoadModule<M>(ModuleOption option = null, bool loadExtensions = true) where M : Module, new()
             {
                 return LoadModule(new M(), option, loadExtensions);
-            }
-
-            public ITypeO RequireModule<M>(Version version) where M : Module, new()
-            {
-                Context.ModuleRequirements.Add(new Tuple<Type, Version>(typeof(M), version));
-                return this;
-            }
-
-            public ITypeO RequireTypeO(Version version)
-            {
-                if(!Context.RequiredTypeOVersion.Eligable(version))
-                    Context.RequiredTypeOVersion = version;
-                return this;
             }
 
             public void Start()

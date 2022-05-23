@@ -5,12 +5,10 @@
         public abstract class Module
         {
             public TypeO TypeO { get; protected set; }
-            public Version Version { get; protected set; }
             public bool WillLoadExtensions { get; protected set; }
 
-            internal Module(Version version)
+            internal Module()
             {
-                Version = version;
             }
 
             public abstract void Initialize();
@@ -27,7 +25,7 @@
         {
             public O Option { get; protected set; }
 
-            protected Module(Version version) : base(version) { }
+            protected Module() : base() { }
 
             internal override void CreateOption()
             {

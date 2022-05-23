@@ -53,6 +53,7 @@ def pack(projectPath, buildNumber, outputRoot):
         print("Adding extra files to zip")
         addFileToZip(zipObj, "./../Readme-TypeO.txt", "")
         addFileToZip(zipObj, "./../{}/ReleaseNotes-{}.txt".format(projectPath, name), "")
+        addFileToZip(zipObj, "./../{}/product".format(projectPath), "")
     return zipfilename
 
 def addExternal(externals, zipObj, path):
