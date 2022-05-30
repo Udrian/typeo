@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TypeD.Models.Data;
 using TypeD.Models.Interfaces;
 using TypeD.Models.Providers.Interfaces;
 using TypeD.ViewModel;
@@ -49,6 +50,8 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
 
         // Data
         TypeD.Models.Data.Project LoadedProject { get; set; }
+        private IEnumerable<ModuleList> ModuleList { get; set; }
+        private List<Module> AllModules { get; set; }
         public ObservableCollection<Module> Modules { get; set; }
 
         // Properties
@@ -58,6 +61,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         // Constructors
         public ModulesDialogViewModel(FrameworkElement element, TypeD.Models.Data.Project loadedProject) : base(element)
         {
+            AllModules = new List<Module>();
             Modules = new ObservableCollection<Module>();
             LoadedProject = loadedProject;
 
@@ -69,9 +73,10 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
         // Functions
         public async Task ListModules()
         {
-            var moduleList = await ModuleProvider.List(LoadedProject);
+            ModuleList = await ModuleProvider.List(LoadedProject);
+            AllModules.Clear();
             Modules.Clear();
-            foreach(var m1 in moduleList)
+            foreach (var m1 in ModuleList)
             {
                 var enabled = false;
                 var enabledVersion = "";
@@ -83,7 +88,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                         enabledVersion = m2.Version;
                     }
                 }
-                Modules.Add(new Module()
+                var module = new Module()
                 {
                     Name = m1.Name,
                     Enabled = enabled,
@@ -91,14 +96,31 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                     Versions = m1.Versions.Select(v => v.Version).ToList(),
                     Progress = 0,
                     ProgressVisible = Visibility.Hidden
-                });
+                };
+                AllModules.Add(module);
+                if (m1.Versions.FirstOrDefault()?.TypeD == false)
+                {
+                    Modules.Add(module);
+                }
             }
         }
 
-        public async void InstallSelectedModule()
+        public void InstallSelectedModule()
         {
             if (SelectedModule == null || string.IsNullOrEmpty(SelectedModule.Version)) return;
-            var module = SelectedModule;
+            InstallModule(SelectedModule.Name, SelectedModule.Version, new List<string>());
+        }
+
+        private async void InstallModule(string name, string version, List<string> alreadyInstalled)
+        {
+            if (alreadyInstalled.Contains(name) || name == "TypeD") return;
+            alreadyInstalled.Add(name);
+
+            var module = AllModules.First(m => m.Name == name);
+            if (string.IsNullOrEmpty(version))
+                version = module.Versions.FirstOrDefault();
+            module.Version = version;
+
             module.ProgressVisible = Visibility.Visible;
             var createdModule = ModuleProvider.Create(module.Name, module.Version);
             ProjectModel.AddModule(LoadedProject, createdModule);
@@ -119,6 +141,13 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
             module.Enabled = true;
             module.OnPropertyChanged(nameof(module.Enabled));
             module.OnPropertyChanged(nameof(module.Version));
+
+            foreach(var dependency in createdModule.Product.Dependencies)
+            {
+                var nameVersion = dependency.Split("-");
+                nameVersion[1] = ModuleList.FirstOrDefault(m => m.Name == nameVersion[0])?.Versions?.FirstOrDefault(v => v.Version.StartsWith(nameVersion[1]))?.Version;
+                InstallModule(nameVersion[0], nameVersion[1], alreadyInstalled);
+            }
         }
 
         public void UninstallSelectedModule()
