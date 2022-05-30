@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using TypeD.Models.Interfaces;
@@ -87,7 +88,7 @@ namespace TypeDitor.ViewModel.Dialogs.Tools
                     Name = m1.Name,
                     Enabled = enabled,
                     Version = enabledVersion,
-                    Versions = m1.Versions,
+                    Versions = m1.Versions.Select(v => v.Version).ToList(),
                     Progress = 0,
                     ProgressVisible = Visibility.Hidden
                 });

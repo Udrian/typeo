@@ -2,9 +2,9 @@
     "name": "TypeDCore",
     "version": "0.1.0",
     "externals": [],
-    "dependencies": {
-        "TypeOCore" : "0.1.0",
-        "TypeD" : "0.1.0"
-    },
+    "dependencies": [
+        "TypeOCore-0.1.0",
+        "TypeD-0.1.0"
+    ],
     "type" : "TypeDModule"
 }

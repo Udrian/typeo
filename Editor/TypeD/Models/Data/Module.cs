@@ -13,11 +13,13 @@ namespace TypeD.Models.Data
         // Paths
         internal string ModulePath { get { return Path.Combine(ModuleModel.ModuleCachePath, Name, Version); } }
         internal string ModuleDLLPath { get { return Path.Combine(ModulePath, $"{Name}.dll"); } }
+        internal string ProductPath { get { return Path.Combine(ModulePath, "product"); } }
 
         // Loaded data
         internal Assembly Assembly { get; set; }
         public TypeInfo ModuleTypeInfo { get; set; }
         internal TypeDModuleInitializer TypeDModuleInitializer { get; set; }
+        public ModuleProduct Product { get; internal set; }
 
         public bool IsTypeD { get
             {

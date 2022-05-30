@@ -2,8 +2,8 @@
     "name": "TypeOCore",
     "version": "0.1.0",
     "externals": [],
-    "dependencies": {
-        "TypeDCore" : "0.1.0"
-    },
+    "dependencies": [
+        "TypeDCore-0.1.0"
+    ],
     "type" : "Module"
 }

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using TypeD.Helpers;
 using TypeD.Models.Data;
+using TypeD.Models.DTO;
 using TypeD.Models.Interfaces;
 
 namespace TypeD.Models
@@ -43,6 +45,7 @@ namespace TypeD.Models
                 var current = Directory.GetCurrentDirectory();
                 var currentEditorPath = current.Replace("\\TypeDitor\\", $"\\{module.Name}\\");
                 var currentTypeOPath = currentEditorPath.Replace("\\net6.0-windows", "\\net6.0").Replace("\\Editor\\", "\\\\");
+                var productPath = $@"{currentEditorPath}\..\..\..\product";
 
                 var pathUsed = Directory.Exists(currentEditorPath) ? currentEditorPath : currentTypeOPath;
 
@@ -51,10 +54,13 @@ namespace TypeD.Models
                     progress(0, 0, 0);
                     await Task.Delay(0);
                     File.Copy(@$"{pathUsed}\{module.Name}.dll", $@"{module.ModulePath}\{module.Name}.dll", true);
-                    progress(0, 35, 0);
+                    progress(0, 25, 0);
                     File.Copy(@$"{pathUsed}\{module.Name}.deps.json", $@"{module.ModulePath}\{module.Name}.deps.json", true);
-                    progress(0, 75, 0);
+                    progress(0, 50, 0);
                     File.Copy(@$"{pathUsed}\{module.Name}.pdb", $@"{module.ModulePath}\{module.Name}.pdb", true);
+                    progress(0, 75, 0);
+                    if(File.Exists(productPath))
+                        File.Copy(@$"{productPath}", $@"{module.ModulePath}\product", true);
                     progress(0, 100, 0);
                 }
                 catch { }
@@ -66,8 +72,8 @@ namespace TypeD.Models
 
             Directory.CreateDirectory(module.ModulePath);
 
-            var zipName = $"{module.Name}-{module.Version}.zip";
-            var moduleUrl = new Uri($"https://typedeaf.nyc3.cdn.digitaloceanspaces.com/typeo/releases/modules/{module.Name}/{zipName}");
+            var zipName = $"{module.Name}-v{module.Version}.zip";
+            var moduleUrl = new Uri($"https://typedeaf.nyc3.cdn.digitaloceanspaces.com/typeo/releases/modules/{module.Name}/{module.Version}/{zipName}");
             var downloadZipPath = $"{module.ModulePath}/{zipName}";
 
             using (var client = new WebClient())
@@ -93,6 +99,11 @@ namespace TypeD.Models
         public void LoadAssembly(Project project, Module module)
         {
             if (!File.Exists(module.ModuleDLLPath)) return;
+            if(File.Exists(module.ProductPath))
+            {
+                var dto = JSON.Deserialize<ModuleListModuleDTO>(module.ProductPath, true);
+                module.Product = new ModuleProduct(dto);
+            }
 
             module.Assembly = System.Reflection.Assembly.LoadFrom(module.ModuleDLLPath);
             module.ModuleTypeInfo = GetModuleType(module);

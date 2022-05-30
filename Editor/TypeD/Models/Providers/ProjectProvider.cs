@@ -79,7 +79,7 @@ namespace TypeD.Models.Providers
             // Prepare
             ProjectModel.InitAndSaveCode(project, new ProgramCode());
 
-            var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore", "TypeODesktop", "TypeOBasic2d", "TypeOSDL", "TypeDSDL" };
+            var modulesToAdd = new List<string>() { "TypeOCore", "TypeDCore", "TypeODesktop", "TypeOBasic2d"/*, "TypeOSDL", "TypeDSDL"*/ };
             var moduleList = await ModuleProvider.List(project);
 
             progress(15);
@@ -90,7 +90,7 @@ namespace TypeD.Models.Providers
             {
                 var addModuleVersion = moduleList.LastOrDefault(m => { return m.Name == moduleToAdd; })?.Versions[0];
 
-                var module = ModuleProvider.Create(moduleToAdd, addModuleVersion);
+                var module = ModuleProvider.Create(moduleToAdd, addModuleVersion.Version);
                 ProjectModel.AddModule(project, module);
                 moduleAddProgress += moduleAddProgressStep;
                 progress(15 + moduleAddProgress);

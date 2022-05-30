@@ -2,10 +2,10 @@
     "name": "TypeOSDL",
     "version": "0.1.0",
     "externals": ["SDL2"],
-    "dependencies": {
-        "TypeDSDL" : "0.1.0",
-        "TypeOCore" : "0.1.0",
-        "TypeODesktop" : "0.1.0"
-    },
+    "dependencies": [
+        "TypeDSDL-0.1.0",
+        "TypeOCore-0.1.0",
+        "TypeODesktop-0.1.0"
+    ],
     "type" : "Module"
 }
