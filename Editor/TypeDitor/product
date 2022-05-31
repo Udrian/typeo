@@ -1,12 +1,10 @@
 {
     "name": "TypeDitor",
     "version": "0.1.0",
-    "externals": ["Ookii.Dialogs.Wpf.dll"],
-    "extraProjects" : ["Editor/TypeD", "TypeOCore", "Editor/TypeDCore"],
+    "externals": ["Ookii.Dialogs.Wpf.dll", "TypeD.dll", "TypeDitor.deps.json", "TypeOCore.dll"],
     "dependencies": [
-        "TypeOCore-0.1.0",
-        "TypeDCore-0.1.0",
-        "TypeD-0.1.0"
+        "TypeD-0.1.0",
+        "TypeOCore-0.1.0"
     ],
     "type" : "Exe"
 }

@@ -35,7 +35,8 @@ def main():
             path = "typeo/releases{}{}/{}/{}".format(args.deploy_path_prefix, ("/modules" if product.getModule(args.projectPath) else ""), product.getName(args.projectPath), version)
             upload_package(args.key, args.secret, package_project, path)
             upload_package(args.key, args.secret, "../{}/product".format(args.projectPath), path)
-            upload_package(args.key, args.secret, "../{0}/ReleaseNotes-{0}.txt".format(args.projectPath), path)
+            projectName = product.getName(args.projectPath)
+            upload_package(args.key, args.secret, "../{}/ReleaseNotes-{}.txt".format(args.projectPath, projectName), path)
 
     if not args.skip_tag:
         version = product.getVersion(args.projectPath, args.buildNumber)
